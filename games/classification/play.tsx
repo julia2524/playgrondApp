@@ -38,7 +38,13 @@ import {
   TargetSection,
   TitleText,
 } from "./styles/classificationStyles";
-import { isStickerInsideTarget } from "./logic/judgeDropPosition";
+import { clamp, isStickerInsideTarget } from "./logic/judgeDropPosition";
+import {
+  BOARD_HORIZONTAL_PADDING,
+  BOARD_VERTICAL_PADDING,
+  CORRECT_ANIMATION_DURATION_MS,
+  STICKER_SIZE,
+} from "../../constants/dragConstants";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -47,7 +53,12 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 // --------------------------------------------------
 
 type DropResult = "correct" | "wrong" | "outside";
-
+type Layout = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 // --------------------------------------------------
 // DraggableObjectSticker
 //
@@ -57,11 +68,13 @@ type DropResult = "correct" | "wrong" | "outside";
 function DraggableObjectSticker({
   obj,
   color,
+  gameBoardLayout,
   onRelease,
   onCorrectAnimationComplete,
 }: {
   obj: any;
   color: string;
+  gameBoardLayout: React.MutableRefObject<Layout>;
   onCorrectAnimationComplete: (objectId: string) => void;
   onRelease: (
     obj: any,
@@ -86,10 +99,15 @@ function DraggableObjectSticker({
     x: 0,
     y: 0,
   });
+  const startScreenPosition = useRef({
+    x: 0,
+    y: 0,
+  });
 
   const isDraggingRef = useRef(false);
+  const isScreenPositionReadyRef = useRef(false);
 
-  // --------------------------------------------------
+  // --------------------------------------------------a
   // 정답 애니메이션
   //
   // 현재 위치에서
@@ -104,13 +122,13 @@ function DraggableObjectSticker({
     Animated.parallel([
       Animated.timing(scale, {
         toValue: 0,
-        duration: 300,
+        duration: CORRECT_ANIMATION_DURATION_MS,
         useNativeDriver: true,
       }),
 
       Animated.timing(opacity, {
         toValue: 0,
-        duration: 300,
+        duration: CORRECT_ANIMATION_DURATION_MS,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
@@ -204,11 +222,23 @@ function DraggableObjectSticker({
       onPanResponderGrant: () => {
         isDraggingRef.current = true;
 
+        // ⭐ 아직 화면 좌표 측정 안 됨
+        isScreenPositionReadyRef.current = false;
+
         // 현재 위치를 이번 드래그의 시작 위치로 저장
         startPosition.current = {
           x: (position.x as any)._value,
           y: (position.y as any)._value,
         };
+        //경계 제한까지 하려면 화면상 시작 위치가 필요
+        stickerRef.current?.measureInWindow((x, y) => {
+          startScreenPosition.current = {
+            x,
+            y,
+          };
+          // ⭐ 이제부터 드래그 이동 허용
+          isScreenPositionReadyRef.current = true;
+        });
         stickerRef.current?.setNativeProps({
           style: { zIndex: 9999, elevation: 99 },
         });
@@ -221,9 +251,66 @@ function DraggableObjectSticker({
       // ------------------------------------------------
 
       onPanResponderMove: (_, gesture) => {
+        // position.setValue({
+        //   x: startPosition.current.x + gesture.dx,
+        //   y: startPosition.current.y + gesture.dy,
+        // });
+        // ⭐ 화면 좌표 측정이 끝나기 전에는 position을 절대로 건드리지 않는다.
+        if (!isScreenPositionReadyRef.current) {
+          return;
+        }
+
+        const board = gameBoardLayout.current;
+
+        // GameBoard의 실제 화면 영역
+        const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
+
+        const boardTop = board.y + BOARD_VERTICAL_PADDING;
+
+        const boardRight = board.x + board.width - BOARD_HORIZONTAL_PADDING;
+
+        const boardBottom = board.y + board.height - BOARD_VERTICAL_PADDING;
+
+        // ------------------------------------------------
+        // 현재 스티커의 실제 화면 위치
+        // ------------------------------------------------
+
+        const currentScreenX = startScreenPosition.current.x + gesture.dx;
+
+        const currentScreenY = startScreenPosition.current.y + gesture.dy;
+
+        // ------------------------------------------------
+        // circle 전체가 board 안에 있도록 제한
+        // ------------------------------------------------
+
+        const minScreenX = boardLeft;
+
+        const maxScreenX = boardRight - STICKER_SIZE;
+
+        const minScreenY = boardTop;
+
+        const maxScreenY = boardBottom - STICKER_SIZE;
+
+        // ------------------------------------------------
+        // 실제 화면좌표를 안전한 화면좌표로 제한
+        // ------------------------------------------------
+
+        const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
+
+        const clampedScreenY = clamp(currentScreenY, minScreenY, maxScreenY);
+
+        // ------------------------------------------------
+        // 화면좌표 → position의 상대 이동값으로 변환
+        // ------------------------------------------------
+
+        const deltaX = clampedScreenX - startScreenPosition.current.x;
+
+        const deltaY = clampedScreenY - startScreenPosition.current.y;
+
         position.setValue({
-          x: startPosition.current.x + gesture.dx,
-          y: startPosition.current.y + gesture.dy,
+          x: startPosition.current.x + deltaX,
+
+          y: startPosition.current.y + deltaY,
         });
       },
 
@@ -233,6 +320,8 @@ function DraggableObjectSticker({
 
       onPanResponderRelease: () => {
         isDraggingRef.current = false;
+        // ⭐ 이번 드래그 종료
+        isScreenPositionReadyRef.current = false;
         // 🌟 [핵심 2] 손을 뗄 때 zIndex를 다시 제자리로 돌려놓음 (중요!)
         stickerRef.current?.setNativeProps({
           style: { zIndex: 1, elevation: 1 },
@@ -240,13 +329,6 @@ function DraggableObjectSticker({
 
         // 손을 뗀 순간의 실제 화면 좌표를 측정
         stickerRef.current?.measureInWindow((x, y, width, height) => {
-          // console.log("🔴 RELEASE POSITION", {
-          //   x,
-          //   y,
-          //   width,
-          //   height,
-          // });
-
           // 부모에게 판정을 맡긴다.
           onRelease(
             obj,
@@ -260,8 +342,6 @@ function DraggableObjectSticker({
             // ------------------------------------------
 
             (result) => {
-              // console.log("🎬 CHILD RECEIVED RESULT:", result, obj.id);
-
               // ----------------------------------------
               // 정답
               // ----------------------------------------
@@ -372,6 +452,16 @@ export default function ClassificationPlayScreen() {
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
   const [isTargetFront, setIsTargetFront] = useState(false);
 
+  // 부모 컴포넌트 상단에 영역 저장용 ref 추가
+  const gameBoardRef = useRef<View>(null);
+
+  const gameBoardLayout = useRef<Layout>({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
+
   // --------------------------------------------------
   // 5개의 라운드 생성
   // --------------------------------------------------
@@ -427,40 +517,6 @@ export default function ClassificationPlayScreen() {
           height: targetHeight,
         };
         const isInside = isStickerInsideTarget(sticker, target);
-        // const stickerCenterX = stickerX + stickerWidth / 2;
-        // const stickerCenterY = stickerY + stickerHeight / 2;
-
-        // // ----------------------------------------------
-        // // 허용 여유 공간
-        // // ----------------------------------------------
-
-        // const margin = 70;
-        // const isInside =
-        //   stickerCenterX > targetX - margin &&
-        //   stickerCenterX < targetX + targetWidth + margin &&
-        //   stickerCenterY > targetY - margin &&
-        //   stickerCenterY < targetY + targetHeight + margin;
-
-        // console.log("🎯 TARGET", {
-        //   x: targetX,
-        //   y: targetY,
-        //   width: targetWidth,
-        //   height: targetHeight,
-        // });
-
-        // console.log("🟡 STICKER", {
-        //   x: stickerX,
-        //   y: stickerY,
-        //   width: stickerWidth,
-        //   height: stickerHeight,
-        // });
-
-        // console.log("🟢 CENTER", {
-        //   x: stickerCenterX,
-        //   y: stickerCenterY,
-        // });
-
-        // console.log("📍 INSIDE:", isInside);
 
         // ----------------------------------------------
         // 1. 타겟 밖
@@ -636,7 +692,19 @@ export default function ClassificationPlayScreen() {
       {/* Game Board */}
       {/* ---------------------------------------------- */}
 
-      <GameBoard>
+      <GameBoard
+        ref={gameBoardRef}
+        onLayout={(event) => {
+          gameBoardRef.current?.measureInWindow((x, y, width, height) => {
+            gameBoardLayout.current = {
+              x,
+              y,
+              width,
+              height,
+            };
+          });
+        }}
+      >
         {/* -------------------------------------------- */}
         {/* Target */}
         {/* -------------------------------------------- */}
@@ -715,6 +783,7 @@ export default function ClassificationPlayScreen() {
           <ObjectsContainer>
             {currentRound.objects.map((obj) => (
               <DraggableObjectSticker
+                gameBoardLayout={gameBoardLayout}
                 // ⭐ roundIndex까지 key에 넣어서
                 // 새로운 라운드가 시작되면
                 // 스티커 애니메이션 state도 새로 생성

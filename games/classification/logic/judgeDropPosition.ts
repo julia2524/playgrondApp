@@ -2,11 +2,7 @@
 
 type Rect = { x: number; y: number; width: number; height: number };
 
-export function isStickerInsideTarget(
-  sticker: Rect,
-  target: Rect,
-  margin = 70,
-): boolean {
+export function isStickerInsideTarget(sticker: Rect, target: Rect): boolean {
   const centerX = sticker.x + sticker.width / 2;
   const centerY = sticker.y + sticker.height / 2;
 
@@ -16,4 +12,8 @@ export function isStickerInsideTarget(
     centerY > target.y &&
     centerY < target.y + target.height
   );
+}
+
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
