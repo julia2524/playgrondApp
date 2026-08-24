@@ -60,13 +60,19 @@ function DraggableObjectSticker({
   obj,
   color,
   gameBoardLayout,
+  isActive,
+  onGrab,
   onRelease,
   onCorrectAnimationComplete,
+  onWrong,
 }: {
   obj: any;
   color: string;
   gameBoardLayout: React.MutableRefObject<Layout>;
+  isActive: boolean;
+  onGrab: (objectId: string) => void;
   onCorrectAnimationComplete: (objectId: string) => void;
+  onWrong: () => void;
   onRelease: (
     obj: any,
     stickerX: number,
@@ -77,6 +83,7 @@ function DraggableObjectSticker({
   ) => void;
 }) {
   const stickerRef = useRef<View>(null);
+  const isReadyRef = useRef(false);
 
   // 드래그 위치
   const position = useRef(new Animated.ValueXY()).current;
@@ -176,7 +183,9 @@ function DraggableObjectSticker({
       // ------------------------------------------------
 
       onPanResponderGrant: () => {
+        onGrab(obj.id);
         isDraggingRef.current = true;
+        isReadyRef.current = false;
 
         // ⭐ 아직 화면 좌표 측정 안 됨
         isScreenPositionReadyRef.current = false;
@@ -186,12 +195,6 @@ function DraggableObjectSticker({
           x: (position.x as any)._value,
           y: (position.y as any)._value,
         };
-        console.log("🟢 GRANT", obj.id, {
-          position: {
-            x: (position.x as any)._value,
-            y: (position.y as any)._value,
-          },
-        });
         //경계 제한까지 하려면 화면상 시작 위치가 필요
         stickerRef.current?.measureInWindow((x, y) => {
           startScreenPosition.current = {
@@ -200,14 +203,10 @@ function DraggableObjectSticker({
           };
           // ⭐ 이제부터 드래그 이동 허용
           isScreenPositionReadyRef.current = true;
-          console.log("📏 MEASURE", obj.id, {
-            x,
-            y,
-          });
         });
-        stickerRef.current?.setNativeProps({
-          style: { zIndex: 9999, elevation: 99 },
-        });
+        // stickerRef.current?.setNativeProps({
+        //   style: { zIndex: 9999, elevation: 99 },
+        // });
       },
 
       // ------------------------------------------------
@@ -237,7 +236,6 @@ function DraggableObjectSticker({
         // ------------------------------------------------
         // circle 전체가 board 안에 있도록 제한
         // ------------------------------------------------
-
         const minScreenX = boardLeft;
         const maxScreenX = boardRight - STICKER_SIZE;
         const minScreenY = boardTop;
@@ -246,14 +244,12 @@ function DraggableObjectSticker({
         // ------------------------------------------------
         // 실제 화면좌표를 안전한 화면좌표로 제한
         // ------------------------------------------------
-
         const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
         const clampedScreenY = clamp(currentScreenY, minScreenY, maxScreenY);
 
         // ------------------------------------------------
         // 화면좌표 → position의 상대 이동값으로 변환
         // ------------------------------------------------
-
         const deltaX = clampedScreenX - startScreenPosition.current.x;
         const deltaY = clampedScreenY - startScreenPosition.current.y;
 
@@ -266,23 +262,14 @@ function DraggableObjectSticker({
       // ------------------------------------------------
       // 손을 뗌
       // ------------------------------------------------
-
-      onPanResponderRelease: (_, gesture) => {
-        console.log("🔴 RELEASE", obj.id, {
-          dx: gesture.dx,
-          dy: gesture.dy,
-          position: {
-            x: (position.x as any)._value,
-            y: (position.y as any)._value,
-          },
-        });
+      onPanResponderRelease: () => {
         isDraggingRef.current = false;
         // ⭐ 이번 드래그 종료
         isScreenPositionReadyRef.current = false;
         // 🌟 [핵심 2] 손을 뗄 때 zIndex를 다시 제자리로 돌려놓음 (중요!)
-        stickerRef.current?.setNativeProps({
-          style: { zIndex: 1, elevation: 1 },
-        });
+        // stickerRef.current?.setNativeProps({
+        //   style: { zIndex: 1, elevation: 1 },
+        // });
 
         // 손을 뗀 순간의 실제 화면 좌표를 측정
         stickerRef.current?.measureInWindow((x, y, width, height) => {
@@ -318,6 +305,7 @@ function DraggableObjectSticker({
 
               if (result === "wrong") {
                 playWrongAnimation();
+                onWrong();
                 return;
               }
 
@@ -364,8 +352,9 @@ function DraggableObjectSticker({
         ],
         opacity,
         // 🌟 [핵심 3] 기본 스타일의 zIndex를 999 고정이 아니라 1로 낮춰서 평소엔 형제끼리 평등하게 만듦
-        zIndex: 1,
-        elevation: 1,
+        // ⭐ setNativeProps 대신 isActive prop 하나로 결정
+        zIndex: isActive ? 9999 : 1,
+        elevation: isActive ? 99 : 1,
       }}
     >
       <ObjectSticker color={color}>
@@ -399,6 +388,7 @@ export default function ClassificationPlayScreen() {
   const [roundIndex, setRoundIndex] = useState(0);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [activeStickerId, setActiveStickerId] = useState<string | null>(null);
 
   // 정답으로 처리된 object ID
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
@@ -476,7 +466,6 @@ export default function ClassificationPlayScreen() {
         // ----------------------------------------------
         // 2. 타겟 안: 이제 진짜 정답인지 확인
         // ----------------------------------------------
-
         const correctTargetId = currentRound.answer[item.id];
 
         // ----------------------------------------------
@@ -671,10 +660,13 @@ export default function ClassificationPlayScreen() {
                 gameBoardLayout={gameBoardLayout}
                 // ⭐ roundIndex까지 key에 넣어서 새로운 라운드가 시작되면 스티커 애니메이션 state도 새로 생성
                 key={`${roundIndex}-${obj.id}`}
+                isActive={obj.id === activeStickerId} // ⭐ 추가
+                onGrab={setActiveStickerId}
                 obj={obj}
                 color={obj.color ? COLORS[obj.color] : "#ccc"}
                 onRelease={handleDrop}
                 onCorrectAnimationComplete={handleCorrect}
+                onWrong={handleWrong}
               />
             ))}
           </ObjectsContainer>
