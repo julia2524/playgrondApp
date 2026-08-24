@@ -65,6 +65,7 @@ function DraggableObjectSticker({
   onRelease,
   onCorrectAnimationComplete,
   onWrong,
+  onOutside,
 }: {
   obj: any;
   color: string;
@@ -73,6 +74,7 @@ function DraggableObjectSticker({
   onGrab: (objectId: string) => void;
   onCorrectAnimationComplete: (objectId: string) => void;
   onWrong: () => void;
+  onOutside: () => void;
   onRelease: (
     obj: any,
     stickerX: number,
@@ -314,6 +316,8 @@ function DraggableObjectSticker({
               // ----------------------------------------
 
               if (result === "outside") {
+                playWrongAnimation();
+                onOutside(); // 새로 만든 handleOutside 연결!
                 return;
               }
             },
@@ -372,11 +376,13 @@ export default function ClassificationPlayScreen() {
   // 레벨
   // --------------------------------------------------
   const levelConfig = classificationLevels[0];
+  // 부모 컴포넌트 상단에 추가
+  const missingItemRef = useRef<View>(null);
 
   // --------------------------------------------------
   // TargetBox
   // --------------------------------------------------
-  const targetBoxRef = useRef<View>(null);
+  //const targetBoxRef = useRef<View>(null); // targetBox 주변 드롭했을 때 정답 판정...
 
   // 중복 판정 방지
   const isProcessingRef = useRef(false);
@@ -429,18 +435,13 @@ export default function ClassificationPlayScreen() {
     stickerHeight: number,
     callback: (result: DropResult) => void,
   ) => {
-    // TargetBox가 없으면 종료
-    if (!targetBoxRef.current) {
+    if (!missingItemRef.current) {
       callback("outside");
       return;
     }
 
-    targetBoxRef.current.measureInWindow(
+    missingItemRef.current.measureInWindow(
       (targetX, targetY, targetWidth, targetHeight) => {
-        // ----------------------------------------------
-        // 스티커 중심점
-        // ----------------------------------------------
-
         const sticker = {
           x: stickerX,
           y: stickerY,
@@ -455,32 +456,74 @@ export default function ClassificationPlayScreen() {
         };
         const isInside = isStickerInsideTarget(sticker, target);
 
-        // ----------------------------------------------
-        // 1. 타겟 밖
-        // ----------------------------------------------
         if (!isInside) {
           callback("outside");
           return;
         }
 
-        // ----------------------------------------------
-        // 2. 타겟 안: 이제 진짜 정답인지 확인
-        // ----------------------------------------------
         const correctTargetId = currentRound.answer[item.id];
 
-        // ----------------------------------------------
-        // 정답
-        // ----------------------------------------------
         if (correctTargetId) {
           callback("correct");
           return;
         }
-        // ----------------------------------------------
-        // 타겟 안이지만 오답
-        // ----------------------------------------------
+
         callback("wrong");
       },
     );
+
+    // TargetBox가 없으면 종료
+    // if (!targetBoxRef.current) {
+    //   callback("outside");
+    //   return;
+    // }
+
+    // targetBoxRef.current.measureInWindow(
+    //   (targetX, targetY, targetWidth, targetHeight) => {
+    //     // ----------------------------------------------
+    //     // 스티커 중심점
+    //     // ----------------------------------------------
+
+    //     const sticker = {
+    //       x: stickerX,
+    //       y: stickerY,
+    //       width: stickerWidth,
+    //       height: stickerHeight,
+    //     };
+    //     const target = {
+    //       x: targetX,
+    //       y: targetY,
+    //       width: targetWidth,
+    //       height: targetHeight,
+    //     };
+    //     const isInside = isStickerInsideTarget(sticker, target);
+
+    //     // ----------------------------------------------
+    //     // 1. 타겟 밖
+    //     // ----------------------------------------------
+    //     if (!isInside) {
+    //       callback("outside");
+    //       return;
+    //     }
+
+    //     // ----------------------------------------------
+    //     // 2. 타겟 안: 이제 진짜 정답인지 확인
+    //     // ----------------------------------------------
+    //     const correctTargetId = currentRound.answer[item.id];
+
+    //     // ----------------------------------------------
+    //     // 정답
+    //     // ----------------------------------------------
+    //     if (correctTargetId) {
+    //       callback("correct");
+    //       return;
+    //     }
+    //     // ----------------------------------------------
+    //     // 타겟 안이지만 오답
+    //     // ----------------------------------------------
+    //     callback("wrong");
+    //   },
+    // );
   };
 
   // --------------------------------------------------
@@ -534,12 +577,22 @@ export default function ClassificationPlayScreen() {
   };
 
   // --------------------------------------------------
-  // 오답 처리
+  // 오답 처리 (타겟 안에 넣었지만 틀렸을 때)
   // --------------------------------------------------
   const handleWrong = () => {
-    setFeedback("앗, 이 색이 아니에요! 다시 해볼까요?");
+    setFeedback("앗, 이 색이 아니에요! 다른 곳을 찾아볼까요?");
 
-    // 오답은 잠시 후 메시지만 없앤다. 스티커 위치는 그대로!
+    setTimeout(() => {
+      setFeedback(null);
+    }, 1200);
+  };
+
+  // --------------------------------------------------
+  // 영역 밖 처리 (타겟이 아닌 엉뚱한 곳에 놓았을 때)
+  // --------------------------------------------------
+  const handleOutside = () => {
+    setFeedback("앗, 빈 곳에 놓았네요! 회색 빈칸에 쏙 넣어봐요!");
+
     setTimeout(() => {
       setFeedback(null);
     }, 1200);
@@ -594,7 +647,7 @@ export default function ClassificationPlayScreen() {
         {/* -------------------------------------------- */}
         <TargetSection isFront={isTargetFront}>
           <TargetBox
-            ref={targetBoxRef}
+            // ref={targetBoxRef}
             color={target.color ? COLORS[target.color] : "#ccc"}
           >
             <TargetItemsGrid>
@@ -631,6 +684,7 @@ export default function ClassificationPlayScreen() {
 
                 return (
                   <TargetItemCircle
+                    ref={isMissingItem ? missingItemRef : undefined} // ⭐ 정답 원에만 ref
                     style={{
                       // 🌟 [핵심] 정답이 맞춰진 순간(isMatched)에는 zIndex와 elevation을 최상단으로 폭발시킴!
                       zIndex: isMatched ? 9999 : 1,
@@ -667,6 +721,7 @@ export default function ClassificationPlayScreen() {
                 onRelease={handleDrop}
                 onCorrectAnimationComplete={handleCorrect}
                 onWrong={handleWrong}
+                onOutside={handleOutside}
               />
             ))}
           </ObjectsContainer>
