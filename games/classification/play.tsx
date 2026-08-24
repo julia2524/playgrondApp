@@ -1,13 +1,6 @@
 // 화면 조립만 (얇게!)
 import React, { useMemo, useRef, useState } from "react";
-import {
-  Animated,
-  Dimensions,
-  PanResponder,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import styled from "styled-components/native";
+import { Animated, Dimensions, PanResponder, View } from "react-native";
 
 import { classificationLevels } from "./levels";
 import { ClassificationRound } from "./types";
@@ -46,7 +39,7 @@ import {
   STICKER_SIZE,
 } from "../../constants/dragConstants";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+//const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 // --------------------------------------------------
 // 타입
@@ -61,10 +54,8 @@ type Layout = {
 };
 // --------------------------------------------------
 // DraggableObjectSticker
-//
 // "나는 어떻게 움직일까?"를 담당
 // --------------------------------------------------
-
 function DraggableObjectSticker({
   obj,
   color,
@@ -89,6 +80,8 @@ function DraggableObjectSticker({
 
   // 드래그 위치
   const position = useRef(new Animated.ValueXY()).current;
+  // ⭐ 오답 흔들림 전용
+  const shakeX = useRef(new Animated.Value(0)).current;
 
   // 정답 애니메이션
   const scale = useRef(new Animated.Value(1)).current;
@@ -108,14 +101,7 @@ function DraggableObjectSticker({
   const isScreenPositionReadyRef = useRef(false);
 
   // --------------------------------------------------a
-  // 정답 애니메이션
-  //
-  // 현재 위치에서
-  // 작아짐 + 투명해짐
-  //      ↓
-  // 애니메이션 완료
-  //      ↓
-  // 부모에게 완료 전달
+  // 정답 애니메이션: 현재 위치에서 작아짐 + 투명해짐 애니메이션 완료 + 부모에게 완료 전달
   // --------------------------------------------------
 
   const playCorrectAnimation = (onComplete: () => void) => {
@@ -139,80 +125,50 @@ function DraggableObjectSticker({
   };
 
   // --------------------------------------------------
-  // 오답 애니메이션
-  //
-  // "현재 위치"를 기준으로 흔들기
-  //
-  // 원래 위치로 돌아가지 않는다!
+  // 오답 애니메이션: "현재 위치"를 기준으로 흔들기 + 원래 위치로 돌아가지 않는다!
   // --------------------------------------------------
 
   const playWrongAnimation = () => {
-    const currentX = (position.x as any)._value;
-    const currentY = (position.y as any)._value;
+    shakeX.setValue(0);
 
     Animated.sequence([
-      // 왼쪽
-      Animated.timing(position, {
-        toValue: {
-          x: currentX - 12,
-          y: currentY,
-        },
+      Animated.timing(shakeX, {
+        toValue: -12,
         duration: 60,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
 
-      // 오른쪽
-      Animated.timing(position, {
-        toValue: {
-          x: currentX + 12,
-          y: currentY,
-        },
+      Animated.timing(shakeX, {
+        toValue: 12,
         duration: 60,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
 
-      // 다시 왼쪽
-      Animated.timing(position, {
-        toValue: {
-          x: currentX - 8,
-          y: currentY,
-        },
+      Animated.timing(shakeX, {
+        toValue: -8,
         duration: 50,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
 
-      // 다시 오른쪽
-      Animated.timing(position, {
-        toValue: {
-          x: currentX + 8,
-          y: currentY,
-        },
+      Animated.timing(shakeX, {
+        toValue: 8,
         duration: 50,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
 
-      // 정확히 현재 위치
-      Animated.spring(position, {
-        toValue: {
-          x: currentX,
-          y: currentY,
-        },
+      Animated.spring(shakeX, {
+        toValue: 0,
         friction: 4,
         tension: 120,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]).start();
   };
-
-  // --------------------------------------------------
-  // PanResponder
-  // --------------------------------------------------
 
   const panResponder = useRef(
     PanResponder.create({
       // 손가락을 대면 드래그 시작
       onStartShouldSetPanResponder: () => true,
-
       onMoveShouldSetPanResponder: () => true,
 
       // ------------------------------------------------
@@ -230,6 +186,12 @@ function DraggableObjectSticker({
           x: (position.x as any)._value,
           y: (position.y as any)._value,
         };
+        console.log("🟢 GRANT", obj.id, {
+          position: {
+            x: (position.x as any)._value,
+            y: (position.y as any)._value,
+          },
+        });
         //경계 제한까지 하려면 화면상 시작 위치가 필요
         stickerRef.current?.measureInWindow((x, y) => {
           startScreenPosition.current = {
@@ -238,12 +200,14 @@ function DraggableObjectSticker({
           };
           // ⭐ 이제부터 드래그 이동 허용
           isScreenPositionReadyRef.current = true;
+          console.log("📏 MEASURE", obj.id, {
+            x,
+            y,
+          });
         });
         stickerRef.current?.setNativeProps({
           style: { zIndex: 9999, elevation: 99 },
         });
-
-        // console.log("🟡 DRAG START", startPosition.current);
       },
 
       // ------------------------------------------------
@@ -251,24 +215,16 @@ function DraggableObjectSticker({
       // ------------------------------------------------
 
       onPanResponderMove: (_, gesture) => {
-        // position.setValue({
-        //   x: startPosition.current.x + gesture.dx,
-        //   y: startPosition.current.y + gesture.dy,
-        // });
         // ⭐ 화면 좌표 측정이 끝나기 전에는 position을 절대로 건드리지 않는다.
         if (!isScreenPositionReadyRef.current) {
           return;
         }
 
         const board = gameBoardLayout.current;
-
         // GameBoard의 실제 화면 영역
         const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
-
         const boardTop = board.y + BOARD_VERTICAL_PADDING;
-
         const boardRight = board.x + board.width - BOARD_HORIZONTAL_PADDING;
-
         const boardBottom = board.y + board.height - BOARD_VERTICAL_PADDING;
 
         // ------------------------------------------------
@@ -276,7 +232,6 @@ function DraggableObjectSticker({
         // ------------------------------------------------
 
         const currentScreenX = startScreenPosition.current.x + gesture.dx;
-
         const currentScreenY = startScreenPosition.current.y + gesture.dy;
 
         // ------------------------------------------------
@@ -284,11 +239,8 @@ function DraggableObjectSticker({
         // ------------------------------------------------
 
         const minScreenX = boardLeft;
-
         const maxScreenX = boardRight - STICKER_SIZE;
-
         const minScreenY = boardTop;
-
         const maxScreenY = boardBottom - STICKER_SIZE;
 
         // ------------------------------------------------
@@ -296,7 +248,6 @@ function DraggableObjectSticker({
         // ------------------------------------------------
 
         const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
-
         const clampedScreenY = clamp(currentScreenY, minScreenY, maxScreenY);
 
         // ------------------------------------------------
@@ -304,12 +255,10 @@ function DraggableObjectSticker({
         // ------------------------------------------------
 
         const deltaX = clampedScreenX - startScreenPosition.current.x;
-
         const deltaY = clampedScreenY - startScreenPosition.current.y;
 
         position.setValue({
           x: startPosition.current.x + deltaX,
-
           y: startPosition.current.y + deltaY,
         });
       },
@@ -318,7 +267,15 @@ function DraggableObjectSticker({
       // 손을 뗌
       // ------------------------------------------------
 
-      onPanResponderRelease: () => {
+      onPanResponderRelease: (_, gesture) => {
+        console.log("🔴 RELEASE", obj.id, {
+          dx: gesture.dx,
+          dy: gesture.dy,
+          position: {
+            x: (position.x as any)._value,
+            y: (position.y as any)._value,
+          },
+        });
         isDraggingRef.current = false;
         // ⭐ 이번 드래그 종료
         isScreenPositionReadyRef.current = false;
@@ -348,11 +305,10 @@ function DraggableObjectSticker({
 
               if (result === "correct") {
                 playCorrectAnimation(() => {
-                  console.log("✨ CORRECT ANIMATION FINISHED:", obj.id);
+                  // console.log("✨ CORRECT ANIMATION FINISHED:", obj.id);
                   // ⭐ 여기까지 왔다는 건 스티커가 사라졌다는 뜻!
                   onCorrectAnimationComplete(obj.id);
                 });
-
                 return;
               }
 
@@ -362,15 +318,11 @@ function DraggableObjectSticker({
 
               if (result === "wrong") {
                 playWrongAnimation();
-
                 return;
               }
 
               // ----------------------------------------
-              // 타겟 밖
-              //
-              // 아무 애니메이션도 하지 않는다.
-              // 현재 위치 그대로 유지.
+              // 타겟 밖: 아무 애니메이션도 하지 않는다. + 현재 위치 그대로 유지.
               // ----------------------------------------
 
               if (result === "outside") {
@@ -379,6 +331,10 @@ function DraggableObjectSticker({
             },
           );
         });
+      },
+      onPanResponderTerminate: (_, gesture) => {
+        isDraggingRef.current = false;
+        isScreenPositionReadyRef.current = false;
       },
     }),
   ).current;
@@ -395,6 +351,9 @@ function DraggableObjectSticker({
         transform: [
           {
             translateX: position.x,
+          },
+          {
+            translateX: shakeX,
           },
           {
             translateY: position.y,
@@ -417,22 +376,17 @@ function DraggableObjectSticker({
 }
 
 // --------------------------------------------------
-// 부모
-//
-// "정답이야? 오답이야?"를 담당
+// 부모: "정답이야? 오답이야?"를 담당
 // --------------------------------------------------
-
 export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // 레벨
   // --------------------------------------------------
-
   const levelConfig = classificationLevels[0];
 
   // --------------------------------------------------
   // TargetBox
   // --------------------------------------------------
-
   const targetBoxRef = useRef<View>(null);
 
   // 중복 판정 방지
@@ -443,9 +397,7 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
 
   const [roundIndex, setRoundIndex] = useState(0);
-
   const [feedback, setFeedback] = useState<string | null>(null);
-
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // 정답으로 처리된 object ID
@@ -454,7 +406,6 @@ export default function ClassificationPlayScreen() {
 
   // 부모 컴포넌트 상단에 영역 저장용 ref 추가
   const gameBoardRef = useRef<View>(null);
-
   const gameBoardLayout = useRef<Layout>({
     x: 0,
     y: 0,
@@ -465,7 +416,6 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // 5개의 라운드 생성
   // --------------------------------------------------
-
   const rounds = useMemo(() => {
     return Array.from({ length: 5 }, (_, i) =>
       createLevel1ColorRound(levelConfig, i + 1),
@@ -475,15 +425,12 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // 현재 라운드
   // --------------------------------------------------
-
   const currentRound = rounds[roundIndex] as ClassificationRound;
-
   const target = currentRound.targets[0];
 
   // --------------------------------------------------
   // 드롭 판정
   // --------------------------------------------------
-
   const handleDrop = (
     item: any,
     stickerX: number,
@@ -521,16 +468,13 @@ export default function ClassificationPlayScreen() {
         // ----------------------------------------------
         // 1. 타겟 밖
         // ----------------------------------------------
-
         if (!isInside) {
           callback("outside");
           return;
         }
 
         // ----------------------------------------------
-        // 2. 타겟 안
-        //
-        // 이제 진짜 정답인지 확인
+        // 2. 타겟 안: 이제 진짜 정답인지 확인
         // ----------------------------------------------
 
         const correctTargetId = currentRound.answer[item.id];
@@ -538,30 +482,21 @@ export default function ClassificationPlayScreen() {
         // ----------------------------------------------
         // 정답
         // ----------------------------------------------
-
         if (correctTargetId) {
           callback("correct");
           return;
         }
-
         // ----------------------------------------------
         // 타겟 안이지만 오답
         // ----------------------------------------------
-
         callback("wrong");
       },
     );
   };
 
   // --------------------------------------------------
-  // 정답 처리
-  //
-  // ⭐ 여기서는 애니메이션을 직접 실행하지 않는다.
-  //
-  // 자식이 애니메이션을 담당하고,
-  // 부모는 "정답 이후 무엇을 할지"만 담당한다.
+  // 정답 처리: ⭐ 여기서는 애니메이션을 직접 실행하지 않는다. 자식이 애니메이션을 담당하고, 부모는 "정답 이후 무엇을 할지"만 담당한다.
   // --------------------------------------------------
-
   const handleCorrect = (objectId: string) => {
     // 이미 처리 중이면 무시
     if (isProcessingRef.current) {
@@ -571,25 +506,18 @@ export default function ClassificationPlayScreen() {
     isProcessingRef.current = true;
     // ⭐ 정답 순간 TargetSection을 맨 앞으로
     setIsTargetFront(true);
-    console.log("🎉 CORRECT:", objectId);
-
     // ----------------------------------------------
     // 1. 먼저 성공 메시지
     // ----------------------------------------------
-
     setFeedback("참 잘했어요! 👏");
 
     // ----------------------------------------------
-    // 2. TargetBox의 회색 칸을 색칠
-    //
-    // 이게 부모의 state 변경
+    // 2. TargetBox의 회색 칸을 색칠: 이게 부모의 state 변경
     // ----------------------------------------------
-
     setMatchedObjectIds((prev) => {
       if (prev.includes(objectId)) {
         return prev;
       }
-
       return [...prev, objectId];
     });
 
@@ -619,64 +547,32 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // 오답 처리
   // --------------------------------------------------
-
   const handleWrong = () => {
-    console.log("❌ WRONG");
-
     setFeedback("앗, 이 색이 아니에요! 다시 해볼까요?");
 
-    // 오답은 잠시 후 메시지만 없앤다.
-    // 스티커 위치는 그대로!
+    // 오답은 잠시 후 메시지만 없앤다. 스티커 위치는 그대로!
     setTimeout(() => {
       setFeedback(null);
     }, 1200);
   };
 
   // --------------------------------------------------
-  // 실제 결과 연결
-  //
-  // 자식 → handleDrop → 판정 → 여기
-  // --------------------------------------------------
-
-  const handleStickerResult = (item: any, result: DropResult) => {
-    console.log("📦 RESULT:", result, "ITEM:", item.id);
-
-    if (result === "correct") {
-      handleCorrect(item.id);
-      return;
-    }
-
-    if (result === "wrong") {
-      handleWrong();
-      return;
-    }
-
-    // outside
-    // 아무것도 하지 않음
-  };
-
-  // --------------------------------------------------
   // 화면
   // --------------------------------------------------
-
   return (
     <Container>
       {/* ---------------------------------------------- */}
       {/* Header */}
       {/* ---------------------------------------------- */}
-
       <Header>
         <BackText>‹</BackText>
-
         <TitleText>🎨 오늘의 분류 (LEVEL {levelConfig.level})</TitleText>
-
         <RoundIndicator>{roundIndex + 1} / 5</RoundIndicator>
       </Header>
 
       {/* ---------------------------------------------- */}
       {/* Mission */}
       {/* ---------------------------------------------- */}
-
       <MissionBubble>
         <MissionText>
           {feedback ||
@@ -691,7 +587,6 @@ export default function ClassificationPlayScreen() {
       {/* ---------------------------------------------- */}
       {/* Game Board */}
       {/* ---------------------------------------------- */}
-
       <GameBoard
         ref={gameBoardRef}
         onLayout={(event) => {
@@ -708,7 +603,6 @@ export default function ClassificationPlayScreen() {
         {/* -------------------------------------------- */}
         {/* Target */}
         {/* -------------------------------------------- */}
-
         <TargetSection isFront={isTargetFront}>
           <TargetBox
             ref={targetBoxRef}
@@ -719,13 +613,11 @@ export default function ClassificationPlayScreen() {
                 // ------------------------------------
                 // missing item인지
                 // ------------------------------------
-
                 const isMissingItem = itemName === currentRound.missingItem;
 
                 // ------------------------------------
                 // 현재 object 중에서 해당 물건 찾기
                 // ------------------------------------
-
                 const matchingObject = currentRound.objects.find(
                   (o) => o.name === itemName,
                 );
@@ -733,24 +625,19 @@ export default function ClassificationPlayScreen() {
                 // ------------------------------------
                 // 이 물건이 이미 정답 처리됐는지
                 // ------------------------------------
-
                 const isMatched = matchingObject
                   ? matchedObjectIds.includes(matchingObject.id)
                   : false;
 
                 // ------------------------------------
-                // 아직 정답을 안 맞혔다면 회색
-                // 맞히면 target 색상
+                // 아직 정답을 안 맞혔다면 회색, 맞히면 target 색상
                 // ------------------------------------
-
                 const shouldBeGray = isMissingItem && !isMatched;
-
                 const circleColor = shouldBeGray
                   ? "#E2E8F0"
                   : target.color
                     ? COLORS[target.color]
                     : "#ccc";
-
                 const textColor = shouldBeGray ? "#94A3B8" : "#FFFFFF";
 
                 return (
@@ -776,17 +663,13 @@ export default function ClassificationPlayScreen() {
         {/* -------------------------------------------- */}
         {/* Objects */}
         {/* -------------------------------------------- */}
-
         <ObjectSection>
           <SectionLabel>아래 스티커를 골라봐요!</SectionLabel>
-
           <ObjectsContainer>
             {currentRound.objects.map((obj) => (
               <DraggableObjectSticker
                 gameBoardLayout={gameBoardLayout}
-                // ⭐ roundIndex까지 key에 넣어서
-                // 새로운 라운드가 시작되면
-                // 스티커 애니메이션 state도 새로 생성
+                // ⭐ roundIndex까지 key에 넣어서 새로운 라운드가 시작되면 스티커 애니메이션 state도 새로 생성
                 key={`${roundIndex}-${obj.id}`}
                 obj={obj}
                 color={obj.color ? COLORS[obj.color] : "#ccc"}
@@ -801,12 +684,10 @@ export default function ClassificationPlayScreen() {
       {/* ---------------------------------------------- */}
       {/* Success Modal */}
       {/* ---------------------------------------------- */}
-
       {showSuccessModal && (
         <SuccessModalOverlay>
           <SuccessModalContent>
             <SuccessTitle>🎉 레벨 클리어! 🎉</SuccessTitle>
-
             <SuccessButton
               onPress={() => {
                 setRoundIndex(0);
