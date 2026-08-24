@@ -4,10 +4,11 @@
 
 import { Animated, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import { BASIC_COLORS } from "../../../constants/colors";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #f8f9fe;
+  background-color: ${BASIC_COLORS.BACKGROUND}; /* 조금 더 부드러운 우유빛 크림 배경 */
   padding-top: 40px;
 `;
 
@@ -17,41 +18,63 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-horizontal: 20px;
-  background-color: #ffffff;
+
+  background-color: ${BASIC_COLORS.CARD};
+
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  elevation: 2;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.06;
+  shadow-radius: 6px;
 `;
 
 export const BackText = styled.Text`
   font-size: 28px;
-  color: #2c3e50;
+  color: ${BASIC_COLORS.TEXT};
 `;
 
 export const TitleText = styled.Text`
   font-size: 17px;
   font-weight: 800;
-  color: #2c3e50;
+  color: ${BASIC_COLORS.TEXT};
 `;
 
 export const RoundIndicator = styled.Text`
   font-size: 15px;
   font-weight: 700;
-  color: #0fa6dd;
+
+  color: ${BASIC_COLORS.PRIMARY};
+  background-color: #f0f7ff;
+
+  padding-horizontal: 12px;
+  padding-vertical: 4px;
+  border-radius: 12px;
 `;
 
 export const MissionBubble = styled.View`
   align-items: center;
-  margin-vertical: 20px;
+  margin-vertical: 16px;
 `;
 
 export const MissionText = styled.Text`
   font-size: 16px;
   font-weight: 700;
-  color: #34495e;
-  background-color: #ffffff;
-  padding-horizontal: 20px;
-  padding-vertical: 10px;
+  color: ${BASIC_COLORS.TEXT};
+  background-color: ${BASIC_COLORS.CARD};
+  padding-horizontal: 22px;
+  padding-vertical: 12px;
   border-radius: 20px;
   overflow: hidden;
-  elevation: 2;
+  elevation: 3;
+  border-width: 1px;
+  border-color: #edf1f5;
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.04;
+  shadow-radius: 4px;
 `;
 
 export const GameBoard = styled.View`
@@ -70,18 +93,20 @@ export const TargetSection = styled.View<{ isFront?: boolean }>`
   elevation: ${(props) => (props.isFront ? 30 : 0)};
 `;
 
-export const TargetBox = styled.View<{
-  color: string;
-}>`
-  width: 330px;
-  height: 330px;
+export const TargetBox = styled.View`
+  width: 320px;
+  height: 320px;
   align-items: center;
   justify-content: center;
+  /* background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 32px;
+  border-width: 3px;
+  border-color: #eaeff8; */
 `;
 
 export const TargetItemsGrid = styled.View`
-  width: 290px;
-  height: 290px;
+  width: 280px;
+  height: 280px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -91,12 +116,18 @@ export const TargetItemsGrid = styled.View`
 export const TargetItemCircle = styled(Animated.View)<{
   color: string;
 }>`
-  width: 130px;
-  height: 130px;
+  width: 125px;
+  height: 125px;
   background-color: ${(props) => props.color};
-  border-radius: 65px;
+  border-radius: 62.5px;
   align-items: center;
   justify-content: center;
+  elevation: 3;
+
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.08;
+  shadow-radius: 4px;
 `;
 
 export const TargetItemText = styled.Text<{
@@ -104,38 +135,43 @@ export const TargetItemText = styled.Text<{
 }>`
   font-size: 15px;
   font-weight: 800;
-  color: ${(props) => props.color || "#2c3e50"};
+  color: ${(props) => props.color || BASIC_COLORS.TEXT};
   text-align: center;
 `;
 
 export const ObjectSection = styled.View`
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   z-index: 100;
 `;
 
 export const SectionLabel = styled.Text`
-  font-size: 15px;
-  font-weight: 700;
-  color: #94a3b8;
-  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8a94a6;
+  margin-bottom: 12px;
 `;
 
 export const ObjectsContainer = styled.View`
   flex-direction: row;
-  gap: 30px;
+  gap: 24px;
 `;
 
 export const ObjectSticker = styled(Animated.View)<{
   color: string;
 }>`
-  width: 110px;
-  height: 110px;
-  background-color: ${(props) => props.color || "#ccc"};
-  border-radius: 55px;
+  width: 120px;
+  height: 120px;
+  background-color: ${(props) => props.color};
+  border-radius: 60px;
   align-items: center;
   justify-content: center;
-  elevation: 5;
+  elevation: 3;
+
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.08;
+  shadow-radius: 4px;
 `;
 
 export const StickerText = styled.Text`
@@ -151,7 +187,12 @@ export const SuccessModalOverlay = styled.View`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(
+    44,
+    62,
+    80,
+    0.5
+  ); /* 어둡기만 한 회색 대신 부드러운 네이비 투명 톤 */
   align-items: center;
   justify-content: center;
   z-index: 999;
@@ -159,28 +200,75 @@ export const SuccessModalOverlay = styled.View`
 `;
 
 export const SuccessModalContent = styled.View`
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 24px;
+  background-color: ${BASIC_COLORS.CARD};
+  width: 85%;
+  max-width: 340px;
+  padding: 32px 24px;
+  border-radius: 32px;
   align-items: center;
+  border-width: 2px;
+  border-color: #edf1f5;
+  /* 그림자 속성을 RN 스타일에 맞게 수정 */
+  elevation: 12;
+  shadow-color: ${BASIC_COLORS.PRIMARY};
+  shadow-offset: 0px 6px;
+  shadow-opacity: 0.2;
+  shadow-radius: 12px;
+`;
+
+export const SuccessEmoji = styled.Text`
+  font-size: 52px;
+  margin-bottom: 10px;
+  text-align: center;
 `;
 
 export const SuccessTitle = styled.Text`
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
-  color: #2c3e50;
-  margin-bottom: 20px;
+  color: ${BASIC_COLORS.PRIMARY};
+  text-align: center;
+  margin-bottom: 6px;
 `;
 
-export const SuccessButton = styled(TouchableOpacity)`
-  background-color: #0fa6dd;
-  padding-horizontal: 24px;
-  padding-vertical: 12px;
-  border-radius: 14px;
+export const SuccessSubtitle = styled.Text`
+  font-size: 15px;
+  font-weight: 700;
+  color: ${BASIC_COLORS.TEXT};
+  text-align: center;
+  margin-bottom: 24px;
+`;
+
+export const SuccessButtons = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+`;
+
+// variant prop으로 버튼 색상 구분 (primary: 다음 레벨, secondary: 다시 하기)
+export const SuccessButton = styled(TouchableOpacity)<{
+  variant?: "primary" | "secondary";
+}>`
+  flex: 1;
+  background-color: ${(props) =>
+    props.variant === "primary" ? BASIC_COLORS.SUCCESS : BASIC_COLORS.ACCENT};
+  padding-vertical: 14px;
+  border-radius: 20px;
+  align-items: center;
+  elevation: 4;
+  shadow-color: #000;
+  shadow-offset: 0px 3px;
+  shadow-opacity: 0.12;
+  shadow-radius: 5px;
+  border-bottom-width: 4px;
+  border-bottom-color: ${(props) =>
+    props.variant === "primary" ? "#34986b" : "#d97c00"};
 `;
 
 export const ButtonText = styled.Text`
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: #ffffff;
+  text-align: center;
+  line-height: 20px;
 `;

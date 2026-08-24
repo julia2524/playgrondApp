@@ -1,3 +1,13 @@
+export const BASIC_COLORS = {
+  BACKGROUND: "#F8F9FE", // 부드러운 배경 톤
+  CARD: "#FFFFFF", // 깔끔한 카드/박스 배경
+  PRIMARY: "#0FA6DD", // 메인 포인트 블루
+  SECONDARY: "#7569E8", // 서브 퍼플/인디고
+  SUCCESS: "#45B48B", // 성공/정답 초록
+  ACCENT: "#FE9404", // 강조 주황/노랑
+  TEXT: "#2C3E50", // 텍스트 진한 네이비/그레이
+};
+
 //어떤 색을 사용할 수 있는가
 
 export const COLOR_POOL = ["red", "blue", "yellow", "green", "purple"] as const;
