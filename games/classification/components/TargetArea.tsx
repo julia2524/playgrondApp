@@ -54,15 +54,15 @@ export default function TargetArea({
               (o) =>
                 o.name === shapeId && currentRound.answer[o.id] === target.id,
             );
-            if (shapeId === currentRound.missingItem) {
-              // ⭐ 정답 슬롯에 한해서만 자세히 로그
-              console.log("🔍 정답슬롯 디버그", {
-                shapeId,
-                missingItem: currentRound.missingItem,
-                matchingObject,
-                matchedObjectIds,
-              });
-            }
+            // if (shapeId === currentRound.missingItem) {
+            //   // // ⭐ 정답 슬롯에 한해서만 자세히 로그
+            //   // console.log("🔍 정답슬롯 디버그", {
+            //   //   shapeId,
+            //   //   missingItem: currentRound.missingItem,
+            //   //   matchingObject,
+            //   //   matchedObjectIds,
+            //   // });
+            // }
 
             // ------------------------------------
             // 이 물건이 이미 정답 처리됐는지
@@ -87,7 +87,7 @@ export default function TargetArea({
               : (SOFT_COLORS[targetColor] ?? "#E2E8F0");
             const svgColor = COLORS[targetColor] ?? "#FFFFFF";
             const key = `${currentRound.id}-${shapeId}-${idx}`;
-            console.log("🔑 KEY CHECK", key); // ⭐ 이 key가 같은 슬롯에서 매번 동일하게 나오는지 확인
+            // console.log("🔑 KEY CHECK", key); // ⭐ 이 key가 같은 슬롯에서 매번 동일하게 나오는지 확인
 
             return (
               <TargetSlotItem
