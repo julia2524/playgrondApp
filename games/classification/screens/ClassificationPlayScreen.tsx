@@ -119,7 +119,9 @@ export default function ClassificationPlayScreen() {
     }
 
     isProcessingRef.current = true;
-    // ⭐ 정답 순간 TargetSection을 맨 앞으로
+    // console.log("🎯 handleCorrect 호출됨, objectId:", objectId);
+    // console.log("🎯 현재 objects 목록:", currentRound.objects);
+    // // ⭐ 정답 순간 TargetSection을 맨 앞으로
     setIsTargetFront(true);
     // ----------------------------------------------
     // 1. 먼저 성공 메시지
@@ -130,10 +132,9 @@ export default function ClassificationPlayScreen() {
     // 2. TargetBox의 회색 칸을 색칠: 이게 부모의 state 변경
     // ----------------------------------------------
     setMatchedObjectIds((prev) => {
-      if (prev.includes(objectId)) {
-        return prev;
-      }
-      return [...prev, objectId];
+      const next = prev.includes(objectId) ? prev : [...prev, objectId];
+      //   console.log("🎯 matchedObjectIds 갱신:", { prev, objectId, next });
+      return next;
     });
 
     // ----------------------------------------------

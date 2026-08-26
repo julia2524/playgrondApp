@@ -14,6 +14,7 @@ import {
 } from "../styles/classificationStyles";
 import { ClassificationRound, GameObject, GameTarget } from "../types";
 import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
+import TargetSlotItem from "./TargetSlotItem";
 
 interface TargetAreaProps {
   isFront: boolean;
@@ -48,10 +49,20 @@ export default function TargetArea({
             // ------------------------------------
             const isMissingItem = shapeId === currentRound.missingItem;
 
-            // ------------------------------------
-            // 현재 object 중에서 해당 물건 찾기
-            // ------------------------------------
-            const matchingObject = objects.find((o) => o.name === shapeId);
+            // ⭐ 같은 모양의 오브젝트가 여러 개 있어도 answer가 현재 target을 가리키는 "정답 object"만 찾는다.
+            const matchingObject = objects.find(
+              (o) =>
+                o.name === shapeId && currentRound.answer[o.id] === target.id,
+            );
+            if (shapeId === currentRound.missingItem) {
+              // ⭐ 정답 슬롯에 한해서만 자세히 로그
+              console.log("🔍 정답슬롯 디버그", {
+                shapeId,
+                missingItem: currentRound.missingItem,
+                matchingObject,
+                matchedObjectIds,
+              });
+            }
 
             // ------------------------------------
             // 이 물건이 이미 정답 처리됐는지
@@ -67,12 +78,7 @@ export default function TargetArea({
             // 아직 정답을 안 맞혔다면 회색, 맞히면 target 색상
             // ------------------------------------
             const shouldBeGray = isMissingItem && !isMatched;
-            const circleColor = shouldBeGray
-              ? "#E2E8F0"
-              : target.color && COLORS[target.color]
-                ? COLORS[target.color]
-                : "#FFC0CB"; // 혹시 색상을 못 찾았을 때 보여줄 기본 색상(예: 연한 분홍)
-            const textColor = shouldBeGray ? "#94A3B8" : BASIC_COLORS.TEXT;
+            //  const textColor = shouldBeGray ? "#94A3B8" : BASIC_COLORS.TEXT;
 
             const targetColor = target.color ?? "blue";
             // 아직 정답을 맞히기 전(빈칸)이면 투명, 맞힌 후면 소프트 컬러 적용!
@@ -80,23 +86,19 @@ export default function TargetArea({
               ? "transparent"
               : (SOFT_COLORS[targetColor] ?? "#E2E8F0");
             const svgColor = COLORS[targetColor] ?? "#FFFFFF";
+            const key = `${currentRound.id}-${shapeId}-${idx}`;
+            console.log("🔑 KEY CHECK", key); // ⭐ 이 key가 같은 슬롯에서 매번 동일하게 나오는지 확인
 
             return (
-              <TargetItemCircle
-                ref={isMissingItem ? missingItemRef : undefined} // ⭐ 정답 원에만 ref
-                style={{
-                  // 🌟 [핵심] 정답이 맞춰진 순간(isMatched)에는 zIndex와 elevation을 최상단으로 폭발시킴!
-                  zIndex: isMatched ? 9999 : 1,
-                  elevation: isMatched ? 999 : 1,
-                }}
-                key={idx}
-                color={backgroundColor}
-                isMissing={isMissingItem && !isMatched}
-              >
-                {!isEmptySlot && (
-                  <RenderItemSvg shapeId={shapeId} colorHex={svgColor} />
-                )}
-              </TargetItemCircle>
+              <TargetSlotItem
+                key={`${currentRound.id}-${shapeId}-${idx}`}
+                isMissingItem={isMissingItem}
+                isMatched={isMatched}
+                backgroundColor={backgroundColor}
+                shapeId={shapeId}
+                svgColor={svgColor}
+                missingItemRef={missingItemRef}
+              />
             );
           })}
         </TargetItemsGrid>
