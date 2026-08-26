@@ -1,20 +1,14 @@
 import { View } from "react-native";
-import {
-  BASIC_COLORS,
-  COLORS,
-  SHAPE_POOL,
-  SOFT_COLORS,
-} from "../../../constants/colors";
+
 import {
   TargetBox,
-  TargetItemCircle,
   TargetItemsGrid,
-  TargetItemText,
   TargetSection,
 } from "../styles/classificationStyles";
-import { ClassificationRound, GameObject, GameTarget } from "../types";
-import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
+
 import TargetSlotItem from "./TargetSlotItem";
+import { ClassificationRound, GameObject, GameTarget } from "../types";
+import { COLORS, SHAPE_POOL, SOFT_COLORS } from "../../../../constants/colors";
 
 interface TargetAreaProps {
   isFront: boolean;

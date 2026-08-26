@@ -1,5 +1,13 @@
 // // 뽑힌 재료로 실제 문제를 어떻게 만들 것인가
 
+import {
+  PRIMARY_COLORS,
+  SECONDARY_COLORS,
+  SHAPE_POOL,
+  SIMILAR_COLOR_FAMILIES,
+} from "../../../constants/colors";
+import { ClassificationRound } from "./types";
+
 // import { COLOR_ITEM_POOL, COLOR_POOL } from "../../constants/colors";
 // import { ClassificationRound } from "./types";
 
@@ -422,14 +430,6 @@
 // ): ClassificationRound {
 //   return createColorClassificationRound(levelConfig, roundNumber);
 // }
-
-import {
-  PRIMARY_COLORS,
-  SECONDARY_COLORS,
-  SIMILAR_COLOR_FAMILIES,
-  SHAPE_POOL,
-} from "../../constants/colors";
-import { ClassificationRound } from "./types";
 
 const shuffleArray = <T>(array: T[]): T[] =>
   [...array].sort(() => Math.random() - 0.5);

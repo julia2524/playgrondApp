@@ -4,18 +4,20 @@
 // "나는 어떻게 움직일까?"를 담당
 
 import { useRef } from "react";
-import { DropResult, Layout } from "../types";
+
 import { Animated, PanResponder, View } from "react-native";
+
+import { clamp } from "../logic/judgeDropPosition";
+import { ObjectSticker } from "../styles/classificationStyles";
+import { DropResult, Layout } from "../types";
 import {
   BOARD_HORIZONTAL_PADDING,
   BOARD_VERTICAL_PADDING,
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
-} from "../../../constants/dragConstants";
-import { clamp } from "../logic/judgeDropPosition";
-import { ObjectSticker, StickerText } from "../styles/classificationStyles";
-import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
-import { COLORS, SHAPE_POOL, SOFT_COLORS } from "../../../constants/colors";
+} from "../../../../constants/dragConstants";
+import { COLORS, SHAPE_POOL, SOFT_COLORS } from "../../../../constants/colors";
+import { RenderItemSvg } from "../../../../constants/ColorItemSvgs";
 
 // --------------------------------------------------
 export function DraggableObjectSticker({
