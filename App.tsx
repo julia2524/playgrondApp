@@ -4,9 +4,11 @@ import ClassificationPlayScreen from "./games/classification/color/screens/Class
 
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./navigation/AppNavigator";
+import CountdownOverlay from "./screens/CountDownOverlay";
 
 export default function App() {
   return (
+    // <CountdownOverlay onFinish={() => {}} />
     <NavigationContainer>
       <StatusBar hidden={true} />
       <AppNavigator />

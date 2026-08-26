@@ -27,8 +27,8 @@ type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavigationProp>();
   // 색깔 분류 게임으로 이동하는 함수
-  const goToClassification = () => {
-    navigation.navigate("ClassificationPlayScreen");
+  const goToStageMap = () => {
+    navigation.navigate("StageMapScreen");
   };
 
   const handleLockedGame = (gameName: string) => {
@@ -59,11 +59,7 @@ export default function HomeScreen() {
       {/* 게임 카드 그리드 */}
       <GameGrid>
         {/* 색깔 분류 (활성화) */}
-        <GameCard
-          bgColor="#FE9404"
-          onPress={goToClassification}
-          activeOpacity={0.9}
-        >
+        <GameCard bgColor="#FE9404" onPress={goToStageMap} activeOpacity={0.9}>
           {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
           <CardBubble />
           <GameEmoji>🎨</GameEmoji>
