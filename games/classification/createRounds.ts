@@ -1,4 +1,7 @@
-import { createRoundByRule } from "./generators";
+import {
+  createColorClassificationRound,
+  createRoundByRule,
+} from "./generators";
 import { ClassificationLevel, ClassificationRound } from "./types";
 
 export function createRounds(
@@ -15,3 +18,9 @@ export function createRounds(
 
   return rounds;
 }
+
+export const generateRounds = (config: any) => {
+  return Array.from({ length: 5 }, (_, i) =>
+    createColorClassificationRound(config, i + 1),
+  );
+};

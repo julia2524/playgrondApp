@@ -6,39 +6,23 @@ import { useMemo, useRef, useState } from "react";
 import { classificationLevels } from "../levels";
 import { View } from "react-native";
 import { ClassificationRound, DropResult, Layout } from "../types";
-import { createLevel1ColorRound } from "../generators";
+import { createColorClassificationRound } from "../generators";
 import { isStickerInsideTarget } from "../logic/judgeDropPosition";
-import {
-  Container,
-  GameBoard,
-  ObjectsContainer,
-  ObjectSection,
-  SectionLabel,
-} from "../styles/classificationStyles";
-import { COLORS } from "../../../constants/colors";
-import { DraggableObjectSticker } from "../components/DraggableObjectSticker";
+import { Container, GameBoard } from "../styles/classificationStyles";
+
 import TargetArea from "../components/TargetArea";
 import SuccessModal from "../components/SuccessModal";
 import MissionBubbleArea from "../components/MissionBubbleArea";
 import GameHeader from "../components/GameHeader";
 import ObjectArea from "../components/ObjectArea";
+import { generateRounds } from "../createRounds";
 
 // --------------------------------------------------
 export default function ClassificationPlayScreen() {
   // --------------------------------------------------
-  // 레벨
-  // --------------------------------------------------
-  const levelConfig = classificationLevels[0];
-
-  // 부모 컴포넌트 상단에 추가
-  const missingItemRef = useRef<View>(null);
-
-  // 중복 판정 방지
-  const isProcessingRef = useRef(false);
-
-  // --------------------------------------------------
   // State
   // --------------------------------------------------
+  const [levelIndex, setLevelIndex] = useState(0);
   const [roundIndex, setRoundIndex] = useState(0);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -47,6 +31,18 @@ export default function ClassificationPlayScreen() {
   // 정답으로 처리된 object ID
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
   const [isTargetFront, setIsTargetFront] = useState(false);
+  // --------------------------------------------------
+  // 레벨
+  // --------------------------------------------------
+  const levelConfig =
+    classificationLevels[levelIndex] ||
+    classificationLevels[classificationLevels.length - 1];
+
+  // 부모 컴포넌트 상단에 추가
+  const missingItemRef = useRef<View>(null);
+
+  // 중복 판정 방지
+  const isProcessingRef = useRef(false);
 
   // 부모 컴포넌트 상단에 영역 저장용 ref 추가
   const gameBoardRef = useRef<View>(null);
@@ -60,12 +56,7 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // 5개의 라운드 생성
   // --------------------------------------------------
-  const rounds = useMemo(() => {
-    return Array.from({ length: 5 }, (_, i) =>
-      createLevel1ColorRound(levelConfig, i + 1),
-    );
-  }, [levelConfig]);
-
+  const [rounds, setRounds] = useState(() => generateRounds(levelConfig));
   // --------------------------------------------------
   // 현재 라운드
   // --------------------------------------------------
@@ -224,12 +215,23 @@ export default function ClassificationPlayScreen() {
       </GameBoard>
       <SuccessModal
         show={showSuccessModal}
+        levelIndex={levelIndex}
         onRestart={() => {
+          setRounds(generateRounds(levelConfig));
           setRoundIndex(0);
           setMatchedObjectIds([]);
           setShowSuccessModal(false);
         }}
-        onNextLevel={() => {}}
+        onNextLevel={() => {
+          const nextLevelIndex = levelIndex + 1;
+          setLevelIndex((prev) => prev + 1); // 레벨 번호를 다음 단계로 올리고! (예: 1 -> 2)
+          const nextConfig =
+            classificationLevels[nextLevelIndex] || levelConfig;
+          setRounds(generateRounds(nextConfig));
+          setRoundIndex(0); // 새 레벨의 첫 번째 라운드(0)부터 시작!
+          setMatchedObjectIds([]); // 맞춘 기록 초기화
+          setShowSuccessModal(false); // 모달 닫기
+        }}
       />
     </Container>
   );

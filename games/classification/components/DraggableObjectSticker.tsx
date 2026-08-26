@@ -14,11 +14,14 @@ import {
 } from "../../../constants/dragConstants";
 import { clamp } from "../logic/judgeDropPosition";
 import { ObjectSticker, StickerText } from "../styles/classificationStyles";
+import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
+import { COLORS, SHAPE_POOL, SOFT_COLORS } from "../../../constants/colors";
 
 // --------------------------------------------------
 export function DraggableObjectSticker({
   obj,
   color,
+  itemCount,
   gameBoardLayout,
   isActive,
   onGrab,
@@ -29,6 +32,7 @@ export function DraggableObjectSticker({
 }: {
   obj: any;
   color: string;
+  itemCount: number;
   gameBoardLayout: React.MutableRefObject<Layout>;
   isActive: boolean;
   onGrab: (objectId: string) => void;
@@ -290,6 +294,9 @@ export function DraggableObjectSticker({
     }),
   ).current;
 
+  const shapeDef = SHAPE_POOL.find((s) => s.id === obj.name);
+  const displayLabel = shapeDef?.label ?? obj.name;
+
   // --------------------------------------------------
   // 화면
   // --------------------------------------------------
@@ -320,8 +327,19 @@ export function DraggableObjectSticker({
         elevation: isActive ? 99 : 1,
       }}
     >
-      <ObjectSticker color={color}>
-        <StickerText>{obj.name ?? "물건"}</StickerText>
+      <ObjectSticker color={SOFT_COLORS[obj.color]} itemCount={itemCount}>
+        {/* //신버전 */}
+        {/* <RenderItemSvg
+          itemName={obj.name}
+          colorHex={COLORS[obj.color] || "#FFF"}
+        /> */}
+        <RenderItemSvg
+          shapeId={obj.name}
+          colorHex={COLORS[obj.color] || "#FFF"}
+        />
+        {/* <StickerText itemCount={itemCount}>
+          {displayLabel ?? "물건"}
+        </StickerText> */}
       </ObjectSticker>
     </Animated.View>
   );

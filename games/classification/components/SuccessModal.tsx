@@ -12,16 +12,19 @@ import {
 
 interface SuccessModalProps {
   show: boolean;
+  levelIndex: number;
   onRestart: () => void;
   onNextLevel: () => void;
 }
 
 export default function SuccessModal({
   show,
+  levelIndex,
   onRestart,
   onNextLevel,
 }: SuccessModalProps) {
   if (!show) return null;
+  const onGoHome = () => {};
   return (
     <SuccessModalOverlay>
       <SuccessModalContent>
@@ -34,9 +37,15 @@ export default function SuccessModal({
             <ButtonText>다시 하기</ButtonText>
           </SuccessButton>
 
-          <SuccessButton variant="primary" onPress={onNextLevel}>
-            <ButtonText>다음 레벨</ButtonText>
-          </SuccessButton>
+          {levelIndex !== 4 ? (
+            <SuccessButton variant="primary" onPress={onNextLevel}>
+              <ButtonText>다음 레벨</ButtonText>
+            </SuccessButton>
+          ) : (
+            <SuccessButton variant="primary" onPress={onGoHome}>
+              <ButtonText>홈으로</ButtonText>
+            </SuccessButton>
+          )}
         </SuccessButtons>
       </SuccessModalContent>
     </SuccessModalOverlay>

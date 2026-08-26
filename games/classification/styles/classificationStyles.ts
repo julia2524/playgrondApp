@@ -115,25 +115,36 @@ export const TargetItemsGrid = styled.View`
 
 export const TargetItemCircle = styled(Animated.View)<{
   color: string;
+  isMissing?: boolean;
 }>`
   width: 125px;
   height: 125px;
-  background-color: ${(props) => props.color};
   border-radius: 62.5px;
   align-items: center;
   justify-content: center;
-  elevation: 3;
 
-  shadow-color: #000;
+  /* 🌟 완전 투명("transparent") 대신, 측정이 가능하도록 아주 미세한 투명 흰색을 주거나 백그라운드 유지 */
+  background-color: ${(props) =>
+    props.isMissing ? "rgba(255, 255, 255, 0.01)" : props.color};
+
+  /* 🌟 빈칸(isMissing)일 때 점선 테두리, 채워지면 투명 테두리 */
+  border-width: 3px;
+  border-style: ${(props) => (props.isMissing ? "dashed" : "solid")};
+  border-color: ${(props) => (props.isMissing ? "#94A3B8" : "transparent")};
+
+  /* 🌟 핵심: 빈칸(isMissing)일 때는 그림자와 elevation을 완전히 없앰! */
+  elevation: ${(props) => (props.isMissing ? 0 : 3)};
+  shadow-color: ${(props) => (props.isMissing ? "transparent" : "#64748b")};
+
   shadow-offset: 0px 2px;
-  shadow-opacity: 0.08;
+  shadow-opacity: ${(props) => (props.isMissing ? 0 : 0.08)};
   shadow-radius: 4px;
 `;
 
 export const TargetItemText = styled.Text<{
   color?: string;
 }>`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: ${(props) => props.color || BASIC_COLORS.TEXT};
   text-align: center;
@@ -154,16 +165,28 @@ export const SectionLabel = styled.Text`
 
 export const ObjectsContainer = styled.View`
   flex-direction: row;
-  gap: 24px;
+  justify-content: center;
+
+  align-items: center;
+  gap: 16px; /* 아이템 간격 */
 `;
 
 export const ObjectSticker = styled(Animated.View)<{
   color: string;
+  itemCount: number;
 }>`
-  width: 120px;
-  height: 120px;
+  width: ${(props) =>
+    props.itemCount === 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+  height: ${(props) =>
+    props.itemCount === 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+  border-radius: ${(props) =>
+    props.itemCount === 2 ? "60px" : props.itemCount === 3 ? "50px" : "40px"};
   background-color: ${(props) => props.color};
-  border-radius: 60px;
+
+  /* 🎨 물건의 색상은 테두리 */
+  border-width: 5px;
+  border-color: ${(props) => props.color};
+
   align-items: center;
   justify-content: center;
   elevation: 3;
@@ -174,10 +197,11 @@ export const ObjectSticker = styled(Animated.View)<{
   shadow-radius: 4px;
 `;
 
-export const StickerText = styled.Text`
-  font-size: 14px;
+export const StickerText = styled.Text<{ itemCount: number }>`
+  font-size: ${(props) =>
+    props.itemCount === 2 ? "14px" : props.itemCount === 3 ? "13px" : "11px"};
   font-weight: 800;
-  color: #ffffff;
+  color: ${BASIC_COLORS.TEXT};
   text-align: center;
 `;
 
@@ -206,8 +230,8 @@ export const SuccessModalContent = styled.View`
   padding: 32px 24px;
   border-radius: 32px;
   align-items: center;
-  border-width: 2px;
-  border-color: #edf1f5;
+  /* border-width: 2px;
+  border-color: #edf1f5; */
   /* 그림자 속성을 RN 스타일에 맞게 수정 */
   elevation: 12;
   shadow-color: ${BASIC_COLORS.PRIMARY};

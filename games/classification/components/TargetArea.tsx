@@ -1,5 +1,10 @@
 import { View } from "react-native";
-import { COLORS } from "../../../constants/colors";
+import {
+  BASIC_COLORS,
+  COLORS,
+  SHAPE_POOL,
+  SOFT_COLORS,
+} from "../../../constants/colors";
 import {
   TargetBox,
   TargetItemCircle,
@@ -8,7 +13,7 @@ import {
   TargetSection,
 } from "../styles/classificationStyles";
 import { ClassificationRound, GameObject, GameTarget } from "../types";
-import { useState } from "react";
+import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
 
 interface TargetAreaProps {
   isFront: boolean;
@@ -31,20 +36,22 @@ export default function TargetArea({
   return (
     <TargetSection isFront={isFront}>
       <TargetBox
-        // ref={targetBoxRef}
-        color={target.color ? COLORS[target.color] : "#ccc"}
+      // ref={targetBoxRef}
+      // color={target.color ? COLORS[target.color] : "#ccc"}
       >
         <TargetItemsGrid>
-          {target.items?.map((itemName: string, idx: number) => {
+          {target.items?.map((shapeId: string, idx: number) => {
+            const shapeDef = SHAPE_POOL.find((s) => s.id === shapeId);
+            const displayLabel = shapeDef?.label ?? shapeId;
             // ------------------------------------
             // missing item인지
             // ------------------------------------
-            const isMissingItem = itemName === currentRound.missingItem;
+            const isMissingItem = shapeId === currentRound.missingItem;
 
             // ------------------------------------
             // 현재 object 중에서 해당 물건 찾기
             // ------------------------------------
-            const matchingObject = objects.find((o) => o.name === itemName);
+            const matchingObject = objects.find((o) => o.name === shapeId);
 
             // ------------------------------------
             // 이 물건이 이미 정답 처리됐는지
@@ -53,16 +60,26 @@ export default function TargetArea({
               ? matchedObjectIds.includes(matchingObject.id)
               : false;
 
+            // ⭐ 아직 정답을 넣지 않은 빈칸
+            const isEmptySlot = isMissingItem && !isMatched;
+
             // ------------------------------------
             // 아직 정답을 안 맞혔다면 회색, 맞히면 target 색상
             // ------------------------------------
             const shouldBeGray = isMissingItem && !isMatched;
             const circleColor = shouldBeGray
               ? "#E2E8F0"
-              : target.color
+              : target.color && COLORS[target.color]
                 ? COLORS[target.color]
-                : "#ccc";
-            const textColor = shouldBeGray ? "#94A3B8" : "#FFFFFF";
+                : "#FFC0CB"; // 혹시 색상을 못 찾았을 때 보여줄 기본 색상(예: 연한 분홍)
+            const textColor = shouldBeGray ? "#94A3B8" : BASIC_COLORS.TEXT;
+
+            const targetColor = target.color ?? "blue";
+            // 아직 정답을 맞히기 전(빈칸)이면 투명, 맞힌 후면 소프트 컬러 적용!
+            const backgroundColor = isEmptySlot
+              ? "transparent"
+              : (SOFT_COLORS[targetColor] ?? "#E2E8F0");
+            const svgColor = COLORS[targetColor] ?? "#FFFFFF";
 
             return (
               <TargetItemCircle
@@ -73,9 +90,12 @@ export default function TargetArea({
                   elevation: isMatched ? 999 : 1,
                 }}
                 key={idx}
-                color={circleColor}
+                color={backgroundColor}
+                isMissing={isMissingItem && !isMatched}
               >
-                <TargetItemText color={textColor}>{itemName}</TargetItemText>
+                {!isEmptySlot && (
+                  <RenderItemSvg shapeId={shapeId} colorHex={svgColor} />
+                )}
               </TargetItemCircle>
             );
           })}

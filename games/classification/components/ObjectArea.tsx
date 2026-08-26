@@ -50,6 +50,7 @@ export default function ObjectArea({
             onGrab={onGrab}
             obj={obj}
             color={obj.color ? COLORS[obj.color] : "#ccc"}
+            itemCount={objects.length}
             onRelease={onRelease}
             onCorrectAnimationComplete={onCorrectAnimationComplete}
             onWrong={onWrong}
