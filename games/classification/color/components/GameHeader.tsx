@@ -21,7 +21,7 @@ export default function GameHeader({
 }: GameHeaderProps) {
   const navigation = useNavigation<GameHeaderNavigationProp>();
   const goToHome = () => {
-    navigation.navigate("Home");
+    navigation.goBack();
   };
   return (
     <Header>

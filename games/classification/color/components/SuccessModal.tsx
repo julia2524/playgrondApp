@@ -9,6 +9,9 @@ import {
   SuccessSubtitle,
   SuccessTitle,
 } from "../styles/classificationStyles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../../navigation/types";
+import { useNavigation } from "@react-navigation/native";
 
 interface SuccessModalProps {
   show: boolean;
@@ -17,6 +20,7 @@ interface SuccessModalProps {
   onNextLevel: () => void;
 }
 
+type GameOverNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function SuccessModal({
   show,
   levelIndex,
@@ -24,7 +28,10 @@ export default function SuccessModal({
   onNextLevel,
 }: SuccessModalProps) {
   if (!show) return null;
-  const onGoHome = () => {};
+  const navigation = useNavigation<GameOverNavigationProp>();
+  const onGoHome = () => {
+    navigation.goBack();
+  };
   return (
     <SuccessModalOverlay>
       <SuccessModalContent>

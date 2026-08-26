@@ -13,7 +13,9 @@ export const Header = styled.View`
   justify-content: space-between;
   margin-top: 10px;
 `;
-
+export const TitleContainer = styled.View`
+  margin-top: 10px;
+`;
 export const SubTitle = styled.Text`
   font-size: 14px;
   color: #0fa6dd;
@@ -65,7 +67,7 @@ export const GameGrid = styled.View`
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 16px;
-  flex: 3;
+  flex: 4;
   /* margin-auto: true; */
 `;
 

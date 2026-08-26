@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, View } from "react-native";
+import { Alert } from "react-native";
 import {
   CardBubble,
   Container,
@@ -16,7 +16,8 @@ import {
   SettingButtonText,
   SubTitle,
   Title,
-} from "../games/classification/color/styles/homeStyles";
+  TitleContainer,
+} from "../styles/homeStyles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/types";
@@ -38,10 +39,10 @@ export default function HomeScreen() {
     <Container>
       {/* 상단 헤더 */}
       <Header>
-        <View>
+        <TitleContainer>
           <SubTitle>☁️ 끼리끼리 놀이터</SubTitle>
           <Title>어떤 놀이를 해볼까?</Title>
-        </View>
+        </TitleContainer>
         <SettingButton
           onPress={() => Alert.alert("설정", "설정 화면은 준비 중이에요!")}
           activeOpacity={0.8}
@@ -79,9 +80,9 @@ export default function HomeScreen() {
         >
           {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
           <CardBubble />
-          <GameEmoji>🔵</GameEmoji>
+          <GameEmoji>🔷</GameEmoji>
           <GameTitle>모양 분류</GameTitle>
-          <GameDesc>같은 모양끼리 모아봐요</GameDesc>
+          <GameDesc>준비 중이에요</GameDesc>
         </GameCard>
 
         {/* 크기 분류 (준비중) */}
@@ -93,9 +94,9 @@ export default function HomeScreen() {
         >
           {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
           <CardBubble />
-          <GameEmoji>🧲</GameEmoji>
+          <GameEmoji>📏</GameEmoji>
           <GameTitle>크기 분류</GameTitle>
-          <GameDesc>같은 크기끼리 모아봐요</GameDesc>
+          <GameDesc>준비 중이에요</GameDesc>
         </GameCard>
 
         {/* 새로운 놀이 (준비중) */}
