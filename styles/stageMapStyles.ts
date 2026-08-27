@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { Animated } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
@@ -11,30 +12,23 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   height: 72px;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
   padding-horizontal: 20px;
-
   background-color: #ffffff;
-
   border-bottom-width: 1px;
   border-bottom-color: #edf0f7;
-
   elevation: 3;
+  z-index: 10;
 `;
 
 export const BackButton = styled.TouchableOpacity`
   width: 44px;
   height: 44px;
-
   align-items: center;
   justify-content: center;
-
   border-radius: 22px;
-
   background-color: #f8f9fe;
 `;
 
@@ -55,24 +49,23 @@ export const HeaderRight = styled.View`
 `;
 
 // --------------------------------------------------
-// Map
-// --------------------------------------------------
-export const MapItem = styled.View`
-  height: 170px;
-  width: 100%;
-  position: relative;
-`;
-
-// --------------------------------------------------
 // Stage Node
 // --------------------------------------------------
 
 export const NodeContainer = styled.View`
   position: absolute;
-
   width: 120px;
-
   align-items: center;
+`;
+
+// ⭐ 현재 도전 중인 스테이지에 은은하게 퍼지는 펄스 링
+export const GlowRing = styled(Animated.View)`
+  position: absolute;
+  top: 0px;
+  width: 86px;
+  height: 86px;
+  border-radius: 43px;
+  background-color: #fe9404;
 `;
 
 export const StageButton = styled.TouchableOpacity<{
@@ -81,20 +74,14 @@ export const StageButton = styled.TouchableOpacity<{
 }>`
   width: 86px;
   height: 86px;
-
   border-radius: 43px;
-
   align-items: center;
   justify-content: center;
-
   background-color: ${(props) =>
     !props.unlocked ? "#E3E7EF" : props.completed ? "#45B48B" : "#FE9404"};
-
   border-width: 5px;
   border-color: #ffffff;
-
   elevation: 7;
-
   shadow-color: #64748b;
   shadow-offset: 0px 4px;
   shadow-opacity: 0.18;
@@ -111,17 +98,6 @@ export const LockIcon = styled.Text`
   font-size: 28px;
 `;
 
-export const StarRow = styled.View`
-  position: absolute;
-  bottom: -10px;
-  flex-direction: row;
-  padding-horizontal: 7px;
-  padding-vertical: 2px;
-  border-radius: 14px;
-  background-color: #ffffff;
-  elevation: 3;
-`;
-
 export const StageName = styled.Text`
   margin-top: 10px;
   font-family: "Jua";
@@ -132,28 +108,4 @@ export const StageName = styled.Text`
   padding-vertical: 5px;
   border-radius: 14px;
   elevation: 2;
-`;
-
-// --------------------------------------------------
-// Path
-// --------------------------------------------------
-
-export const PathContainer = styled.View`
-  position: absolute;
-
-  width: 100%;
-  height: 180px;
-
-  align-items: center;
-`;
-
-export const PathLine = styled.View<{
-  completed: boolean;
-}>`
-  width: 7px;
-  height: 180px;
-
-  border-radius: 4px;
-
-  background-color: ${(props) => (props.completed ? "#9ADFC8" : "#DDE3EE")};
 `;
