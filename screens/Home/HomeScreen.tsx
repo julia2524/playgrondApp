@@ -1,14 +1,9 @@
 import React from "react";
 import { Alert } from "react-native";
 import {
-  CardBubble,
   Container,
   Footer,
-  GameCard,
-  GameDesc,
-  GameEmoji,
   GameGrid,
-  GameTitle,
   GuideText,
   GuideTextContainer,
   Header,
