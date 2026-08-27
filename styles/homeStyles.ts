@@ -1,10 +1,11 @@
 import styled from "styled-components/native";
+import { RADIUS } from "../constants/radius";
+import { TYPOGRAPHY } from "../constants/typography";
+import { BASIC_COLORS } from "../constants/colors";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #f8f9fe;
   padding: 24px;
-  justify-content: space-between;
 `;
 
 export const Header = styled.View`
@@ -23,8 +24,8 @@ export const SubTitle = styled.Text`
 `;
 
 export const Title = styled.Text`
-  font-size: 26px;
-  color: #2c3e50;
+  color: ${BASIC_COLORS.TEXT_MAIN};
+  font-size: ${TYPOGRAPHY.title}px;
   font-weight: 900;
   margin-top: 4px;
 `;
@@ -50,10 +51,9 @@ export const SettingButtonText = styled.Text`
 `;
 
 export const GuideTextContainer = styled.View`
-  margin-top: 40px;
-  margin-bottom: 15px;
+  flex: 0.5;
   align-items: center;
-  flex: 1;
+  padding-top: 20px;
 `;
 
 export const GuideText = styled.Text`
@@ -66,9 +66,16 @@ export const GameGrid = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 16px;
-  flex: 4;
-  /* margin-auto: true; */
+  padding: 14px;
+
+  gap: 14px;
+
+  background-color: rgba(255, 255, 255, 0.58);
+  /* background-color: red; */
+  border-radius: ${RADIUS.lg}px;
+
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.75);
 `;
 
 interface GameCardProps {
@@ -80,5 +87,5 @@ export const Footer = styled.Text`
   text-align: center;
   font-size: 12px;
   color: #94a3b8;
-  margin-top: 20px;
+  margin-top: auto;
 `;
