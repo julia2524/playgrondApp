@@ -52,7 +52,7 @@ export const RoundIndicator = styled.Text`
 
   padding-horizontal: 12px;
   padding-vertical: 4px;
-  border-radius: ${RADIUS.sm};
+  border-radius: ${RADIUS.sm}px;
 `;
 
 export const MissionBubble = styled.View`
@@ -67,7 +67,7 @@ export const MissionText = styled.Text`
   background-color: ${BASIC_COLORS.CARD_BG};
   padding-horizontal: 22px;
   padding-vertical: 12px;
-  border-radius: ${RADIUS.md};
+  border-radius: ${RADIUS.md}px;
   overflow: hidden;
   elevation: 3;
   border-width: 1px;
@@ -116,7 +116,7 @@ export const TargetItemCircle = styled(Animated.View)<{
 }>`
   width: 125px;
   height: 125px;
-  border-radius: ${RADIUS.full};
+  border-radius: ${RADIUS.full}px;
   align-items: center;
   justify-content: center;
 
@@ -225,7 +225,7 @@ export const SuccessModalContent = styled.View`
   width: 85%;
   max-width: 340px;
   padding: 32px 24px;
-  border-radius: ${RADIUS.roundBadge};
+  border-radius: ${RADIUS.xl}px;
   align-items: center;
   /* border-width: 2px;
   border-color: #edf1f5; */
@@ -274,7 +274,7 @@ export const SuccessButton = styled(TouchableOpacity)<{
   background-color: ${(props) =>
     props.variant === "primary" ? BASIC_COLORS.SUCCESS : BASIC_COLORS.ACCENT};
   padding-vertical: 14px;
-  border-radius: ${RADIUS.md};
+  border-radius: ${RADIUS.md}px;
   align-items: center;
   elevation: 4;
   shadow-color: #000;

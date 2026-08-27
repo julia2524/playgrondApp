@@ -61,7 +61,7 @@ const CardBubble = styled.View`
   position: absolute;
   width: 90px;
   height: 90px;
-  border-radius: ${RADIUS.circleMax};
+  border-radius: ${RADIUS.circleMax}px;
   background-color: rgba(255, 255, 255, 0.2);
   right: -25px;
   top: -25px;
