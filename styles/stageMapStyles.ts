@@ -58,7 +58,7 @@ export const HeaderRight = styled.View`
 // Map
 // --------------------------------------------------
 export const MapItem = styled.View`
-  height: 140px;
+  height: 170px;
   width: 100%;
   position: relative;
 `;
@@ -113,36 +113,24 @@ export const LockIcon = styled.Text`
 
 export const StarRow = styled.View`
   position: absolute;
-
   bottom: -10px;
-
   flex-direction: row;
-
   padding-horizontal: 7px;
   padding-vertical: 2px;
-
   border-radius: 14px;
-
   background-color: #ffffff;
-
   elevation: 3;
 `;
 
 export const StageName = styled.Text`
   margin-top: 10px;
-
   font-family: "Jua";
   font-size: 14px;
-
   color: #2c3e50;
-
   background-color: rgba(255, 255, 255, 0.92);
-
   padding-horizontal: 11px;
   padding-vertical: 5px;
-
   border-radius: 14px;
-
   elevation: 2;
 `;
 
