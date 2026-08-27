@@ -40,7 +40,7 @@ interface GameCardProps {
 }
 const GameCard = styled.TouchableOpacity<GameCardProps>`
   width: 47%;
-  aspect-ratio: 1;
+
   background-color: ${(props) => props.bgColor};
   border-radius: 24px; // 👈 상수가 자꾸 말썽 부리면 그냥 직접 숫자에 px 붙여서 쓰기!
   padding: 16px;
