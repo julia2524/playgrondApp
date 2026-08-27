@@ -76,53 +76,6 @@ interface GameCardProps {
   disabled?: boolean;
 }
 
-export const GameCard = styled.TouchableOpacity<GameCardProps>`
-  width: 47%;
-  background-color: ${(props) => props.bgColor};
-  border-radius: 24px;
-  padding: 20px;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  opacity: ${(props) => (props.disabled ? 0.7 : 1)};
-  elevation: 3;
-  shadow-color: #64748b;
-  shadow-offset: 0px 4px;
-  shadow-opacity: 0.12;
-  shadow-radius: 8px;
-`;
-
-// 🌟 카드 우측 상단에 박힐 몽글몽글 물방울/광채 효과
-export const CardBubble = styled.View`
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  border-radius: 45px;
-  background-color: rgba(255, 255, 255, 0.18);
-  right: -25px;
-  top: -25px;
-`;
-
-export const GameEmoji = styled.Text`
-  font-size: 48px;
-  margin-bottom: 12px;
-`;
-
-export const GameTitle = styled.Text`
-  font-size: 18px;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 4px;
-`;
-
-export const GameDesc = styled.Text`
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  font-weight: bold;
-`;
-
 export const Footer = styled.Text`
   text-align: center;
   font-size: 12px;

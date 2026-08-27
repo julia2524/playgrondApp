@@ -21,6 +21,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
+import GameCardItem from "../../components/common/GameCardItem";
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -58,56 +59,44 @@ export default function HomeScreen() {
 
       {/* 게임 카드 그리드 */}
       <GameGrid>
-        {/* 색깔 분류 (활성화) */}
-        <GameCard bgColor="#FE9404" onPress={goToStageMap} activeOpacity={0.9}>
-          {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
-          <CardBubble />
-          <GameEmoji>🎨</GameEmoji>
-          <GameTitle>색깔 분류</GameTitle>
-          <GameDesc>같은 색깔끼리 모아봐요</GameDesc>
-        </GameCard>
+        {/* 1. 색깔 분류 (활성화) */}
+        <GameCardItem
+          bgColor="#FE9404"
+          emoji="🎨"
+          title="색깔 분류"
+          desc="같은 색깔끼리 모아봐요"
+          onPress={() => navigation.navigate("StageMapScreen")}
+        />
 
-        {/* 모양 분류 (준비중) */}
-        <GameCard
+        {/* 2. 모양 분류 (준비중) */}
+        <GameCardItem
           bgColor="#7569E8"
+          emoji="🔷"
+          title="모양 분류"
+          desc="준비 중이에요"
           disabled={true}
           onPress={() => handleLockedGame("모양 분류")}
-          activeOpacity={0.9}
-        >
-          {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
-          <CardBubble />
-          <GameEmoji>🔷</GameEmoji>
-          <GameTitle>모양 분류</GameTitle>
-          <GameDesc>준비 중이에요</GameDesc>
-        </GameCard>
+        />
 
-        {/* 크기 분류 (준비중) */}
-        <GameCard
+        {/* 3. 크기 분류 (준비중) */}
+        <GameCardItem
           bgColor="#45B48B"
+          emoji="📏"
+          title="크기 분류"
+          desc="준비 중이에요"
           disabled={true}
           onPress={() => handleLockedGame("크기 분류")}
-          activeOpacity={0.9}
-        >
-          {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
-          <CardBubble />
-          <GameEmoji>📏</GameEmoji>
-          <GameTitle>크기 분류</GameTitle>
-          <GameDesc>준비 중이에요</GameDesc>
-        </GameCard>
+        />
 
-        {/* 새로운 놀이 (준비중) */}
-        <GameCard
+        {/* 4. 새로운 놀이 (준비중) */}
+        <GameCardItem
           bgColor="#67cff4"
+          emoji="✨"
+          title="새로운 놀이"
+          desc="준비 중이에요"
           disabled={true}
           onPress={() => handleLockedGame("새로운 놀이")}
-          activeOpacity={0.9}
-        >
-          {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
-          <CardBubble />
-          <GameEmoji>✨</GameEmoji>
-          <GameTitle>새로운 놀이</GameTitle>
-          <GameDesc>준비 중이에요</GameDesc>
-        </GameCard>
+        />
       </GameGrid>
 
       {/* 하단 푸터 */}
