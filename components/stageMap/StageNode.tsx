@@ -42,10 +42,7 @@ export default function StageNode({
         ) : completed ? (
           <>
             <StageNumber>✓</StageNumber>
-
-            <StarRow>
-              <StageName>⭐ ⭐ ⭐</StageName>
-            </StarRow>
+            <StarRow>{/* <StageName>⭐ ⭐ ⭐</StageName> */}</StarRow>
           </>
         ) : (
           <StageNumber>{level}</StageNumber>

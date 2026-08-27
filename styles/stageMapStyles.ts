@@ -57,10 +57,9 @@ export const HeaderRight = styled.View`
 // --------------------------------------------------
 // Map
 // --------------------------------------------------
-
 export const MapItem = styled.View`
-  height: 180px;
-
+  height: 140px;
+  width: 100%;
   position: relative;
 `;
 

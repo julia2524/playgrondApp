@@ -26,38 +26,44 @@ interface Stage {
   name: string;
   unlocked: boolean;
   completed: boolean;
+  x: number;
 }
 
 const stages: Stage[] = [
   {
     level: 1,
-    name: "알록달록 앵두밭",
+    name: "알록달록 앵두 밭",
     unlocked: true,
-    completed: false,
+    completed: true,
+    x: 150,
   },
   {
     level: 2,
     name: "싱그러운 풀숲",
     unlocked: true,
     completed: false,
+    x: 80,
   },
   {
     level: 3,
     name: "무지개 언덕",
     unlocked: false,
     completed: false,
+    x: 220,
   },
   {
     level: 4,
     name: "별빛 호수",
     unlocked: false,
     completed: false,
+    x: 110,
   },
   {
     level: 5,
-    name: "달콤 캔디 공장",
+    name: "캔디 공장",
     unlocked: false,
     completed: false,
+    x: 200,
   },
 ];
 
@@ -72,23 +78,30 @@ export default function StageMapScreen() {
     navigation.navigate("ClassificationPlayScreen", { level });
   };
 
-  const renderItem = ({ item, index }: { item: Stage; index: number }) => {
-    const positions = [
-      { left: 130 },
-      { left: 55 },
-      { left: 180 },
-      { left: 85 },
-      { left: 210 },
-    ];
+  const STAGE_POSITIONS = [
+    { centerX: 168 },
+    { centerX: 93 },
+    { centerX: 218 },
+    { centerX: 123 },
+    { centerX: 248 },
+  ];
 
-    const position = positions[index % positions.length];
+  const renderItem = ({ item, index }: { item: Stage; index: number }) => {
+    const position = STAGE_POSITIONS[index];
+
+    const previousPosition = index > 0 ? STAGE_POSITIONS[index - 1] : null;
 
     return (
       <MapItem>
-        {/* 🛤️ 이전 스테이지와 연결되는 길 */}
-        {index > 0 && <Path completed={stages[index - 1].completed} />}
+        {previousPosition && (
+          <Path
+            fromX={previousPosition.centerX}
+            toX={position.centerX}
+            height={140}
+            completed={stages[index - 1].completed}
+          />
+        )}
 
-        {/* ⭐ 스테이지 */}
         <StageNode
           level={item.level}
           name={item.name}
@@ -96,7 +109,7 @@ export default function StageMapScreen() {
           completed={item.completed}
           onPress={() => handleStagePress(item.level, item.unlocked)}
           style={{
-            left: position.left,
+            left: position.centerX - 38,
             top: 30,
           }}
         />

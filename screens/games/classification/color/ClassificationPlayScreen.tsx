@@ -186,11 +186,11 @@ export default function ClassificationPlayScreen() {
       setFeedback(null);
     }, 1200);
   };
-  console.log("🎮 GAME START", {
-    requestedLevel: level,
-    levelIndex,
-    levelConfig: levelConfig.level,
-  });
+  // console.log("🎮 GAME START", {
+  //   requestedLevel: level,
+  //   levelIndex,
+  //   levelConfig: levelConfig.level,
+  // });
   return (
     <Container>
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
