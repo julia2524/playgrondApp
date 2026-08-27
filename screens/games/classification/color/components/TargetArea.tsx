@@ -8,11 +8,8 @@ import {
 
 import TargetSlotItem from "./TargetSlotItem";
 import { ClassificationRound, GameObject, GameTarget } from "../types";
-import {
-  COLORS,
-  SHAPE_POOL,
-  SOFT_COLORS,
-} from "../../../../../constants/colors";
+import { COLORS, SOFT_COLORS } from "../../../../../constants/colors";
+import { SHAPE_POOL } from "../constants/colorPool";
 
 interface TargetAreaProps {
   isFront: boolean;

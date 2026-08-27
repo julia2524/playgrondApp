@@ -16,12 +16,9 @@ import {
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
 } from "../../../../../constants/dragConstants";
-import {
-  COLORS,
-  SHAPE_POOL,
-  SOFT_COLORS,
-} from "../../../../../constants/colors";
+import { COLORS, SOFT_COLORS } from "../../../../../constants/colors";
 import { RenderItemSvg } from "../../../../../constants/ColorItemSvgs";
+import { SHAPE_POOL } from "../constants/colorPool";
 
 // --------------------------------------------------
 export function DraggableObjectSticker({
@@ -175,9 +172,6 @@ export function DraggableObjectSticker({
           // ⭐ 이제부터 드래그 이동 허용
           isScreenPositionReadyRef.current = true;
         });
-        // stickerRef.current?.setNativeProps({
-        //   style: { zIndex: 9999, elevation: 99 },
-        // });
       },
 
       // ------------------------------------------------
@@ -334,18 +328,10 @@ export function DraggableObjectSticker({
       }}
     >
       <ObjectSticker color={SOFT_COLORS[obj.color]} itemCount={itemCount}>
-        {/* //신버전 */}
-        {/* <RenderItemSvg
-          itemName={obj.name}
-          colorHex={COLORS[obj.color] || "#FFF"}
-        /> */}
         <RenderItemSvg
           shapeId={obj.name}
           colorHex={COLORS[obj.color] || "#FFF"}
         />
-        {/* <StickerText itemCount={itemCount}>
-          {displayLabel ?? "물건"}
-        </StickerText> */}
       </ObjectSticker>
     </Animated.View>
   );

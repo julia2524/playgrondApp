@@ -5,6 +5,7 @@
 import { Animated, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../../../../constants/colors";
+import { RADIUS } from "../../../../../constants/radius";
 
 export const Container = styled.View`
   flex: 1;
@@ -19,7 +20,7 @@ export const Header = styled.View`
   justify-content: space-between;
   padding-horizontal: 20px;
 
-  background-color: ${BASIC_COLORS.CARD};
+  background-color: ${BASIC_COLORS.CARD_BG};
 
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -33,13 +34,13 @@ export const Header = styled.View`
 
 export const BackText = styled.Text`
   font-size: 28px;
-  color: ${BASIC_COLORS.TEXT};
+  color: ${BASIC_COLORS.TEXT_MAIN};
 `;
 
 export const TitleText = styled.Text`
   font-size: 17px;
   font-weight: 800;
-  color: ${BASIC_COLORS.TEXT};
+  color: ${BASIC_COLORS.TEXT_MAIN};
 `;
 
 export const RoundIndicator = styled.Text`
@@ -51,7 +52,7 @@ export const RoundIndicator = styled.Text`
 
   padding-horizontal: 12px;
   padding-vertical: 4px;
-  border-radius: 12px;
+  border-radius: ${RADIUS.sm};
 `;
 
 export const MissionBubble = styled.View`
@@ -62,11 +63,11 @@ export const MissionBubble = styled.View`
 export const MissionText = styled.Text`
   font-size: 16px;
   font-weight: 700;
-  color: ${BASIC_COLORS.TEXT};
-  background-color: ${BASIC_COLORS.CARD};
+  color: ${BASIC_COLORS.TEXT_MAIN};
+  background-color: ${BASIC_COLORS.CARD_BG};
   padding-horizontal: 22px;
   padding-vertical: 12px;
-  border-radius: 20px;
+  border-radius: ${RADIUS.md};
   overflow: hidden;
   elevation: 3;
   border-width: 1px;
@@ -98,10 +99,6 @@ export const TargetBox = styled.View`
   height: 320px;
   align-items: center;
   justify-content: center;
-  /* background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 32px;
-  border-width: 3px;
-  border-color: #eaeff8; */
 `;
 
 export const TargetItemsGrid = styled.View`
@@ -119,7 +116,7 @@ export const TargetItemCircle = styled(Animated.View)<{
 }>`
   width: 125px;
   height: 125px;
-  border-radius: 62.5px;
+  border-radius: ${RADIUS.full};
   align-items: center;
   justify-content: center;
 
@@ -146,7 +143,7 @@ export const TargetItemText = styled.Text<{
 }>`
   font-size: 14px;
   font-weight: 800;
-  color: ${(props) => props.color || BASIC_COLORS.TEXT};
+  color: ${(props) => props.color || BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
 
@@ -201,7 +198,7 @@ export const StickerText = styled.Text<{ itemCount: number }>`
   font-size: ${(props) =>
     props.itemCount === 2 ? "14px" : props.itemCount === 3 ? "13px" : "11px"};
   font-weight: 800;
-  color: ${BASIC_COLORS.TEXT};
+  color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
 
@@ -224,11 +221,11 @@ export const SuccessModalOverlay = styled.View`
 `;
 
 export const SuccessModalContent = styled.View`
-  background-color: ${BASIC_COLORS.CARD};
+  background-color: ${BASIC_COLORS.CARD_BG};
   width: 85%;
   max-width: 340px;
   padding: 32px 24px;
-  border-radius: 32px;
+  border-radius: ${RADIUS.roundBadge};
   align-items: center;
   /* border-width: 2px;
   border-color: #edf1f5; */
@@ -257,7 +254,7 @@ export const SuccessTitle = styled.Text`
 export const SuccessSubtitle = styled.Text`
   font-size: 15px;
   font-weight: 700;
-  color: ${BASIC_COLORS.TEXT};
+  color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
   margin-bottom: 24px;
 `;
@@ -277,7 +274,7 @@ export const SuccessButton = styled(TouchableOpacity)<{
   background-color: ${(props) =>
     props.variant === "primary" ? BASIC_COLORS.SUCCESS : BASIC_COLORS.ACCENT};
   padding-vertical: 14px;
-  border-radius: 20px;
+  border-radius: ${RADIUS.md};
   align-items: center;
   elevation: 4;
   shadow-color: #000;
