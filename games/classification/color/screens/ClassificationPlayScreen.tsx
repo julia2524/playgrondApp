@@ -16,13 +16,23 @@ import ObjectArea from "../components/ObjectArea";
 import { generateRounds } from "../createRounds";
 import { classificationLevels } from "../levels";
 import { Container, GameBoard } from "../styles/classificationStyles";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { RootStackParamList } from "../../../../navigation/types";
+
+type PlayScreenRouteProp = RouteProp<
+  RootStackParamList,
+  "ClassificationPlayScreen"
+>;
 
 // --------------------------------------------------
 export default function ClassificationPlayScreen() {
+  const route = useRoute<PlayScreenRouteProp>();
+  const { level } = route.params;
+
   // --------------------------------------------------
   // State
   // --------------------------------------------------
-  const [levelIndex, setLevelIndex] = useState(0);
+  const [levelIndex, setLevelIndex] = useState(level - 1);
   const [roundIndex, setRoundIndex] = useState(0);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -35,7 +45,7 @@ export default function ClassificationPlayScreen() {
   // 레벨
   // --------------------------------------------------
   const levelConfig =
-    classificationLevels[levelIndex] ||
+    classificationLevels[levelIndex] ??
     classificationLevels[classificationLevels.length - 1];
 
   // 부모 컴포넌트 상단에 추가
@@ -176,7 +186,11 @@ export default function ClassificationPlayScreen() {
       setFeedback(null);
     }, 1200);
   };
-
+  console.log("🎮 GAME START", {
+    requestedLevel: level,
+    levelIndex,
+    levelConfig: levelConfig.level,
+  });
   return (
     <Container>
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
