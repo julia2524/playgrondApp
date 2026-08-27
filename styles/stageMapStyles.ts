@@ -11,11 +11,11 @@ export const Container = styled.View`
 // --------------------------------------------------
 
 export const Header = styled.View`
-  height: 72px;
+  min-height: 40px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-horizontal: 20px;
+  padding-horizontal: 8px;
   background-color: #ffffff;
   border-bottom-width: 1px;
   border-bottom-color: #edf0f7;

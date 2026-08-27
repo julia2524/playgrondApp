@@ -13,6 +13,7 @@ import {
 } from "../../styles/stageMapStyles";
 import MapTrail from "../../components/stageMap/MapTrail";
 import StageNode from "../../components/stageMap/StageNode";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -67,12 +68,13 @@ const stages: Stage[] = [
 
 const NODE_STEP_Y = 190;
 const TOP_PADDING = 110;
-const BOTTOM_PADDING = 90;
+const BOTTOM_PADDING = 130;
 const NODE_RADIUS = 43;
 const NODE_CONTAINER_WIDTH = 120;
 const HORIZONTAL_SAFE_PADDING = 60;
 
 export default function StageMapScreen() {
+  const insets = useSafeAreaInsets(); // ⭐ 추가
   const navigation = useNavigation<NavigationProp>();
   const scrollRef = useRef<ScrollView>(null);
   const [trackWidth, setTrackWidth] = useState(0);
@@ -112,7 +114,7 @@ export default function StageMapScreen() {
 
   return (
     <Container>
-      <Header>
+      <Header style={{ paddingTop: insets.top, height: 56 + insets.top }}>
         <BackButton onPress={() => navigation.goBack()} activeOpacity={0.7}>
           <BackText>‹</BackText>
         </BackButton>
@@ -124,7 +126,9 @@ export default function StageMapScreen() {
         ref={scrollRef}
         showsVerticalScrollIndicator={false}
         onLayout={(e) => setTrackWidth(e.nativeEvent.layout.width)}
-        contentContainerStyle={{ minHeight: contentHeight }}
+        contentContainerStyle={{
+          minHeight: contentHeight,
+        }}
       >
         <View style={{ height: contentHeight }}>
           {trackWidth > 0 && (
