@@ -4,6 +4,7 @@ import {
   Container,
   Footer,
   GameGrid,
+  GameGridWrapper,
   GuideText,
   GuideTextContainer,
   Header,
@@ -59,46 +60,48 @@ export default function HomeScreen() {
         </GuideTextContainer>
 
         {/* 게임 카드 그리드 */}
-        <GameGrid>
-          {/* 1. 색깔 분류 (활성화) */}
-          <GameCardItem
-            bgColor="#FE9404"
-            emoji="🎨"
-            title="색깔 분류"
-            desc="같은 색끼리!"
-            onPress={() => navigation.navigate("StageMapScreen")}
-          />
+        <GameGridWrapper>
+          <GameGrid>
+            {/* 1. 색깔 분류 (활성화) */}
+            <GameCardItem
+              bgColor="#FE9404"
+              emoji="🎨"
+              title="색깔 분류"
+              desc="같은 색끼리!"
+              onPress={() => navigation.navigate("StageMapScreen")}
+            />
 
-          {/* 2. 모양 분류 (준비중) */}
-          <GameCardItem
-            bgColor="#7569E8"
-            emoji="🔷"
-            title="모양 분류"
-            desc="같은 모양끼리!"
-            disabled={true}
-            onPress={() => handleLockedGame("모양 분류")}
-          />
+            {/* 2. 모양 분류 (준비중) */}
+            <GameCardItem
+              bgColor="#7569E8"
+              emoji="🔷"
+              title="모양 분류"
+              desc="같은 모양끼리!"
+              disabled={true}
+              onPress={() => handleLockedGame("모양 분류")}
+            />
 
-          {/* 3. 크기 분류 (준비중) */}
-          <GameCardItem
-            bgColor="#45B48B"
-            emoji="📏"
-            title="크기 분류"
-            desc="같은 크기끼리!"
-            disabled={true}
-            onPress={() => handleLockedGame("크기 분류")}
-          />
+            {/* 3. 크기 분류 (준비중) */}
+            <GameCardItem
+              bgColor="#45B48B"
+              emoji="📏"
+              title="크기 분류"
+              desc="같은 크기끼리!"
+              disabled={true}
+              onPress={() => handleLockedGame("크기 분류")}
+            />
 
-          {/* 4. 새로운 놀이 (준비중) */}
-          <GameCardItem
-            bgColor="#67cff4"
-            emoji="✨"
-            title="새로운 놀이"
-            desc="준비 중이에요"
-            disabled={true}
-            onPress={() => handleLockedGame("새로운 놀이")}
-          />
-        </GameGrid>
+            {/* 4. 새로운 놀이 (준비중) */}
+            <GameCardItem
+              bgColor="#67cff4"
+              emoji="✨"
+              title="새로운 놀이"
+              desc="준비 중이에요"
+              disabled={true}
+              onPress={() => handleLockedGame("새로운 놀이")}
+            />
+          </GameGrid>
+        </GameGridWrapper>
 
         {/* 하단 푸터 */}
         <Footer>Made with song for little explorers 💛</Footer>

@@ -65,19 +65,27 @@ export const GuideText = styled.Text`
 export const GameGrid = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 14px;
+  justify-content: center;
 
-  gap: 14px;
+  /* 🌟 위아래 패딩과 좌우 패딩을 따로 지정해주기 (예: 세로 16px, 가로 14px) */
+  padding-top: 16px;
+  padding-bottom: 20px;
+  padding-left: 14px;
+  padding-right: 14px;
+  /* padding: 14px; */
 
+  gap: 14px; // 카드와 카드 사이의 간격
+`;
+
+export const GameGridWrapper = styled.View`
   background-color: rgba(255, 255, 255, 0.58);
-  /* background-color: red; */
-  border-radius: ${RADIUS.lg}px;
 
+  border-radius: 50px;
+  overflow: hidden;
+  /* background-color: red; */
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.75);
 `;
-
 interface GameCardProps {
   bgColor: string;
   disabled?: boolean;
