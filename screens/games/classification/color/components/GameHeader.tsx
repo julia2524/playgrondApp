@@ -7,7 +7,7 @@ import {
 } from "../styles/classificationStyles";
 import { ClassificationLevel } from "../types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../../navigation/types";
+import { RootStackParamList } from "../../../../../navigation/types";
 import { useNavigation } from "@react-navigation/native";
 
 interface GameHeaderProps {

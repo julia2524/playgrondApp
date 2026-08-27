@@ -5,17 +5,17 @@
 import { useRef, useState } from "react";
 
 import { View } from "react-native";
-import { ClassificationRound, DropResult, Layout } from "../types";
-import { isStickerInsideTarget } from "../logic/judgeDropPosition";
+import { ClassificationRound, DropResult, Layout } from "./types";
+import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 
-import TargetArea from "../components/TargetArea";
-import SuccessModal from "../components/SuccessModal";
-import MissionBubbleArea from "../components/MissionBubbleArea";
-import GameHeader from "../components/GameHeader";
-import ObjectArea from "../components/ObjectArea";
-import { generateRounds } from "../createRounds";
-import { classificationLevels } from "../levels";
-import { Container, GameBoard } from "../styles/classificationStyles";
+import TargetArea from "./components/TargetArea";
+import SuccessModal from "./components/SuccessModal";
+import MissionBubbleArea from "./components/MissionBubbleArea";
+import GameHeader from "./components/GameHeader";
+import ObjectArea from "./components/ObjectArea";
+import { generateRounds } from "./createRounds";
+import { classificationLevels } from "./levels";
+import { Container, GameBoard } from "./styles/classificationStyles";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../navigation/types";
 

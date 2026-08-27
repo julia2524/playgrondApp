@@ -5,7 +5,7 @@ import {
   SECONDARY_COLORS,
   SHAPE_POOL,
   SIMILAR_COLOR_FAMILIES,
-} from "../../../constants/colors";
+} from "../../../../constants/colors";
 import { ClassificationRound } from "./types";
 
 // import { COLOR_ITEM_POOL, COLOR_POOL } from "../../constants/colors";

@@ -1,4 +1,4 @@
-import { COLOR_NAMES } from "../../../../constants/colors";
+import { COLOR_NAMES } from "../../../../../constants/colors";
 import { MissionBubble, MissionText } from "../styles/classificationStyles";
 import { GameTarget } from "../types";
 

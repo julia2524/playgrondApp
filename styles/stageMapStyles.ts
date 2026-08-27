@@ -5,69 +5,96 @@ export const Container = styled.View`
   background-color: #f8f9fe;
 `;
 
+// --------------------------------------------------
+// Header
+// --------------------------------------------------
+
 export const Header = styled.View`
+  height: 72px;
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
-  padding: 16px 24px;
+  padding-horizontal: 20px;
 
   background-color: #ffffff;
 
   border-bottom-width: 1px;
-  border-bottom-color: #e2e8f0;
+  border-bottom-color: #edf0f7;
+
+  elevation: 3;
 `;
 
-export const BackText = styled.Text`
-  font-size: 28px;
-  color: #2c3e50;
-  font-weight: bold;
-`;
-
-export const TitleText = styled.Text`
-  font-size: 20px;
-  color: #2c3e50;
-  font-weight: bold;
-`;
-
-export const MapContentContainer = styled.View`
-  padding-top: 40px;
-  padding-bottom: 100px;
-  padding-horizontal: 24px;
-`;
-
-export const StageRow = styled.View<{
-  align: "left" | "center" | "right";
-}>`
-  width: 100%;
-
-  align-items: ${(props) =>
-    props.align === "left"
-      ? "flex-start"
-      : props.align === "right"
-        ? "flex-end"
-        : "center"};
-
-  margin-bottom: 45px;
-`;
-
-export const StageButton = styled.TouchableOpacity<{
-  isUnlocked: boolean;
-}>`
-  width: 82px;
-  height: 82px;
-
-  border-radius: 41px;
+export const BackButton = styled.TouchableOpacity`
+  width: 44px;
+  height: 44px;
 
   align-items: center;
   justify-content: center;
 
-  background-color: ${(props) => (props.isUnlocked ? "#FE9404" : "#CBD5E1")};
+  border-radius: 22px;
 
-  border-width: 4px;
+  background-color: #f8f9fe;
+`;
+
+export const BackText = styled.Text`
+  font-size: 32px;
+  color: #2c3e50;
+  margin-top: -4px;
+`;
+
+export const HeaderTitle = styled.Text`
+  font-family: "Jua";
+  font-size: 22px;
+  color: #2c3e50;
+`;
+
+export const HeaderRight = styled.View`
+  width: 44px;
+`;
+
+// --------------------------------------------------
+// Map
+// --------------------------------------------------
+
+export const MapItem = styled.View`
+  height: 180px;
+
+  position: relative;
+`;
+
+// --------------------------------------------------
+// Stage Node
+// --------------------------------------------------
+
+export const NodeContainer = styled.View`
+  position: absolute;
+
+  width: 120px;
+
+  align-items: center;
+`;
+
+export const StageButton = styled.TouchableOpacity<{
+  unlocked: boolean;
+  completed: boolean;
+}>`
+  width: 86px;
+  height: 86px;
+
+  border-radius: 43px;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${(props) =>
+    !props.unlocked ? "#E3E7EF" : props.completed ? "#45B48B" : "#FE9404"};
+
+  border-width: 5px;
   border-color: #ffffff;
 
-  elevation: 5;
+  elevation: 7;
 
   shadow-color: #64748b;
   shadow-offset: 0px 4px;
@@ -75,27 +102,71 @@ export const StageButton = styled.TouchableOpacity<{
   shadow-radius: 6px;
 `;
 
-export const StageNumberText = styled.Text`
-  font-size: 26px;
+export const StageNumber = styled.Text`
+  font-family: "Jua";
+  font-size: 32px;
   color: #ffffff;
-  font-weight: bold;
 `;
 
-export const StageTitleLabel = styled.View`
-  margin-top: 8px;
+export const LockIcon = styled.Text`
+  font-size: 28px;
+`;
 
-  padding-horizontal: 14px;
-  padding-vertical: 6px;
+export const StarRow = styled.View`
+  position: absolute;
 
-  border-radius: 16px;
+  bottom: -10px;
+
+  flex-direction: row;
+
+  padding-horizontal: 7px;
+  padding-vertical: 2px;
+
+  border-radius: 14px;
+
+  background-color: #ffffff;
+
+  elevation: 3;
+`;
+
+export const StageName = styled.Text`
+  margin-top: 10px;
+
+  font-family: "Jua";
+  font-size: 14px;
+
+  color: #2c3e50;
 
   background-color: rgba(255, 255, 255, 0.92);
+
+  padding-horizontal: 11px;
+  padding-vertical: 5px;
+
+  border-radius: 14px;
 
   elevation: 2;
 `;
 
-export const StageNameText = styled.Text`
-  font-size: 13px;
-  color: #475569;
-  font-weight: bold;
+// --------------------------------------------------
+// Path
+// --------------------------------------------------
+
+export const PathContainer = styled.View`
+  position: absolute;
+
+  width: 100%;
+  height: 180px;
+
+  align-items: center;
+`;
+
+export const PathLine = styled.View<{
+  completed: boolean;
+}>`
+  width: 7px;
+  height: 180px;
+
+  border-radius: 4px;
+
+  background-color: ${(props) => (props.completed ? "#9ADFC8" : "#DDE3EE")};
 `;

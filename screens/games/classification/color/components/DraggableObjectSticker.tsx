@@ -15,9 +15,13 @@ import {
   BOARD_VERTICAL_PADDING,
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
-} from "../../../../constants/dragConstants";
-import { COLORS, SHAPE_POOL, SOFT_COLORS } from "../../../../constants/colors";
-import { RenderItemSvg } from "../../../../constants/ColorItemSvgs";
+} from "../../../../../constants/dragConstants";
+import {
+  COLORS,
+  SHAPE_POOL,
+  SOFT_COLORS,
+} from "../../../../../constants/colors";
+import { RenderItemSvg } from "../../../../../constants/ColorItemSvgs";
 
 // --------------------------------------------------
 export function DraggableObjectSticker({
