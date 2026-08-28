@@ -14,6 +14,9 @@ import {
 import MapTrail from "../../components/stageMap/MapTrail";
 import StageNode from "../../components/stageMap/StageNode";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BASIC_COLORS } from "../../constants/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
+import DecorativeBackground from "../../components/common/DecorativeBackground";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -114,14 +117,17 @@ export default function StageMapScreen() {
 
   return (
     <Container>
-      <Header style={{ paddingTop: insets.top, height: 56 + insets.top }}>
-        <BackButton onPress={() => navigation.goBack()} activeOpacity={0.7}>
-          <BackText>‹</BackText>
-        </BackButton>
-        <HeaderTitle>🎨 색깔 분류 모험</HeaderTitle>
-        <HeaderRight />
-      </Header>
+      <DecorativeBackground />
+      {/* 🌟 헤더에 안전영역(상태바 높이)만큼 패딩을 주어 카메라 홀 침범 방지
+        <Header style={{ paddingTop: insets.top }}>
+          <BackButton onPress={() => navigation.goBack()} activeOpacity={0.7}>
+            <BackText>‹</BackText>
+          </BackButton>
 
+          <HeaderTitle>🎨 색깔 분류 모험</HeaderTitle>
+
+          <HeaderRight />
+        </Header> */}
       <ScrollView
         ref={scrollRef}
         showsVerticalScrollIndicator={false}
@@ -163,6 +169,14 @@ export default function StageMapScreen() {
           })}
         </View>
       </ScrollView>
+      {/* 🌟 상단 카메라를 피해 예쁘게 떠 있는 플로팅 뒤로가기 버튼 */}
+      <BackButton
+        style={{ top: insets.top + 10 }}
+        onPress={() => navigation.goBack()}
+        activeOpacity={0.7}
+      >
+        <BackText>‹</BackText>
+      </BackButton>
     </Container>
   );
 }
