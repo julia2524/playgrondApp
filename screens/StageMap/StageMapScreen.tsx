@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import DecorativeBackground from "../../components/common/DecorativeBackground";
 import AppHeader from "../../components/common/AppHeader";
+import GradientBackground from "../../components/common/GradientBackground";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -115,6 +116,7 @@ export default function StageMapScreen() {
 
   return (
     <Container>
+      <GradientBackground />
       <DecorativeBackground />
       {/* 🌟 헤더에 안전영역(상태바 높이)만큼 패딩을 주어 카메라 홀 침범 방지 */}
 
@@ -122,7 +124,7 @@ export default function StageMapScreen() {
         onBack={() => navigation.goBack()}
         center={
           <StageMapHeaderCenter>
-            <StageMapTitle>🎨 색깔 분류 모험</StageMapTitle>
+            <StageMapTitle>색깔 분류 모험</StageMapTitle>
           </StageMapHeaderCenter>
         }
       />
