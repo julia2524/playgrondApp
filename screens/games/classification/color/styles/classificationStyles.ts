@@ -2,7 +2,7 @@
 // styled-components
 // ==================================================
 
-import { Animated, TouchableOpacity } from "react-native";
+import { Animated, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../../../../constants/colors";
 import { RADIUS } from "../../../../../constants/radius";
@@ -10,10 +10,9 @@ import { RADIUS } from "../../../../../constants/radius";
 // ==================================================
 // Game Header
 // ==================================================
-
-// --------------------------------------------------
-// Game Header
-// --------------------------------------------------
+export const GameHeaders = styled.View`
+  position: relative;
+`;
 
 export const GameHeaderCenter = styled.View`
   align-items: center;
@@ -33,17 +32,28 @@ export const StarRow = styled.View`
   align-items: center;
   justify-content: center;
   gap: 2px;
+  margin-top: -10px;
 `;
 
 export const MascotWrapper = styled.View`
   align-items: center;
   justify-content: center;
+  position: absolute;
+  right: 8px;
+  top: 15px;
+`;
+export const Star = styled(Image)`
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  top: 170px;
+  left: 15px;
+  opacity: 0.45;
 `;
 
 export const Container = styled.View`
   flex: 1;
   background-color: ${BASIC_COLORS.BACKGROUND};
-  padding-top: 10px;
 `;
 
 export const Content = styled.View`
@@ -291,10 +301,17 @@ export const SuccessModalContent = styled.View`
   shadow-offset: 0px 6px;
   shadow-opacity: 0.2;
   shadow-radius: 12px;
+  position: relative;
 `;
 
+export const SuccessEmojiRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+`;
 export const SuccessEmoji = styled.Text`
-  font-size: 52px;
+  font-size: 40px;
   margin-bottom: 10px;
   text-align: center;
 `;
@@ -348,4 +365,13 @@ export const ButtonText = styled.Text`
   color: #ffffff;
   text-align: center;
   line-height: 20px;
+`;
+
+export const SuccessMascotWrapper = styled.View`
+  position: absolute;
+  /* 모달 박스의 정가운데 가로 위치 맞추기 */
+  align-self: center;
+  /* 모달 콘텐츠 박스 위쪽 테두리에 걸치도록 위로 띄우기 (마스코트 크기의 절반 정도) */
+  top: -80px;
+  z-index: 10;
 `;

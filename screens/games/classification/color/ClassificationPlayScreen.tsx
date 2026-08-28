@@ -194,7 +194,6 @@ export default function ClassificationPlayScreen() {
   // });
   return (
     <Container>
-      <DecorativeBackground />
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
       <MissionBubbleArea feedback={feedback} target={target} />
       <GameBoard

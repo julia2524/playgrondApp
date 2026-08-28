@@ -6,7 +6,6 @@ import { RADIUS } from "../constants/radius";
 export const Container = styled.View`
   flex: 1;
   background-color: ${BASIC_COLORS.BACKGROUND};
-  padding-top: 10px;
 `;
 
 export const Content = styled.View`

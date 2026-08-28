@@ -39,13 +39,14 @@ const Header = styled.View`
   background-color: transparent;
 
   z-index: 10;
+  padding-top: 20px;
 `;
 
 const BackButton = styled.TouchableOpacity`
   position: absolute;
 
   left: 16px;
-  top: 16px;
+  top: 25px;
 
   width: 44px;
   height: 44px;

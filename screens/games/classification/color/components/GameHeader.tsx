@@ -1,6 +1,6 @@
-import { Text } from "react-native";
 import {
   GameHeaderCenter,
+  GameHeaders,
   MascotWrapper,
   StarRow,
   TitleText,
@@ -12,6 +12,8 @@ import { RootStackParamList } from "../../../../../navigation/types";
 import { useNavigation } from "@react-navigation/native";
 import Mascot from "../../../../../components/common/Mascot";
 import AppHeader from "../../../../../components/common/AppHeader";
+import StarBadge from "../../../../../components/common/StarBadge";
+import GradientBackground from "../../../../../components/common/GradientBackground";
 
 interface GameHeaderProps {
   levelConfig: ClassificationLevel;
@@ -31,26 +33,24 @@ export default function GameHeader({
   const navigation = useNavigation<GameHeaderNavigationProp>();
 
   return (
-    <AppHeader
-      onBack={() => navigation.goBack()}
-      center={
-        <GameHeaderCenter>
-          <TitleText>색깔 찾기</TitleText>
-
-          <StarRow>
-            {Array.from({ length: totalRounds }).map((_, i) => (
-              <Text key={i} style={{ fontSize: 18 }}>
-                {i < filledStars ? "⭐" : "☆"}
-              </Text>
-            ))}
-          </StarRow>
-        </GameHeaderCenter>
-      }
-      right={
-        <MascotWrapper>
-          <Mascot size={72} />
-        </MascotWrapper>
-      }
-    />
+    <GameHeaders>
+      <GradientBackground />
+      <AppHeader
+        onBack={() => navigation.goBack()}
+        center={
+          <GameHeaderCenter>
+            <TitleText>색깔 찾기</TitleText>
+          </GameHeaderCenter>
+        }
+      />
+      <StarRow>
+        {Array.from({ length: totalRounds }).map((_, i) => (
+          <StarBadge key={i} filled={i < filledStars} />
+        ))}
+      </StarRow>
+      <MascotWrapper>
+        <Mascot size={100} />
+      </MascotWrapper>
+    </GameHeaders>
   );
 }

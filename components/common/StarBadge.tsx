@@ -1,14 +1,13 @@
 import styled from "styled-components/native";
 
 interface StarBadgeProps {
-  count?: number;
+  filled?: boolean; // 🌟 채워진 별인지 여부
 }
 
-export default function StarBadge({ count = 0 }: StarBadgeProps) {
+export default function StarBadge({ filled = false }: StarBadgeProps) {
   return (
     <Badge>
-      <Star>⭐</Star>
-      <Count>{count}</Count>
+      <Star>{filled ? "⭐" : "☆"}</Star>
     </Badge>
   );
 }
@@ -16,16 +15,10 @@ export default function StarBadge({ count = 0 }: StarBadgeProps) {
 const Badge = styled.View`
   flex-direction: row;
   align-items: center;
-
-  padding: 8px 14px;
-
-  border-radius: 20px;
-
-  background-color: #fff7d6;
 `;
 
 const Star = styled.Text`
-  font-size: 18px;
+  font-size: 30px;
 `;
 
 const Count = styled.Text`
