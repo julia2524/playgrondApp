@@ -9,6 +9,16 @@ export const BASIC_COLORS = {
   TEXT_SUB: "#94A3B8", // 연한 회색 (보조 텍스트)
   BORDER: "#DCE4EC", // 테두리선 색상
 };
+export const PASTEL_BG = {
+  blue: "#E8F3FF",
+  green: "#E9F9EF",
+  purple: "#F1EEFF",
+  yellow: "#FFF8E1",
+  red: "#FFEFEF",
+  orange: "#FFF3E3",
+  pink: "#FFEEF5",
+  neutral: "#F1F3F8", // 색이 없을 때 기본값
+};
 
 // 1. 색상별 사물 풀(Pool) 정의
 export const COLORS: Record<string, string> = {

@@ -18,6 +18,7 @@ import { classificationLevels } from "./levels";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../navigation/types";
+import DecorativeBackground from "../../../../components/common/DecorativeBackground";
 
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -193,6 +194,7 @@ export default function ClassificationPlayScreen() {
   // });
   return (
     <Container>
+      <DecorativeBackground />
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
       <MissionBubbleArea feedback={feedback} target={target} />
       <GameBoard

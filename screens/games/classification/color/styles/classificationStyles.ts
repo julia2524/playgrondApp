@@ -7,41 +7,97 @@ import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../../../../constants/colors";
 import { RADIUS } from "../../../../../constants/radius";
 
-export const Container = styled.View`
-  flex: 1;
-  background-color: ${BASIC_COLORS.BACKGROUND}; /* 조금 더 부드러운 우유빛 크림 배경 */
-  padding-top: 40px;
-`;
+// ==================================================
+// Game Header
+// ==================================================
 
-export const Header = styled.View`
-  height: 60px;
-  flex-direction: row;
+// --------------------------------------------------
+// Game Header
+// --------------------------------------------------
+
+export const GameHeaderCenter = styled.View`
   align-items: center;
-  justify-content: space-between;
-  padding-horizontal: 20px;
-
-  background-color: ${BASIC_COLORS.CARD_BG};
-
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-
-  elevation: 2;
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.06;
-  shadow-radius: 6px;
-`;
-
-export const BackText = styled.Text`
-  font-size: 28px;
-  color: ${BASIC_COLORS.TEXT_MAIN};
+  justify-content: center;
+  gap: 2px;
 `;
 
 export const TitleText = styled.Text`
-  font-size: 17px;
-  font-weight: 800;
+  font-family: "Jua";
+  font-size: 20px;
   color: ${BASIC_COLORS.TEXT_MAIN};
+  text-align: center;
 `;
+
+export const StarRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+`;
+
+export const MascotWrapper = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Container = styled.View`
+  flex: 1;
+  background-color: ${BASIC_COLORS.BACKGROUND};
+  padding-top: 10px;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+`;
+// export const Header = styled.View`
+//   height: 76px;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-around;
+//   padding-horizontal: 20px;
+
+//   background-color: #ffffff;
+//   border-bottom-left-radius: 28px;
+//   border-bottom-right-radius: 28px;
+
+//   elevation: 3;
+//   shadow-color: #6ba3d6;
+//   shadow-offset: 0px 3px;
+//   shadow-opacity: 0.1;
+//   shadow-radius: 8px;
+
+//   overflow: visible; /* ⭐ 곰돌이가 헤더 밖으로 살짝 삐져나오게 */
+// `;
+
+// export const HeaderCenter = styled.View`
+//   gap: 4px;
+// `;
+// export const StarRow = styled.View`
+//   flex-direction: row;
+//   gap: 4px;
+// `;
+
+// export const MascotCorner = styled.View`
+//   position: absolute;
+//   right: 8px;
+//   top: -18px; /* ⭐ 헤더 위로 살짝 걸치기 */
+//   z-index: 20;
+// `;
+
+export const MascotEmoji = styled.Text`
+  font-size: 48px;
+`;
+
+// export const BackText = styled.Text`
+//   font-size: 28px;
+//   color: ${BASIC_COLORS.TEXT_MAIN};
+// `;
+
+// export const TitleText = styled.Text`
+//   font-size: 17px;
+//   font-weight: 800;
+//   color: ${BASIC_COLORS.TEXT_MAIN};
+// `;
 
 export const RoundIndicator = styled.Text`
   font-size: 15px;

@@ -1,16 +1,10 @@
 import React from "react";
-import Svg, {
-  Defs,
-  LinearGradient,
-  Stop,
-  Path as SvgPath,
-  Rect,
-} from "react-native-svg";
+import Svg, { Path as SvgPath } from "react-native-svg";
 
 export interface TrailPoint {
   x: number;
   y: number;
-  completed: boolean; // 이 지점에서 다음 지점으로 가는 구간이 이미 지나온 길인지
+  completed: boolean;
 }
 
 interface MapTrailProps {
@@ -19,7 +13,6 @@ interface MapTrailProps {
   points: TrailPoint[];
 }
 
-// 두 점을 잇는 S자 곡선 (y축 중간 지점을 제어점으로 사용)
 function buildSegmentPath(p1: TrailPoint, p2: TrailPoint) {
   const midY = (p1.y + p2.y) / 2;
   return `M ${p1.x} ${p1.y} C ${p1.x} ${midY}, ${p2.x} ${midY}, ${p2.x} ${p2.y}`;
@@ -36,22 +29,7 @@ export default function MapTrail({ width, height, points }: MapTrailProps) {
       style={{ position: "absolute", top: 0, left: 0 }}
       pointerEvents="none"
     >
-      <Defs>
-        {/* ⭐ 아래(따뜻한 크림) → 위(하늘) 그라데이션: "산을 오르는" 배경 */}
-        <LinearGradient id="skyGradient" x1="0" y1="1" x2="0" y2="0">
-          <Stop offset="0" stopColor="#FFF3DE" />
-          <Stop offset="1" stopColor="#D9EEFF" />
-        </LinearGradient>
-      </Defs>
-
-      <Rect
-        x={0}
-        y={0}
-        width={width}
-        height={height}
-        fill="url(#skyGradient)"
-      />
-
+      {/* 🌟 기존에 여기 있던 LinearGradient랑 Rect는 통째로 삭제! 길만 그립니다. */}
       {points.slice(0, -1).map((point, index) => {
         const next = points[index + 1];
         const d = buildSegmentPath(point, next);

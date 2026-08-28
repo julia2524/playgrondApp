@@ -4,19 +4,17 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
 import {
-  BackButton,
-  BackText,
   Container,
-  Header,
-  HeaderRight,
-  HeaderTitle,
+  Content,
+  StageMapHeaderCenter,
+  StageMapTitle,
 } from "../../styles/stageMapStyles";
 import MapTrail from "../../components/stageMap/MapTrail";
 import StageNode from "../../components/stageMap/StageNode";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { BASIC_COLORS } from "../../constants/colors";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import DecorativeBackground from "../../components/common/DecorativeBackground";
+import AppHeader from "../../components/common/AppHeader";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -118,65 +116,60 @@ export default function StageMapScreen() {
   return (
     <Container>
       <DecorativeBackground />
-      {/* 🌟 헤더에 안전영역(상태바 높이)만큼 패딩을 주어 카메라 홀 침범 방지
-        <Header style={{ paddingTop: insets.top }}>
-          <BackButton onPress={() => navigation.goBack()} activeOpacity={0.7}>
-            <BackText>‹</BackText>
-          </BackButton>
+      {/* 🌟 헤더에 안전영역(상태바 높이)만큼 패딩을 주어 카메라 홀 침범 방지 */}
 
-          <HeaderTitle>🎨 색깔 분류 모험</HeaderTitle>
+      <AppHeader
+        onBack={() => navigation.goBack()}
+        center={
+          <StageMapHeaderCenter>
+            <StageMapTitle>🎨 색깔 분류 모험</StageMapTitle>
+          </StageMapHeaderCenter>
+        }
+      />
 
-          <HeaderRight />
-        </Header> */}
-      <ScrollView
-        ref={scrollRef}
-        showsVerticalScrollIndicator={false}
-        onLayout={(e) => setTrackWidth(e.nativeEvent.layout.width)}
-        contentContainerStyle={{
-          minHeight: contentHeight,
-        }}
-      >
-        <View style={{ height: contentHeight }}>
-          {trackWidth > 0 && (
-            <MapTrail
-              width={trackWidth}
-              height={contentHeight}
-              points={positions.map((pos, index) => ({
-                ...pos,
-                completed: stages[index].completed,
-              }))}
-            />
-          )}
-
-          {stages.map((stage, index) => {
-            const pos = positions[index];
-
-            return (
-              <StageNode
-                key={stage.level}
-                level={stage.level}
-                name={stage.name}
-                unlocked={stage.unlocked}
-                completed={stage.completed}
-                isCurrent={stage.level === currentLevel}
-                onPress={() => handleStagePress(stage.level, stage.unlocked)}
-                style={{
-                  left: pos.x - NODE_CONTAINER_WIDTH / 2,
-                  top: pos.y - NODE_RADIUS,
-                }}
+      <Content>
+        <ScrollView
+          ref={scrollRef}
+          showsVerticalScrollIndicator={false}
+          onLayout={(e) => setTrackWidth(e.nativeEvent.layout.width)}
+          contentContainerStyle={{
+            minHeight: contentHeight,
+          }}
+        >
+          <View style={{ height: contentHeight }}>
+            {trackWidth > 0 && (
+              <MapTrail
+                width={trackWidth}
+                height={contentHeight}
+                points={positions.map((pos, index) => ({
+                  ...pos,
+                  completed: stages[index].completed,
+                }))}
               />
-            );
-          })}
-        </View>
-      </ScrollView>
-      {/* 🌟 상단 카메라를 피해 예쁘게 떠 있는 플로팅 뒤로가기 버튼 */}
-      <BackButton
-        style={{ top: insets.top + 10 }}
-        onPress={() => navigation.goBack()}
-        activeOpacity={0.7}
-      >
-        <BackText>‹</BackText>
-      </BackButton>
+            )}
+
+            {stages.map((stage, index) => {
+              const pos = positions[index];
+
+              return (
+                <StageNode
+                  key={stage.level}
+                  level={stage.level}
+                  name={stage.name}
+                  unlocked={stage.unlocked}
+                  completed={stage.completed}
+                  isCurrent={stage.level === currentLevel}
+                  onPress={() => handleStagePress(stage.level, stage.unlocked)}
+                  style={{
+                    left: pos.x - NODE_CONTAINER_WIDTH / 2,
+                    top: pos.y - NODE_RADIUS,
+                  }}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+      </Content>
     </Container>
   );
 }
