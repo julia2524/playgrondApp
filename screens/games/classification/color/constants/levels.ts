@@ -1,7 +1,7 @@
 // //Level 1~5의 문제 규칙 설정: "이 레벨의 규칙이 무엇인가"
 
 // Level 1~5의 색깔 분류 문제 규칙 설정
-import { ClassificationLevel } from "./types";
+import { ClassificationLevel } from "../types";
 
 export const classificationLevels: ClassificationLevel[] = [
   // Level 1: 기초 단계 (선택지 2개: 정답 1 + 전혀 다른 오답 1)

@@ -17,9 +17,9 @@ import GameHeader from "./components/GameHeader";
 import TutorialOverlay from "../../../../components/common/TutorialOverlay";
 
 import { generateRounds } from "./createRounds";
-import { classificationLevels } from "./levels";
 
 import { Container, GameBoard } from "./styles/classificationStyles";
+import { classificationLevels } from "./constants/levels";
 
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
