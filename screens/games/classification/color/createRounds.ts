@@ -6,7 +6,7 @@ import { ClassificationLevel, ClassificationRound } from "./types";
 
 export function createRounds(
   levelConfig: ClassificationLevel,
-  roundCount = 5,
+  roundCount = 10,
 ): ClassificationRound[] {
   const rounds: ClassificationRound[] = [];
 
@@ -20,7 +20,7 @@ export function createRounds(
 }
 
 export const generateRounds = (config: any) => {
-  return Array.from({ length: 5 }, (_, i) =>
+  return Array.from({ length: 10 }, (_, i) =>
     createColorClassificationRound(config, i + 1),
   );
 };

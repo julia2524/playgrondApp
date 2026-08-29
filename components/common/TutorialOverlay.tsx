@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 
 import { COLORS } from "../../constants/colors";
 import { RenderItemSvg } from "../../constants/ColorItemSvgs";
+import HandPointer from "./HandPointer";
 
 interface TutorialOverlayProps {
   visible: boolean;
@@ -253,7 +254,25 @@ export default function TutorialOverlay({
       {/* ==========================================
           👆 손가락
       ========================================== */}
+      {/* <Animated.View
+        style={{
+          position: "absolute",
+          // 🌟 SVG 크기와 중심을 고려하여 위치 미세 조정 (기존 이모지와 다를 수 있음)
+          left: startPoint.x - 30, // (size 60의 절반)
+          top: startPoint.y - 15, // (손가락 끝 위치에 맞게 조정)
 
+          transform: [
+            { translateX: moveX },
+            { translateY: moveY },
+            { scale: fingerScale }, // 꾹 누르는 애니메이션용
+          ],
+
+          opacity, // 등장/퇴장용
+        }}
+      >
+       
+        <HandPointer size={60} color="#ff0000" />
+      </Animated.View> */}
       <Animated.View
         style={{
           position: "absolute",

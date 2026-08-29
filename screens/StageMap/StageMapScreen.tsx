@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { ScrollView, View } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -24,145 +24,122 @@ import DecorativeBackground from "../../components/common/DecorativeBackground";
 import AppHeader from "../../components/common/AppHeader";
 
 import GradientBackground from "../../components/common/GradientBackground";
-import { createInitialProgress, GameProgress } from "./gameProgress";
+
 import { STAGE_CONFIGS } from "./stageConfigs";
+import { useProgress } from "../games/classification/color/process/useProgress";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
   "StageMapScreen"
 >;
 
-// ==========================================
-// 맵 레이아웃 설정
-// ==========================================
-
 const NODE_STEP_Y = 190;
-
 const TOP_PADDING = 110;
-
 const BOTTOM_PADDING = 130;
-
 const NODE_RADIUS = 43;
-
 const NODE_CONTAINER_WIDTH = 120;
-
 const HORIZONTAL_SAFE_PADDING = 60;
 
-// ==========================================
-// Screen
-// ==========================================
+// ⭐ Content 레이아웃이 아직 측정되기 전(0일 때) 사용할 폴백값
+const FALLBACK_VIEWPORT_HEIGHT = 560;
 
 export default function StageMapScreen() {
   const navigation = useNavigation<NavigationProp>();
-
   const scrollRef = useRef<ScrollView>(null);
-
   const [trackWidth, setTrackWidth] = useState(0);
 
-  // ==========================================
-  // ⭐ 게임 Progress
-  // 나중에 AsyncStorage에서 불러올 예정
-  // ==========================================
+  // ⭐ 추가: 스크롤 뷰포트(Content)의 실제 렌더링 높이
+  const [viewportHeight, setViewportHeight] = useState(0);
 
-  const [progress] = useState<GameProgress>(() => createInitialProgress());
+  const {
+    progress,
+    isLevelUnlocked,
+    isLevelCompleted,
+    isLoading,
+    reloadProgress,
+  } = useProgress();
 
-  // ==========================================
-  // ⭐ StageConfig + Progress 결합
-  // ==========================================
-
-  const stages = STAGE_CONFIGS.map((stage) => {
-    const levelProgress = progress.levels.find(
-      (item) => item.level === stage.level,
-    );
-
-    return {
-      ...stage,
-
-      unlocked: levelProgress?.unlocked ?? false,
-
-      completed: levelProgress?.completed ?? false,
-
-      stars: levelProgress?.stars ?? 0,
-
-      maxStars: levelProgress?.maxStars ?? 5,
-    };
-  });
-
-  // ==========================================
-  // 전체 맵 높이
-  // ==========================================
+  useFocusEffect(
+    useCallback(() => {
+      reloadProgress();
+    }, [reloadProgress]),
+  );
 
   const contentHeight =
-    TOP_PADDING + BOTTOM_PADDING + (stages.length - 1) * NODE_STEP_Y;
+    TOP_PADDING + BOTTOM_PADDING + (STAGE_CONFIGS.length - 1) * NODE_STEP_Y;
 
-  // ==========================================
-  // ⭐ Stage 실제 위치 계산
-  // ==========================================
-
-  const positions = stages.map((stage, index) => {
+  const positions = STAGE_CONFIGS.map((stage, index) => {
     const y = contentHeight - BOTTOM_PADDING - index * NODE_STEP_Y;
-
     const usableHalfWidth = Math.max(
       trackWidth / 2 - HORIZONTAL_SAFE_PADDING,
       0,
     );
-
     const x = trackWidth / 2 + stage.xOffset * usableHalfWidth;
-
-    return {
-      x,
-      y,
-    };
+    return { x, y };
   });
 
-  // ==========================================
-  // 처음 진입하면 Level 1 위치로
-  // ==========================================
+  // ==================================================
+  // ⭐ 현재 도전 중인 Level
+  // ==================================================
+
+  const currentLevel = progress.levels.find(
+    (item) => item.unlocked && !item.completed,
+  )?.level;
+
+  // ==================================================
+  // ⭐ 진행 중인 Level 위치로 자동 스크롤 (실측 뷰포트 높이 사용)
+  // ==================================================
 
   useEffect(() => {
-    if (trackWidth === 0) return;
+    if (trackWidth === 0 || isLoading) return;
 
     const timer = setTimeout(() => {
-      scrollRef.current?.scrollToEnd({
-        animated: false,
-      });
-    }, 0);
+      // ⭐ 실측값이 아직 0이면(레이아웃 전) 폴백값 사용
+      const effectiveViewportHeight =
+        viewportHeight > 0 ? viewportHeight : FALLBACK_VIEWPORT_HEIGHT;
+
+      if (currentLevel == null) {
+        scrollRef.current?.scrollToEnd({ animated: false });
+        return;
+      }
+
+      const targetIndex = STAGE_CONFIGS.findIndex(
+        (stage) => stage.level === currentLevel,
+      );
+
+      if (targetIndex === -1) {
+        scrollRef.current?.scrollToEnd({ animated: false });
+        return;
+      }
+
+      const targetY = positions[targetIndex].y;
+      const scrollToY = Math.max(targetY - effectiveViewportHeight / 2, 0);
+
+      scrollRef.current?.scrollTo({ y: scrollToY, animated: false });
+    }, 50);
 
     return () => clearTimeout(timer);
-  }, [trackWidth]);
+  }, [trackWidth, isLoading, currentLevel, viewportHeight]);
 
-  // ==========================================
-  // 스테이지 클릭
-  // ==========================================
-
-  const handleStagePress = (level: number, unlocked: boolean) => {
+  const handleStagePress = (level: number) => {
+    const unlocked = isLevelUnlocked(level);
     if (!unlocked) return;
-
-    navigation.navigate("ClassificationPlayScreen", {
-      level,
-    });
+    navigation.navigate("ClassificationPlayScreen", { level });
   };
 
-  // ==========================================
-  // 현재 진행 중인 레벨
-  // ==========================================
-
-  const currentLevel =
-    stages.find((stage) => stage.unlocked && !stage.completed)?.level ?? null;
-
-  // ==========================================
-  // Render
-  // ==========================================
+  if (isLoading) {
+    return (
+      <Container>
+        <GradientBackground />
+        <DecorativeBackground />
+      </Container>
+    );
+  }
 
   return (
     <Container>
-      {/* Background */}
-
       <GradientBackground />
-
       <DecorativeBackground />
-
-      {/* Header */}
 
       <AppHeader
         onBack={() => navigation.goBack()}
@@ -173,9 +150,12 @@ export default function StageMapScreen() {
         }
       />
 
-      {/* Map */}
-
-      <Content>
+      {/* ⭐ Content에 onLayout 추가: 실제 뷰포트 높이 측정 */}
+      <Content
+        onLayout={(event) => {
+          setViewportHeight(event.nativeEvent.layout.height);
+        }}
+      >
         <ScrollView
           ref={scrollRef}
           showsVerticalScrollIndicator={false}
@@ -186,47 +166,35 @@ export default function StageMapScreen() {
             minHeight: contentHeight,
           }}
         >
-          <View
-            style={{
-              height: contentHeight,
-            }}
-          >
-            {/* ======================================
-                길
-            ====================================== */}
-
+          <View style={{ height: contentHeight }}>
             {trackWidth > 0 && (
               <MapTrail
                 width={trackWidth}
                 height={contentHeight}
-                points={positions.map((position, index) => ({
-                  ...position,
-
-                  completed: stages[index].completed,
+                points={STAGE_CONFIGS.map((stage, index) => ({
+                  ...positions[index],
+                  completed: isLevelCompleted(stage.level),
                 }))}
               />
             )}
 
-            {/* ======================================
-                Stage
-            ====================================== */}
-
-            {stages.map((stage, index) => {
-              const position = positions[index];
+            {STAGE_CONFIGS.map((stage, index) => {
+              const pos = positions[index];
+              const unlocked = isLevelUnlocked(stage.level);
+              const completed = isLevelCompleted(stage.level);
 
               return (
                 <StageNode
                   key={stage.level}
                   level={stage.level}
                   name={stage.name}
-                  unlocked={stage.unlocked}
-                  completed={stage.completed}
+                  unlocked={unlocked}
+                  completed={completed}
                   isCurrent={stage.level === currentLevel}
-                  onPress={() => handleStagePress(stage.level, stage.unlocked)}
+                  onPress={() => handleStagePress(stage.level)}
                   style={{
-                    left: position.x - NODE_CONTAINER_WIDTH / 2,
-
-                    top: position.y - NODE_RADIUS,
+                    left: pos.x - NODE_CONTAINER_WIDTH / 2,
+                    top: pos.y - NODE_RADIUS,
                   }}
                 />
               );
