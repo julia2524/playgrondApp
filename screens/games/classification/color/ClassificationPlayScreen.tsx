@@ -1,17 +1,18 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { View } from "react-native";
-
 import { RouteProp, useRoute } from "@react-navigation/native";
+
+import { RootStackParamList } from "../../../../navigation/types";
 
 import { ClassificationRound, DropResult, Layout } from "./types";
 
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 
 import TargetArea from "./components/TargetArea";
+import ObjectArea from "./components/ObjectArea";
 import SuccessModal from "./components/SuccessModal";
 import MissionBubbleArea from "./components/MissionBubbleArea";
 import GameHeader from "./components/GameHeader";
-import ObjectArea from "./components/ObjectArea";
 
 import TutorialOverlay from "../../../../components/common/TutorialOverlay";
 
@@ -20,34 +21,19 @@ import { classificationLevels } from "./levels";
 
 import { Container, GameBoard } from "./styles/classificationStyles";
 
-import { RootStackParamList } from "../../../../navigation/types";
-
-// ==================================================
-// 타입
-// ==================================================
-
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
   "ClassificationPlayScreen"
 >;
-
-type TutorialPoint = {
-  x: number;
-  y: number;
-};
-
-// ==================================================
-// Screen
-// ==================================================
 
 export default function ClassificationPlayScreen() {
   const route = useRoute<PlayScreenRouteProp>();
 
   const { level } = route.params;
 
-  // ==================================================
-  // State
-  // ==================================================
+  // --------------------------------------------------
+  // Level / Round
+  // --------------------------------------------------
 
   const [levelIndex, setLevelIndex] = useState(level - 1);
 
@@ -63,31 +49,27 @@ export default function ClassificationPlayScreen() {
 
   const [isTargetFront, setIsTargetFront] = useState(false);
 
-  // ==================================================
-  // ⭐ Tutorial State
-  // ==================================================
+  // --------------------------------------------------
+  // ⭐ Tutorial
+  // --------------------------------------------------
 
-  // Level 1만 최초 Tutorial
-  const [showTutorial, setShowTutorial] = useState(level === 1);
+  const [tutorialVisible, setTutorialVisible] = useState(level === 1);
 
-  // null
-  // → 최초 Object 위치에서 Tutorial 시작
-  //
-  // { x, y }
-  // → 실패한 release 위치에서 Tutorial 시작
-  const [tutorialStartPoint, setTutorialStartPoint] =
-    useState<TutorialPoint | null>(null);
+  // ⭐ 항상 "정답 스티커"의 ref
+  const correctObjectRef = useRef<View | null>(null);
 
-  // ==================================================
-  // Refs
-  // ==================================================
+  // ⭐ 정답 빈칸 ref
+  const missingItemRef = useRef<View | null>(null);
 
-  const missingItemRef = useRef<View>(null);
-
-  // ⭐ 실제 Object 위치 측정용
-  const tutorialObjectRef = useRef<View>(null);
+  // --------------------------------------------------
+  // Processing
+  // --------------------------------------------------
 
   const isProcessingRef = useRef(false);
+
+  // --------------------------------------------------
+  // GameBoard Layout
+  // --------------------------------------------------
 
   const gameBoardRef = useRef<View>(null);
 
@@ -98,65 +80,37 @@ export default function ClassificationPlayScreen() {
     height: 0,
   });
 
-  // ==================================================
-  // Level
-  // ==================================================
+  // --------------------------------------------------
+  // Level Config
+  // --------------------------------------------------
 
   const levelConfig =
     classificationLevels[levelIndex] ??
     classificationLevels[classificationLevels.length - 1];
 
-  // ==================================================
+  // --------------------------------------------------
   // Rounds
-  // ==================================================
+  // --------------------------------------------------
 
   const [rounds, setRounds] = useState(() => generateRounds(levelConfig));
 
   const currentRound = rounds[roundIndex] as ClassificationRound;
-  const correctObjectId = Object.keys(currentRound.answer)[0];
 
   const target = currentRound.targets[0];
 
-  // ==================================================
-  // ⭐ Tutorial에 보여줄 정답 Object
-  // ==================================================
+  // --------------------------------------------------
+  // ⭐ 정답 Object 찾기
+  // --------------------------------------------------
 
-  const tutorialObject =
-    currentRound.objects.find(
-      (object) => currentRound.answer[object.id] !== undefined,
-    ) ?? currentRound.objects[0];
+  const correctObjectId = Object.keys(currentRound.answer)[0];
 
-  // ==================================================
-  // ⭐ Grab
-  // ==================================================
+  const correctObject = currentRound.objects.find(
+    (object) => object.id === correctObjectId,
+  );
 
-  const handleGrab = (objectId: string) => {
-    setActiveStickerId(objectId);
-
-    // ⭐ 아이가 직접 잡는 순간 Tutorial 제거
-    if (levelConfig.level === 1) {
-      setShowTutorial(false);
-    }
-  };
-
-  // ==================================================
-  // ⭐ Tutorial 다시 시작
-  // ==================================================
-
-  const showTutorialFromPoint = (point: TutorialPoint) => {
-    if (levelConfig.level !== 1) return;
-
-    setTutorialStartPoint(point);
-
-    // release 직후 ObjectArea의 복귀와 겹치지 않도록
-    setTimeout(() => {
-      setShowTutorial(true);
-    }, 250);
-  };
-
-  // ==================================================
-  // Drop 판정
-  // ==================================================
+  // --------------------------------------------------
+  // Drop Judge
+  // --------------------------------------------------
 
   const handleDrop = (
     item: any,
@@ -166,22 +120,8 @@ export default function ClassificationPlayScreen() {
     stickerHeight: number,
     callback: (result: DropResult) => void,
   ) => {
-    // ⭐ 아이가 놓은 실제 위치의 중심
-
-    const droppedCenter = {
-      x: stickerX + stickerWidth / 2,
-      y: stickerY + stickerHeight / 2,
-    };
-
-    // --------------------------------
-    // Target 없음
-    // --------------------------------
-
     if (!missingItemRef.current) {
       callback("outside");
-
-      showTutorialFromPoint(droppedCenter);
-
       return;
     }
 
@@ -194,58 +134,68 @@ export default function ClassificationPlayScreen() {
           height: stickerHeight,
         };
 
-        const targetArea = {
+        const targetLayout = {
           x: targetX,
           y: targetY,
           width: targetWidth,
           height: targetHeight,
         };
 
-        const isInside = isStickerInsideTarget(sticker, targetArea);
-
-        // --------------------------------
-        // ❌ Target 밖
-        // --------------------------------
+        const isInside = isStickerInsideTarget(sticker, targetLayout);
 
         if (!isInside) {
           callback("outside");
-
-          // ⭐ 놓친 바로 그 위치에서 Tutorial
-          showTutorialFromPoint(droppedCenter);
-
           return;
         }
 
-        // --------------------------------
-        // Target 안에 들어감
-        // --------------------------------
-
         const correctTargetId = currentRound.answer[item.id];
-
-        // --------------------------------
-        // ⭕ 정답
-        // --------------------------------
 
         if (correctTargetId) {
           callback("correct");
           return;
         }
 
-        // --------------------------------
-        // ❌ Target 안이지만 틀린 Object
-        // --------------------------------
-
         callback("wrong");
-
-        // ⭐ 틀린 위치에서 Tutorial
-        showTutorialFromPoint(droppedCenter);
       },
     );
   };
 
-  // ==================================================
-  // 정답
-  // ==================================================
+  // --------------------------------------------------
+  // ⭐ Grab
+  // 튜토리얼 즉시 제거
+  // --------------------------------------------------
+
+  const handleGrab = (objectId: string) => {
+    setActiveStickerId(objectId);
+
+    // ⭐⭐⭐ 가장 중요
+    // 아이가 직접 잡는 순간 튜토리얼 제거
+    setTutorialVisible(false);
+  };
+
+  // --------------------------------------------------
+  // ⭐ Tutorial 다시 보여주기
+  // Level 1에서만 사용
+  // --------------------------------------------------
+
+  const showTutorialAgain = () => {
+    if (levelConfig.level !== 1) return;
+
+    // ⭐ 항상 정답 스티커가 존재하는지 확인
+    if (!correctObjectRef.current) return;
+
+    setTutorialVisible(false);
+
+    // ⭐ 잠깐 끈 후 다시 켜야
+    // Animated Overlay가 새로 시작됨
+    setTimeout(() => {
+      setTutorialVisible(true);
+    }, 250);
+  };
+
+  // --------------------------------------------------
+  // Correct
+  // --------------------------------------------------
 
   const handleCorrect = (objectId: string) => {
     if (isProcessingRef.current) {
@@ -254,27 +204,19 @@ export default function ClassificationPlayScreen() {
 
     isProcessingRef.current = true;
 
-    // ⭐ 정답 맞으면 Tutorial 완전히 종료
-    setShowTutorial(false);
+    // ⭐ 정답이면 튜토리얼 완전히 종료
+    setTutorialVisible(false);
 
     setIsTargetFront(true);
 
     setFeedback("참 잘했어요! 👏");
 
     setMatchedObjectIds((prev) => {
-      if (prev.includes(objectId)) {
-        return prev;
-      }
-
-      return [...prev, objectId];
+      return prev.includes(objectId) ? prev : [...prev, objectId];
     });
 
     setTimeout(() => {
       setFeedback(null);
-
-      // --------------------------------
-      // 다음 라운드
-      // --------------------------------
 
       if (roundIndex < rounds.length - 1) {
         setRoundIndex((prev) => prev + 1);
@@ -283,15 +225,11 @@ export default function ClassificationPlayScreen() {
 
         setIsTargetFront(false);
 
-        // ⭐ Level 1 다음 라운드
-        // 다시 최초 Object 위치에서 Tutorial 시작
-
+        // ⭐ Level 1이면 다음 문제에서도 튜토리얼
         if (levelConfig.level === 1) {
-          setTutorialStartPoint(null);
-
           setTimeout(() => {
-            setShowTutorial(true);
-          }, 400);
+            setTutorialVisible(true);
+          }, 300);
         }
       } else {
         setShowSuccessModal(true);
@@ -299,55 +237,51 @@ export default function ClassificationPlayScreen() {
         setIsTargetFront(false);
       }
 
+      setActiveStickerId(null);
+
       isProcessingRef.current = false;
     }, 1000);
   };
 
-  // ==================================================
+  // --------------------------------------------------
   // Wrong
-  // ==================================================
+  // --------------------------------------------------
 
   const handleWrong = () => {
-    setFeedback("앗, 다른 곳을 찾아볼까요?");
+    setFeedback("앗, 다른 색깔을 찾아볼까요?");
 
     setTimeout(() => {
       setFeedback(null);
-    }, 1200);
+
+      // ⭐ 항상 정답 스티커 → 정답칸
+      showTutorialAgain();
+    }, 700);
   };
 
-  // ==================================================
+  // --------------------------------------------------
   // Outside
-  // ==================================================
+  // --------------------------------------------------
 
   const handleOutside = () => {
-    setFeedback("앗! 정답칸에 넣어볼까요?");
+    setFeedback("빈칸에 쏙 넣어볼까요?");
 
     setTimeout(() => {
       setFeedback(null);
-    }, 1200);
+
+      // ⭐ 항상 정답 스티커 → 정답칸
+      showTutorialAgain();
+    }, 700);
   };
 
-  // ==================================================
+  // --------------------------------------------------
   // Render
-  // ==================================================
+  // --------------------------------------------------
 
   return (
     <Container>
-      {/* --------------------------------
-          Header
-      -------------------------------- */}
-
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
 
-      {/* --------------------------------
-          Mission
-      -------------------------------- */}
-
       <MissionBubbleArea feedback={feedback} target={target} />
-
-      {/* --------------------------------
-          Game Board
-      -------------------------------- */}
 
       <GameBoard
         ref={gameBoardRef}
@@ -362,9 +296,9 @@ export default function ClassificationPlayScreen() {
           });
         }}
       >
-        {/* --------------------------------
+        {/* -------------------------
             Target
-        -------------------------------- */}
+        ------------------------- */}
 
         <TargetArea
           isFront={isTargetFront}
@@ -375,51 +309,51 @@ export default function ClassificationPlayScreen() {
           missingItemRef={missingItemRef}
         />
 
-        {/* --------------------------------
+        {/* -------------------------
             Objects
-        -------------------------------- */}
+        ------------------------- */}
+
         <ObjectArea
           objects={currentRound.objects}
           gameBoardLayout={gameBoardLayout}
           activeStickerId={activeStickerId}
           roundIndex={roundIndex}
-          onGrab={setActiveStickerId}
+          onGrab={handleGrab}
           onRelease={handleDrop}
           onCorrectAnimationComplete={handleCorrect}
           onWrong={handleWrong}
           onOutside={handleOutside}
-          correctObjectId={correctObjectId}
-          registerTutorialObjectRef={(el) => {
-            tutorialObjectRef.current = el;
+          // ⭐⭐⭐ 정답 스티커 ref 등록
+          registerFirstStickerRef={(el) => {
+            correctObjectRef.current = el;
           }}
+          correctObjectId={correctObjectId}
         />
       </GameBoard>
 
-      {/* --------------------------------
-          ⭐ Level 1 Tutorial
-      -------------------------------- */}
+      {/* ==================================================
+          ⭐ Tutorial
+          항상 correctObjectRef → missingItemRef
+      ================================================== */}
 
-      {levelConfig.level === 1 && tutorialObject && (
+      {levelConfig.level === 1 && correctObject && (
         <TutorialOverlay
-          visible={showTutorial}
-          fromRef={tutorialObjectRef}
-          toRef={missingItemRef}
-          // null = 최초 Object 위치
-          // 값 있음 = 실패한 Release 위치
-          startPoint={tutorialStartPoint}
-          shapeId={tutorialObject.name}
-          colorKey={tutorialObject.color}
-          // ⭐ 한 번 보여주고 끝
-          // 반복하지 않음!
+          visible={tutorialVisible}
           onComplete={() => {
-            setShowTutorial(false);
+            // ⭐ 애니메이션 한 번 끝난 후에는
+            // 그냥 아이가 직접 해보도록 둠
+            setTutorialVisible(false);
           }}
+          fromRef={correctObjectRef}
+          toRef={missingItemRef}
+          shapeId={correctObject.name}
+          colorKey={correctObject.color}
         />
       )}
 
-      {/* --------------------------------
-          Success Modal
-      -------------------------------- */}
+      {/* -------------------------
+          Success
+      ------------------------- */}
 
       <SuccessModal
         show={showSuccessModal}
@@ -433,19 +367,15 @@ export default function ClassificationPlayScreen() {
 
           setShowSuccessModal(false);
 
-          // ⭐ Level 1이면 처음부터 Tutorial
-          if (levelConfig.level === 1) {
-            setTutorialStartPoint(null);
-            setShowTutorial(true);
-          }
+          setTutorialVisible(levelConfig.level === 1);
         }}
         onNextLevel={() => {
           const nextLevelIndex = levelIndex + 1;
 
-          setLevelIndex(nextLevelIndex);
-
           const nextConfig =
-            classificationLevels[nextLevelIndex] ?? levelConfig;
+            classificationLevels[nextLevelIndex] || levelConfig;
+
+          setLevelIndex(nextLevelIndex);
 
           setRounds(generateRounds(nextConfig));
 
@@ -455,10 +385,8 @@ export default function ClassificationPlayScreen() {
 
           setShowSuccessModal(false);
 
-          // ⭐ Level 2부터는 Tutorial 없음
-          setShowTutorial(false);
-
-          setTutorialStartPoint(null);
+          // ⭐ Level2부터 tutorial 없음
+          setTutorialVisible(false);
         }}
       />
     </Container>

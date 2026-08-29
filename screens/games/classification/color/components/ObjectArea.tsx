@@ -1,4 +1,5 @@
 import { View } from "react-native";
+
 import { COLORS } from "../../../../../constants/colors";
 
 import {
@@ -8,6 +9,7 @@ import {
 } from "../styles/classificationStyles";
 
 import { GameObject, Layout } from "../types";
+
 import { DraggableObjectSticker } from "./DraggableObjectSticker";
 
 interface ObjectAreaProps {
@@ -36,10 +38,10 @@ interface ObjectAreaProps {
 
   onOutside: () => void;
 
-  // ⭐ 튜토리얼에서 사용할 "정답 스티커 실제 위치"
-  registerTutorialObjectRef?: (el: View | null) => void;
+  // ⭐ 정답 스티커 ref 등록
+  registerFirstStickerRef?: (el: View | null) => void;
 
-  // ⭐ 현재 라운드의 정답 오브젝트 id
+  // ⭐ 현재 라운드의 정답 Object ID
   correctObjectId?: string;
 }
 
@@ -53,7 +55,7 @@ export default function ObjectArea({
   onCorrectAnimationComplete,
   onWrong,
   onOutside,
-  registerTutorialObjectRef,
+  registerFirstStickerRef,
   correctObjectId,
 }: ObjectAreaProps) {
   return (
@@ -64,19 +66,22 @@ export default function ObjectArea({
         {objects.map((obj) => (
           <DraggableObjectSticker
             key={`${roundIndex}-${obj.id}`}
-            gameBoardLayout={gameBoardLayout}
-            isActive={obj.id === activeStickerId}
-            onGrab={onGrab}
             obj={obj}
             color={obj.color ? COLORS[obj.color] : "#ccc"}
             itemCount={objects.length}
+            gameBoardLayout={gameBoardLayout}
+            isActive={obj.id === activeStickerId}
+            // ⭐ Grab 순간 부모에서
+            // tutorialVisible = false
+            onGrab={onGrab}
             onRelease={onRelease}
             onCorrectAnimationComplete={onCorrectAnimationComplete}
             onWrong={onWrong}
             onOutside={onOutside}
-            // ⭐ 정답 스티커만 튜토리얼 ref로 등록
+            // ⭐⭐⭐ 핵심
+            // 정답 스티커만 ref 등록
             registerRef={
-              obj.id === correctObjectId ? registerTutorialObjectRef : undefined
+              obj.id === correctObjectId ? registerFirstStickerRef : undefined
             }
           />
         ))}
