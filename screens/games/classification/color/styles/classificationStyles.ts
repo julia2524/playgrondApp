@@ -239,11 +239,11 @@ export const ObjectSticker = styled(Animated.View)<{
   itemCount: number;
 }>`
   width: ${(props) =>
-    props.itemCount === 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+    props.itemCount <= 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
   height: ${(props) =>
-    props.itemCount === 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+    props.itemCount <= 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
   border-radius: ${(props) =>
-    props.itemCount === 2 ? "60px" : props.itemCount === 3 ? "50px" : "40px"};
+    props.itemCount <= 2 ? "60px" : props.itemCount === 3 ? "50px" : "40px"};
   background-color: ${(props) => props.color};
 
   /* 🎨 물건의 색상은 테두리 */
