@@ -32,6 +32,7 @@ export function DraggableObjectSticker({
   onCorrectAnimationComplete,
   onWrong,
   onOutside,
+  registerRef, // ⭐ 추가
 }: {
   obj: any;
   color: string;
@@ -50,9 +51,15 @@ export function DraggableObjectSticker({
     height: number,
     callback: (result: DropResult) => void,
   ) => void;
+  registerRef?: (el: View | null) => void; // ⭐ 추가
 }) {
   const stickerRef = useRef<View>(null);
   const isReadyRef = useRef(false);
+  // ⭐ 추가: stickerRef를 채우면서 동시에 외부(registerRef)에도 전달
+  const setStickerRef = (el: View | null) => {
+    stickerRef.current = el;
+    registerRef?.(el);
+  };
 
   // 드래그 위치
   const position = useRef(new Animated.ValueXY()).current;
@@ -303,7 +310,7 @@ export function DraggableObjectSticker({
 
   return (
     <Animated.View
-      ref={stickerRef}
+      ref={setStickerRef} // ⭐ 여기만 stickerRef → setStickerRef
       {...panResponder.panHandlers}
       style={{
         transform: [

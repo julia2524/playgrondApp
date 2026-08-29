@@ -2,7 +2,7 @@
 // 부모: "정답이야? 오답이야?"를 담당 화면
 // --------------------------------------------------
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { View } from "react-native";
 import { ClassificationRound, DropResult, Layout } from "./types";
@@ -18,12 +18,13 @@ import { classificationLevels } from "./levels";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../navigation/types";
-import DecorativeBackground from "../../../../components/common/DecorativeBackground";
+import TutorialOverlay from "../../../../components/common/TutorialOverlay";
 
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
   "ClassificationPlayScreen"
 >;
+type TutorialStep = "welcome" | "demo" | "playing" | "complete" | "done";
 
 // --------------------------------------------------
 export default function ClassificationPlayScreen() {
@@ -33,6 +34,7 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // State
   // --------------------------------------------------
+
   const [levelIndex, setLevelIndex] = useState(level - 1);
   const [roundIndex, setRoundIndex] = useState(0);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -42,12 +44,25 @@ export default function ClassificationPlayScreen() {
   // 정답으로 처리된 object ID
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
   const [isTargetFront, setIsTargetFront] = useState(false);
+
+  const tutorialFromRef = useRef<View>(null); // ⭐ 추가: 첫 스티커 가리킬 ref
+  const [showTutorial, setShowTutorial] = useState(false); // ⭐ 추가
+
   // --------------------------------------------------
   // 레벨
   // --------------------------------------------------
   const levelConfig =
     classificationLevels[levelIndex] ??
     classificationLevels[classificationLevels.length - 1];
+
+  // ⭐ 추가: 레벨/라운드가 바뀔 때마다 튜토리얼 노출 여부 결정
+  useEffect(() => {
+    if (levelConfig.level === 1) {
+      setShowTutorial(true); // level1이면 매 라운드 다시 노출
+    } else {
+      setShowTutorial(false); // level2부터는 아예 안 뜸
+    }
+  }, [levelConfig.level, roundIndex]);
 
   // 부모 컴포넌트 상단에 추가
   const missingItemRef = useRef<View>(null);
@@ -74,6 +89,13 @@ export default function ClassificationPlayScreen() {
   const currentRound = rounds[roundIndex] as ClassificationRound;
   const target = currentRound.targets[0];
 
+  // ⭐ 추가: 현재 라운드의 정답 오브젝트 id
+  const correctObjectId = Object.keys(currentRound.answer)[0];
+
+  // ⭐ 추가: 정답 오브젝트 자체 (색상/모양 정보 필요)
+  const correctObject = currentRound.objects.find(
+    (o) => o.id === correctObjectId,
+  );
   // --------------------------------------------------
   // 드롭 판정
   // --------------------------------------------------
@@ -192,6 +214,7 @@ export default function ClassificationPlayScreen() {
   //   levelIndex,
   //   levelConfig: levelConfig.level,
   // });
+
   return (
     <Container>
       <GameHeader levelConfig={levelConfig} roundIndex={roundIndex} />
@@ -227,8 +250,22 @@ export default function ClassificationPlayScreen() {
           onCorrectAnimationComplete={handleCorrect}
           onWrong={handleWrong}
           onOutside={handleOutside}
+          correctObjectId={correctObjectId} // ⭐ 추가
+          registerFirstStickerRef={(el) => {
+            // ⭐ 추가: 첫 번째 스티커의 실제 View를 tutorialFromRef에 저장
+            tutorialFromRef.current = el;
+          }}
         />
       </GameBoard>
+      {/* ⭐ 추가: 튜토리얼 오버레이 (GameBoard 밖, Container 안 아무 데나) */}
+      <TutorialOverlay
+        visible={showTutorial}
+        onComplete={() => setShowTutorial(false)}
+        fromRef={tutorialFromRef}
+        toRef={missingItemRef}
+        shapeId={correctObject?.name} // ⭐ 추가: 실제 모양
+        colorKey={correctObject?.color} // ⭐ 추가: 실제 색상
+      />
       <SuccessModal
         show={showSuccessModal}
         levelIndex={levelIndex}
@@ -249,6 +286,14 @@ export default function ClassificationPlayScreen() {
           setShowSuccessModal(false); // 모달 닫기
         }}
       />
+      {/* ⭐ Level 1에서만 튜토리얼 */}
+      {/* {showTutorial && (
+        <TutorialOverlay
+          onStart={() => {
+            setShowTutorial(false);
+          }}
+        />
+      )} */}
     </Container>
   );
 }
