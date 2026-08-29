@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View } from "react-native";
-import TargetArea from "../../components/TargetArea";
-import ObjectArea from "../../components/ObjectArea";
+import TargetArea from "../TargetArea";
+import ObjectArea from "../ObjectArea";
 import { isStickerInsideTarget } from "../../logic/judgeDropPosition";
 import Mascot from "../../../../../../components/common/Mascot";
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
@@ -52,8 +52,42 @@ export default function ClassificationPlayScreen() {
   // --------------------------------------------------
   // ⭐ Tutorial
   // --------------------------------------------------
+  // 🌟 Level 2까지 튜토리얼 보이기!
+  const [tutorialVisible, setTutorialVisible] = useState(level <= 2);
 
-  const [tutorialVisible, setTutorialVisible] = useState(level === 1);
+  // 🌟 NodeJS.Timeout 대신 ReturnType<typeof setTimeout> 사용해서 타입 에러 깔끔하게 해결!
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // ==================================================
+  // ⭐ 무소조작 감지 및 튜토리얼 트리거 함수 (대기 시간 매개변수 추가)
+  // ==================================================
+  const resetIdleTimer = (waitTime: number = 3000) => {
+    // 🌟 기본값 3초
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+    }
+
+    if (tutorialVisible) return;
+
+    if (levelConfig.level <= 2) {
+      idleTimerRef.current = setTimeout(() => {
+        setTutorialVisible(true);
+      }, waitTime); // ⏱️ 전달받은 대기 시간 적용
+    }
+  };
+
+  // --------------------------------------------------
+  // 컴포넌트 처음 켜졌거나 라운드 바뀔 때 타이머 시동
+  // --------------------------------------------------
+  useEffect(() => {
+    // 🌟 라운드가 바뀌었을 때는 0.5초(500ms) 뒤에 즉시 튜토리얼 시작!
+    resetIdleTimer(500);
+
+    return () => {
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    };
+    // 의존성 배열에는 roundIndex만 들어가는 게 맞음.
+    // tutorialVisible은 resetIdleTimer 내부에서 체크하므로 제외.
+  }, [roundIndex]);
 
   // ⭐ 항상 "정답 스티커"의 ref
   const correctObjectRef = useRef<View | null>(null);
@@ -169,8 +203,11 @@ export default function ClassificationPlayScreen() {
     setActiveStickerId(objectId);
 
     // ⭐⭐⭐ 가장 중요
-    // 아이가 직접 잡는 순간 튜토리얼 제거
-    setTutorialVisible(false);
+    // 아이가 손을 대는 순간 튜토리얼 즉시 끄고 타이머 리셋
+    if (levelConfig.level <= 2) {
+      setTutorialVisible(false);
+      resetIdleTimer();
+    }
   };
 
   // --------------------------------------------------
@@ -197,6 +234,8 @@ export default function ClassificationPlayScreen() {
   // Correct
   // --------------------------------------------------
 
+  // ==================================================
+
   const handleCorrect = (objectId: string) => {
     if (isProcessingRef.current) {
       return;
@@ -204,40 +243,45 @@ export default function ClassificationPlayScreen() {
 
     isProcessingRef.current = true;
 
-    // ⭐ 정답이면 튜토리얼 완전히 종료
+    // ⭐ [핵심 수정] 정답 맞으면 튜토리얼을 즉시 끄고 위치 초기화!
+    // 다음 라운드에서 새로운 위치를 측정하도록 보장함.
     setTutorialVisible(false);
+    // (참고: 타이머 resetIdleTimer()는 useEffect가 roundIndex 변경을 감지하고 알아서 호출해 줄 거야)
 
     setIsTargetFront(true);
 
     setFeedback("참 잘했어요! 👏");
 
     setMatchedObjectIds((prev) => {
-      return prev.includes(objectId) ? prev : [...prev, objectId];
+      if (prev.includes(objectId)) {
+        return prev;
+      }
+
+      return [...prev, objectId];
     });
 
     setTimeout(() => {
       setFeedback(null);
 
+      // --------------------------------
+      // 다음 라운드
+      // --------------------------------
+
       if (roundIndex < rounds.length - 1) {
         setRoundIndex((prev) => prev + 1);
-
         setMatchedObjectIds([]);
-
         setIsTargetFront(false);
+        setActiveStickerId(null);
 
-        // ⭐ Level 1이면 다음 문제에서도 튜토리얼
-        if (levelConfig.level === 1) {
-          setTimeout(() => {
-            setTutorialVisible(true);
-          }, 300);
-        }
+        // ⭐ [선택 사항] 여기 있던 setShowTutorial 로직은 지워도 됨.
+        // 위에서 setTutorialVisible(false)를 했고,
+        // 아래 useEffect([roundIndex])에서 resetIdleTimer가 호출되어
+        // 3초 뒤에 자동으로 tutorialVisible을 true로 만들 것이기 때문.
       } else {
+        // 마지막 라운드 성공 시 모달
         setShowSuccessModal(true);
-
         setIsTargetFront(false);
       }
-
-      setActiveStickerId(null);
 
       isProcessingRef.current = false;
     }, 1000);
@@ -336,7 +380,7 @@ export default function ClassificationPlayScreen() {
           항상 correctObjectRef → missingItemRef
       ================================================== */}
 
-      {levelConfig.level === 1 && correctObject && (
+      {levelConfig.level <= 2 && correctObject && (
         <TutorialOverlay
           visible={tutorialVisible}
           onComplete={() => {
