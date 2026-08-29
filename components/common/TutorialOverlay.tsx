@@ -5,24 +5,39 @@ import styled from "styled-components/native";
 import { COLORS } from "../../constants/colors";
 import { RenderItemSvg } from "../../constants/ColorItemSvgs";
 
+type Point = {
+  x: number;
+  y: number;
+};
+
 interface TutorialOverlayProps {
   visible: boolean;
-  onComplete: () => void;
 
+  // ⭐ 처음 Tutorial 시작할 때 사용하는 실제 Object
   fromRef: React.RefObject<View | null>;
+
+  // ⭐ 실제 정답칸
   toRef: React.RefObject<View | null>;
+
+  // ⭐ null이면 fromRef에서 시작
+  // ⭐ 값이 있으면 실패한 release 위치에서 시작
+  startPoint?: Point | null;
 
   shapeId?: string;
   colorKey?: string;
+
+  // ⭐ 한 번의 Tutorial 애니메이션이 끝났을 때
+  onComplete?: () => void;
 }
 
 export default function TutorialOverlay({
   visible,
-  onComplete,
   fromRef,
   toRef,
+  startPoint,
   shapeId,
   colorKey,
+  onComplete,
 }: TutorialOverlayProps) {
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -30,181 +45,229 @@ export default function TutorialOverlay({
   const moveY = useRef(new Animated.Value(0)).current;
 
   const fingerScale = useRef(new Animated.Value(1)).current;
-
-  // ⭐ 정답칸 도착 후 사라지는 애니메이션
   const stickerScale = useRef(new Animated.Value(1)).current;
 
-  const [startPoint, setStartPoint] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
+  const [actualStartPoint, setActualStartPoint] = useState<Point | null>(null);
 
   const deltaRef = useRef({
     x: 0,
     y: 0,
   });
 
-  // --------------------------------------------------
-  // 1️⃣ 실제 스티커 / 실제 빈칸 위치 측정
-  // --------------------------------------------------
+  // ==================================================
+  // 1️⃣ Tutorial 시작 위치 결정
+  // ==================================================
 
   useEffect(() => {
     if (!visible) {
-      setStartPoint(null);
+      setActualStartPoint(null);
       return;
     }
 
+    // --------------------------------
+    // ⭐ 실패 후 Tutorial
+    // release 위치에서 시작
+    // --------------------------------
+
+    if (startPoint) {
+      setActualStartPoint(startPoint);
+      return;
+    }
+
+    // --------------------------------
+    // ⭐ 최초 Tutorial
+    // 실제 Object 위치에서 시작
+    // --------------------------------
+
     const timer = setTimeout(() => {
-      if (!fromRef.current || !toRef.current) return;
+      if (!fromRef.current) return;
 
-      fromRef.current.measureInWindow((fx, fy, fw, fh) => {
-        toRef.current?.measureInWindow((tx, ty, tw, th) => {
-          const fromCenter = {
-            x: fx + fw / 2,
-            y: fy + fh / 2,
-          };
-
-          const toCenter = {
-            x: tx + tw / 2,
-            y: ty + th / 2,
-          };
-
-          deltaRef.current = {
-            x: toCenter.x - fromCenter.x,
-            y: toCenter.y - fromCenter.y,
-          };
-
-          setStartPoint(fromCenter);
+      fromRef.current.measureInWindow((x, y, width, height) => {
+        setActualStartPoint({
+          x: x + width / 2,
+          y: y + height / 2,
         });
       });
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [visible, fromRef, toRef]);
+  }, [visible, startPoint, fromRef]);
 
-  // --------------------------------------------------
-  // 2️⃣ 튜토리얼 애니메이션
-  // --------------------------------------------------
+  // ==================================================
+  // 2️⃣ Target 위치 측정 + 이동 거리 계산
+  // ==================================================
 
   useEffect(() => {
-    if (!visible || !startPoint) return;
+    if (!visible) return;
+    if (!actualStartPoint) return;
+    if (!toRef.current) return;
+
+    const timer = setTimeout(() => {
+      toRef.current?.measureInWindow((x, y, width, height) => {
+        const targetCenter = {
+          x: x + width / 2,
+          y: y + height / 2,
+        };
+
+        deltaRef.current = {
+          x: targetCenter.x - actualStartPoint.x,
+          y: targetCenter.y - actualStartPoint.y,
+        };
+      });
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [visible, actualStartPoint, toRef]);
+
+  // ==================================================
+  // 3️⃣ Tutorial 애니메이션
+  // ==================================================
+
+  useEffect(() => {
+    if (!visible) return;
+    if (!actualStartPoint) return;
+
+    // Target 좌표가 아직 없으면 기다림
+    if (!toRef.current) return;
 
     opacity.setValue(0);
-
     moveX.setValue(0);
     moveY.setValue(0);
-
     fingerScale.setValue(1);
     stickerScale.setValue(1);
 
-    const { x: deltaX, y: deltaY } = deltaRef.current;
+    // ⭐ target 위치를 다시 실제로 측정한 뒤 시작
+    const timer = setTimeout(() => {
+      if (!toRef.current) return;
 
-    const animation = Animated.sequence([
-      // --------------------------------
-      // 1. 등장
-      // --------------------------------
+      toRef.current.measureInWindow((tx, ty, tw, th) => {
+        const targetCenter = {
+          x: tx + tw / 2,
+          y: ty + th / 2,
+        };
 
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
+        const deltaX = targetCenter.x - actualStartPoint.x;
+        const deltaY = targetCenter.y - actualStartPoint.y;
 
-      Animated.delay(500),
+        deltaRef.current = {
+          x: deltaX,
+          y: deltaY,
+        };
 
-      // --------------------------------
-      // 2. 손가락 꾹!
-      // --------------------------------
+        Animated.sequence([
+          // --------------------------------
+          // 1️⃣ 시작 위치에서 등장
+          // --------------------------------
 
-      Animated.timing(fingerScale, {
-        toValue: 0.85,
-        duration: 180,
-        useNativeDriver: true,
-      }),
+          Animated.timing(opacity, {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }),
 
-      Animated.delay(120),
+          Animated.delay(400),
 
-      // --------------------------------
-      // 3. 실제 스티커 → 실제 빈칸으로 이동
-      // --------------------------------
+          // --------------------------------
+          // 2️⃣ 손가락이 꾹 누르기
+          // --------------------------------
 
-      Animated.parallel([
-        Animated.timing(moveX, {
-          toValue: deltaX,
-          duration: 1200,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
+          Animated.timing(fingerScale, {
+            toValue: 0.85,
+            duration: 180,
+            useNativeDriver: true,
+          }),
 
-        Animated.timing(moveY, {
-          toValue: deltaY,
-          duration: 1200,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]),
+          Animated.delay(100),
 
-      // --------------------------------
-      // 4. 손가락 뗌
-      // --------------------------------
+          // --------------------------------
+          // 3️⃣ 실제 시작 위치 → 실제 Target
+          // --------------------------------
 
-      Animated.parallel([
-        Animated.timing(fingerScale, {
-          toValue: 1,
-          duration: 180,
-          useNativeDriver: true,
-        }),
+          Animated.parallel([
+            Animated.timing(moveX, {
+              toValue: deltaX,
+              duration: 1000,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
 
-        // ⭐ 스티커를 살짝 작게
-        Animated.timing(stickerScale, {
-          toValue: 0.9,
-          duration: 180,
-          useNativeDriver: true,
-        }),
-      ]),
+            Animated.timing(moveY, {
+              toValue: deltaY,
+              duration: 1000,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+          ]),
 
-      Animated.delay(250),
+          // --------------------------------
+          // 4️⃣ Target 도착
+          // --------------------------------
 
-      // --------------------------------
-      // 5. ⭐ 정답칸에서 부드럽게 사라짐
-      // --------------------------------
+          Animated.parallel([
+            Animated.timing(fingerScale, {
+              toValue: 1,
+              duration: 150,
+              useNativeDriver: true,
+            }),
 
-      Animated.parallel([
-        Animated.timing(opacity, {
-          toValue: 0,
-          duration: 350,
-          useNativeDriver: true,
-        }),
+            Animated.sequence([
+              Animated.timing(stickerScale, {
+                toValue: 0.9,
+                duration: 100,
+                useNativeDriver: true,
+              }),
 
-        Animated.timing(stickerScale, {
-          toValue: 0.7,
-          duration: 350,
-          useNativeDriver: true,
-        }),
-      ]),
-    ]);
+              Animated.timing(stickerScale, {
+                toValue: 1,
+                duration: 150,
+                useNativeDriver: true,
+              }),
+            ]),
+          ]),
 
-    animation.start(({ finished }) => {
-      if (finished) {
-        onComplete();
-      }
-    });
+          Animated.delay(450),
+
+          // --------------------------------
+          // 5️⃣ Tutorial만 사라짐
+          // 실제 게임 Object는 건드리지 않음
+          // --------------------------------
+
+          Animated.timing(opacity, {
+            toValue: 0,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+        ]).start(({ finished }) => {
+          if (finished) {
+            onComplete?.();
+          }
+        });
+      });
+    }, 100);
 
     return () => {
-      animation.stop();
+      clearTimeout(timer);
+      opacity.stopAnimation();
+      moveX.stopAnimation();
+      moveY.stopAnimation();
     };
   }, [
     visible,
-    startPoint,
+    actualStartPoint,
     opacity,
     moveX,
     moveY,
     fingerScale,
     stickerScale,
     onComplete,
+    toRef,
   ]);
 
-  if (!visible || !startPoint) {
+  // ==================================================
+  // 렌더링
+  // ==================================================
+
+  if (!visible || !actualStartPoint) {
     return null;
   }
 
@@ -213,47 +276,59 @@ export default function TutorialOverlay({
   return (
     <TutorialLayer pointerEvents="none">
       {/* --------------------------------
-          🎯 움직이는 실제 모양
+          움직이는 가짜 Object
       -------------------------------- */}
 
       <Animated.View
         style={{
           position: "absolute",
 
-          left: startPoint.x - 45,
-          top: startPoint.y - 45,
+          left: actualStartPoint.x - 45,
+          top: actualStartPoint.y - 45,
 
           opacity,
 
           transform: [
-            { translateX: moveX },
-            { translateY: moveY },
-            { scale: stickerScale },
+            {
+              translateX: moveX,
+            },
+            {
+              translateY: moveY,
+            },
+            {
+              scale: stickerScale,
+            },
           ],
         }}
       >
-        <TutorialItem>
+        <TutorialSticker>
           {shapeId && <RenderItemSvg shapeId={shapeId} colorHex={svgColor} />}
-        </TutorialItem>
+        </TutorialSticker>
       </Animated.View>
 
       {/* --------------------------------
-          👆 손가락
+          손가락
       -------------------------------- */}
 
       <Animated.View
         style={{
           position: "absolute",
 
-          left: startPoint.x - 20,
-          top: startPoint.y - 10,
+          left: actualStartPoint.x - 18,
+          top: actualStartPoint.y - 8,
 
           opacity,
 
           transform: [
-            { translateX: moveX },
-            { translateY: moveY },
-            { scale: fingerScale },
+            {
+              translateX: moveX,
+            },
+            {
+              translateY: moveY,
+            },
+            {
+              scale: fingerScale,
+            },
           ],
         }}
       >
@@ -264,7 +339,7 @@ export default function TutorialOverlay({
 }
 
 // ==================================================
-// Styles
+// styles
 // ==================================================
 
 const TutorialLayer = styled.View`
@@ -279,7 +354,7 @@ const TutorialLayer = styled.View`
   elevation: 999;
 `;
 
-const TutorialItem = styled.View`
+const TutorialSticker = styled.View`
   width: 90px;
   height: 90px;
 
