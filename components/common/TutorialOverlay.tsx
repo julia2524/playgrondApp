@@ -4,16 +4,15 @@ import styled from "styled-components/native";
 
 import { COLORS } from "../../constants/colors";
 import { RenderItemSvg } from "../../constants/ColorItemSvgs";
-import HandPointer from "./HandPointer";
 
 interface TutorialOverlayProps {
   visible: boolean;
   onComplete: () => void;
 
-  // ⭐ 항상 정답 스티커
+  // ⭐ 항상 현재 라운드의 정답 스티커
   fromRef: React.RefObject<View | null>;
 
-  // ⭐ 항상 정답 빈칸
+  // ⭐ 항상 현재 라운드의 정답 빈칸
   toRef: React.RefObject<View | null>;
 
   shapeId?: string;
@@ -28,9 +27,9 @@ export default function TutorialOverlay({
   shapeId,
   colorKey,
 }: TutorialOverlayProps) {
-  // --------------------------------------------------
-  // Animation Values
-  // --------------------------------------------------
+  // ==================================================
+  // ⭐ Animation Values
+  // ==================================================
 
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -39,14 +38,18 @@ export default function TutorialOverlay({
 
   const fingerScale = useRef(new Animated.Value(1)).current;
 
-  // --------------------------------------------------
-  // 실제 시작 위치
-  // --------------------------------------------------
+  // ==================================================
+  // ⭐ 현재 튜토리얼 시작 위치
+  // ==================================================
 
   const [startPoint, setStartPoint] = useState<{
     x: number;
     y: number;
   } | null>(null);
+
+  // ==================================================
+  // ⭐ 이동 거리
+  // ==================================================
 
   const deltaRef = useRef({
     x: 0,
@@ -54,24 +57,29 @@ export default function TutorialOverlay({
   });
 
   // ==================================================
-  // ⭐ visible → 실제 정답 스티커 / 빈칸 위치 측정
+  // ⭐ 이전 타이머 관리
   // ==================================================
 
-  useEffect(() => {
-    if (!visible) {
-      setStartPoint(null);
+  const measureTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-      opacity.stopAnimation();
-      moveX.stopAnimation();
-      moveY.stopAnimation();
-      fingerScale.stopAnimation();
+  // ==================================================
+  // ⭐ 튜토리얼 세션 ID
+  //
+  // 이전 라운드의 measure 결과가
+  // 다음 라운드에 적용되는 것을 완전히 차단
+  // ==================================================
 
-      return;
-    }
+  const sessionIdRef = useRef(0);
 
-    // --------------------------------------------------
-    // 애니메이션 초기화
-    // --------------------------------------------------
+  // ==================================================
+  // ⭐ 애니메이션 완전 초기화 함수
+  // ==================================================
+
+  const resetAnimation = () => {
+    opacity.stopAnimation();
+    moveX.stopAnimation();
+    moveY.stopAnimation();
+    fingerScale.stopAnimation();
 
     opacity.setValue(0);
 
@@ -80,17 +88,129 @@ export default function TutorialOverlay({
 
     fingerScale.setValue(1);
 
-    // --------------------------------------------------
-    // 실제 화면 위치 측정
-    // --------------------------------------------------
+    deltaRef.current = {
+      x: 0,
+      y: 0,
+    };
+  };
 
-    const timer = setTimeout(() => {
+  // ==================================================
+  // ⭐ visible 변경
+  // ==================================================
+
+  useEffect(() => {
+    // ⭐ 새로운 visible 변화마다 세션 증가
+    sessionIdRef.current += 1;
+
+    const currentSessionId = sessionIdRef.current;
+
+    // ------------------------------------------------
+    // ❌ visible false
+    // ------------------------------------------------
+
+    if (!visible) {
+      // ⭐ 이전 측정 타이머 제거
+
+      if (measureTimerRef.current) {
+        clearTimeout(measureTimerRef.current);
+
+        measureTimerRef.current = null;
+      }
+
+      // ⭐ 이전 애니메이션 완전 제거
+
+      resetAnimation();
+
+      // ⭐ 화면에서 시작 위치 제거
+      setStartPoint(null);
+
+      return;
+    }
+
+    // ------------------------------------------------
+    // ⭐ visible true
+    // ------------------------------------------------
+
+    // ⭐ 혹시 이전 타이머가 남아있다면 제거
+
+    if (measureTimerRef.current) {
+      clearTimeout(measureTimerRef.current);
+
+      measureTimerRef.current = null;
+    }
+
+    // ⭐ 이전 애니메이션 값 완전 초기화
+
+    resetAnimation();
+
+    // ⭐ 중요!!!
+    //
+    // 이전 라운드의 startPoint가 잠깐이라도
+    // 화면에 남는 것을 막기 위해
+    // 먼저 null 처리
+    //
+
+    setStartPoint(null);
+
+    // ==================================================
+    // ⭐ 현재 라운드 UI가 완전히 렌더링될 시간 확보
+    // ==================================================
+
+    measureTimerRef.current = setTimeout(() => {
+      // ------------------------------------------------
+      // ⭐ 이미 새로운 세션이 시작되었다면 무시
+      // ------------------------------------------------
+
+      if (sessionIdRef.current !== currentSessionId) {
+        return;
+      }
+
+      // ------------------------------------------------
+      // ⭐ Ref 확인
+      // ------------------------------------------------
+
       if (!fromRef.current || !toRef.current) {
         return;
       }
 
+      // ==================================================
+      // ⭐ 현재 정답 스티커 위치 측정
+      // ==================================================
+
       fromRef.current.measureInWindow((fx, fy, fw, fh) => {
+        // ⭐ 이전 세션이면 완전히 무시
+
+        if (sessionIdRef.current !== currentSessionId) {
+          return;
+        }
+
+        // ⭐ 화면에 없는 경우 방지
+
+        if (fw <= 0 || fh <= 0) {
+          return;
+        }
+
+        // ==================================================
+        // ⭐ 현재 정답 빈칸 위치 측정
+        // ==================================================
+
         toRef.current?.measureInWindow((tx, ty, tw, th) => {
+          // ⭐ 이전 세션이면 완전히 무시
+
+          if (sessionIdRef.current !== currentSessionId) {
+            return;
+          }
+
+          // ⭐ 화면에 없는 경우 방지
+
+          if (tw <= 0 || th <= 0) {
+            return;
+          }
+
+          // ==================================================
+          // ⭐ 중심 좌표 계산
+          // ==================================================
+
           const fromCenter = {
             x: fx + fw / 2,
             y: fy + fh / 2,
@@ -101,18 +221,39 @@ export default function TutorialOverlay({
             y: ty + th / 2,
           };
 
+          // ==================================================
+          // ⭐ 이동 거리 저장
+          // ==================================================
+
           deltaRef.current = {
             x: toCenter.x - fromCenter.x,
             y: toCenter.y - fromCenter.y,
           };
 
-          setStartPoint(fromCenter);
+          // ==================================================
+          // ⭐ 현재 세션일 때만 시작 위치 설정
+          // ==================================================
+
+          if (sessionIdRef.current === currentSessionId) {
+            setStartPoint(fromCenter);
+          }
         });
       });
-    }, 150);
+    }, 250);
+
+    // ==================================================
+    // Cleanup
+    // ==================================================
 
     return () => {
-      clearTimeout(timer);
+      // ⭐ 이 effect가 끝나면
+      // 이전 세션은 자동으로 무효화됨
+
+      if (measureTimerRef.current) {
+        clearTimeout(measureTimerRef.current);
+
+        measureTimerRef.current = null;
+      }
     };
   }, [visible, fromRef, toRef]);
 
@@ -121,16 +262,32 @@ export default function TutorialOverlay({
   // ==================================================
 
   useEffect(() => {
+    // ------------------------------------------------
+    // visible 또는 startPoint 없으면 실행 안 함
+    // ------------------------------------------------
+
     if (!visible || !startPoint) {
       return;
     }
 
+    // ⭐ 현재 애니메이션 세션 기억
+
+    const animationSessionId = sessionIdRef.current;
+
+    // ------------------------------------------------
+    // 이동 거리
+    // ------------------------------------------------
+
     const { x: deltaX, y: deltaY } = deltaRef.current;
 
+    // ==================================================
+    // ⭐ Animation Sequence
+    // ==================================================
+
     const animation = Animated.sequence([
-      // --------------------------------
+      // ----------------------------------------------
       // 1️⃣ 등장
-      // --------------------------------
+      // ----------------------------------------------
 
       Animated.timing(opacity, {
         toValue: 1,
@@ -140,9 +297,9 @@ export default function TutorialOverlay({
 
       Animated.delay(400),
 
-      // --------------------------------
+      // ----------------------------------------------
       // 2️⃣ 손가락 꾹
-      // --------------------------------
+      // ----------------------------------------------
 
       Animated.timing(fingerScale, {
         toValue: 0.85,
@@ -152,9 +309,9 @@ export default function TutorialOverlay({
 
       Animated.delay(100),
 
-      // --------------------------------
+      // ----------------------------------------------
       // 3️⃣ SVG + 손가락 이동
-      // --------------------------------
+      // ----------------------------------------------
 
       Animated.parallel([
         Animated.timing(moveX, {
@@ -172,9 +329,9 @@ export default function TutorialOverlay({
         }),
       ]),
 
-      // --------------------------------
-      // 4️⃣ 정답칸 도착 → 즉시 사라짐
-      // --------------------------------
+      // ----------------------------------------------
+      // 4️⃣ 도착 후 사라짐
+      // ----------------------------------------------
 
       Animated.parallel([
         Animated.timing(opacity, {
@@ -191,37 +348,58 @@ export default function TutorialOverlay({
       ]),
     ]);
 
+    // ==================================================
+    // ⭐ Animation Start
+    // ==================================================
+
     animation.start(({ finished }) => {
-      if (finished) {
-        onComplete();
+      // ⭐ 애니메이션이 중간에 취소됐으면 무시
+
+      if (!finished) {
+        return;
       }
+
+      // ⭐ 이미 다음 라운드/다음 세션이면 무시
+
+      if (sessionIdRef.current !== animationSessionId) {
+        return;
+      }
+
+      onComplete();
     });
+
+    // ==================================================
+    // Cleanup
+    // ==================================================
 
     return () => {
       animation.stop();
     };
   }, [visible, startPoint, onComplete, opacity, moveX, moveY, fingerScale]);
 
-  // --------------------------------------------------
-  // 렌더링 조건
-  // --------------------------------------------------
+  // ==================================================
+  // ⭐ Render 조건
+  // ==================================================
 
   if (!visible || !startPoint) {
     return null;
   }
 
+  // ==================================================
+  // ⭐ 색상
+  // ==================================================
+
   const svgColor = colorKey ? COLORS[colorKey] : "#EF4444";
 
   // ==================================================
-  // Render
+  // ⭐ Render
   // ==================================================
 
   return (
     <TutorialLayer pointerEvents="none">
-      {/* ==========================================
-          ⭐ 움직이는 SVG만!
-          ObjectSticker 사용 ❌
-      ========================================== */}
+      {/* ==============================================
+          ⭐ 움직이는 SVG
+      ============================================== */}
 
       <Animated.View
         style={{
@@ -251,28 +429,10 @@ export default function TutorialOverlay({
         {shapeId && <RenderItemSvg shapeId={shapeId} colorHex={svgColor} />}
       </Animated.View>
 
-      {/* ==========================================
+      {/* ==============================================
           👆 손가락
-      ========================================== */}
-      {/* <Animated.View
-        style={{
-          position: "absolute",
-          // 🌟 SVG 크기와 중심을 고려하여 위치 미세 조정 (기존 이모지와 다를 수 있음)
-          left: startPoint.x - 30, // (size 60의 절반)
-          top: startPoint.y - 15, // (손가락 끝 위치에 맞게 조정)
+      ============================================== */}
 
-          transform: [
-            { translateX: moveX },
-            { translateY: moveY },
-            { scale: fingerScale }, // 꾹 누르는 애니메이션용
-          ],
-
-          opacity, // 등장/퇴장용
-        }}
-      >
-       
-        <HandPointer size={60} color="#ff0000" />
-      </Animated.View> */}
       <Animated.View
         style={{
           position: "absolute",
