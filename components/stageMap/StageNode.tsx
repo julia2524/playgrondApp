@@ -105,8 +105,6 @@ export default function StageNode({
       >
         {!unlocked ? (
           <LockIcon>🔒</LockIcon>
-        ) : completed ? (
-          <StageNumber>✓</StageNumber>
         ) : (
           <StageNumber>{level}</StageNumber>
         )}
