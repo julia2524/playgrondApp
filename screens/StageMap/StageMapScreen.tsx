@@ -180,8 +180,18 @@ export default function StageMapScreen() {
 
             {STAGE_CONFIGS.map((stage, index) => {
               const pos = positions[index];
+
               const unlocked = isLevelUnlocked(stage.level);
+
               const completed = isLevelCompleted(stage.level);
+
+              // ⭐ 현재 레벨의 저장된 Progress 찾기
+              const levelProgress = progress.levels.find(
+                (item) => item.level === stage.level,
+              );
+
+              // ⭐ 저장된 별 개수
+              const stars = levelProgress?.stars ?? 0;
 
               return (
                 <StageNode
@@ -190,6 +200,8 @@ export default function StageMapScreen() {
                   name={stage.name}
                   unlocked={unlocked}
                   completed={completed}
+                  stars={stars}
+                  maxStars={levelProgress?.maxStars ?? 5}
                   isCurrent={stage.level === currentLevel}
                   onPress={() => handleStagePress(stage.level)}
                   style={{

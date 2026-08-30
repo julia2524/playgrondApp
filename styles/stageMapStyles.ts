@@ -103,3 +103,24 @@ export const StageName = styled.Text`
   border-radius: 14px;
   elevation: 2;
 `;
+
+export const StageStarsRow = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 4px;
+`;
+export const StageStar = styled.Text<{ filled: boolean }>`
+  font-size: 13px;
+
+  margin-horizontal: 1px;
+
+  color: ${({ filled }) => (filled ? "#FFD84D" : "#D7DCE5")};
+
+  text-shadow-color: ${({ filled }) => (filled ? "#E7A900" : "transparent")};
+
+  text-shadow-offset: 0px 1px;
+
+  text-shadow-radius: 1px;
+`;
