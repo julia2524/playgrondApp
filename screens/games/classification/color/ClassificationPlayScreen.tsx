@@ -14,36 +14,29 @@ import TutorialOverlay from "../../../../components/common/TutorialOverlay";
 import { generateRounds } from "./createRounds";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { classificationLevels } from "./constants/levels";
-// ⭐ Progress 관련
 import { loadGameProgress, saveGameProgress } from "./process/progressStorage";
 import { completeLevel, createInitialProgress } from "./process/gameProgress";
-// ================================================== // Navigation / Route 타입 // ==================================================
+
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
   "ClassificationPlayScreen"
 >;
 type PlayScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-// ================================================== // ⭐ 별 계산 // ==================================================
+
 function calculateStars(correctRoundCount: number) {
-  // 9라운드 성공 → ⭐⭐⭐⭐⭐
   if (correctRoundCount >= 9) return 5;
-  // 7라운드 성공 → ⭐⭐⭐⭐
   if (correctRoundCount >= 7) return 4;
-  // 5라운드 성공 → ⭐⭐⭐
   if (correctRoundCount >= 5) return 3;
-  // 3라운드 성공 → ⭐⭐
   if (correctRoundCount >= 3) return 2;
-  // 1라운드 성공 → ⭐
   if (correctRoundCount >= 1) return 1;
   return 0;
 }
 
-// ================================================== // Screen // ==================================================
 export default function ClassificationPlayScreen() {
   const route = useRoute<PlayScreenRouteProp>();
   const navigation = useNavigation<PlayScreenNavigationProp>();
   const { level } = route.params;
-  // -------------------------------------------------- // Level / Round // --------------------------------------------------
+
   const [levelIndex, setLevelIndex] = useState(level - 1);
   const [roundIndex, setRoundIndex] = useState(0);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -51,19 +44,15 @@ export default function ClassificationPlayScreen() {
   const [activeStickerId, setActiveStickerId] = useState<string | null>(null);
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
   const [isTargetFront, setIsTargetFront] = useState(false);
-  // -------------------------------------------------- // ⭐ 별 개수 // --------------------------------------------------
   const [earnedStars, setEarnedStars] = useState(0);
-  // ⭐ 실제 성공한 라운드 개수
-  const [correctRoundCount, setCorrectRoundCount] = useState(0);
 
-  // -------------------------------------------------- // ⭐ Tutorial // --------------------------------------------------
   const [tutorialVisible, setTutorialVisible] = useState(level <= 2);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // -------------------------------------------------- // Level Config // --------------------------------------------------
+
   const levelConfig =
     classificationLevels[levelIndex] ??
     classificationLevels[classificationLevels.length - 1];
-  // ================================================== // ⭐ 무소조작 감지 // ==================================================
+
   const resetIdleTimer = (waitTime: number = 3000) => {
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
@@ -75,7 +64,7 @@ export default function ClassificationPlayScreen() {
       }, waitTime);
     }
   };
-  // -------------------------------------------------- // 라운드 변경 시 Tutorial 타이머 // --------------------------------------------------
+
   useEffect(() => {
     resetIdleTimer(500);
     return () => {
@@ -84,16 +73,14 @@ export default function ClassificationPlayScreen() {
       }
     };
   }, [roundIndex, levelIndex]);
-  // ================================================== // ⭐ 정답 Object Ref // ==================================================
+
   const correctObjectRef = useRef<View | null>(null);
-  // ⭐ 정답 빈칸 Ref
   const missingItemRef = useRef<View | null>(null);
-  // -------------------------------------------------- // Processing // --------------------------------------------------
   const isProcessingRef = useRef(false);
-  // -------------------------------------------------- // GameBoard Layout // --------------------------------------------------
+
   const gameBoardRef = useRef<View>(null);
   const gameBoardLayout = useRef<Layout>({ x: 0, y: 0, width: 0, height: 0 });
-  // -------------------------------------------------- // Rounds // --------------------------------------------------
+
   const [rounds, setRounds] = useState(() =>
     generateRounds(
       classificationLevels[level - 1] ??
@@ -102,12 +89,12 @@ export default function ClassificationPlayScreen() {
   );
   const currentRound = rounds[roundIndex] as ClassificationRound;
   const target = currentRound.targets[0];
-  // -------------------------------------------------- // ⭐ 정답 Object 찾기 // --------------------------------------------------
+
   const correctObjectId = Object.keys(currentRound.answer)[0];
   const correctObject = currentRound.objects.find(
     (object) => object.id === correctObjectId,
   );
-  // ================================================== // ⭐ Drop Judge // ==================================================
+
   const handleDrop = (
     item: any,
     stickerX: number,
@@ -148,16 +135,15 @@ export default function ClassificationPlayScreen() {
       },
     );
   };
-  // ================================================== // ⭐ Grab // ==================================================
+
   const handleGrab = (objectId: string) => {
     setActiveStickerId(objectId);
-    // ------------------------------------------------ // Tutorial 즉시 제거 // ------------------------------------------------
     if (levelConfig.level <= 2) {
       setTutorialVisible(false);
       resetIdleTimer();
     }
   };
-  // ================================================== // ⭐ Tutorial 다시 보여주기 // ==================================================
+
   const showTutorialAgain = () => {
     if (levelConfig.level > 2) return;
     if (!correctObjectRef.current) return;
@@ -166,7 +152,7 @@ export default function ClassificationPlayScreen() {
       setTutorialVisible(true);
     }, 250);
   };
-  // ================================================== // ⭐ Level Progress 저장 // ==================================================
+
   const saveCompletedLevel = async (completedLevel: number, stars: number) => {
     try {
       const savedProgress = await loadGameProgress();
@@ -177,192 +163,101 @@ export default function ClassificationPlayScreen() {
         stars,
       );
       await saveGameProgress(nextProgress);
-      console.log("🌟 Level Progress 저장 완료", nextProgress);
     } catch (error) {
-      console.error("❌ Level Progress 저장 실패", error);
+      console.error("Level Progress 저장 실패", error);
     }
   };
 
-  const goToNextRound = async (finalStars: number) => {
-    setFeedback(null);
-
-    // ----------------------------------------
-    // 다음 라운드가 있으면
-    // ----------------------------------------
-
-    if (roundIndex < rounds.length - 1) {
-      setRoundIndex((prev) => prev + 1);
-
-      setMatchedObjectIds([]);
-
-      setIsTargetFront(false);
-
-      setActiveStickerId(null);
-
-      isProcessingRef.current = false;
-
-      return;
-    }
-
-    // ----------------------------------------
-    // 마지막 라운드면 레벨 종료
-    // ----------------------------------------
-
-    await saveCompletedLevel(levelConfig.level, finalStars);
-
-    setShowSuccessModal(true);
-
-    setIsTargetFront(false);
-
-    setActiveStickerId(null);
-
-    isProcessingRef.current = false;
-  };
-  // ================================================== // ⭐ Correct // ==================================================
   const handleCorrect = (objectId: string) => {
     if (isProcessingRef.current) {
       return;
     }
-
     isProcessingRef.current = true;
-
-    // ⭐ Tutorial 제거
     setTutorialVisible(false);
-
     setIsTargetFront(true);
-
     setFeedback("참 잘했어요! 👏");
 
-    // ----------------------------------------
-    // ⭐ 실제 성공 횟수 증가
-    // ----------------------------------------
-
-    const nextCorrectRoundCount = correctRoundCount + 1;
-    setCorrectRoundCount(nextCorrectRoundCount);
-
-    // ----------------------------------------
-    // ⭐ 성공 횟수 기준 별 계산
-    // ----------------------------------------
-
-    const newStars = calculateStars(nextCorrectRoundCount);
-
+    const correctRoundCount = roundIndex + 1;
+    const newStars = calculateStars(correctRoundCount);
     setEarnedStars(newStars);
-
-    // ----------------------------------------
-    // 정답 처리
-    // ----------------------------------------
 
     setMatchedObjectIds((prev) => {
       if (prev.includes(objectId)) {
         return prev;
       }
-
       return [...prev, objectId];
     });
 
-    setTimeout(() => {
-      goToNextRound(newStars);
+    setTimeout(async () => {
+      setFeedback(null);
+      if (roundIndex < rounds.length - 1) {
+        setRoundIndex((prev) => prev + 1);
+        setMatchedObjectIds([]);
+        setIsTargetFront(false);
+        setActiveStickerId(null);
+        isProcessingRef.current = false;
+        return;
+      }
+      await saveCompletedLevel(levelConfig.level, newStars);
+      setShowSuccessModal(true);
+      setIsTargetFront(false);
+      isProcessingRef.current = false;
     }, 1000);
   };
-  // ================================================== // Wrong // ==================================================
+
   const handleWrong = () => {
-    if (isProcessingRef.current) {
-      return;
-    }
-
-    isProcessingRef.current = true;
-
-    // ⭐ Tutorial 제거
-    setTutorialVisible(false);
-
-    setFeedback("괜찮아요! 다음 문제도 해볼까요? 😊");
-
+    setFeedback("앗, 다른 색깔을 찾아볼까요?");
     setTimeout(() => {
-      goToNextRound(earnedStars);
-    }, 1000);
+      setFeedback(null);
+      showTutorialAgain();
+    }, 700);
   };
-  // ================================================== // Outside // ==================================================
+
   const handleOutside = () => {
-    if (isProcessingRef.current) {
-      return;
-    }
-
-    isProcessingRef.current = true;
-
-    // ⭐ Tutorial 제거
-    setTutorialVisible(false);
-
-    setFeedback("괜찮아요! 다음 문제로 넘어가 볼까요? 😊");
-
+    setFeedback("빈칸에 쏙 넣어볼까요?");
     setTimeout(() => {
-      goToNextRound(earnedStars);
-    }, 1000);
+      setFeedback(null);
+      showTutorialAgain();
+    }, 700);
   };
-  // ================================================== // ⭐ Restart // ==================================================
+
   const handleRestart = () => {
     setRounds(generateRounds(levelConfig));
-
     setRoundIndex(0);
-
     setEarnedStars(0);
-
-    // ⭐ 성공 횟수 초기화
-    setCorrectRoundCount(0);
-
     setMatchedObjectIds([]);
-
     setShowSuccessModal(false);
-
     setActiveStickerId(null);
-
     setIsTargetFront(false);
-
     setTutorialVisible(levelConfig.level <= 2);
   };
-  // ================================================== // ⭐ Next Level // ==================================================
+
   const handleNextLevel = () => {
     const nextLevelIndex = levelIndex + 1;
-
     if (nextLevelIndex >= classificationLevels.length) {
       navigation.goBack();
       return;
     }
-
     const nextConfig = classificationLevels[nextLevelIndex];
-
     setLevelIndex(nextLevelIndex);
-
     setRounds(generateRounds(nextConfig));
-
     setRoundIndex(0);
-
     setEarnedStars(0);
-
-    // ⭐ 성공 횟수 초기화
-    setCorrectRoundCount(0);
-
     setMatchedObjectIds([]);
-
     setShowSuccessModal(false);
-
     setActiveStickerId(null);
-
     setIsTargetFront(false);
-
     setTutorialVisible(nextConfig.level <= 2);
   };
-  // ================================================== // Render // ==================================================
+
   return (
     <Container>
-      {/* ============================================== ⭐ Header ============================================== */}
       <GameHeader
         levelConfig={levelConfig}
         roundIndex={roundIndex}
         earnedStars={earnedStars}
       />
-      {/* ============================================== Mission ============================================== */}
       <MissionBubbleArea feedback={feedback} target={target} />
-      {/* ============================================== Game Board ============================================== */}
       <GameBoard
         ref={gameBoardRef}
         onLayout={() => {
@@ -371,7 +266,6 @@ export default function ClassificationPlayScreen() {
           });
         }}
       >
-        {/* -------------------------------------------- Target -------------------------------------------- */}
         <TargetArea
           isFront={isTargetFront}
           currentRound={currentRound}
@@ -380,7 +274,6 @@ export default function ClassificationPlayScreen() {
           matchedObjectIds={matchedObjectIds}
           missingItemRef={missingItemRef}
         />
-        {/* -------------------------------------------- Objects -------------------------------------------- */}
         <ObjectArea
           objects={currentRound.objects}
           gameBoardLayout={gameBoardLayout}
@@ -397,7 +290,6 @@ export default function ClassificationPlayScreen() {
           correctObjectId={correctObjectId}
         />
       </GameBoard>
-      {/* ============================================== ⭐ Tutorial ============================================== */}
       {levelConfig.level <= 2 && correctObject && (
         <TutorialOverlay
           visible={tutorialVisible}
@@ -410,7 +302,6 @@ export default function ClassificationPlayScreen() {
           colorKey={correctObject.color}
         />
       )}
-      {/* ============================================== ⭐ Success Modal ============================================== */}
       <SuccessModal
         show={showSuccessModal}
         level={levelConfig.level}

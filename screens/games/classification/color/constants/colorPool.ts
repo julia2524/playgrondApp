@@ -45,6 +45,35 @@ export const SIMILAR_COLOR_FAMILIES = {
   brownFamily: ["brown", "chocolateBrown", "lightBrown", "tan"], // 의도: 갈색 vs 밝은 갈색 (명도 차이)
 };
 
+// --------------------------------------------------
+// 티어 4: 파스텔 톤 전용 풀 (Level 7~9, 13, 15 등)
+// 채도가 낮고 부드러운 색들. primary/secondary와는
+// 명확히 구분되면서도, 서로는 은은하게 비슷해서
+// 손과 눈의 정밀한 변별력을 요구함
+// --------------------------------------------------
+export const PASTEL_COLORS = [
+  "lightPink",
+  "lightBlue",
+  "lightGreen",
+  "lightYellow",
+  "lavender",
+  "peach",
+  "tan",
+  "mint",
+  "coral",
+  "skyblue",
+];
+
+// --------------------------------------------------
+// 티어 5: "모든 색" — primary + secondary + pastel 통합
+// colorPool: "all"에서 사용
+// --------------------------------------------------
+export const ALL_COLORS = [
+  ...PRIMARY_COLORS,
+  ...SECONDARY_COLORS,
+  ...PASTEL_COLORS,
+];
+
 export type ShapeDefinition = {
   id: string; // ItemSvg 컴포넌트 키와 매칭
   label: string; // 화면에 표시할 한글 이름

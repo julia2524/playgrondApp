@@ -1,10 +1,10 @@
 import {
+  ALL_COLORS,
+  PASTEL_COLORS,
   PRIMARY_COLORS,
-  SECONDARY_COLORS,
   SHAPE_POOL,
-  SIMILAR_COLOR_FAMILIES,
 } from "./constants/colorPool";
-
+import { ClassificationLevel } from "./constants/levels";
 import { ClassificationRound } from "./types";
 
 // ==================================================
@@ -15,47 +15,22 @@ const shuffleArray = <T>(array: T[]): T[] =>
   [...array].sort(() => Math.random() - 0.5);
 
 // ==================================================
-// 레벨별 색상 풀 결정
+// ⭐ colorPool 필드로 실제 색상 풀 결정
+// (레벨 숫자로 분기하던 방식 완전히 제거)
 // ==================================================
 
-function pickColorPoolForLevel(level: number): string[] {
-  switch (level) {
-    // --------------------------------------------------
-    // 🌱 Level 1
-    // 튜토리얼용
-    // --------------------------------------------------
-    case 1:
+function pickColorPoolForLevel(
+  colorPool: ClassificationLevel["colorPool"],
+): string[] {
+  switch (colorPool) {
+    case "primary":
       return PRIMARY_COLORS;
 
-    // --------------------------------------------------
-    // 🌿 Level 2
-    // 완전히 다른 원색
-    // --------------------------------------------------
-    case 2:
-      return PRIMARY_COLORS;
+    case "pastel":
+      return PASTEL_COLORS;
 
-    // --------------------------------------------------
-    // 🌿 Level 3
-    // 새로운 색상
-    // --------------------------------------------------
-    case 3:
-      return SECONDARY_COLORS;
-
-    // --------------------------------------------------
-    // 🌳 Level 4~5
-    // 비슷한 색상 계열
-    // --------------------------------------------------
-    case 4:
-    case 5: {
-      const familyKeys = Object.keys(
-        SIMILAR_COLOR_FAMILIES,
-      ) as (keyof typeof SIMILAR_COLOR_FAMILIES)[];
-
-      const randomFamilyKey =
-        familyKeys[Math.floor(Math.random() * familyKeys.length)];
-
-      return SIMILAR_COLOR_FAMILIES[randomFamilyKey];
-    }
+    case "all":
+      return ALL_COLORS;
 
     default:
       return PRIMARY_COLORS;
@@ -67,7 +42,7 @@ function pickColorPoolForLevel(level: number): string[] {
 // ==================================================
 
 export function createColorClassificationRound(
-  levelConfig: any,
+  levelConfig: ClassificationLevel,
   roundNumber: number,
 ): ClassificationRound {
   const level = levelConfig.level || 1;
@@ -85,10 +60,10 @@ export function createColorClassificationRound(
   const distractorCount = Math.max(0, objectCount - 1);
 
   // ==================================================
-  // 1️⃣ 색상 풀 결정
+  // 1️⃣ 색상 풀 결정 (⭐ levelConfig.colorPool 기준)
   // ==================================================
 
-  const colorPool = pickColorPoolForLevel(level);
+  const colorPool = pickColorPoolForLevel(levelConfig.colorPool);
 
   // 풀보다 오답이 많아지는 것 방지
   const safeDistractorCount = Math.min(distractorCount, colorPool.length - 1);
@@ -128,9 +103,7 @@ export function createColorClassificationRound(
   const targets = [
     {
       id: targetId,
-
       color: targetColor,
-
       items: targetBoxShapes.map((shape) => shape.id),
     },
   ];
@@ -143,18 +116,14 @@ export function createColorClassificationRound(
   const rawObjects = [
     {
       id: `obj-${roundNumber}-correct`,
-
       color: targetColor,
-
       name: missingShape.id,
     },
 
     // ⭐ 나머지는 오답
     ...distractorColors.map((color, index) => ({
       id: `obj-${roundNumber}-wrong-${index + 1}`,
-
       color,
-
       name: missingShape.id,
     })),
   ];
@@ -183,23 +152,14 @@ export function createColorClassificationRound(
 
   return {
     id: `classification-${level}-${roundNumber}`,
-
     game: "classification",
-
     level,
-
     round: roundNumber,
-
     type: "drag_sort",
-
     objects,
-
     targets,
-
     answer,
-
     rule: "color_classification",
-
     missingItem: missingShape.id,
   };
 }
@@ -209,7 +169,7 @@ export function createColorClassificationRound(
 // ==================================================
 
 export function createRoundByRule(
-  levelConfig: any,
+  levelConfig: ClassificationLevel,
   roundNumber: number,
 ): ClassificationRound {
   return createColorClassificationRound(levelConfig, roundNumber);
