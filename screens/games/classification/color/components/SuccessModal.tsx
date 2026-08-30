@@ -80,9 +80,9 @@ export default function SuccessModal({
             }
 
             // // ⭐ 획득하지 않은 별은 표시하지 않음
-            // if (type === "empty") {
-            //   return null;
-            // }
+            if (type === "empty") {
+              return null;
+            }
 
             return <CandyStar key={index} size={36} type={type} />;
           })}
