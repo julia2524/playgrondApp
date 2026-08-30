@@ -191,7 +191,9 @@ export default function ClassificationPlayScreen() {
     setFeedback("참 잘했어요! 👏");
     // ------------------------------------------------ // ⭐ 이번 성공까지 포함한 성공 라운드 수 // // roundIndex = 0 → 1라운드 성공 // 그래서 +1 // ------------------------------------------------
     const correctRoundCount = roundIndex + 1;
-    const newStars = calculateStars(correctRoundCount); // ⭐ 별 상태 업데이트 setEarnedStars(newStars);
+    const newStars = calculateStars(correctRoundCount);
+    // ⭐ 별 상태 업데이트
+    setEarnedStars(newStars);
     // // ------------------------------------------------ // matched Object // ------------------------------------------------
     setMatchedObjectIds((prev) => {
       if (prev.includes(objectId)) {
