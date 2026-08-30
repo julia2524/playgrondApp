@@ -56,10 +56,10 @@ export const NodeContainer = styled.View`
 export const GlowRing = styled(Animated.View)`
   position: absolute;
   top: 0px;
-  width: 86px;
-  height: 86px;
-  border-radius: 43px;
-  background-color: #fe9404;
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  background-color: #fff;
 `;
 
 export const StageButton = styled.TouchableOpacity<{

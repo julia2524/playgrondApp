@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { Animated, ViewStyle } from "react-native";
+import { Animated, TouchableOpacity, ViewStyle } from "react-native";
 
 import {
   NodeContainer,
-  StageButton,
   StageNumber,
   StageName,
   LockIcon,
   GlowRing,
   StageStarsRow,
-  StageStar,
 } from "../../styles/stageMapStyles";
+
 import CandyStar from "../common/CandyStar";
+import ProgressStar from "./ProgressStar";
 
 interface StageNodeProps {
   level: number;
@@ -49,6 +49,7 @@ export default function StageNode({
   useEffect(() => {
     if (!isCurrent) {
       pulse.setValue(0);
+
       return;
     }
 
@@ -85,9 +86,19 @@ export default function StageNode({
     outputRange: [0.45, 0],
   });
 
+  // ==================================================
+  // ⭐ 별 점수 → 10조각 진행도 변환
+  // ==================================================
+
+  const progress =
+    unlocked && maxStars > 0 ? Math.round((stars / maxStars) * 10) : 0;
+
   return (
     <NodeContainer style={style}>
-      {/* ⭐ 현재 진행 중인 스테이지 Glow */}
+      {/* ==========================================
+          ⭐ 현재 진행 중인 스테이지 Glow
+      ========================================== */}
+
       {isCurrent && (
         <GlowRing
           style={{
@@ -97,21 +108,53 @@ export default function StageNode({
         />
       )}
 
-      {/* ⭐ 스테이지 버튼 */}
-      <StageButton
-        unlocked={unlocked}
-        completed={completed}
+      {/* ==========================================
+          ⭐ 스테이지 별 버튼
+      ========================================== */}
+
+      <TouchableOpacity
         onPress={onPress}
         activeOpacity={0.8}
+        style={{
+          width: 120,
+          height: 120,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        {!unlocked ? (
-          <LockIcon>🔒</LockIcon>
-        ) : (
-          <StageNumber>{level}</StageNumber>
-        )}
-      </StageButton>
+        {/* ⭐ 10조각 진행 별 */}
 
-      {/* ⭐⭐⭐ 캔디크러쉬 느낌의 작은 별 */}
+        <ProgressStar size={120} progress={progress} />
+
+        {/* ⭐ 잠긴 스테이지 */}
+
+        {!unlocked && (
+          <LockIcon
+            style={{
+              position: "absolute",
+            }}
+          >
+            🔒
+          </LockIcon>
+        )}
+
+        {/* ⭐ 열린 스테이지 → 가운데 레벨 */}
+
+        {unlocked && (
+          <StageNumber
+            style={{
+              position: "absolute",
+            }}
+          >
+            {level}
+          </StageNumber>
+        )}
+      </TouchableOpacity>
+
+      {/* ==========================================
+          ⭐ 획득한 별 점수
+      ========================================== */}
+      {/* 
       {unlocked && (
         <StageStarsRow>
           {Array.from({ length: maxStars }).map((_, index) => {
@@ -132,9 +175,13 @@ export default function StageNode({
             return <CandyStar key={index} size={16} type={type} />;
           })}
         </StageStarsRow>
-      )}
+      )} */}
 
-      <StageName>{name}</StageName>
+      {/* ==========================================
+          ⭐ 스테이지 이름
+      ========================================== */}
+      {/* 
+      <StageName>{name}</StageName> */}
     </NodeContainer>
   );
 }
