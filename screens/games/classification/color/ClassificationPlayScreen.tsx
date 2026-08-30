@@ -53,6 +53,9 @@ export default function ClassificationPlayScreen() {
   const [isTargetFront, setIsTargetFront] = useState(false);
   // -------------------------------------------------- // ⭐ 별 개수 // --------------------------------------------------
   const [earnedStars, setEarnedStars] = useState(0);
+  // ⭐ 실제 성공한 라운드 개수
+  const [correctRoundCount, setCorrectRoundCount] = useState(0);
+
   // -------------------------------------------------- // ⭐ Tutorial // --------------------------------------------------
   const [tutorialVisible, setTutorialVisible] = useState(level <= 2);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -179,91 +182,173 @@ export default function ClassificationPlayScreen() {
       console.error("❌ Level Progress 저장 실패", error);
     }
   };
+
+  const goToNextRound = async (finalStars: number) => {
+    setFeedback(null);
+
+    // ----------------------------------------
+    // 다음 라운드가 있으면
+    // ----------------------------------------
+
+    if (roundIndex < rounds.length - 1) {
+      setRoundIndex((prev) => prev + 1);
+
+      setMatchedObjectIds([]);
+
+      setIsTargetFront(false);
+
+      setActiveStickerId(null);
+
+      isProcessingRef.current = false;
+
+      return;
+    }
+
+    // ----------------------------------------
+    // 마지막 라운드면 레벨 종료
+    // ----------------------------------------
+
+    await saveCompletedLevel(levelConfig.level, finalStars);
+
+    setShowSuccessModal(true);
+
+    setIsTargetFront(false);
+
+    setActiveStickerId(null);
+
+    isProcessingRef.current = false;
+  };
   // ================================================== // ⭐ Correct // ==================================================
   const handleCorrect = (objectId: string) => {
     if (isProcessingRef.current) {
       return;
     }
+
     isProcessingRef.current = true;
-    // ------------------------------------------------ // Tutorial 즉시 제거 // ------------------------------------------------
+
+    // ⭐ Tutorial 제거
     setTutorialVisible(false);
+
     setIsTargetFront(true);
+
     setFeedback("참 잘했어요! 👏");
-    // ------------------------------------------------ // ⭐ 이번 성공까지 포함한 성공 라운드 수 // // roundIndex = 0 → 1라운드 성공 // 그래서 +1 // ------------------------------------------------
-    const correctRoundCount = roundIndex + 1;
-    const newStars = calculateStars(correctRoundCount);
-    // ⭐ 별 상태 업데이트
+
+    // ----------------------------------------
+    // ⭐ 실제 성공 횟수 증가
+    // ----------------------------------------
+
+    const nextCorrectRoundCount = correctRoundCount + 1;
+    setCorrectRoundCount(nextCorrectRoundCount);
+
+    // ----------------------------------------
+    // ⭐ 성공 횟수 기준 별 계산
+    // ----------------------------------------
+
+    const newStars = calculateStars(nextCorrectRoundCount);
+
     setEarnedStars(newStars);
-    // // ------------------------------------------------ // matched Object // ------------------------------------------------
+
+    // ----------------------------------------
+    // 정답 처리
+    // ----------------------------------------
+
     setMatchedObjectIds((prev) => {
       if (prev.includes(objectId)) {
         return prev;
       }
+
       return [...prev, objectId];
     });
-    setTimeout(async () => {
-      setFeedback(null);
-      // ============================================== // ⭐ 다음 라운드 // ==============================================
-      if (roundIndex < rounds.length - 1) {
-        setRoundIndex((prev) => prev + 1);
-        setMatchedObjectIds([]);
-        setIsTargetFront(false);
-        setActiveStickerId(null);
-        isProcessingRef.current = false;
-        return;
-      }
-      // ============================================== // ⭐ 마지막 라운드 // ============================================== // 마지막 라운드까지 성공했으므로 // 별은 이미 5개 상태
-      await saveCompletedLevel(levelConfig.level, newStars);
-      setShowSuccessModal(true);
-      setIsTargetFront(false);
-      isProcessingRef.current = false;
+
+    setTimeout(() => {
+      goToNextRound(newStars);
     }, 1000);
   };
   // ================================================== // Wrong // ==================================================
   const handleWrong = () => {
-    setFeedback("앗, 다른 색깔을 찾아볼까요?");
+    if (isProcessingRef.current) {
+      return;
+    }
+
+    isProcessingRef.current = true;
+
+    // ⭐ Tutorial 제거
+    setTutorialVisible(false);
+
+    setFeedback("괜찮아요! 다음 문제도 해볼까요? 😊");
+
     setTimeout(() => {
-      setFeedback(null);
-      showTutorialAgain();
-    }, 700);
+      goToNextRound(earnedStars);
+    }, 1000);
   };
   // ================================================== // Outside // ==================================================
   const handleOutside = () => {
-    setFeedback("빈칸에 쏙 넣어볼까요?");
+    if (isProcessingRef.current) {
+      return;
+    }
+
+    isProcessingRef.current = true;
+
+    // ⭐ Tutorial 제거
+    setTutorialVisible(false);
+
+    setFeedback("괜찮아요! 다음 문제로 넘어가 볼까요? 😊");
+
     setTimeout(() => {
-      setFeedback(null);
-      showTutorialAgain();
-    }, 700);
+      goToNextRound(earnedStars);
+    }, 1000);
   };
   // ================================================== // ⭐ Restart // ==================================================
   const handleRestart = () => {
     setRounds(generateRounds(levelConfig));
+
     setRoundIndex(0);
+
     setEarnedStars(0);
+
+    // ⭐ 성공 횟수 초기화
+    setCorrectRoundCount(0);
+
     setMatchedObjectIds([]);
+
     setShowSuccessModal(false);
+
     setActiveStickerId(null);
+
     setIsTargetFront(false);
+
     setTutorialVisible(levelConfig.level <= 2);
   };
   // ================================================== // ⭐ Next Level // ==================================================
   const handleNextLevel = () => {
     const nextLevelIndex = levelIndex + 1;
-    // 마지막 레벨이면 StageMap으로
+
     if (nextLevelIndex >= classificationLevels.length) {
       navigation.goBack();
       return;
     }
+
     const nextConfig = classificationLevels[nextLevelIndex];
+
     setLevelIndex(nextLevelIndex);
+
     setRounds(generateRounds(nextConfig));
+
     setRoundIndex(0);
+
     setEarnedStars(0);
+
+    // ⭐ 성공 횟수 초기화
+    setCorrectRoundCount(0);
+
     setMatchedObjectIds([]);
+
     setShowSuccessModal(false);
+
     setActiveStickerId(null);
+
     setIsTargetFront(false);
-    // ⭐ Level 1~2만 Tutorial
+
     setTutorialVisible(nextConfig.level <= 2);
   };
   // ================================================== // Render // ==================================================
