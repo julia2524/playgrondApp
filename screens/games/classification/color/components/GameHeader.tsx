@@ -56,9 +56,23 @@ export default function GameHeader({
       />
 
       <StarRow>
-        {Array.from({ length: totalStars }).map((_, index) => (
-          <StarBadge key={index} filled={index < earnedStars} />
-        ))}
+        {Array.from({ length: totalStars }).map((_, index) => {
+          const starPosition = index + 1;
+
+          let type: "full" | "half" | "empty" = "empty";
+
+          // ⭐ 꽉 찬 별
+          if (earnedStars >= starPosition) {
+            type = "full";
+          }
+
+          // ⭐ 반개 별
+          else if (earnedStars >= starPosition - 0.5) {
+            type = "half";
+          }
+
+          return <StarBadge key={index} type={type} />;
+        })}
       </StarRow>
 
       <MascotWrapper>

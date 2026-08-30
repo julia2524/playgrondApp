@@ -13,10 +13,26 @@ export const MAX_STARS = 5;
  * 7번째 성공 → ⭐⭐⭐⭐
  * 9번째 성공 → ⭐⭐⭐⭐⭐
  */
-export function calculateStars(correctCount: number): number {
-  if (correctCount <= 0) {
-    return 0;
-  }
 
-  return Math.min(Math.ceil(correctCount / 2), MAX_STARS);
+export function calculateStars(correctRoundCount: number): number {
+  if (correctRoundCount >= 10) return 5;
+  if (correctRoundCount >= 9) return 4.5;
+
+  if (correctRoundCount >= 8) return 4;
+
+  if (correctRoundCount >= 7) return 3.5;
+
+  if (correctRoundCount >= 6) return 3;
+
+  if (correctRoundCount >= 5) return 2.5;
+
+  if (correctRoundCount >= 4) return 2;
+
+  if (correctRoundCount >= 3) return 1.5;
+
+  if (correctRoundCount >= 2) return 1;
+
+  if (correctRoundCount >= 1) return 0.5;
+
+  return 0;
 }

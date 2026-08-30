@@ -11,6 +11,7 @@ import {
   StageStarsRow,
   StageStar,
 } from "../../styles/stageMapStyles";
+import CandyStar from "../common/CandyStar";
 
 interface StageNodeProps {
   level: number;
@@ -113,11 +114,23 @@ export default function StageNode({
       {/* ⭐⭐⭐ 캔디크러쉬 느낌의 작은 별 */}
       {unlocked && (
         <StageStarsRow>
-          {Array.from({ length: maxStars }).map((_, index) => (
-            <StageStar key={index} filled={index < stars}>
-              ★
-            </StageStar>
-          ))}
+          {Array.from({ length: maxStars }).map((_, index) => {
+            const starPosition = index + 1;
+
+            let type: "full" | "half" | "empty" = "empty";
+
+            // ⭐ 꽉 찬 별
+            if (stars >= starPosition) {
+              type = "full";
+            }
+
+            // ⭐ 반개 별
+            else if (stars >= starPosition - 0.5) {
+              type = "half";
+            }
+
+            return <CandyStar key={index} size={16} type={type} />;
+          })}
         </StageStarsRow>
       )}
 

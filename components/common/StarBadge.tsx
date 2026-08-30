@@ -1,13 +1,14 @@
 import styled from "styled-components/native";
+import CandyStar from "./CandyStar";
 
 interface StarBadgeProps {
-  filled?: boolean; // 🌟 채워진 별인지 여부
+  type?: "full" | "half" | "empty";
 }
 
-export default function StarBadge({ filled = false }: StarBadgeProps) {
+export default function StarBadge({ type = "empty" }: StarBadgeProps) {
   return (
     <Badge>
-      <Star>{filled ? "⭐" : "☆"}</Star>
+      <CandyStar size={30} type={type} />
     </Badge>
   );
 }
@@ -15,16 +16,4 @@ export default function StarBadge({ filled = false }: StarBadgeProps) {
 const Badge = styled.View`
   flex-direction: row;
   align-items: center;
-`;
-
-const Star = styled.Text`
-  font-size: 30px;
-`;
-
-const Count = styled.Text`
-  margin-left: 5px;
-
-  font-size: 16px;
-  font-weight: bold;
-  color: #2c3e50;
 `;

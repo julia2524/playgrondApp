@@ -28,6 +28,7 @@ import { classificationLevels } from "./constants/levels";
 import { loadGameProgress, saveGameProgress } from "./process/progressStorage";
 
 import { completeLevel, createInitialProgress } from "./process/gameProgress";
+import { calculateStars } from "../../../../components/common/rewardSystem";
 
 // ==================================================
 // Navigation 타입
@@ -43,20 +44,6 @@ type PlayScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 // ==================================================
 // ⭐ 별 계산
 // ==================================================
-
-function calculateStars(correctRoundCount: number) {
-  if (correctRoundCount >= 9) return 5;
-
-  if (correctRoundCount >= 7) return 4;
-
-  if (correctRoundCount >= 5) return 3;
-
-  if (correctRoundCount >= 3) return 2;
-
-  if (correctRoundCount >= 1) return 1;
-
-  return 0;
-}
 
 // ==================================================
 // Screen
@@ -136,7 +123,7 @@ export default function ClassificationPlayScreen() {
     // ⭐ 3초 동안 아무 조작 없으면 Tutorial
     idleTimerRef.current = setTimeout(() => {
       setTutorialVisible(true);
-    }, 3000);
+    }, 2000);
   };
 
   // ==================================================

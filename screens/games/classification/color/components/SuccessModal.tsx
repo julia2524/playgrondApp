@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Mascot from "../../../../../components/common/Mascot";
 import { STAGE_CONFIGS } from "../../../../StageMap/stageConfigs";
+import CandyStar from "../../../../../components/common/CandyStar";
 
 interface SuccessModalProps {
   show: boolean;
@@ -63,11 +64,28 @@ export default function SuccessModal({
         </SuccessMascotWrapper>
 
         <SuccessEmojiRow>
-          {Array.from({ length: earnedStars }).map((_, index) => (
-            <SuccessEmoji key={index} style={{ fontSize: 28 }}>
-              🌟
-            </SuccessEmoji>
-          ))}
+          {Array.from({ length: 5 }).map((_, index) => {
+            const starPosition = index + 1;
+
+            let type: "full" | "half" | "empty" = "empty";
+
+            // ⭐ 꽉 찬 별
+            if (earnedStars >= starPosition) {
+              type = "full";
+            }
+
+            // ⭐ 반개 별
+            else if (earnedStars >= starPosition - 0.5) {
+              type = "half";
+            }
+
+            // // ⭐ 획득하지 않은 별은 표시하지 않음
+            // if (type === "empty") {
+            //   return null;
+            // }
+
+            return <CandyStar key={index} size={36} type={type} />;
+          })}
         </SuccessEmojiRow>
 
         <SuccessTitle>최고야! 레벨 클리어!</SuccessTitle>
