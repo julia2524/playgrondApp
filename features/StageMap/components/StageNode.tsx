@@ -13,20 +13,15 @@ import {
 interface StageNodeProps {
   level: number;
   name: string;
-
   unlocked: boolean;
   completed: boolean;
-
   isCurrent?: boolean;
 
   // ⭐ 획득한 별
   stars: number;
-
   // ⭐ 최대 별
   maxStars: number;
-
   onPress: () => void;
-
   style?: ViewStyle;
 }
 
@@ -46,7 +41,6 @@ export default function StageNode({
   useEffect(() => {
     if (!isCurrent) {
       pulse.setValue(0);
-
       return;
     }
 
@@ -57,7 +51,6 @@ export default function StageNode({
           duration: 1100,
           useNativeDriver: true,
         }),
-
         Animated.timing(pulse, {
           toValue: 0,
           duration: 0,
@@ -95,7 +88,6 @@ export default function StageNode({
       {/* ==========================================
           ⭐ 현재 진행 중인 스테이지 Glow
       ========================================== */}
-
       {isCurrent && (
         <GlowRing
           style={{
@@ -108,7 +100,6 @@ export default function StageNode({
       {/* ==========================================
           ⭐ 스테이지 별 버튼
       ========================================== */}
-
       <TouchableOpacity
         onPress={onPress}
         activeOpacity={0.8}
@@ -120,11 +111,9 @@ export default function StageNode({
         }}
       >
         {/* ⭐ 10조각 진행 별 */}
-
         <ProgressStar size={120} progress={progress} />
 
         {/* ⭐ 잠긴 스테이지 */}
-
         {!unlocked && (
           <LockIcon
             style={{
@@ -136,7 +125,6 @@ export default function StageNode({
         )}
 
         {/* ⭐ 열린 스테이지 → 가운데 레벨 */}
-
         {unlocked && (
           <StageNumber
             style={{
@@ -147,38 +135,6 @@ export default function StageNode({
           </StageNumber>
         )}
       </TouchableOpacity>
-
-      {/* ==========================================
-          ⭐ 획득한 별 점수
-      ========================================== */}
-      {/* 
-      {unlocked && (
-        <StageStarsRow>
-          {Array.from({ length: maxStars }).map((_, index) => {
-            const starPosition = index + 1;
-
-            let type: "full" | "half" | "empty" = "empty";
-
-            // ⭐ 꽉 찬 별
-            if (stars >= starPosition) {
-              type = "full";
-            }
-
-            // ⭐ 반개 별
-            else if (stars >= starPosition - 0.5) {
-              type = "half";
-            }
-
-            return <CandyStar key={index} size={16} type={type} />;
-          })}
-        </StageStarsRow>
-      )} */}
-
-      {/* ==========================================
-          ⭐ 스테이지 이름
-      ========================================== */}
-      {/* 
-      <StageName>{name}</StageName> */}
     </NodeContainer>
   );
 }
