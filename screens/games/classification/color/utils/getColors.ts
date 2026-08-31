@@ -1,4 +1,4 @@
-import { COLOR_POOL } from "../../../../../constants/colors";
+import { COLOR_POOL } from "../constants/colorPool";
 import { ClassificationLevel } from "../types";
 
 //이번 문제에서 어떤 색을 뽑을 것인가

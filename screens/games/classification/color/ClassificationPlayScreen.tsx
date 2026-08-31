@@ -120,10 +120,10 @@ export default function ClassificationPlayScreen() {
 
     clearIdleTimer();
 
-    // ⭐ 3초 동안 아무 조작 없으면 Tutorial
+    // ⭐ 2초 동안 아무 조작 없으면 Tutorial
     idleTimerRef.current = setTimeout(() => {
       setTutorialVisible(true);
-    }, 2000);
+    }, 1000);
   };
 
   // ==================================================
@@ -136,7 +136,7 @@ export default function ClassificationPlayScreen() {
       // 새 라운드 시작 시 Tutorial은 일단 숨김
       setTutorialVisible(false);
 
-      // ⭐ 3초 후 Tutorial
+      // ⭐ 2초 후 Tutorial
       startIdleTimer();
     } else {
       setTutorialVisible(false);

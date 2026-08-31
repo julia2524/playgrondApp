@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import ClassificationPlayScreen from "./screens/games/classification/color/ClassificationPlayScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
-import AppNavigator from "./navigation/AppNavigator";
 import CountdownOverlay from "./screens/CountDownOverlay";
+import AppNavigator from "./navigation/AppNavigator";
 
 export default function App() {
   return (
