@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 
 import { COLORS } from "../tokens/colors";
 import { RenderItemSvg } from "../../features/classification-color/assets/ColorItemSvgs";
+import HandPointer from "../ui/HandPointer";
 
 interface TutorialOverlayProps {
   visible: boolean;
@@ -455,7 +456,8 @@ export default function TutorialOverlay({
           opacity,
         }}
       >
-        <Finger>👆</Finger>
+        {/* <Finger>👆</Finger> */}
+        <HandPointer size={55} />
       </Animated.View>
     </TutorialLayer>
   );
