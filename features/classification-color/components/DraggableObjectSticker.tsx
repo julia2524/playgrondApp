@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 import { Animated, PanResponder, View } from "react-native";
 
-import { clamp } from "../../../screens/games/classification/color/logic/judgeDropPosition";
+import { clamp } from "../logic/judgeDropPosition";
 import { DropResult, Layout } from "../types";
 
 import {
@@ -10,9 +10,9 @@ import {
   BOARD_VERTICAL_PADDING,
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
-} from "../../../constants/dragConstants";
+} from "../assets/dragConstants";
 import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
-import { RenderItemSvg } from "../../../constants/ColorItemSvgs";
+import { RenderItemSvg } from "../assets/ColorItemSvgs";
 import { ObjectSticker } from "../styles/classificationStyles";
 export function DraggableObjectSticker({
   obj,

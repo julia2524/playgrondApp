@@ -192,15 +192,10 @@ export const SuccessModalContent = styled.View`
 
 export const SuccessModalInner = styled.View`
   width: 100%;
-
   background-color: ${BASIC_COLORS.CARD_BG};
-
   border-radius: 28px;
-
   padding: 24px 22px 22px;
-
   align-items: center;
-
   border-width: 2px;
   border-color: #ffffff;
 `;
@@ -214,23 +209,17 @@ export const SuccessCloudBadge = styled.View`
   top: -90px;
   left: 0;
   right: 0;
-
   align-items: center;
   justify-content: center;
-
   z-index: 10;
 `;
 
 export const SuccessLevelText = styled.Text`
   position: absolute;
-
-  font-size: 24px;
-  font-weight: 900;
-
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.PRIMARY};
-
   text-align: center;
-
   top: 50px;
 `;
 
@@ -240,18 +229,14 @@ export const SuccessLevelText = styled.Text`
 
 export const SuccessEmojiRow = styled.View`
   flex-direction: row;
-
   align-items: flex-start;
   justify-content: center;
-
   width: 100%;
-
   margin-bottom: 18px;
 `;
 
 export const SuccessStarWrapper = styled.View`
   margin-horizontal: 1px;
-
   align-items: center;
   justify-content: center;
 `;
@@ -261,26 +246,18 @@ export const SuccessStarWrapper = styled.View`
 // ==================================================
 
 export const SuccessTitle = styled.Text`
-  font-size: 30px;
-
-  font-weight: 900;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.giant}px;
 
   color: ${BASIC_COLORS.PRIMARY};
-
   text-align: center;
-
-  margin-bottom: 2px;
+  margin-top: -30px;
 `;
 
 export const SuccessSubtitle = styled.Text`
   font-size: 20px;
-
-  font-weight: 800;
-
   color: ${BASIC_COLORS.SECONDARY};
-
   text-align: center;
-
   margin-bottom: 8px;
 `;
 
@@ -291,7 +268,6 @@ export const SuccessSubtitle = styled.Text`
 export const SuccessMascotWrapper = styled.View`
   align-items: center;
   justify-content: center;
-
   margin-top: 2px;
   margin-bottom: 10px;
 `;
@@ -302,13 +278,9 @@ export const SuccessMascotWrapper = styled.View`
 
 export const SuccessButtons = styled.View`
   flex-direction: row;
-
   justify-content: center;
-
   width: 100%;
-
   gap: 14px;
-
   margin-top: 4px;
 `;
 
@@ -316,29 +288,19 @@ export const SuccessButton = styled(TouchableOpacity)<{
   variant?: "primary" | "secondary";
 }>`
   flex: 1;
-
   min-height: 58px;
-
   align-items: center;
   justify-content: center;
-
   border-radius: 28px;
-
   background-color: ${(props) =>
     props.variant === "primary" ? BASIC_COLORS.SUCCESS : BASIC_COLORS.ACCENT};
-
   border-width: 2px;
-
   border-color: ${(props) =>
     props.variant === "primary" ? "#6AC8A3" : "#FFB54A"};
-
   border-bottom-width: 5px;
-
   border-bottom-color: ${(props) =>
     props.variant === "primary" ? "#2E8F69" : "#D97900"};
-
   elevation: 5;
-
   shadow-color: #000;
   shadow-offset: 0px 4px;
   shadow-opacity: 0.16;
@@ -347,12 +309,7 @@ export const SuccessButton = styled(TouchableOpacity)<{
 
 export const ButtonText = styled.Text`
   font-size: 30px;
-
-  font-weight: 900;
-
   color: #ffffff;
-
   text-align: center;
-
   line-height: 34px;
 `;

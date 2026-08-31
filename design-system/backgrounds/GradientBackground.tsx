@@ -1,10 +1,7 @@
 import React from "react";
-import { Image, StyleSheet, Dimensions } from "react-native";
-import styled from "styled-components/native";
-import { ASSETS } from "../../constants/assets";
-import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
+import { StyleSheet, Dimensions } from "react-native";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
 
 export default function DecorativeBackground() {
   return (

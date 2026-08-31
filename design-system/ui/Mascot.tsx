@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, ImageSourcePropType } from "react-native";
 import styled from "styled-components/native";
-import { ASSETS } from "../../constants/assets";
+import { ASSETS } from "../../assets/assets";
 
 interface MascotProps {
   size?: number;

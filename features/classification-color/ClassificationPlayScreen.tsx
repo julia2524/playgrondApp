@@ -9,21 +9,12 @@ import { RootStackParamList } from "../../navigation/types";
 
 import { ClassificationRound, DropResult, Layout } from "./types";
 
-import { isStickerInsideTarget } from "../../screens/games/classification/color/logic/judgeDropPosition";
+import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
 
 import { classificationLevels } from "./constants/levels";
 
-import {
-  loadGameProgress,
-  saveGameProgress,
-} from "../../screens/games/classification/color/process/progressStorage";
-
-import {
-  completeLevel,
-  createInitialProgress,
-} from "../../screens/games/classification/color/process/gameProgress";
 import { calculateStars } from "../../components/common/rewardSystem";
 import { generateRounds } from "./createRounds";
 import GameHeader from "./components/GameHeader";
@@ -32,6 +23,8 @@ import TargetArea from "./components/TargetArea";
 import ObjectArea from "./components/ObjectArea";
 import SuccessModal from "./components/SuccessModal";
 import { Container, GameBoard } from "./styles/classificationStyles";
+import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
+import { completeLevel, createInitialProgress } from "./progress/gameProgress";
 
 // ==================================================
 // Navigation 타입

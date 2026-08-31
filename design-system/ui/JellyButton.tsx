@@ -42,7 +42,9 @@ const ButtonIcon = styled.Text`
 `;
 
 const ButtonText = styled.Text<{ color: string }>`
-  font-size: 18px;
-  font-weight: bold;
+  /* //font-size: 18px; */
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.button}px;
+
   color: ${(props) => props.color};
 `;

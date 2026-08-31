@@ -1,7 +1,5 @@
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
-import { TYPOGRAPHY } from "../../design-system/tokens/typography";
-
 export const Container = styled.View`
   flex: 1;
   padding: 24px;
@@ -17,15 +15,16 @@ export const TitleContainer = styled.View`
   margin-top: 10px;
 `;
 export const SubTitle = styled.Text`
-  font-size: 14px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: #0fa6dd;
-  font-weight: bold;
 `;
 
 export const Title = styled.Text`
   color: ${BASIC_COLORS.TEXT_MAIN};
-  font-size: ${TYPOGRAPHY.title}px;
-  font-weight: 900;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.title}px;
+
   margin-top: 4px;
 `;
 
@@ -50,14 +49,13 @@ export const SettingButtonText = styled.Text`
 `;
 
 export const GuideTextContainer = styled.View`
-  flex: 0.5;
   align-items: center;
   padding-top: 20px;
 `;
 
 export const GuideText = styled.Text`
-  font-size: 14px;
-  font-weight: 900;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: #94a3b8;
 `;
 
@@ -71,7 +69,6 @@ export const GameGrid = styled.View`
   padding-bottom: 20px;
   padding-left: 14px;
   padding-right: 14px;
-  /* padding: 14px; */
 
   gap: 14px; // 카드와 카드 사이의 간격
 `;
@@ -81,18 +78,15 @@ export const GameGridWrapper = styled.View`
 
   border-radius: 50px;
   overflow: hidden;
-  /* background-color: red; */
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.75);
+  margin-top: 50px;
 `;
-interface GameCardProps {
-  bgColor: string;
-  disabled?: boolean;
-}
 
 export const Footer = styled.Text`
   text-align: center;
-  font-size: 12px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
   color: #94a3b8;
   margin-top: auto;
 `;

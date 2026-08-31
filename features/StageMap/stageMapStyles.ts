@@ -25,8 +25,8 @@ export const StageMapHeaderCenter = styled.View`
 `;
 
 export const StageMapTitle = styled.Text`
-  font-family: "Jua";
-  font-size: 20px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
@@ -82,8 +82,8 @@ export const StageButton = styled.TouchableOpacity<{
 `;
 
 export const StageNumber = styled.Text`
-  font-family: "Jua";
-  font-size: 32px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.giant}px;
   color: #ffffff;
 `;
 
@@ -93,8 +93,8 @@ export const LockIcon = styled.Text`
 
 export const StageName = styled.Text`
   margin-top: 10px;
-  font-family: "Jua";
-  font-size: 14px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
   color: #2c3e50;
   background-color: rgba(255, 255, 255, 0.92);
   padding-horizontal: 11px;

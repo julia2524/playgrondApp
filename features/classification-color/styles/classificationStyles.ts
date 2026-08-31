@@ -21,8 +21,8 @@ export const GameHeaderCenter = styled.View`
 `;
 
 export const TitleText = styled.Text`
-  font-family: "Jua";
-  font-size: 20px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
@@ -59,59 +59,14 @@ export const Container = styled.View`
 export const Content = styled.View`
   flex: 1;
 `;
-// export const Header = styled.View`
-//   height: 76px;
-//   flex-direction: row;
-//   align-items: center;
-//   justify-content: space-around;
-//   padding-horizontal: 20px;
-
-//   background-color: #ffffff;
-//   border-bottom-left-radius: 28px;
-//   border-bottom-right-radius: 28px;
-
-//   elevation: 3;
-//   shadow-color: #6ba3d6;
-//   shadow-offset: 0px 3px;
-//   shadow-opacity: 0.1;
-//   shadow-radius: 8px;
-
-//   overflow: visible; /* ⭐ 곰돌이가 헤더 밖으로 살짝 삐져나오게 */
-// `;
-
-// export const HeaderCenter = styled.View`
-//   gap: 4px;
-// `;
-// export const StarRow = styled.View`
-//   flex-direction: row;
-//   gap: 4px;
-// `;
-
-// export const MascotCorner = styled.View`
-//   position: absolute;
-//   right: 8px;
-//   top: -18px; /* ⭐ 헤더 위로 살짝 걸치기 */
-//   z-index: 20;
-// `;
 
 export const MascotEmoji = styled.Text`
   font-size: 48px;
 `;
 
-// export const BackText = styled.Text`
-//   font-size: 28px;
-//   color: ${BASIC_COLORS.TEXT_MAIN};
-// `;
-
-// export const TitleText = styled.Text`
-//   font-size: 17px;
-//   font-weight: 800;
-//   color: ${BASIC_COLORS.TEXT_MAIN};
-// `;
-
 export const RoundIndicator = styled.Text`
-  font-size: 15px;
-  font-weight: 700;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
 
   color: ${BASIC_COLORS.PRIMARY};
   background-color: #f0f7ff;
@@ -127,8 +82,8 @@ export const MissionBubble = styled.View`
 `;
 
 export const MissionText = styled.Text`
-  font-size: 16px;
-  font-weight: 700;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   background-color: ${BASIC_COLORS.CARD_BG};
   padding-horizontal: 22px;
@@ -207,8 +162,8 @@ export const TargetItemCircle = styled(Animated.View)<{
 export const TargetItemText = styled.Text<{
   color?: string;
 }>`
-  font-size: 14px;
-  font-weight: 800;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
   color: ${(props) => props.color || BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
@@ -220,8 +175,8 @@ export const ObjectSection = styled.View`
 `;
 
 export const SectionLabel = styled.Text`
-  font-size: 14px;
-  font-weight: 600;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: #8a94a6;
   margin-bottom: 12px;
 `;
@@ -261,9 +216,13 @@ export const ObjectSticker = styled(Animated.View)<{
 `;
 
 export const StickerText = styled.Text<{ itemCount: number }>`
+  font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) =>
-    props.itemCount === 2 ? "14px" : props.itemCount === 3 ? "13px" : "11px"};
-  font-weight: 800;
+    props.itemCount === 2
+      ? `${props.theme.typography.small}px`
+      : props.itemCount === 3
+        ? `${props.theme.typography.tiny}px`
+        : "11px"};
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
@@ -317,16 +276,16 @@ export const SuccessEmoji = styled.Text`
 `;
 
 export const SuccessTitle = styled.Text`
-  font-size: 24px;
-  font-weight: 800;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.PRIMARY};
   text-align: center;
   margin-bottom: 6px;
 `;
 
 export const SuccessSubtitle = styled.Text`
-  font-size: 15px;
-  font-weight: 700;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
   margin-bottom: 24px;
@@ -360,8 +319,8 @@ export const SuccessButton = styled(TouchableOpacity)<{
 `;
 
 export const ButtonText = styled.Text`
-  font-size: 16px;
-  font-weight: 800;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   color: #ffffff;
   text-align: center;
   line-height: 20px;

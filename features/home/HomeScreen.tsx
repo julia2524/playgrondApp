@@ -4,7 +4,7 @@ import { Alert, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
-import { ASSETS } from "../../constants/assets";
+import { ASSETS } from "../../assets/assets";
 import GameCardItem from "../../design-system/ui/GameCardItem";
 
 import {

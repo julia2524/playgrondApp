@@ -19,7 +19,6 @@ import AppHeader from "../../components/common/AppHeader";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { STAGE_CONFIGS } from "./stageConfigs";
-import { useProgress } from "../../screens/games/classification/color/process/useProgress";
 
 import {
   Container,
@@ -27,6 +26,7 @@ import {
   StageMapHeaderCenter,
   StageMapTitle,
 } from "./stageMapStyles";
+import { useProgress } from "../classification-color/progress/useProgress";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
