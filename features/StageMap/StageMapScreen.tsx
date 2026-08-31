@@ -127,15 +127,6 @@ export default function StageMapScreen() {
     navigation.navigate("ClassificationPlayScreen", { level });
   };
 
-  if (isLoading) {
-    return (
-      <Container>
-        <GradientBackground />
-        <DecorativeBackground />
-      </Container>
-    );
-  }
-
   return (
     <Container>
       <GradientBackground />
@@ -150,70 +141,66 @@ export default function StageMapScreen() {
         }
       />
 
-      {/* ⭐ Content에 onLayout 추가: 실제 뷰포트 높이 측정 */}
-      <Content
-        onLayout={(event) => {
-          setViewportHeight(event.nativeEvent.layout.height);
-        }}
-      >
-        <ScrollView
-          ref={scrollRef}
-          showsVerticalScrollIndicator={false}
+      {/* ⭐ 로딩 중일 때는 컨텐츠 영역을 비워두거나 스피너만 띄워서 배경이 절대 리마운트되지 않게 유지! */}
+      {!isLoading && (
+        <Content
           onLayout={(event) => {
-            setTrackWidth(event.nativeEvent.layout.width);
-          }}
-          contentContainerStyle={{
-            minHeight: contentHeight,
+            setViewportHeight(event.nativeEvent.layout.height);
           }}
         >
-          <View style={{ height: contentHeight }}>
-            {trackWidth > 0 && (
-              <MapTrail
-                width={trackWidth}
-                height={contentHeight}
-                points={STAGE_CONFIGS.map((stage, index) => ({
-                  ...positions[index],
-                  completed: isLevelCompleted(stage.level),
-                }))}
-              />
-            )}
-
-            {STAGE_CONFIGS.map((stage, index) => {
-              const pos = positions[index];
-
-              const unlocked = isLevelUnlocked(stage.level);
-
-              const completed = isLevelCompleted(stage.level);
-
-              // ⭐ 현재 레벨의 저장된 Progress 찾기
-              const levelProgress = progress.levels.find(
-                (item) => item.level === stage.level,
-              );
-
-              // ⭐ 저장된 별 개수
-              const stars = levelProgress?.stars ?? 0;
-
-              return (
-                <StageNode
-                  key={stage.level}
-                  level={stage.level}
-                  name={stage.name}
-                  unlocked={unlocked}
-                  completed={completed}
-                  stars={stars}
-                  maxStars={levelProgress?.maxStars ?? 5}
-                  isCurrent={stage.level === currentLevel}
-                  onPress={() => handleStagePress(stage.level)}
-                  style={{
-                    left: pos.x - NODE_CONTAINER_WIDTH / 2,
-                    top: pos.y - NODE_RADIUS,
-                  }}
+          <ScrollView
+            ref={scrollRef}
+            showsVerticalScrollIndicator={false}
+            onLayout={(event) => {
+              setTrackWidth(event.nativeEvent.layout.width);
+            }}
+            contentContainerStyle={{
+              minHeight: contentHeight,
+            }}
+          >
+            <View style={{ height: contentHeight }}>
+              {trackWidth > 0 && (
+                <MapTrail
+                  width={trackWidth}
+                  height={contentHeight}
+                  points={STAGE_CONFIGS.map((stage, index) => ({
+                    ...positions[index],
+                    completed: isLevelCompleted(stage.level),
+                  }))}
                 />
-              );
-            })}
-          </View>
-        </ScrollView>
-      </Content>
+              )}
+
+              {STAGE_CONFIGS.map((stage, index) => {
+                const pos = positions[index];
+                const unlocked = isLevelUnlocked(stage.level);
+                const completed = isLevelCompleted(stage.level);
+                const levelProgress = progress.levels.find(
+                  (item) => item.level === stage.level,
+                );
+                const stars = levelProgress?.stars ?? 0;
+
+                return (
+                  <StageNode
+                    key={stage.level}
+                    level={stage.level}
+                    name={stage.name}
+                    unlocked={unlocked}
+                    completed={completed}
+                    stars={stars}
+                    maxStars={levelProgress?.maxStars ?? 5}
+                    isCurrent={stage.level === currentLevel}
+                    onPress={() => handleStagePress(stage.level)}
+                    style={{
+                      left: pos.x - NODE_CONTAINER_WIDTH / 2,
+                      top: pos.y - NODE_RADIUS,
+                    }}
+                  />
+                );
+              })}
+            </View>
+          </ScrollView>
+        </Content>
+      )}
     </Container>
   );
 }

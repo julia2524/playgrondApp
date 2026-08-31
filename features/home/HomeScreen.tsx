@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, ImageBackground } from "react-native";
+import { Alert, ImageBackground, Text, TouchableOpacity } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -63,7 +63,18 @@ export default function HomeScreen() {
             onPress={() => showAlert("설정", "설정 화면은 준비 중이에요!")}
             activeOpacity={0.8}
           >
-            <SettingButtonText>⚙️</SettingButtonText>
+            {/* <SettingButtonText>⚙️</SettingButtonText> */}
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("StickerGalleryScreen" as never)
+              }
+            >
+              <Text
+                style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
+              >
+                스티커보기
+              </Text>
+            </TouchableOpacity>
           </SettingButton>
         </Header>
 
