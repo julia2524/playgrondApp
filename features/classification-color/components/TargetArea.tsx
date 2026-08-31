@@ -30,6 +30,7 @@ export default function TargetArea({
   matchedObjectIds,
   missingItemRef,
 }: TargetAreaProps) {
+  //console.log(target.items);
   return (
     <TargetSection isFront={isFront}>
       <TargetBox

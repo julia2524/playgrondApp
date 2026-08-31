@@ -101,7 +101,7 @@ export const SHAPE_POOL: ShapeDefinition[] = [
   { id: "cactus", label: "선인장" },
   { id: "crow", label: "까마귀" },
   { id: "cat", label: "고양이" },
-  { id: "charcoal", label: "숯" },
+  { id: "charcoal", label: "숯" }, //지울까 함..
   { id: "cloud", label: "구름" },
   { id: "snowman", label: "눈사람" },
   { id: "rabbit", label: "토끼" },
