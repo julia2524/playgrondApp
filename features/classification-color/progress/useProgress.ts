@@ -102,15 +102,10 @@ export function useProgress() {
 
   return {
     progress,
-
     isLoading,
-
     getLevel,
-
     isLevelUnlocked,
-
     isLevelCompleted,
-
     reloadProgress,
   };
 }

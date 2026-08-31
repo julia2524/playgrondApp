@@ -19,11 +19,8 @@ import GradientBackground from "../../../design-system/backgrounds/GradientBackg
 
 interface GameHeaderProps {
   levelConfig: ClassificationLevel;
-
   roundIndex: number;
-
-  // ⭐ 실제 획득 별
-  earnedStars: number;
+  earnedStars: number; // ⭐ 실제 획득 별
 }
 
 type GameHeaderNavigationProp = NativeStackNavigationProp<RootStackParamList>;

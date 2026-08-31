@@ -1,20 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { RootStackParamList } from "../../navigation/types";
-
 import { ClassificationRound, DropResult, Layout } from "./types";
-
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
-
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
-
 import { classificationLevels } from "./constants/levels";
-
 import { calculateStars } from "../../components/common/rewardSystem";
 import { generateRounds } from "./createRounds";
 import GameHeader from "./components/GameHeader";
@@ -57,17 +49,11 @@ export default function ClassificationPlayScreen() {
   // ==================================================
 
   const [levelIndex, setLevelIndex] = useState(level - 1);
-
   const [roundIndex, setRoundIndex] = useState(0);
-
   const [feedback, setFeedback] = useState<string | null>(null);
-
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
   const [activeStickerId, setActiveStickerId] = useState<string | null>(null);
-
   const [matchedObjectIds, setMatchedObjectIds] = useState<string[]>([]);
-
   const [isTargetFront, setIsTargetFront] = useState(false);
 
   // ==================================================
@@ -300,11 +286,8 @@ export default function ClassificationPlayScreen() {
     // ⭐ 마지막 라운드가 아니면
     if (roundIndex < rounds.length - 1) {
       setRoundIndex((prev) => prev + 1);
-
       setMatchedObjectIds([]);
-
       setIsTargetFront(false);
-
       setActiveStickerId(null);
 
       isProcessingRef.current = false;
@@ -319,13 +302,9 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-
     await saveCompletedLevel(levelConfig.level, finalStars);
-
     setShowSuccessModal(true);
-
     setIsTargetFront(false);
-
     setActiveStickerId(null);
 
     isProcessingRef.current = false;
@@ -345,19 +324,15 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-
     setIsTargetFront(true);
-
     setFeedback("참 잘했어요! 👏");
 
     // ⭐ 성공 횟수 증가
     const nextCorrectRoundCount = correctRoundCount + 1;
-
     setCorrectRoundCount(nextCorrectRoundCount);
 
     // ⭐ 성공 횟수로 별 계산
     const newStars = calculateStars(nextCorrectRoundCount);
-
     setEarnedStars(newStars);
 
     // ⭐ 정답 Object 처리
@@ -388,7 +363,6 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-
     setFeedback("괜찮아요! 다음 문제도 해볼까요? 😊");
 
     // ⭐ 실패해도 다음 라운드
@@ -428,19 +402,12 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setRounds(generateRounds(levelConfig));
-
     setRoundIndex(0);
-
     setEarnedStars(0);
-
     setCorrectRoundCount(0);
-
     setMatchedObjectIds([]);
-
     setShowSuccessModal(false);
-
     setActiveStickerId(null);
-
     setIsTargetFront(false);
 
     // ⭐ Level 1만 Tutorial
@@ -468,21 +435,13 @@ export default function ClassificationPlayScreen() {
     const nextConfig = classificationLevels[nextLevelIndex];
 
     setLevelIndex(nextLevelIndex);
-
     setRounds(generateRounds(nextConfig));
-
     setRoundIndex(0);
-
     setEarnedStars(0);
-
     setCorrectRoundCount(0);
-
     setMatchedObjectIds([]);
-
     setShowSuccessModal(false);
-
     setActiveStickerId(null);
-
     setIsTargetFront(false);
 
     // ⭐ Level 1만 Tutorial

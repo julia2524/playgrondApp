@@ -10,13 +10,9 @@ import { STAGE_CONFIGS } from "../../StageMap/stageConfigs";
 
 export interface LevelProgress {
   level: number;
-
   unlocked: boolean;
-
   completed: boolean;
-
   stars: number;
-
   maxStars: number;
 }
 
@@ -161,13 +157,9 @@ export function mergeProgressWithStages(
 
       return {
         level: stage.level,
-
         unlocked: index === 0,
-
         completed: false,
-
         stars: 0,
-
         maxStars: 5,
       };
     }),

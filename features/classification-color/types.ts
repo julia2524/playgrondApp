@@ -84,30 +84,18 @@ export type ClassificationRound = {
 // };
 export type ClassificationLevel = {
   level: number;
-
   type: "drag_sort";
-
   objectCount: number;
-
   targetCount: number;
-
   colorPool: "primary" | "all" | "pastel";
-
   margin: number;
-
   features: {
     color: boolean;
-
     shape: boolean;
-
     size: boolean;
-
     number: boolean;
-
     hat: boolean;
-
     pattern: boolean;
-
     category: boolean;
   };
 

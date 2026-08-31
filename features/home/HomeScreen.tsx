@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, ImageBackground } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -21,6 +21,7 @@ import {
   Title,
   TitleContainer,
 } from "./homeStyles";
+import CustomAlert from "../../components/common/CustomAlert";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -29,9 +30,20 @@ export default function HomeScreen() {
   const goToStageMap = () => {
     navigation.navigate("StageMapScreen");
   };
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+
+  // 알럿 띄우는 헬퍼 함수
+  const showAlert = (title: string, message: string) => {
+    setAlertTitle(title);
+    setAlertMessage(message);
+    setAlertVisible(true);
+  };
 
   const handleLockedGame = (gameName: string) => {
-    Alert.alert("잠금", `🔒 ${gameName}은 다음 업데이트에서 만나요!`);
+    showAlert("잠금", `${gameName}는\n 다음 업데이트에서 만나요!`);
+    // Alert.alert("잠금", ` ${gameName}은 다음 업데이트에서 만나요!`);
   };
 
   return (
@@ -48,7 +60,7 @@ export default function HomeScreen() {
             <Title>어떤 놀이를 해볼까?</Title>
           </TitleContainer>
           <SettingButton
-            onPress={() => Alert.alert("설정", "설정 화면은 준비 중이에요!")}
+            onPress={() => showAlert("설정", "설정 화면은 준비 중이에요!")}
             activeOpacity={0.8}
           >
             <SettingButtonText>⚙️</SettingButtonText>
@@ -78,7 +90,6 @@ export default function HomeScreen() {
               emoji="🔷"
               title="모양 분류"
               desc="같은 모양끼리!"
-              disabled={true}
               onPress={() => handleLockedGame("모양 분류")}
             />
 
@@ -88,7 +99,6 @@ export default function HomeScreen() {
               emoji="📏"
               title="크기 분류"
               desc="같은 크기끼리!"
-              disabled={true}
               onPress={() => handleLockedGame("크기 분류")}
             />
 
@@ -107,6 +117,13 @@ export default function HomeScreen() {
         {/* 하단 푸터 */}
         <Footer>Made with song for little explorers 💛</Footer>
       </Container>
+      {/* ⭐ 2. ImageBackground 바로 아래에 CustomAlert를 넣어주기! */}
+      <CustomAlert
+        visible={alertVisible}
+        title={alertTitle}
+        message={alertMessage}
+        onClose={() => setAlertVisible(false)}
+      />
     </ImageBackground>
   );
 }
