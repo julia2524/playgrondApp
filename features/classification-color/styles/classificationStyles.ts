@@ -4,8 +4,8 @@
 
 import { Animated, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { BASIC_COLORS } from "../../../../../constants/colors";
-import { RADIUS } from "../../../../../constants/radius";
+import { BASIC_COLORS } from "../../../design-system/tokens/colors";
+import { RADIUS } from "../../../design-system/tokens/radius";
 
 // ==================================================
 // Game Header

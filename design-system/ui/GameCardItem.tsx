@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { RADIUS } from "../../constants/radius";
+import { RADIUS } from "../../design-system/tokens/radius";
 
 interface GameCardItemProps {
   bgColor: string;

@@ -4,8 +4,7 @@ import {
   PRIMARY_COLORS,
   SHAPE_POOL,
 } from "./constants/colorPool";
-import { ClassificationLevel } from "./constants/levels";
-import { ClassificationRound } from "./types";
+import { ClassificationLevel, ClassificationRound } from "./types";
 
 // ==================================================
 // 배열 섞기

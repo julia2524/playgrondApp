@@ -2,7 +2,7 @@
 // 타입 + 순수 Progress 로직
 // ==================================================
 
-import { STAGE_CONFIGS } from "../../../../StageMap/stageConfigs";
+import { STAGE_CONFIGS } from "../../../../../features/StageMap/stageConfigs";
 
 // ==================================================
 // 타입

@@ -8,16 +8,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../navigation/types";
 
-import {
-  Container,
-  Content,
-  StageMapHeaderCenter,
-  StageMapTitle,
-} from "../../styles/stageMapStyles";
+import MapTrail from "./components/MapTrail";
 
-import MapTrail from "../../features/StageMap/components/MapTrail";
-
-import StageNode from "../../features/StageMap/components/StageNode";
+import StageNode from "./components/StageNode";
 
 import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
 
@@ -27,6 +20,13 @@ import GradientBackground from "../../design-system/backgrounds/GradientBackgrou
 
 import { STAGE_CONFIGS } from "./stageConfigs";
 import { useProgress } from "../../screens/games/classification/color/process/useProgress";
+
+import {
+  Container,
+  Content,
+  StageMapHeaderCenter,
+  StageMapTitle,
+} from "./stageMapStyles";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,

@@ -1,5 +1,12 @@
 import React from "react";
 import { Alert, ImageBackground } from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/types";
+import { ASSETS } from "../../constants/assets";
+import GameCardItem from "../../design-system/ui/GameCardItem";
+
 import {
   Container,
   Footer,
@@ -13,13 +20,7 @@ import {
   SubTitle,
   Title,
   TitleContainer,
-} from "../../styles/homeStyles";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigation/types";
-import GameCardItem from "../../components/common/GameCardItem";
-import { ASSETS } from "../../constants/assets";
-
+} from "./homeStyles";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {

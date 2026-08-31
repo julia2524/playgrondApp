@@ -1,18 +1,15 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../../../../../navigation/types";
-
 import { useNavigation } from "@react-navigation/native";
-
-import Mascot from "../../../../../components/common/Mascot";
-
-import { STAGE_CONFIGS } from "../../../../StageMap/stageConfigs";
-
-import CandyStar from "../../../../../components/common/CandyStar";
 import styled from "styled-components/native";
-import { BASIC_COLORS, PASTEL_BG } from "../../../../../constants/colors";
+
 import { TouchableOpacity } from "react-native";
-import CloudLevelBadge from "../../../../../components/common/CloudLevelBadge";
+import { BASIC_COLORS, PASTEL_BG } from "../../../design-system/tokens/colors";
+import { RootStackParamList } from "../../../navigation/types";
+import Mascot from "../../../design-system/ui/Mascot";
+import { STAGE_CONFIGS } from "../../StageMap/stageConfigs";
+import CandyStar from "../../../design-system/ui/CandyStar";
+import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
 
 interface SuccessModalProps {
   show: boolean;

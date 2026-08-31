@@ -5,30 +5,33 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "../../../../navigation/types";
+import { RootStackParamList } from "../../navigation/types";
 
 import { ClassificationRound, DropResult, Layout } from "./types";
 
-import { isStickerInsideTarget } from "./logic/judgeDropPosition";
+import { isStickerInsideTarget } from "../../screens/games/classification/color/logic/judgeDropPosition";
 
-import TargetArea from "./components/TargetArea";
-import ObjectArea from "./components/ObjectArea";
-import SuccessModal from "./components/SuccessModal";
-import MissionBubbleArea from "./components/MissionBubbleArea";
-import GameHeader from "./components/GameHeader";
-
-import TutorialOverlay from "../../../../components/common/TutorialOverlay";
-
-import { generateRounds } from "./createRounds";
-
-import { Container, GameBoard } from "./styles/classificationStyles";
+import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
 
 import { classificationLevels } from "./constants/levels";
 
-import { loadGameProgress, saveGameProgress } from "./process/progressStorage";
+import {
+  loadGameProgress,
+  saveGameProgress,
+} from "../../screens/games/classification/color/process/progressStorage";
 
-import { completeLevel, createInitialProgress } from "./process/gameProgress";
-import { calculateStars } from "../../../../components/common/rewardSystem";
+import {
+  completeLevel,
+  createInitialProgress,
+} from "../../screens/games/classification/color/process/gameProgress";
+import { calculateStars } from "../../components/common/rewardSystem";
+import { generateRounds } from "./createRounds";
+import GameHeader from "./components/GameHeader";
+import MissionBubbleArea from "./components/MissionBubbleArea";
+import TargetArea from "./components/TargetArea";
+import ObjectArea from "./components/ObjectArea";
+import SuccessModal from "./components/SuccessModal";
+import { Container, GameBoard } from "./styles/classificationStyles";
 
 // ==================================================
 // Navigation 타입

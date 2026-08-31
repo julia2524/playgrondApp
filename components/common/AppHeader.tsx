@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
-import { BASIC_COLORS } from "../../constants/colors";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
 
 interface AppHeaderProps {
   onBack: () => void;

@@ -1,21 +1,4 @@
-export interface ClassificationLevel {
-  level: number;
-  type: "drag_sort";
-  objectCount: number;
-  targetCount: number;
-  colorPool: "primary" | "all" | "pastel";
-  margin: number;
-  features: {
-    color: boolean;
-    shape: boolean;
-    size: boolean;
-    number: boolean;
-    hat: boolean;
-    pattern: boolean;
-    category: boolean;
-  };
-  rule: string;
-}
+import { ClassificationLevel } from "../types";
 
 export const classificationLevels: ClassificationLevel[] = [
   // --- [초급: 원색으로 손풀기 & 마진 좁히기] ---

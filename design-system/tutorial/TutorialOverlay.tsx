@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, View } from "react-native";
 import styled from "styled-components/native";
 
-import { COLORS } from "../../constants/colors";
+import { COLORS } from "../tokens/colors";
 import { RenderItemSvg } from "../../constants/ColorItemSvgs";
 
 interface TutorialOverlayProps {

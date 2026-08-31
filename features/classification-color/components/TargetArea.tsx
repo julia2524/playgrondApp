@@ -7,9 +7,10 @@ import {
 } from "../styles/classificationStyles";
 
 import TargetSlotItem from "./TargetSlotItem";
-import { ClassificationRound, GameObject, GameTarget } from "../types";
-import { COLORS, SOFT_COLORS } from "../../../../../constants/colors";
+
+import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
 import { SHAPE_POOL } from "../constants/colorPool";
+import { ClassificationRound, GameObject, GameTarget } from "../types";
 
 interface TargetAreaProps {
   isFront: boolean;

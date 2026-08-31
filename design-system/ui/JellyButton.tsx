@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
-import { COLORS } from "../../constants/colors"; // 경로 확인!
-import { RADIUS } from "../../constants/radius";
+import { COLORS } from "../tokens/colors"; // 경로 확인!
+import { RADIUS } from "../tokens/radius";
 
 interface JellyButtonProps {
   title: string;

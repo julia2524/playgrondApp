@@ -1,7 +1,6 @@
 import styled from "styled-components/native";
-import { RADIUS } from "../constants/radius";
-import { TYPOGRAPHY } from "../constants/typography";
-import { BASIC_COLORS } from "../constants/colors";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { TYPOGRAPHY } from "../../design-system/tokens/typography";
 
 export const Container = styled.View`
   flex: 1;

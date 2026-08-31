@@ -1,17 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, TouchableOpacity, ViewStyle } from "react-native";
 
+import ProgressStar from "../../../components/stageMap/ProgressStar";
+
 import {
   NodeContainer,
   StageNumber,
-  StageName,
   LockIcon,
   GlowRing,
-  StageStarsRow,
-} from "../../styles/stageMapStyles";
-
-import CandyStar from "../common/CandyStar";
-import ProgressStar from "./ProgressStar";
+} from "../stageMapStyles";
 
 interface StageNodeProps {
   level: number;

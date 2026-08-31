@@ -6,21 +6,16 @@ import {
   TitleText,
 } from "../styles/classificationStyles";
 
-import { ClassificationLevel } from "../types";
-
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-import { RootStackParamList } from "../../../../../navigation/types";
 
 import { useNavigation } from "@react-navigation/native";
 
-import Mascot from "../../../../../components/common/Mascot";
-
-import AppHeader from "../../../../../components/common/AppHeader";
-
-import StarBadge from "../../../../../components/common/StarBadge";
-
-import GradientBackground from "../../../../../components/common/GradientBackground";
+import { ClassificationLevel } from "../types";
+import { RootStackParamList } from "../../../navigation/types";
+import Mascot from "../../../design-system/ui/Mascot";
+import AppHeader from "../../../components/common/AppHeader";
+import StarBadge from "../../../design-system/ui/StarBadge";
+import GradientBackground from "../../../design-system/backgrounds/GradientBackground";
 
 interface GameHeaderProps {
   levelConfig: ClassificationLevel;
