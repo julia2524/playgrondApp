@@ -189,6 +189,10 @@ export const ObjectsContainer = styled.View`
   gap: 16px; /* 아이템 간격 */
 `;
 
+export const ObjectStickerShadowWrapper = styled.View`
+  border-radius: 999px; /* ObjectSticker와 동일한 radius */
+  background-color: transparent; /* 그림자만 담당, 배경은 안쪽 ObjectSticker가 그림 */
+`;
 export const ObjectSticker = styled(Animated.View)<{
   color: string;
   itemCount: number;
@@ -207,12 +211,14 @@ export const ObjectSticker = styled(Animated.View)<{
 
   align-items: center;
   justify-content: center;
-  elevation: 3;
 
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.08;
-  shadow-radius: 4px;
+  /* ⭐ elevation을 낮춰서 안드로이드 기본 그림자를 더 은은하게 */
+  elevation: 1;
+  /* iOS 전용 — 안드로이드는 무시되지만 iOS에서는 이 값들이 실제로 적용됨 */
+  shadow-color: #64748b;
+  shadow-offset: 0px 3px;
+  shadow-opacity: 0.18;
+  shadow-radius: 6px;
 `;
 
 export const StickerText = styled.Text<{ itemCount: number }>`

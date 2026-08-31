@@ -13,7 +13,10 @@ import {
 } from "../assets/dragConstants";
 import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
 import { RenderItemSvg } from "../assets/ColorItemSvgs";
-import { ObjectSticker } from "../styles/classificationStyles";
+import {
+  ObjectSticker,
+  ObjectStickerShadowWrapper,
+} from "../styles/classificationStyles";
 export function DraggableObjectSticker({
   obj,
   color,
@@ -28,23 +31,14 @@ export function DraggableObjectSticker({
   registerRef,
 }: {
   obj: any;
-
   color: string;
-
   itemCount: number;
-
   gameBoardLayout: React.MutableRefObject<Layout>;
-
   isActive: boolean;
-
   onGrab: (objectId: string) => void;
-
   onCorrectAnimationComplete: (objectId: string) => void;
-
   onWrong: () => void;
-
   onOutside: () => void;
-
   onRelease: (
     obj: any,
     stickerX: number,
@@ -53,7 +47,6 @@ export function DraggableObjectSticker({
     height: number,
     callback: (result: DropResult) => void,
   ) => void;
-
   registerRef?: (el: View | null) => void;
 }) {
   const stickerRef = useRef<View>(null);
@@ -66,29 +59,23 @@ export function DraggableObjectSticker({
   };
 
   const position = useRef(new Animated.ValueXY()).current;
-
   const shakeX = useRef(new Animated.Value(0)).current;
-
   const scale = useRef(new Animated.Value(1)).current;
-
+  const pressScale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(1)).current;
-
   const startPosition = useRef({
     x: 0,
     y: 0,
   });
-
   const startScreenPosition = useRef({
     x: 0,
     y: 0,
   });
-
   const isScreenPositionReadyRef = useRef(false);
 
   // --------------------------------------------------
   // Correct Animation
   // --------------------------------------------------
-
   const playCorrectAnimation = (onComplete: () => void) => {
     Animated.parallel([
       Animated.timing(scale, {
@@ -112,7 +99,6 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   // Wrong Animation
   // --------------------------------------------------
-
   const playWrongAnimation = () => {
     shakeX.setValue(0);
 
@@ -153,7 +139,6 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   // PanResponder
   // --------------------------------------------------
-
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -171,6 +156,18 @@ export function DraggableObjectSticker({
           x: (position.x as any)._value,
           y: (position.y as any)._value,
         };
+        Animated.parallel([
+          Animated.timing(pressScale, {
+            toValue: 0.9,
+            duration: 100,
+            useNativeDriver: false,
+          }),
+          Animated.timing(opacity, {
+            toValue: 0.8, // 👈 잡았을 때 살짝 투명하게!
+            duration: 100,
+            useNativeDriver: false,
+          }),
+        ]).start();
 
         stickerRef.current?.measureInWindow((x, y) => {
           startScreenPosition.current = {
@@ -192,38 +189,25 @@ export function DraggableObjectSticker({
         }
 
         const board = gameBoardLayout.current;
-
         const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
-
         const boardTop = board.y + BOARD_VERTICAL_PADDING;
-
         const boardRight = board.x + board.width - BOARD_HORIZONTAL_PADDING;
-
         const boardBottom = board.y + board.height - BOARD_VERTICAL_PADDING;
-
         const currentScreenX = startScreenPosition.current.x + gesture.dx;
-
         const currentScreenY = startScreenPosition.current.y + gesture.dy;
-
         const minScreenX = boardLeft;
-
         const maxScreenX = boardRight - STICKER_SIZE;
-
         const minScreenY = boardTop;
-
         const maxScreenY = boardBottom - STICKER_SIZE;
 
         const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
-
         const clampedScreenY = clamp(currentScreenY, minScreenY, maxScreenY);
 
         const deltaX = clampedScreenX - startScreenPosition.current.x;
-
         const deltaY = clampedScreenY - startScreenPosition.current.y;
 
         position.setValue({
           x: startPosition.current.x + deltaX,
-
           y: startPosition.current.y + deltaY,
         });
       },
@@ -231,9 +215,21 @@ export function DraggableObjectSticker({
       // --------------------------------------------------
       // Release
       // --------------------------------------------------
-
       onPanResponderRelease: () => {
         isScreenPositionReadyRef.current = false;
+
+        Animated.parallel([
+          Animated.timing(pressScale, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: false,
+          }),
+          Animated.timing(opacity, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: false,
+          }),
+        ]).start();
 
         stickerRef.current?.measureInWindow((x, y, width, height) => {
           onRelease(
@@ -247,36 +243,28 @@ export function DraggableObjectSticker({
               // ---------------------
               // Correct
               // ---------------------
-
               if (result === "correct") {
                 playCorrectAnimation(() => {
                   onCorrectAnimationComplete(obj.id);
                 });
-
                 return;
               }
 
               // ---------------------
               // Wrong
               // ---------------------
-
               if (result === "wrong") {
                 playWrongAnimation();
-
                 onWrong();
-
                 return;
               }
 
               // ---------------------
               // Outside
               // ---------------------
-
               if (result === "outside") {
                 playWrongAnimation();
-
                 onOutside();
-
                 return;
               }
             },
@@ -286,6 +274,19 @@ export function DraggableObjectSticker({
 
       onPanResponderTerminate: () => {
         isScreenPositionReadyRef.current = false;
+
+        Animated.parallel([
+          Animated.timing(pressScale, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: false,
+          }),
+          Animated.timing(opacity, {
+            toValue: 1,
+            duration: 150,
+            useNativeDriver: false,
+          }),
+        ]).start();
       },
     }),
   ).current;
@@ -295,38 +296,40 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
 
   return (
-    <Animated.View
-      ref={setStickerRef}
-      {...panResponder.panHandlers}
-      style={{
-        transform: [
-          {
-            translateX: position.x,
-          },
-          {
-            translateX: shakeX,
-          },
-          {
-            translateY: position.y,
-          },
-          {
-            scale,
-          },
-        ],
-
-        opacity,
-
-        zIndex: isActive ? 9999 : 1,
-
-        elevation: isActive ? 99 : 1,
-      }}
-    >
-      <ObjectSticker color={SOFT_COLORS[obj.color]} itemCount={itemCount}>
-        <RenderItemSvg
-          shapeId={obj.name}
-          colorHex={COLORS[obj.color] || "#FFF"}
-        />
-      </ObjectSticker>
-    </Animated.View>
+    <ObjectStickerShadowWrapper>
+      <Animated.View
+        ref={setStickerRef}
+        {...panResponder.panHandlers}
+        renderToHardwareTextureAndroid={true} // ⭐ 핵심: 안드로이드 전용, 통째로 비트맵화
+        needsOffscreenAlphaCompositing={true} // ⭐ opacity 애니메이션도 함께 있으니 이것도 추가
+        style={{
+          transform: [
+            {
+              translateX: position.x,
+            },
+            {
+              translateX: shakeX,
+            },
+            {
+              translateY: position.y,
+            },
+            {
+              scale,
+            },
+            { scale: pressScale },
+          ],
+          opacity,
+          zIndex: isActive ? 9999 : 1,
+          elevation: isActive ? 99 : 1,
+        }}
+      >
+        <ObjectSticker color={SOFT_COLORS[obj.color]} itemCount={itemCount}>
+          <RenderItemSvg
+            shapeId={obj.name}
+            colorHex={COLORS[obj.color] || "#FFF"}
+          />
+        </ObjectSticker>
+      </Animated.View>
+    </ObjectStickerShadowWrapper>
   );
 }

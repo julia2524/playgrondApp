@@ -196,7 +196,6 @@ export default function ClassificationPlayScreen() {
   ) => {
     if (!missingItemRef.current) {
       callback("outside");
-
       return;
     }
 
@@ -220,7 +219,6 @@ export default function ClassificationPlayScreen() {
 
         if (!isInside) {
           callback("outside");
-
           return;
         }
 
@@ -228,7 +226,6 @@ export default function ClassificationPlayScreen() {
 
         if (correctTargetId) {
           callback("correct");
-
           return;
         }
 
@@ -459,7 +456,6 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           Header
       ========================================== */}
-
       <GameHeader
         levelConfig={levelConfig}
         roundIndex={roundIndex}
@@ -469,13 +465,11 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           Mission
       ========================================== */}
-
       <MissionBubbleArea feedback={feedback} target={target} />
 
       {/* ==========================================
           Game Board
       ========================================== */}
-
       <GameBoard
         ref={gameBoardRef}
         onLayout={() => {
@@ -490,7 +484,6 @@ export default function ClassificationPlayScreen() {
         }}
       >
         {/* Target */}
-
         <TargetArea
           isFront={isTargetFront}
           currentRound={currentRound}
@@ -501,7 +494,6 @@ export default function ClassificationPlayScreen() {
         />
 
         {/* Objects */}
-
         <ObjectArea
           objects={currentRound.objects}
           gameBoardLayout={gameBoardLayout}
@@ -522,7 +514,6 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           ⭐ Tutorial
       ========================================== */}
-
       {levelConfig.level === 1 && correctObject && (
         <TutorialOverlay
           visible={tutorialVisible}
@@ -543,7 +534,6 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           ⭐ Success Modal
       ========================================== */}
-
       <SuccessModal
         show={showSuccessModal}
         level={levelConfig.level}
