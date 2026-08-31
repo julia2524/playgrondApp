@@ -456,7 +456,6 @@ export default function TutorialOverlay({
           opacity,
         }}
       >
-        {/* <Finger>👆</Finger> */}
         <HandPointer size={55} />
       </Animated.View>
     </TutorialLayer>
@@ -479,8 +478,4 @@ const TutorialLayer = styled.View`
   z-index: 500;
 
   elevation: 500;
-`;
-
-const Finger = styled.Text`
-  font-size: 55px;
 `;
