@@ -456,7 +456,7 @@ export default function TutorialOverlay({
           opacity,
         }}
       >
-        <HandPointer size={55} />
+        <HandPointer size={70} />
       </Animated.View>
     </TutorialLayer>
   );

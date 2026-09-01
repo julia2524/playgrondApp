@@ -31,7 +31,6 @@ export default function StickerGalleryScreen() {
     "milk",
     "banana",
     "lemon",
-
     "bell",
     "chick",
     "sunflower",
@@ -57,6 +56,15 @@ export default function StickerGalleryScreen() {
     "owl",
     "rocket",
     "frog",
+    "clock",
+    "car",
+    "ship",
+    "dog",
+    "fox",
+    "pig",
+    "bear",
+    "penguin",
+    "snail",
   ];
 
   return (
