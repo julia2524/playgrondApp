@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Animated, PanResponder, View } from "react-native";
 
@@ -17,6 +17,8 @@ import {
   ObjectSticker,
   ObjectStickerShadowWrapper,
 } from "../styles/classificationStyles";
+import { playSound, preloadSounds } from "../../../utils/sound";
+import { triggerHaptic } from "../../../utils/haptic";
 export function DraggableObjectSticker({
   obj,
   color,
@@ -72,6 +74,9 @@ export function DraggableObjectSticker({
     y: 0,
   });
   const isScreenPositionReadyRef = useRef(false);
+  useEffect(() => {
+    preloadSounds(); // 한 번만 호출
+  }, []);
 
   // --------------------------------------------------
   // Correct Animation
@@ -142,11 +147,14 @@ export function DraggableObjectSticker({
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-
       onMoveShouldSetPanResponder: () => true,
 
       // ⭐⭐⭐ 잡는 순간
       onPanResponderGrant: () => {
+        // 효과음 + 햅틱
+        playSound("grab");
+        triggerHaptic("light");
+
         // 부모에게 알려서 tutorial 즉시 제거
         onGrab(obj.id);
 
@@ -156,6 +164,7 @@ export function DraggableObjectSticker({
           x: (position.x as any)._value,
           y: (position.y as any)._value,
         };
+
         Animated.parallel([
           Animated.timing(pressScale, {
             toValue: 0.9,
@@ -163,18 +172,14 @@ export function DraggableObjectSticker({
             useNativeDriver: false,
           }),
           Animated.timing(opacity, {
-            toValue: 0.8, // 👈 잡았을 때 살짝 투명하게!
+            toValue: 0.8,
             duration: 100,
             useNativeDriver: false,
           }),
         ]).start();
 
         stickerRef.current?.measureInWindow((x, y) => {
-          startScreenPosition.current = {
-            x,
-            y,
-          };
-
+          startScreenPosition.current = { x, y };
           isScreenPositionReadyRef.current = true;
         });
       },
@@ -182,19 +187,18 @@ export function DraggableObjectSticker({
       // --------------------------------------------------
       // Move
       // --------------------------------------------------
-
       onPanResponderMove: (_, gesture) => {
-        if (!isScreenPositionReadyRef.current) {
-          return;
-        }
+        if (!isScreenPositionReadyRef.current) return;
 
         const board = gameBoardLayout.current;
         const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
         const boardTop = board.y + BOARD_VERTICAL_PADDING;
         const boardRight = board.x + board.width - BOARD_HORIZONTAL_PADDING;
         const boardBottom = board.y + board.height - BOARD_VERTICAL_PADDING;
+
         const currentScreenX = startScreenPosition.current.x + gesture.dx;
         const currentScreenY = startScreenPosition.current.y + gesture.dy;
+
         const minScreenX = boardLeft;
         const maxScreenX = boardRight - STICKER_SIZE;
         const minScreenY = boardTop;
@@ -232,43 +236,38 @@ export function DraggableObjectSticker({
         ]).start();
 
         stickerRef.current?.measureInWindow((x, y, width, height) => {
-          onRelease(
-            obj,
-            x,
-            y,
-            width,
-            height,
+          onRelease(obj, x, y, width, height, (result) => {
+            // ---------------------
+            // Correct
+            // ---------------------
+            if (result === "correct") {
+              playSound("correct");
+              playSound("correct_sound");
+              triggerHaptic("success");
 
-            (result) => {
-              // ---------------------
-              // Correct
-              // ---------------------
-              if (result === "correct") {
+              setTimeout(() => {
                 playCorrectAnimation(() => {
                   onCorrectAnimationComplete(obj.id);
                 });
-                return;
-              }
+              }, 150);
+              return;
+            }
 
-              // ---------------------
-              // Wrong
-              // ---------------------
-              if (result === "wrong") {
+            // ---------------------
+            // Wrong || Outside
+            // ---------------------
+            if (result === "wrong" || result === "outside") {
+              playSound("wrong");
+              triggerHaptic("error");
+              playSound("wrong_sound");
+
+              setTimeout(() => {
                 playWrongAnimation();
                 onWrong();
-                return;
-              }
-
-              // ---------------------
-              // Outside
-              // ---------------------
-              if (result === "outside") {
-                playWrongAnimation();
-                onOutside();
-                return;
-              }
-            },
-          );
+              }, 150);
+              return;
+            }
+          });
         });
       },
 
