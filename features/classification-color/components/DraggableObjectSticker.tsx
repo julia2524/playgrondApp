@@ -17,7 +17,12 @@ import {
   ObjectSticker,
   ObjectStickerShadowWrapper,
 } from "../styles/classificationStyles";
-import { playSound, preloadSounds } from "../../../utils/sound";
+import {
+  playLastSuccessNote,
+  playSound,
+  playStreakNote,
+  preloadSounds,
+} from "../../../utils/sound";
 import { triggerHaptic } from "../../../utils/haptic";
 export function DraggableObjectSticker({
   obj,
@@ -31,6 +36,7 @@ export function DraggableObjectSticker({
   onWrong,
   onOutside,
   registerRef,
+  correctStreakCount,
 }: {
   obj: any;
   color: string;
@@ -50,6 +56,7 @@ export function DraggableObjectSticker({
     callback: (result: DropResult) => void,
   ) => void;
   registerRef?: (el: View | null) => void;
+  correctStreakCount: number;
 }) {
   const stickerRef = useRef<View>(null);
 
@@ -241,8 +248,13 @@ export function DraggableObjectSticker({
             // Correct
             // ---------------------
             if (result === "correct") {
-              playSound("correct");
-              playSound("correct_sound");
+              // 1. 음계 먼저 재생 (스트릭에 따라)
+              playStreakNote(correctStreakCount);
+
+              // 2. 기존 정답 효과음 / 음성도 같이 내고 싶으면
+              // playSound("correct");
+              // playSound("correct_sound");
+
               triggerHaptic("success");
 
               setTimeout(() => {
@@ -257,9 +269,10 @@ export function DraggableObjectSticker({
             // Wrong || Outside
             // ---------------------
             if (result === "wrong" || result === "outside") {
-              playSound("wrong");
+              playLastSuccessNote(); // ⭐ 직전에 성공한 음 그대로 재생
+              // playSound("wrong");
+              // playSound("wrong_sound");
               triggerHaptic("error");
-              playSound("wrong_sound");
 
               setTimeout(() => {
                 playWrongAnimation();

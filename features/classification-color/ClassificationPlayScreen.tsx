@@ -508,6 +508,7 @@ export default function ClassificationPlayScreen() {
             correctObjectRef.current = el;
           }}
           correctObjectId={correctObjectId}
+          correctStreakCount={correctRoundCount + 1} // ⭐ 추가: "이번에 맞히면 몇 번째인지"
         />
       </GameBoard>
 

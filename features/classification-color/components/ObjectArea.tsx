@@ -41,6 +41,7 @@ interface ObjectAreaProps {
 
   // ⭐ 현재 라운드의 정답 Object ID
   correctObjectId?: string;
+  correctStreakCount: number;
 }
 
 export default function ObjectArea({
@@ -55,6 +56,7 @@ export default function ObjectArea({
   onOutside,
   registerFirstStickerRef,
   correctObjectId,
+  correctStreakCount,
 }: ObjectAreaProps) {
   return (
     <ObjectSection>
@@ -81,6 +83,7 @@ export default function ObjectArea({
             registerRef={
               obj.id === correctObjectId ? registerFirstStickerRef : undefined
             }
+            correctStreakCount={correctStreakCount} // ⭐ 추가
           />
         ))}
       </ObjectsContainer>
