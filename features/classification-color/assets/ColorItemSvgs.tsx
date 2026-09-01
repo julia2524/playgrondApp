@@ -9,46 +9,65 @@ interface ItemSvgProps {
    공통 스타일
 ================================================== */
 
-const OUTLINE = "#475569";
-const WHITE = "#FFFFFF";
-const DARK = "#334155";
-const BROWN = "#92400E";
-const GREEN = "#65A30D";
 const ORANGE = "#FB923C";
+const OUTLINE = "#2C3E50";
+const WHITE = "#FFFFFF";
+const DARK = "#2C3E50";
+const PINK = "#FF9EC4";
+const BROWN = "#9A5B32";
+const LIGHT_BROWN = "#D99A62";
+const GREEN = "#62C370";
+const DARK_GREEN = "#3D9A55";
+const RED = "#FF6B6B";
+const YELLOW = "#FFD84D";
+const WATERMELON_RED = "#FF7B7B";
+const WATERMELON_GREEN = "#4DBA70";
+const PURPLE = "#8B6BE8";
 
-const Apple = ({ colorHex }: ItemSvgProps) => (
+export const Apple = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Path
-      d="M50 30
-         C35 20 18 28 18 50
-         C18 72 32 84 50 88
-         C68 84 82 72 82 50
-         C82 28 65 20 50 30Z"
+      d="
+        M50 28
+        C42 20 26 23 20 38
+        C13 56 23 82 50 82
+        C77 82 87 56 80 38
+        C74 23 58 20 50 28Z
+      "
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
+      strokeLinejoin="round"
     />
 
-    {/* 꼭지 */}
     <Path
-      d="M50 30 C49 22 54 17 61 16"
+      d="M50 28 C50 20 54 15 61 12"
       stroke={BROWN}
       strokeWidth="5"
       strokeLinecap="round"
+      fill="none"
     />
 
-    {/* 잎 */}
     <Path
-      d="M53 24 C60 14 72 15 76 20 C68 27 59 28 53 24Z"
+      d="M56 18 C67 12 77 16 79 25 C68 28 61 25 56 18Z"
       fill={GREEN}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="3"
+      strokeLinejoin="round"
     />
 
-    {/* 반짝임 */}
-    <Ellipse cx="34" cy="45" rx="5" ry="9" fill={WHITE} opacity={0.55} />
+    <Ellipse
+      cx="34"
+      cy="45"
+      rx="8"
+      ry="13"
+      fill={WHITE}
+      opacity={0.35}
+      transform="rotate(25 34 45)"
+    />
   </Svg>
 );
+
 const Strawberry = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Path
@@ -59,7 +78,7 @@ const Strawberry = ({ colorHex }: ItemSvgProps) => (
          C75 55 62 70 50 82Z"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     {/* 잎 */}
@@ -71,7 +90,7 @@ const Strawberry = ({ colorHex }: ItemSvgProps) => (
          C66 25 58 25 50 34Z"
       fill={GREEN}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
 
     {/* 씨앗 */}
@@ -82,6 +101,55 @@ const Strawberry = ({ colorHex }: ItemSvgProps) => (
     <Ellipse cx="57" cy="64" rx="2" ry="4" fill="#FDE68A" />
   </Svg>
 );
+
+// export const Strawberry = ({ colorHex }: ItemSvgProps) => (
+//   <Svg width="100" height="100" viewBox="0 0 100 100">
+//     <Path
+//       d="
+//         M25 35
+//         C30 22 70 22 75 35
+//         C80 50 67 80 50 87
+//         C33 80 20 50 25 35Z
+//       "
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//       strokeLinejoin="round"
+//     />
+
+//     <Path
+//       d="M50 28 L42 15 L50 19 L58 15Z"
+//       fill={GREEN}
+//       stroke={OUTLINE}
+//       strokeWidth="3"
+//       strokeLinejoin="round"
+//     />
+//     <Ellipse cx="40" cy="48" rx="2" ry="4" fill="#FDE68A" />
+//     <Ellipse cx="52" cy="45" rx="2" ry="4" fill="#FDE68A" />
+
+//     <Ellipse cx="47" cy="60" rx="2" ry="4" fill="#FDE68A" />
+//     <Ellipse cx="57" cy="64" rx="2" ry="4" fill="#FDE68A" />
+//     <Ellipse cx="32" cy="55" rx="2" ry="4" fill="#FDE68A" />
+//     <Ellipse cx="69" cy="45" rx="2" ry="4" fill="#FDE68A" />
+
+//     {/* <Circle cx="36" cy="47" r="2.5" fill={YELLOW} />
+//     <Circle cx="51" cy="43" r="2.5" fill={YELLOW} />
+//     <Circle cx="64" cy="50" r="2.5" fill={YELLOW} />
+//     <Circle cx="42" cy="61" r="2.5" fill={YELLOW} />
+//     <Circle cx="57" cy="65" r="2.5" fill={YELLOW} /> */}
+
+//     <Ellipse
+//       cx="35"
+//       cy="39"
+//       rx="6"
+//       ry="9"
+//       fill={WHITE}
+//       opacity={0.3}
+//       transform="rotate(25 35 39)"
+//     />
+//   </Svg>
+// );
+
 const Balloon = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Ellipse
@@ -91,7 +159,7 @@ const Balloon = ({ colorHex }: ItemSvgProps) => (
       ry="32"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Polygon points="46,69 54,69 50,77" fill={colorHex} />
@@ -99,7 +167,7 @@ const Balloon = ({ colorHex }: ItemSvgProps) => (
     <Path
       d="M50 77 C48 85 55 88 51 96"
       stroke="#94A3B8"
-      strokeWidth="3"
+      strokeWidth="4"
       fill="none"
       strokeLinecap="round"
     />
@@ -107,6 +175,7 @@ const Balloon = ({ colorHex }: ItemSvgProps) => (
     <Ellipse cx="40" cy="30" rx="7" ry="11" fill={WHITE} opacity={0.5} />
   </Svg>
 );
+
 const FireTruck = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Rect
@@ -117,7 +186,7 @@ const FireTruck = ({ colorHex }: ItemSvgProps) => (
       rx="8"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Rect
@@ -128,7 +197,7 @@ const FireTruck = ({ colorHex }: ItemSvgProps) => (
       rx="5"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     {/* 창문 */}
@@ -140,7 +209,7 @@ const FireTruck = ({ colorHex }: ItemSvgProps) => (
       rx="3"
       fill="#BAE6FD"
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
 
     {/* 사다리 */}
@@ -152,7 +221,7 @@ const FireTruck = ({ colorHex }: ItemSvgProps) => (
       rx="3"
       fill="#F8FAFC"
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
 
     <Circle cx="27" cy="77" r="9" fill={DARK} />
@@ -170,7 +239,7 @@ const Cherry = ({ colorHex }: ItemSvgProps) => (
       r="17"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Circle
@@ -179,13 +248,13 @@ const Cherry = ({ colorHex }: ItemSvgProps) => (
       r="17"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Path
       d="M37 47 C40 27 50 22 63 45"
       stroke={GREEN}
-      strokeWidth="5"
+      strokeWidth="4"
       fill="none"
       strokeLinecap="round"
     />
@@ -194,62 +263,89 @@ const Cherry = ({ colorHex }: ItemSvgProps) => (
       d="M47 29 C54 20 67 21 71 27 C61 32 53 32 47 29Z"
       fill={GREEN}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
   </Svg>
 );
+// const Fish = ({ colorHex }: ItemSvgProps) => (
+//   <Svg width="100" height="100" viewBox="0 0 100 100">
+//     <Path
+//       d="M20 50
+//          C32 30 64 28 77 50
+//          C64 72 32 70 20 50Z"
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//     />
+
+//     <Polygon
+//       points="76,50 92,35 92,65"
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//     />
+
+//     <Circle cx="38" cy="44" r="5" fill={WHITE} />
+//     <Circle cx="39" cy="44" r="2.5" fill={DARK} />
+
+//     <Path
+//       d="M52 42 Q60 50 52 58"
+//       stroke={WHITE}
+//       strokeWidth="3"
+//       fill="none"
+//       opacity={0.7}
+//     />
+//   </Svg>
+// );
 const Fish = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Path
-      d="M20 50
-         C32 30 64 28 77 50
-         C64 72 32 70 20 50Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-
-    <Polygon
-      points="76,50 92,35 92,65"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-
-    <Circle cx="38" cy="44" r="5" fill={WHITE} />
-    <Circle cx="39" cy="44" r="2.5" fill={DARK} />
+    {/* 꼬리 */}
 
     <Path
-      d="M52 42 Q60 50 52 58"
+      d="
+        M70 50
+        L88 30
+        L86 70
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* 몸통 */}
+
+    <Path
+      d="
+        M15 50
+        C22 30 45 23 68 35
+        C82 42 82 58 68 65
+        C45 77 22 70 15 50
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+
+    {/* 눈 */}
+
+    <Circle cx="32" cy="45" r="6" fill={WHITE} />
+
+    <Circle cx="33" cy="46" r="3" fill={DARK} />
+
+    {/* 비늘 */}
+
+    <Path
+      d="M48 43 Q54 50 48 57"
       stroke={WHITE}
       strokeWidth="3"
       fill="none"
-      opacity={0.7}
+      opacity={0.35}
     />
   </Svg>
 );
-// const Blueberry = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Circle
-//       cx="50"
-//       cy="55"
-//       r="28"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
-
-//     <Path
-//       d="M38 31 Q50 22 62 31"
-//       stroke="#1E3A8A"
-//       strokeWidth="5"
-//       fill="none"
-//       strokeLinecap="round"
-//     />
-
-//     <Circle cx="40" cy="45" r="6" fill={WHITE} opacity={0.4} />
-//   </Svg>
-// );
 const Blueberry = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Ellipse
@@ -259,7 +355,7 @@ const Blueberry = ({ colorHex }: ItemSvgProps) => (
       ry="24"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
     {/* 블루베리 특유의 별모양 꽃받침 자국 */}
     <Path
@@ -269,6 +365,7 @@ const Blueberry = ({ colorHex }: ItemSvgProps) => (
     <Ellipse cx="39" cy="47" rx="6" ry="4.5" fill={WHITE} opacity={0.35} />
   </Svg>
 );
+
 const Umbrella = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Path
@@ -278,7 +375,7 @@ const Umbrella = ({ colorHex }: ItemSvgProps) => (
          C38 55 30 42 18 48Z"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Path
@@ -292,18 +389,20 @@ const Umbrella = ({ colorHex }: ItemSvgProps) => (
     <Ellipse cx="37" cy="37" rx="10" ry="5" fill={WHITE} opacity={0.3} />
   </Svg>
 );
+
 const Whale = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Path
-      d="M15 58
-              C22 35 55 29 78 43
-              C88 49 89 61 80 67
-              C60 80 28 74 15 58Z"
+      d="
+        M16 59
+        C21 38 50 29 74 40
+        C85 44 90 55 83 65
+        C70 80 35 78 16 59Z
+      "
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="4"
+      strokeWidth="3.5"
     />
-
     <Polygon
       points="18,57 6,45 10,62 5,72 22,66"
       fill={colorHex}
@@ -312,20 +411,27 @@ const Whale = ({ colorHex }: ItemSvgProps) => (
       strokeLinejoin="round"
     />
 
-    <Circle cx="70" cy="48" r="4" fill={WHITE} />
-    <Circle cx="71" cy="48" r="2" fill="#374151" />
-
-    <Path
-      d="M75 57 Q79 61 83 57"
+    {/* <Path
+      d="M22 60 C11 52 7 43 9 38 C16 42 21 46 25 51"
+      fill={colorHex}
       stroke={OUTLINE}
       strokeWidth="3"
+      strokeLinejoin="round"
+    /> */}
+
+    <Circle cx="70" cy="48" r="4.5" fill={WHITE} />
+    <Circle cx="71" cy="48" r="2.3" fill={DARK} />
+
+    <Path
+      d="M75 58 Q80 62 84 57"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
       fill="none"
       strokeLinecap="round"
     />
 
-    {/* 물 뿜기 */}
     <Path
-      d="M48 31 Q44 20 38 18 M48 30 Q50 18 56 15"
+      d="M47 34 Q43 22 37 19 M48 33 Q50 20 56 16"
       stroke="#7DD3FC"
       strokeWidth="4"
       fill="none"
@@ -334,150 +440,928 @@ const Whale = ({ colorHex }: ItemSvgProps) => (
   </Svg>
 );
 
-const Banana = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Path
-      d="M22 65
-         C43 69 67 51 74 25
-         C77 20 84 23 82 29
-         C77 59 53 80 25 78
-         C20 77 18 70 22 65Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-
-    <Path
-      d="M72 27 L78 23"
-      stroke={BROWN}
-      strokeWidth="5"
-      strokeLinecap="round"
-    />
-
-    <Ellipse
-      cx="38"
-      cy="68"
-      rx="9"
-      ry="4"
-      fill={WHITE}
-      opacity={0.35}
-      transform="rotate(-20 38 68)"
-    />
-  </Svg>
-);
-
-// const Lemon = ({ colorHex }: ItemSvgProps) => (
+// const Banana = ({ colorHex }: ItemSvgProps) => (
 //   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Ellipse
-//       cx="50"
-//       cy="52"
-//       rx="32"
-//       ry="25"
+//     {/* ======================
+//         가운데 바나나
+//     ====================== */}
+//     <Path
+//       d="
+//         M47 24
+//         C43 42 44 66 51 82
+//         C54 88 61 89 64 84
+//         C70 68 66 43 57 25
+//         C55 21 50 20 47 24
+//         Z
+//       "
 //       fill={colorHex}
 //       stroke={OUTLINE}
-//       strokeWidth="3"
+//       strokeWidth="4"
+//       strokeLinejoin="round"
 //     />
 
-//     <Ellipse
-//       cx="39"
-//       cy="43"
-//       rx="9"
-//       ry="5"
-//       fill={WHITE}
-//       opacity={0.4}
-//       transform="rotate(-20 39 43)"
+//     {/* ======================
+//         왼쪽 바나나
+//     ====================== */}
+//     <Path
+//       d="
+//         M45 27
+//         C31 33 20 48 18 65
+//         C17 74 23 80 30 78
+//         C43 73 50 55 52 34
+//         C53 28 49 25 45 27
+//         Z
+//       "
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//       strokeLinejoin="round"
+//     />
+
+//     {/* ======================
+//         오른쪽 바나나
+//     ====================== */}
+//     <Path
+//       d="
+//         M57 27
+//         C70 32 81 46 83 62
+//         C85 72 80 79 73 78
+//         C60 75 52 56 50 34
+//         C49 29 53 25 57 27
+//         Z
+//       "
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//       strokeLinejoin="round"
+//     />
+
+//     {/* ======================
+//         공통 꼭지
+//     ====================== */}
+//     <Path
+//       d="
+//         M44 20
+//         C48 15 55 15 59 20
+//         L57 29
+//         C53 27 49 27 45 29
+//         Z
+//       "
+//       fill={BROWN}
+//       stroke={OUTLINE}
+//       strokeWidth="3"
+//       strokeLinejoin="round"
+//     />
+
+//     {/* 꼭지 위 */}
+//     <Path
+//       d="
+//         M49 17
+//         L54 11
+//       "
+//       stroke={BROWN}
+//       strokeWidth="5"
+//       strokeLinecap="round"
+//     />
+
+//     {/* ======================
+//         바나나 끝부분
+//     ====================== */}
+
+//     <Circle
+//       cx="29"
+//       cy="77"
+//       r="4"
+//       fill={BROWN}
+//       stroke={OUTLINE}
+//       strokeWidth="2"
+//     />
+
+//     <Circle
+//       cx="57"
+//       cy="85"
+//       r="4"
+//       fill={BROWN}
+//       stroke={OUTLINE}
+//       strokeWidth="2"
+//     />
+
+//     <Circle
+//       cx="74"
+//       cy="77"
+//       r="4"
+//       fill={BROWN}
+//       stroke={OUTLINE}
+//       strokeWidth="2"
+//     />
+
+//     {/* ======================
+//         하이라이트
+//     ====================== */}
+
+//     <Path
+//       d="
+//         M26 49
+//         C25 58 26 64 29 68
+//       "
+//       stroke={WHITE}
+//       strokeWidth="3"
+//       opacity={0.3}
+//       strokeLinecap="round"
+//     />
+
+//     <Path
+//       d="
+//         M51 35
+//         C49 50 51 65 55 74
+//       "
+//       stroke={WHITE}
+//       strokeWidth="3"
+//       opacity={0.3}
+//       strokeLinecap="round"
+//     />
+
+//     <Path
+//       d="
+//         M72 48
+//         C77 57 77 64 74 69
+//       "
+//       stroke={WHITE}
+//       strokeWidth="3"
+//       opacity={0.3}
+//       strokeLinecap="round"
 //     />
 //   </Svg>
 // );
-const Lemon = ({ colorHex }: ItemSvgProps) => (
+const Owl = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Path
-      d="M50 20
-         C68 20 82 34 82 52
-         C82 70 68 82 50 82
-         C32 82 18 70 18 52
-         C18 34 32 20 50 20Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-    {/* 양쪽 꼭지(레몬 특유의 젖꼭지 모양) */}
-    <Path
-      d="M18 52 C13 51 10 52 10 55 C10 58 13 58 18 56Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    <Path
-      d="M82 52 C87 51 90 52 90 55 C90 58 87 58 82 56Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    {/* 표면 질감선 */}
-    <Path
-      d="M32 30 Q50 24 68 30 M28 68 Q50 76 72 68"
-      stroke={OUTLINE}
-      strokeWidth="1.3"
-      fill="none"
-      opacity={0.3}
-    />
-    <Ellipse
-      cx="38"
-      cy="38"
-      rx="10"
-      ry="6"
-      fill={WHITE}
-      opacity={0.4}
-      transform="rotate(-25 38 38)"
-    />
-  </Svg>
-);
-const Chick = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Circle
-      cx="50"
-      cy="53"
-      r="28"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-
-    <Circle cx="41" cy="47" r="4" fill={DARK} />
-    <Circle cx="59" cy="47" r="4" fill={DARK} />
-
     <Polygon
-      points="47,55 53,55 50,60"
+      points="32,20 40,34 26,34"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    <Polygon
+      points="68,20 74,34 60,34"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M50 26 C70 26 82 40 82 58 C82 76 68 88 50 88 C32 88 18 76 18 58 C18 40 30 26 50 26Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle
+      cx="38"
+      cy="54"
+      r="12"
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Circle
+      cx="62"
+      cy="54"
+      r="12"
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Circle cx="38" cy="54" r="5" fill={DARK} />
+    <Circle cx="62" cy="54" r="5" fill={DARK} />
+    <Polygon
+      points="50,60 45,68 55,68"
       fill={ORANGE}
       stroke={OUTLINE}
       strokeWidth="2"
     />
+    <Ellipse cx="33" cy="40" rx="5" ry="7" fill={WHITE} opacity={0.3} />
+  </Svg>
+);
+const Frog = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Circle
+      cx="34"
+      cy="30"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle
+      cx="66"
+      cy="30"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle cx="34" cy="30" r="5" fill={DARK} />
+    <Circle cx="66" cy="30" r="5" fill={DARK} />
+    <Path
+      d="M50 36 C70 36 82 48 82 62 C82 78 68 88 50 88 C32 88 18 78 18 62 C18 48 30 36 50 36Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Path
+      d="M36 66 Q50 74 64 66"
+      stroke={DARK}
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    <Circle cx="30" cy="62" r="4" fill="#FDA4AF" opacity={0.5} />
+    <Circle cx="70" cy="62" r="4" fill="#FDA4AF" opacity={0.5} />
+    <Ellipse cx="36" cy="52" rx="5" ry="7" fill={WHITE} opacity={0.3} />
+  </Svg>
+);
+const Rocket = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Path
+      d="M50 12 C62 24 66 42 66 58 L34 58 C34 42 38 24 50 12Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    <Circle
+      cx="50"
+      cy="40"
+      r="9"
+      fill="#BAE6FD"
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Path
+      d="M34 58 L20 74 L34 70Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M66 58 L80 74 L66 70Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M42 58 L44 82 L50 74 L56 82 L58 58Z"
+      fill={ORANGE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    <Ellipse cx="42" cy="26" rx="5" ry="8" fill={WHITE} opacity={0.3} />
+  </Svg>
+);
+const Lemon = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 손잡이 */}
+    <Path
+      d="M42 26 Q50 14 58 26"
+      fill="none"
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
 
-    <Circle cx="38" cy="58" r="5" fill="#FDA4AF" opacity={0.6} />
-    <Circle cx="62" cy="58" r="5" fill="#FDA4AF" opacity={0.6} />
+    {/* 종 */}
+    <Path
+      d="
+        M30 68
+        C33 57 34 50 34 43
+        C34 27 66 27 66 43
+        C66 50 67 57 70 68
+        Q72 76 64 78
+        H36
+        Q28 76 30 68
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* 아래 테두리 */}
+    <Path
+      d="M29 72 Q50 82 71 72"
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* 방울 */}
+    <Circle
+      cx="50"
+      cy="80"
+      r="7"
+      fill={BROWN}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* 하이라이트 */}
+    <Ellipse
+      cx="42"
+      cy="42"
+      rx="6"
+      ry="11"
+      fill={WHITE}
+      opacity={0.3}
+      transform="rotate(20 42 42)"
+    />
   </Svg>
 );
 
-// const Sunflower = ({ colorHex }: ItemSvgProps) => (
+const Bell = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Circle
+      cx="50"
+      cy="20"
+      r="6"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Path
+      d="M50 26 C66 26 74 40 74 56 C74 62 78 66 82 68 L18 68 C22 66 26 62 26 56 C26 40 34 26 50 26Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    <Rect
+      x="16"
+      y="68"
+      width="68"
+      height="8"
+      rx="4"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle
+      cx="50"
+      cy="84"
+      r="7"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Ellipse cx="38" cy="40" rx="6" ry="10" fill={WHITE} opacity={0.35} />
+  </Svg>
+);
+
+const Banana = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* ======================
+        공통 꼭지
+    ====================== */}
+    <Path
+      d="
+        M47 17
+        C50 13 55 13 58 17
+        L56 25
+        C53 27 49 27 46 24
+        Z
+      "
+      fill={BROWN}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        왼쪽 바나나
+    ====================== */}
+    <Path
+      d="
+        M48 24
+        C34 30 22 43 22 60
+        C22 76 34 84 48 82
+        C55 81 57 76 53 72
+        C43 62 40 47 48 24
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3.5"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        가운데 바나나
+    ====================== */}
+    <Path
+      d="
+        M52 24
+        C43 42 44 62 52 78
+        C57 88 69 90 76 83
+        C80 79 78 75 74 73
+        C62 65 56 47 56 25
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3.5"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        오른쪽 바나나
+    ====================== */}
+    {/* <Path
+      d="
+        M56 25
+        C66 29 80 40 82 56
+        C84 70 75 82 62 83
+        C56 83 54 79 58 75
+        C67 65 68 48 56 25
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3.5"
+      strokeLinejoin="round"
+    /> */}
+
+    {/* ======================
+        끝부분
+    ====================== */}
+    <Path
+      d="M43 81 L48 85"
+      stroke={BROWN}
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
+
+    <Path
+      d="M73 82 L77 85"
+      stroke={BROWN}
+      strokeWidth="4"
+      strokeLinecap="round"
+    />
+
+    {/* ======================
+        하이라이트
+    ====================== */}
+    <Path
+      d="M33 44 C28 58 31 69 40 75"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.3}
+      fill="none"
+    />
+
+    <Path
+      d="M51 42 C50 56 54 70 61 78"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.25}
+      fill="none"
+    />
+  </Svg>
+);
+
+const Grape = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* ======================
+        줄기
+    ====================== */}
+    <Path
+      d="M52 12 C52 18 50 22 50 28"
+      stroke={BROWN}
+      strokeWidth="5"
+      strokeLinecap="round"
+      fill="none"
+    />
+
+    {/* ======================
+        포도 잎
+    ====================== */}
+    <Path
+      d="
+        M50 27
+        C40 13 24 15 20 28
+        C19 37 30 42 40 37
+        C45 35 48 31 50 27
+        Z
+      "
+      fill="#7CCB5A"
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+
+    {/* 잎맥 */}
+    <Path
+      d="M24 29 C33 29 41 28 49 27"
+      stroke="#4C9A45"
+      strokeWidth="2"
+      strokeLinecap="round"
+      fill="none"
+    />
+
+    {/* ======================
+        포도알 3개
+    ====================== */}
+    <Circle
+      cx="32"
+      cy="43"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="50"
+      cy="43"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="68"
+      cy="43"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* ======================
+        포도알 2개
+    ====================== */}
+    <Circle
+      cx="41"
+      cy="61"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="59"
+      cy="61"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* ======================
+        마지막 포도알 1개
+    ====================== */}
+    <Circle
+      cx="50"
+      cy="79"
+      r="13"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* ======================
+        하이라이트
+    ====================== */}
+    <Ellipse
+      cx="28"
+      cy="39"
+      rx="5"
+      ry="3"
+      fill={WHITE}
+      opacity={0.35}
+      transform="rotate(-25 28 39)"
+    />
+
+    <Ellipse
+      cx="46"
+      cy="39"
+      rx="5"
+      ry="3"
+      fill={WHITE}
+      opacity={0.25}
+      transform="rotate(-25 46 39)"
+    />
+
+    <Ellipse
+      cx="37"
+      cy="57"
+      rx="4"
+      ry="2.5"
+      fill={WHITE}
+      opacity={0.22}
+      transform="rotate(-25 37 57)"
+    />
+  </Svg>
+);
+export const Watermelon = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* ======================
+        초록 껍질
+    ====================== */}
+    <Path
+      d="
+        M15 72
+        L50 20
+        L85 72
+        Q80 84 50 88
+        Q20 84 15 72
+        Z
+      "
+      fill={WATERMELON_GREEN}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        하얀 껍질층
+    ====================== */}
+    <Path
+      d="
+        M20 70
+        L50 26
+        L80 70
+        Q76 78 50 82
+        Q24 78 20 70
+        Z
+      "
+      fill={WHITE}
+    />
+
+    {/* ======================
+        빨간 과육
+    ====================== */}
+    <Path
+      d="
+        M24 68
+        L50 31
+        L76 68
+        Q72 73 50 76
+        Q28 73 24 68
+        Z
+      "
+      fill={colorHex}
+    />
+
+    {/* ======================
+        씨앗
+    ====================== */}
+
+    <Ellipse cx="50" cy="48" rx="2.8" ry="5" fill={DARK} />
+
+    <Ellipse
+      cx="39"
+      cy="63"
+      rx="2.8"
+      ry="5"
+      fill={DARK}
+      transform="rotate(-18 39 63)"
+    />
+
+    <Ellipse
+      cx="61"
+      cy="63"
+      rx="2.8"
+      ry="5"
+      fill={DARK}
+      transform="rotate(18 61 63)"
+    />
+
+    {/* ======================
+        하이라이트
+    ====================== */}
+
+    <Path
+      d="
+        M40 44
+        Q35 52 32 58
+      "
+      stroke={WHITE}
+      strokeWidth="4"
+      strokeLinecap="round"
+      opacity={0.28}
+    />
+  </Svg>
+);
+
+const Koala = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 귀 */}
+    <Circle
+      cx="24"
+      cy="34"
+      r="15"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle
+      cx="76"
+      cy="34"
+      r="15"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle cx="24" cy="34" r="7" fill="#F1F5F9" />
+    <Circle cx="76" cy="34" r="7" fill="#F1F5F9" />
+    {/* 얼굴 */}
+    <Circle
+      cx="50"
+      cy="55"
+      r="30"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Circle cx="40" cy="52" r="4" fill={DARK} />
+    <Circle cx="60" cy="52" r="4" fill={DARK} />
+    <Circle cx="41.2" cy="51" r="1.2" fill={WHITE} />
+    <Circle cx="61.2" cy="51" r="1.2" fill={WHITE} />
+    {/* 코 (큰 타원) */}
+    <Ellipse cx="50" cy="63" rx="8" ry="6" fill={DARK} />
+    <Circle cx="37" cy="60" r="4" fill="#FDA4AF" opacity={0.5} />
+    <Circle cx="63" cy="60" r="4" fill="#FDA4AF" opacity={0.5} />
+  </Svg>
+);
+
+const Ladybug = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 머리 */}
+    <Circle
+      cx="50"
+      cy="28"
+      r="13"
+      fill={DARK}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Circle cx="45" cy="26" r="2" fill={WHITE} />
+    <Circle cx="55" cy="26" r="2" fill={WHITE} />
+    {/* 더듬이 */}
+    <Path
+      d="M45 18 C42 12 38 10 35 10 M55 18 C58 12 62 10 65 10"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+    {/* 몸통 (등껍질) */}
+    <Path
+      d="M50 38 C72 38 84 52 84 66 C84 80 70 90 50 90 C30 90 16 80 16 66 C16 52 28 38 50 38Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    {/* 등판 가운데선 */}
+    <Path d="M50 38 L50 90" stroke={OUTLINE} strokeWidth="3" opacity={0.5} />
+    {/* 점 무늬 */}
+    <Circle cx="34" cy="56" r="6" fill={DARK} />
+    <Circle cx="34" cy="76" r="6" fill={DARK} />
+    <Circle cx="66" cy="56" r="6" fill={DARK} />
+    <Circle cx="66" cy="76" r="6" fill={DARK} />
+    <Ellipse cx="30" cy="50" rx="6" ry="4" fill={WHITE} opacity={0.3} />
+  </Svg>
+);
+
+const Mushroom = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 버섯 갓 */}
+
+    <Path
+      d="
+        M17 52
+        C18 28 36 17 50 17
+        C64 17 82 28 83 52
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* 줄기 */}
+
+    <Path
+      d="
+        M38 52
+        L62 52
+        L66 82
+        Q50 89 34 82
+        Z
+      "
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* 점 */}
+
+    <Circle cx="38" cy="37" r="6" fill={WHITE} opacity={0.75} />
+    <Circle cx="61" cy="31" r="5" fill={WHITE} opacity={0.75} />
+  </Svg>
+);
+
+// export const Chick = ({ colorHex }: ItemSvgProps) => (
 //   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <G>
-//       <Circle cx="50" cy="50" r="14" fill="#92400E" />
+//     {/* 몸 */}
+//     <Circle
+//       cx="50"
+//       cy="54"
+//       r="30"
+//       fill={colorHex}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//     />
 
-//       <Circle cx="50" cy="24" r="14" fill={colorHex} />
-//       <Circle cx="50" cy="76" r="14" fill={colorHex} />
-//       <Circle cx="24" cy="50" r="14" fill={colorHex} />
-//       <Circle cx="76" cy="50" r="14" fill={colorHex} />
+//     {/* 머리 털 */}
+//     <Path
+//       d="M42 28 Q46 15 50 27 Q55 15 59 29"
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//       strokeLinecap="round"
+//       fill="none"
+//     />
 
-//       <Circle cx="32" cy="32" r="12" fill={colorHex} />
-//       <Circle cx="68" cy="32" r="12" fill={colorHex} />
-//       <Circle cx="32" cy="68" r="12" fill={colorHex} />
-//       <Circle cx="68" cy="68" r="12" fill={colorHex} />
+//     {/* 눈 */}
+//     <Circle cx="40" cy="49" r="4" fill={DARK} />
+//     <Circle cx="60" cy="49" r="4" fill={DARK} />
 
-//       <Circle cx="50" cy="50" r="13" fill="#92400E" />
-//     </G>
+//     {/* 부리 */}
+//     <Path
+//       d="M43 59 Q50 53 57 59 Q50 67 43 59Z"
+//       fill={YELLOW}
+//       stroke={OUTLINE}
+//       strokeWidth="3"
+//     />
+
+//     {/* 볼 */}
+//     <Circle cx="32" cy="61" r="5" fill={PINK} opacity={0.4} />
+//     <Circle cx="68" cy="61" r="5" fill={PINK} opacity={0.4} />
 //   </Svg>
 // );
+
+const Chick = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 머리털 */}
+    <Path
+      d="M42 31 Q46 20 50 30 Q54 19 59 31"
+      stroke={colorHex}
+      strokeWidth="7"
+      fill="none"
+      strokeLinecap="round"
+    />
+    {/* 몸통 */}
+    <Circle
+      cx="50"
+      cy="56"
+      r="29"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    {/* ⭐ 날개: 몸통 곡선을 따라 자연스럽게 붙는 형태로 재설계 */}
+    <Path
+      d="M26 52 C20 54 17 62 20 70 C24 76 32 76 36 70 C34 63 32 56 30 51 C29 50 27 51 26 52Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3.5"
+    />
+    {/* 눈 */}
+    <Circle cx="40" cy="52" r="4" fill={DARK} />
+    <Circle cx="60" cy="52" r="4" fill={DARK} />
+    <Circle cx="41.2" cy="51" r="1.2" fill={WHITE} />
+    <Circle cx="61.2" cy="51" r="1.2" fill={WHITE} />
+    {/* 부리 */}
+    <Path
+      d="M50 57 L43 64 Q50 69 57 64Z"
+      fill={ORANGE}
+      stroke={OUTLINE}
+      strokeWidth="2"
+      strokeLinejoin="round"
+    />
+    {/* 볼터치 */}
+    <Circle cx="37" cy="62" r="4" fill="#FDA4AF" opacity={0.5} />
+    <Circle cx="63" cy="62" r="4" fill="#FDA4AF" opacity={0.5} />
+  </Svg>
+);
 
 const Sunflower = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
@@ -485,7 +1369,7 @@ const Sunflower = ({ colorHex }: ItemSvgProps) => (
     <Path
       d="M50 62 L50 90"
       stroke={GREEN}
-      strokeWidth="5"
+      strokeWidth="4"
       strokeLinecap="round"
     />
     <Path d="M50 78 C40 76 34 82 32 90 C42 90 48 86 50 78Z" fill={GREEN} />
@@ -501,7 +1385,7 @@ const Sunflower = ({ colorHex }: ItemSvgProps) => (
           ry="17"
           fill={colorHex}
           stroke={OUTLINE}
-          strokeWidth="1.5"
+          strokeWidth="4"
           transform={`rotate(${angle} 50 50)`}
         />
       ))}
@@ -514,7 +1398,7 @@ const Sunflower = ({ colorHex }: ItemSvgProps) => (
       r="16"
       fill="#92400E"
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
     {/* 씨앗 질감 점들 */}
     <Circle cx="45" cy="46" r="1.6" fill="#5C3A21" />
@@ -522,6 +1406,69 @@ const Sunflower = ({ colorHex }: ItemSvgProps) => (
     <Circle cx="50" cy="52" r="1.6" fill="#5C3A21" />
     <Circle cx="44" cy="54" r="1.6" fill="#5C3A21" />
     <Circle cx="56" cy="54" r="1.6" fill="#5C3A21" />
+  </Svg>
+);
+const Flower = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 꽃잎 */}
+
+    <Circle
+      cx="50"
+      cy="28"
+      r="17"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="72"
+      cy="43"
+      r="17"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="64"
+      cy="68"
+      r="17"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="36"
+      cy="68"
+      r="17"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    <Circle
+      cx="28"
+      cy="43"
+      r="17"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+
+    {/* 가운데 */}
+
+    <Circle
+      cx="50"
+      cy="50"
+      r="14"
+      fill="#FFD84D"
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+
+    <Circle cx="45" cy="45" r="4" fill={WHITE} opacity={0.4} />
   </Svg>
 );
 const Star = ({ colorHex }: ItemSvgProps) => (
@@ -541,7 +1488,7 @@ const Star = ({ colorHex }: ItemSvgProps) => (
       "
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
       strokeLinejoin="round"
     />
 
@@ -566,7 +1513,7 @@ const Tree = ({ colorHex }: ItemSvgProps) => (
       r="27"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Circle cx="35" cy="44" r="15" fill={colorHex} />
@@ -575,6 +1522,7 @@ const Tree = ({ colorHex }: ItemSvgProps) => (
     <Ellipse cx="40" cy="30" rx="8" ry="5" fill={WHITE} opacity={0.25} />
   </Svg>
 );
+
 const Broccoli = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Rect
@@ -585,7 +1533,7 @@ const Broccoli = ({ colorHex }: ItemSvgProps) => (
       rx="6"
       fill="#84CC16"
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Circle cx="32" cy="48" r="17" fill={colorHex} />
@@ -595,200 +1543,270 @@ const Broccoli = ({ colorHex }: ItemSvgProps) => (
     <Circle cx="43" cy="35" r="5" fill={WHITE} opacity={0.25} />
   </Svg>
 );
-// const Crocodile = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="M14 55
-//          C20 38 63 36 83 50
-//          C90 55 84 67 73 67
-//          L25 68
-//          C17 67 11 62 14 55Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
 
-//     <Circle cx="70" cy="47" r="5" fill={WHITE} />
-//     <Circle cx="70" cy="47" r="2" fill={DARK} />
-
-//     {/* 이빨 */}
-//     <Polygon points="55,63 59,63 57,69" fill={WHITE} />
-//     <Polygon points="63,63 67,63 65,69" fill={WHITE} />
-//   </Svg>
-// );
-const Crocodile = ({ colorHex }: ItemSvgProps) => (
+const Butterfly = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
-    {/* 꼬리 */}
+    {/* ======================
+        더듬이
+    ====================== */}
+
     <Path
-      d="M78 62 C88 58 94 62 92 68 C88 66 82 66 76 68Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2.5"
-    />
-    {/* 몸통 + 긴 주둥이 */}
-    <Path
-      d="M10 60
-         C10 50 20 46 30 47
-         C40 40 60 38 78 44
-         C86 47 90 52 88 58
-         C86 63 80 64 76 62
-         L30 63
-         C20 64 10 62 10 60Z"
-      fill={colorHex}
+      d="
+        M47 30
+        C43 20 38 16 33 14
+
+        M53 30
+        C57 20 62 16 67 14
+      "
       stroke={OUTLINE}
       strokeWidth="3"
-    />
-    {/* 등 돌기(캔디처럼 통통) */}
-    <Circle
-      cx="35"
-      cy="45"
-      r="4"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    <Circle
-      cx="45"
-      cy="42"
-      r="4"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    <Circle
-      cx="55"
-      cy="41"
-      r="4"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    {/* 다리 */}
-    <Path
-      d="M28 62 L26 70 M42 63 L40 71"
-      stroke={OUTLINE}
-      strokeWidth="5"
+      fill="none"
       strokeLinecap="round"
     />
-    {/* 눈 (주둥이 위쪽 돌출) */}
-    <Circle
-      cx="18"
-      cy="49"
-      r="5"
+
+    <Circle cx="33" cy="14" r="3" fill={OUTLINE} />
+    <Circle cx="67" cy="14" r="3" fill={OUTLINE} />
+
+    {/* ======================
+        왼쪽 위 날개
+    ====================== */}
+
+    <Path
+      d="
+        M48 45
+        C38 17 15 16 11 35
+        C7 54 25 62 48 53
+        Z
+      "
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
+      strokeLinejoin="round"
     />
-    <Circle cx="18" cy="49" r="2.3" fill={DARK} />
-    {/* 입 라인 + 이빨 */}
-    <Path d="M10 58 L88 58" stroke={OUTLINE} strokeWidth="2" opacity={0.6} />
-    <Polygon points="20,58 23,58 21.5,63" fill={WHITE} />
-    <Polygon points="30,58 33,58 31.5,63" fill={WHITE} />
-    <Polygon points="40,58 43,58 41.5,63" fill={WHITE} />
-  </Svg>
-);
-// const Peas = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="M15 58
-//          C20 35 72 25 86 48
-//          C92 58 80 72 62 75
-//          C42 78 18 72 15 58Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
 
-//     <Circle cx="38" cy="55" r="9" fill="#BEF264" />
-//     <Circle cx="55" cy="51" r="9" fill="#BEF264" />
-//     <Circle cx="70" cy="55" r="9" fill="#BEF264" />
-//   </Svg>
-// );
-const Peas = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    {/* 콩깍지 (열린 형태) */}
+    {/* ======================
+        오른쪽 위 날개
+    ====================== */}
+
     <Path
-      d="M12 55
-         C16 32 66 20 84 42
-         C90 50 82 62 68 66
-         C48 71 20 68 12 55Z"
+      d="
+        M52 45
+        C62 17 85 16 89 35
+        C93 54 75 62 52 53
+        Z
+      "
       fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        왼쪽 아래 통통 날개
+    ====================== */}
+
+    <Path
+      d="
+        M48 49
+        C34 48 15 55 18 70
+        C21 86 40 83 49 60
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        오른쪽 아래 통통 날개
+    ====================== */}
+
+    <Path
+      d="
+        M52 49
+        C66 48 85 55 82 70
+        C79 86 60 83 51 60
+        Z
+      "
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* ======================
+        몸통
+    ====================== */}
+
+    <Path
+      d="
+        M50 28
+        C46 28 45 36 46 48
+        L47 70
+        C47 80 49 85 50 85
+        C51 85 53 80 53 70
+        L54 48
+        C55 36 54 28 50 28
+        Z
+      "
+      fill={BROWN}
       stroke={OUTLINE}
       strokeWidth="3"
-      opacity={0.35}
     />
-    {/* 깍지 안쪽 라인 (알알이 들어앉은 홈) */}
+
+    {/* ======================
+        날개 하이라이트
+    ====================== */}
+
+    <Ellipse
+      cx="27"
+      cy="35"
+      rx="7"
+      ry="10"
+      fill={WHITE}
+      opacity={0.3}
+      transform="rotate(-30 27 35)"
+    />
+
+    <Ellipse
+      cx="73"
+      cy="35"
+      rx="7"
+      ry="10"
+      fill={WHITE}
+      opacity={0.3}
+      transform="rotate(30 73 35)"
+    />
+
+    {/* ======================
+        귀여운 날개 점
+    ====================== */}
+
+    <Circle cx="32" cy="62" r="4" fill={WHITE} opacity={0.45} />
+    <Circle cx="68" cy="62" r="4" fill={WHITE} opacity={0.45} />
+  </Svg>
+);
+const Cupcake = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 크림 */}
     <Path
-      d="M20 54 C22 40 60 30 78 46"
+      d="
+        M25 52
+        C18 44 24 32 35 32
+        C36 20 55 18 61 30
+        C74 25 84 36 77 48
+        C83 58 72 65 62 61
+        L38 61
+        C28 64 21 59 25 52Z
+      "
+      fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="1.5"
-      fill="none"
-      opacity={0.25}
+      strokeWidth="4"
+      strokeLinejoin="round"
     />
 
-    {/* ⭐ 완두콩 알맹이 — colorHex를 따라감 */}
-    <Circle
-      cx="34"
-      cy="52"
-      r="11"
-      fill={colorHex}
+    {/* 컵 */}
+    <Path
+      d="M30 60 L70 60 L64 84 Q50 90 36 84Z"
+      fill={LIGHT_BROWN}
       stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    <Circle
-      cx="53"
-      cy="47"
-      r="12"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-    <Circle
-      cx="71"
-      cy="51"
-      r="10"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
+      strokeLinejoin="round"
     />
 
-    {/* 콩알 각각의 볼록한 하이라이트 */}
-    <Ellipse cx="30" cy="48" rx="3" ry="2" fill={WHITE} opacity={0.5} />
-    <Ellipse cx="49" cy="43" rx="3.5" ry="2.3" fill={WHITE} opacity={0.5} />
-    <Ellipse cx="67" cy="47" rx="3" ry="2" fill={WHITE} opacity={0.5} />
+    <Path d="M40 64 L43 81" stroke={WHITE} strokeWidth="3" opacity={0.35} />
+    <Path d="M52 63 L52 84" stroke={WHITE} strokeWidth="3" opacity={0.35} />
+    <Path d="M63 64 L59 81" stroke={WHITE} strokeWidth="3" opacity={0.35} />
+
+    {/* 체리 */}
+    <Circle cx="51" cy="22" r="7" fill={RED} stroke={OUTLINE} strokeWidth="3" />
   </Svg>
 );
 
 const Cactus = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
+    {/* 화분 */}
+    <Path
+      d="M30 82 L70 82 L66 94 L34 94Z"
+      fill="#C89666"
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    {/* 몸통 */}
     <Rect
-      x="40"
-      y="25"
-      width="20"
-      height="60"
-      rx="10"
+      x="38"
+      y="30"
+      width="24"
+      height="55"
+      rx="12"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
-
+    {/* 작은 가시 */}
     <Path
-      d="M40 48 H27 C20 48 20 35 27 35"
+      d="M48 34 L46 30 M54 43 L58 40 M46 58 L43 61"
+      stroke={WHITE}
+      strokeWidth="2"
+      strokeLinecap="round"
+      opacity="0.7"
+    />
+    {/* 팔 */}
+    <Path
+      d="M38 55 H24 C17 55 17 42 24 42"
       stroke={colorHex}
-      strokeWidth="14"
+      strokeWidth="15"
       fill="none"
       strokeLinecap="round"
     />
-
     <Path
-      d="M60 58 H73 C80 58 80 45 73 45"
+      d="M38 55 H24 C17 55 17 42 24 42"
+      stroke={OUTLINE}
+      strokeWidth="4"
+      fill="none"
+      strokeLinecap="round"
+      opacity={0.9}
+    />
+    <Path
+      d="M62 65 H76 C83 65 83 52 76 52"
       stroke={colorHex}
-      strokeWidth="14"
+      strokeWidth="15"
       fill="none"
       strokeLinecap="round"
     />
+    <Path
+      d="M62 65 H76 C83 65 83 52 76 52"
+      stroke={OUTLINE}
+      strokeWidth="4"
+      fill="none"
+      strokeLinecap="round"
+      opacity={0.9}
+    />
+    {/* 꽃 */}
+    {/* <Circle
+      cx="50"
+      cy="24"
+      r="7"
+      fill="#F9A8D4"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
+    /> */}
+    {/* 얼굴 */}
+    <Circle cx="45" cy="55" r="3" fill={DARK} />
+    <Circle cx="55" cy="55" r="3" fill={DARK} />
+    <Path
+      d="M45 63 Q50 67 55 63"
+      stroke={DARK}
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    <Ellipse cx="43" cy="42" rx="4" ry="8" fill={WHITE} opacity={0.3} />
   </Svg>
 );
+
 const Cloud = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     <Path
@@ -801,7 +1819,7 @@ const Cloud = ({ colorHex }: ItemSvgProps) => (
          C20 77 15 72 20 65Z"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Ellipse cx="43" cy="50" rx="9" ry="5" fill={WHITE} opacity={0.5} />
@@ -815,7 +1833,7 @@ const Snowman = ({ colorHex }: ItemSvgProps) => (
       r="25"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Circle
@@ -824,7 +1842,7 @@ const Snowman = ({ colorHex }: ItemSvgProps) => (
       r="19"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
 
     <Circle cx="43" cy="32" r="3" fill={DARK} />
@@ -834,173 +1852,104 @@ const Snowman = ({ colorHex }: ItemSvgProps) => (
       points="50,38 67,43 50,47"
       fill={ORANGE}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
 
     <Circle cx="50" cy="58" r="3" fill={DARK} />
     <Circle cx="50" cy="68" r="3" fill={DARK} />
   </Svg>
 );
-// const Milk = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="M30 25 L70 25 L70 82 L30 82Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
 
-//     <Polygon
-//       points="30,25 50,14 70,25"
-//       fill="#E2E8F0"
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
-
-//     <Rect
-//       x="38"
-//       y="45"
-//       width="24"
-//       height="17"
-//       rx="4"
-//       fill={WHITE}
-//       opacity={0.55}
-//     />
-//   </Svg>
-// );
 const Milk = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
-    {/* 팩 몸통 */}
+    {/* 병목 */}
     <Path
-      d="M28 32 L72 32 L72 84 L28 84Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-    {/* 지붕(게이블탑) - 접힌 선까지 표현 */}
-    <Path
-      d="M28 32 L50 14 L72 32 Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
-    <Path d="M50 14 L50 32" stroke={OUTLINE} strokeWidth="2" opacity={0.5} />
-    {/* 옆면 접힘 삼각 포인트 */}
-    <Polygon points="28,32 36,24 44,32" fill={WHITE} opacity={0.25} />
-    {/* 라벨 */}
-    <Rect
-      x="36"
-      y="46"
-      width="28"
-      height="20"
-      rx="4"
-      fill={WHITE}
-      opacity={0.9}
-      stroke={OUTLINE}
-      strokeWidth="1.5"
-    />
-    <Path
-      d="M41 56 Q50 50 59 56"
-      stroke={colorHex}
-      strokeWidth="3"
-      fill="none"
-      strokeLinecap="round"
-    />
-  </Svg>
-);
-const Rabbit = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    {/* 귀 */}
-    <Ellipse
-      cx="38"
-      cy="25"
-      rx="9"
-      ry="20"
+      d="M42 16 H58 V28 C58 30 60 31 62 34 C66 38 68 43 68 50 V80 C68 84 64 88 60 88 H40 C36 88 32 84 32 80 V50 C32 43 34 38 38 34 C40 31 42 30 42 28Z"
       fill={colorHex}
       stroke={OUTLINE}
       strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    {/* 병뚜껑 */}
+    <Rect
+      x="40"
+      y="10"
+      width="20"
+      height="8"
+      rx="2"
+      fill={OUTLINE}
+      opacity={0.8}
+    />
+    {/* 우유 표면선 */}
+    <Path d="M32 55 H68" stroke={WHITE} strokeWidth="3" opacity={0.4} />
+    {/* 라벨 얼굴 */}
+    <Circle cx="42" cy="68" r="3" fill={DARK} />
+    <Circle cx="58" cy="68" r="3" fill={DARK} />
+    <Circle cx="42.8" cy="67" r="1" fill={WHITE} />
+    <Circle cx="58.8" cy="67" r="1" fill={WHITE} />
+    <Path
+      d="M42 75 Q50 79 58 75"
+      stroke={DARK}
+      strokeWidth="2.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    <Ellipse cx="40" cy="45" rx="4" ry="8" fill={WHITE} opacity={0.3} />
+  </Svg>
+);
+
+const Rabbit = ({ colorHex }: ItemSvgProps) => (
+  <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Ellipse
+      cx="38"
+      cy="25"
+      rx="10"
+      ry="21"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3.5"
     />
 
     <Ellipse
       cx="62"
       cy="25"
-      rx="9"
-      ry="20"
+      rx="10"
+      ry="21"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="4"
+      strokeWidth="3.5"
     />
 
-    <Ellipse cx="38" cy="25" rx="4" ry="12" fill="#F9A8D4" />
+    <Ellipse cx="38" cy="25" rx="4" ry="12" fill="#F9A8D4" opacity="0.7" />
+    <Ellipse cx="62" cy="25" rx="4" ry="12" fill="#F9A8D4" opacity="0.7" />
 
-    <Ellipse cx="62" cy="25" rx="4" ry="12" fill="#F9A8D4" />
-
-    {/* 얼굴 */}
     <Circle
       cx="50"
       cy="61"
       r="27"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="4"
+      strokeWidth="3.5"
     />
 
-    <Circle cx="40" cy="58" r="4" fill="#374151" />
-    <Circle cx="60" cy="58" r="4" fill="#374151" />
+    <Circle cx="40" cy="58" r="4" fill={DARK} />
+    <Circle cx="60" cy="58" r="4" fill={DARK} />
 
-    <Circle cx="50" cy="66" r="4" fill="#F472B6" />
+    <Circle cx="41" cy="57" r="1" fill={WHITE} />
+    <Circle cx="61" cy="57" r="1" fill={WHITE} />
+
+    <Circle cx="50" cy="67" r="4" fill="#F9A8D4" />
 
     <Path
-      d="M45 72 Q50 77 55 72"
+      d="M50 71 Q45 77 41 72 M50 71 Q55 77 59 72"
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="2"
       fill="none"
       strokeLinecap="round"
     />
   </Svg>
 );
 
-// const CottonCandy = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Circle cx="36" cy="48" r="17" fill={colorHex} />
-//     <Circle cx="52" cy="38" r="20" fill={colorHex} />
-//     <Circle cx="68" cy="48" r="17" fill={colorHex} />
-
-//     <Path
-//       d="M50 58 L50 88"
-//       stroke={BROWN}
-//       strokeWidth="7"
-//       strokeLinecap="round"
-//     />
-
-//     <Ellipse cx="42" cy="34" rx="8" ry="5" fill={WHITE} opacity={0.4} />
-//   </Svg>
-// );
-
-// const Crow = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="M18 60
-//          C25 40 55 35 76 50
-//          C85 56 80 69 68 70
-//          C48 73 27 72 18 60Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
-
-//     <Polygon
-//       points="75,50 92,45 76,58"
-//       fill={ORANGE}
-//       stroke={OUTLINE}
-//       strokeWidth="2"
-//     />
-
-//     <Circle cx="61" cy="49" r="4" fill={WHITE} />
-//     <Circle cx="62" cy="49" r="2" fill={DARK} />
-//   </Svg>
-// );
 const CottonCandy = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     {/* 종이 콘(막대 대신 원뿔) */}
@@ -1008,12 +1957,12 @@ const CottonCandy = ({ colorHex }: ItemSvgProps) => (
       points="42,60 58,60 52,90 48,90"
       fill="#FDE68A"
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
     <Path
       d="M43 66 L57 66 M44 74 L56 74"
       stroke={OUTLINE}
-      strokeWidth="1"
+      strokeWidth="4"
       opacity={0.4}
     />
 
@@ -1037,7 +1986,7 @@ const Crow = ({ colorHex }: ItemSvgProps) => (
       d="M28 66 C18 70 12 78 14 84 C20 80 26 76 32 70Z"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
     {/* 몸통 */}
     <Ellipse
@@ -1047,7 +1996,7 @@ const Crow = ({ colorHex }: ItemSvgProps) => (
       ry="22"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
     {/* 머리 */}
     <Circle
@@ -1056,27 +2005,27 @@ const Crow = ({ colorHex }: ItemSvgProps) => (
       r="16"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="3"
+      strokeWidth="4"
     />
     {/* 부리 */}
     <Polygon
       points="83,36 96,32 84,44"
       fill={ORANGE}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
     />
     {/* 날개 */}
     <Path
       d="M40 50 C34 58 34 68 42 74 C50 68 52 58 48 50Z"
       fill={colorHex}
       stroke={OUTLINE}
-      strokeWidth="2"
+      strokeWidth="4"
       opacity={0.85}
     />
     <Path
       d="M40 56 C38 62 38 68 42 72"
       stroke={OUTLINE}
-      strokeWidth="1.3"
+      strokeWidth="4"
       fill="none"
       opacity={0.4}
     />
@@ -1087,13 +2036,13 @@ const Crow = ({ colorHex }: ItemSvgProps) => (
     <Path
       d="M46 78 L44 90 M60 78 L62 90"
       stroke={ORANGE}
-      strokeWidth="3"
+      strokeWidth="4"
       strokeLinecap="round"
     />
     <Path
       d="M44 90 L40 92 M44 90 L48 93 M62 90 L58 93 M62 90 L66 92"
       stroke={ORANGE}
-      strokeWidth="2"
+      strokeWidth="4"
       strokeLinecap="round"
     />
   </Svg>
@@ -1153,27 +2102,94 @@ const Cat = ({ colorHex }: ItemSvgProps) => (
     <Circle cx="68" cy="63" r="4" fill="#FDA4AF" opacity={0.5} />
   </Svg>
 );
-const Charcoal = ({ colorHex }: ItemSvgProps) => (
+
+const Donut = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Polygon
-      points="25,35 68,28 82,63 60,80 24,68"
+    {/* 도넛 */}
+
+    <Circle
+      cx="50"
+      cy="50"
+      r="32"
       fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+
+    {/* 가운데 구멍 */}
+
+    <Circle
+      cx="50"
+      cy="50"
+      r="11"
+      fill={WHITE}
       stroke={OUTLINE}
       strokeWidth="3"
     />
 
+    {/* 토핑 */}
+
+    <Path
+      d="M31 35 L37 39"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    <Path
+      d="M58 30 L62 36"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    <Path
+      d="M68 48 L74 45"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    <Path
+      d="M60 68 L66 72"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    <Path
+      d="M34 65 L39 70"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    <Path
+      d="M25 50 L32 52"
+      stroke={WHITE}
+      strokeWidth="3"
+      strokeLinecap="round"
+      opacity={0.7}
+    />
+
+    {/* 광택 */}
+
     <Ellipse
-      cx="45"
-      cy="45"
-      rx="10"
+      cx="38"
+      cy="31"
+      rx="9"
       ry="5"
       fill={WHITE}
-      opacity={0.15}
-      transform="rotate(-15 45 45)"
+      opacity={0.25}
+      transform="rotate(-25 38 31)"
     />
   </Svg>
 );
-
 /* ==================================================
    🔗 1️⃣ 먼저: 모든 개별 SVG 컴포넌트 선언→ 2️⃣ 그 다음에: ITEM_SVGS 매핑 (모든 컴포넌트가 이미 선언된 뒤여야 함)
 ================================================== */
@@ -1189,22 +2205,32 @@ const ITEM_SVGS: Record<string, React.ComponentType<ItemSvgProps>> = {
   whale: Whale,
   milk: Milk,
   banana: Banana,
+  watermelon: Watermelon,
   lemon: Lemon,
+  bell: Bell,
+  rocket: Rocket,
+  frog: Frog,
+  owl: Owl,
+  grape: Grape,
+  koala: Koala,
+  ladybug: Ladybug,
   chick: Chick,
   sunflower: Sunflower,
+  flower: Flower,
   star: Star,
   tree: Tree,
   broccoli: Broccoli,
-  crocodile: Crocodile,
-  peas: Peas,
+  butterfly: Butterfly,
+  cupcake: Cupcake,
   cactus: Cactus,
   crow: Crow,
   cat: Cat,
-  charcoal: Charcoal,
+  donut: Donut,
   cloud: Cloud,
   snowman: Snowman,
   rabbit: Rabbit,
   cottonCandy: CottonCandy,
+  mushroom: Mushroom,
 };
 /* ==================================================
    🎨 최종 RenderItemSvg
@@ -1247,1002 +2273,3 @@ export const RenderItemSvg = ({
 
   return <ItemComponent colorHex={colorHex} />;
 };
-
-// import React from "react";
-// import Svg, { Path, Circle, Rect, Ellipse, Polygon, G } from "react-native-svg";
-
-// interface RenderItemSvgProps {
-//   itemName: string;
-//   colorHex: string;
-//   size?: number;
-// }
-
-// /* --------------------------------------------------
-//  * 공통 설정
-//  * -------------------------------------------------- */
-
-// const STROKE = "#6B7280";
-// const WHITE = "#FFFFFF";
-
-// const getLightColor = (color: string) => {
-//   const lightColors: Record<string, string> = {
-//     "#F03E3E": "#FFB3B3",
-//     "#1971C2": "#9DD6FF",
-//     "#F9C80E": "#FFF0A8",
-//     "#2F9E44": "#A8E6B8",
-//     "#AE3EC9": "#DDA8EA",
-//     "#E8590C": "#FFC08A",
-//     "#F06595": "#FFB8D2",
-//     "#5C3A21": "#B98B6B",
-//     "#1A1A1A": "#555555",
-//     "#FFFFFF": "#F1F5F9",
-//   };
-
-//   return lightColors[color] ?? "#FFFFFF";
-// };
-
-// /* --------------------------------------------------
-//  * 귀여운 유아용 SVG
-//  * -------------------------------------------------- */
-
-// export const RenderItemSvg = ({
-//   itemName,
-//   colorHex,
-//   size = 92,
-// }: RenderItemSvgProps) => {
-//   const lightColor = getLightColor(colorHex);
-
-//   const commonProps = {
-//     width: size,
-//     height: size,
-//     viewBox: "0 0 100 100",
-//   };
-
-//   switch (itemName) {
-//     /* ==================================================
-//      * 🍎 사과
-//      * ================================================== */
-
-//     case "빨간 사과":
-//     case "사과":
-//       return (
-//         <Svg {...commonProps}>
-//           {/* 잎 */}
-//           <Path
-//             d="M51 19 C58 8 70 9 76 14 C68 23 59 25 51 19Z"
-//             fill="#65B741"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             strokeLinejoin="round"
-//           />
-
-//           {/* 사과 */}
-//           <Path
-//             d="M50 30
-//               C37 20 19 28 19 47
-//               C19 69 35 84 50 89
-//               C65 84 81 69 81 47
-//               C81 28 63 20 50 30Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 하이라이트 */}
-//           <Ellipse cx="34" cy="43" rx="7" ry="12" fill={WHITE} opacity={0.35} />
-
-//           {/* 꼭지 */}
-//           <Path
-//             d="M50 31 Q48 22 53 17"
-//             stroke="#8B5E3C"
-//             strokeWidth="5"
-//             strokeLinecap="round"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🍓 딸기
-//      * ================================================== */
-
-//     case "딸기":
-//     case "strawberry":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M50 28
-//               C34 23 20 34 23 51
-//               C26 68 40 82 50 89
-//               C60 82 74 68 77 51
-//               C80 34 66 23 50 28Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 잎 */}
-//           <Path
-//             d="M50 31
-//               L38 18
-//               L47 21
-//               L50 10
-//               L54 21
-//               L65 17
-//               L56 31Z"
-//             fill="#65B741"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             strokeLinejoin="round"
-//           />
-
-//           {/* 씨앗 */}
-//           <Ellipse cx="39" cy="45" rx="2" ry="4" fill="#FFE082" />
-//           <Ellipse cx="51" cy="40" rx="2" ry="4" fill="#FFE082" />
-//           <Ellipse cx="62" cy="46" rx="2" ry="4" fill="#FFE082" />
-//           <Ellipse cx="44" cy="58" rx="2" ry="4" fill="#FFE082" />
-//           <Ellipse cx="57" cy="60" rx="2" ry="4" fill="#FFE082" />
-
-//           {/* 하이라이트 */}
-//           <Ellipse cx="35" cy="40" rx="5" ry="8" fill={WHITE} opacity={0.3} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🎈 풍선
-//      * ================================================== */
-
-//     case "빨간 풍선":
-//     case "balloon":
-//       return (
-//         <Svg {...commonProps}>
-//           <Ellipse
-//             cx="50"
-//             cy="42"
-//             rx="29"
-//             ry="35"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Path
-//             d="M42 74 L50 83 L58 74 Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-
-//           <Path
-//             d="M50 83 Q54 92 47 97"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           {/* 빛 */}
-//           <Ellipse cx="39" cy="31" rx="7" ry="12" fill={WHITE} opacity={0.35} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🚒 소방차
-//      * ================================================== */
-
-//     case "소방차":
-//     case "fireTruck":
-//       return (
-//         <Svg {...commonProps}>
-//           {/* 차체 */}
-//           <Rect
-//             x="13"
-//             y="40"
-//             width="74"
-//             height="35"
-//             rx="8"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 운전석 */}
-//           <Path
-//             d="M60 40 H78 Q87 40 87 50 V61 H60Z"
-//             fill={lightColor}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 창문 */}
-//           <Rect x="65" y="45" width="15" height="11" rx="3" fill="#BDE7FF" />
-
-//           {/* 사다리 */}
-//           <Rect
-//             x="20"
-//             y="30"
-//             width="40"
-//             height="7"
-//             rx="3"
-//             fill="#FFD166"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-
-//           <Path
-//             d="M27 30 V37 M37 30 V37 M47 30 V37"
-//             stroke={STROKE}
-//             strokeWidth="2"
-//           />
-
-//           {/* 바퀴 */}
-//           <Circle
-//             cx="30"
-//             cy="77"
-//             r="10"
-//             fill="#374151"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-//           <Circle cx="30" cy="77" r="4" fill="#E5E7EB" />
-
-//           <Circle
-//             cx="70"
-//             cy="77"
-//             r="10"
-//             fill="#374151"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-//           <Circle cx="70" cy="77" r="4" fill="#E5E7EB" />
-
-//           {/* 사이렌 */}
-//           <Circle
-//             cx="51"
-//             cy="30"
-//             r="6"
-//             fill="#FF6B6B"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🍒 체리
-//      * ================================================== */
-
-//     case "체리":
-//     case "cherry":
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="35"
-//             cy="65"
-//             r="17"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="65"
-//             cy="65"
-//             r="17"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Path
-//             d="M35 50 Q42 22 55 22 Q68 22 65 50"
-//             fill="none"
-//             stroke="#65B741"
-//             strokeWidth="5"
-//             strokeLinecap="round"
-//           />
-
-//           <Ellipse cx="29" cy="59" rx="5" ry="7" fill={WHITE} opacity={0.3} />
-
-//           <Ellipse cx="59" cy="59" rx="5" ry="7" fill={WHITE} opacity={0.3} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐟 물고기
-//      * ================================================== */
-
-//     case "파란 물고기":
-//     case "fish":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M18 50
-//               C30 28 62 27 77 50
-//               C62 73 30 72 18 50Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Polygon
-//             points="76,50 94,35 94,65"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Circle cx="67" cy="43" r="5" fill={WHITE} />
-//           <Circle cx="68" cy="43" r="2.5" fill="#374151" />
-
-//           {/* 웃는 입 */}
-//           <Path
-//             d="M68 55 Q73 60 78 55"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           <Ellipse cx="35" cy="42" rx="6" ry="10" fill={WHITE} opacity={0.25} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🫐 블루베리
-//      * ================================================== */
-
-//     case "블루베리":
-//     case "blueberry":
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="50"
-//             cy="53"
-//             r="30"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Path
-//             d="M37 28 L43 35 L50 27 L57 35 L64 28"
-//             fill="#6B46C1"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             strokeLinejoin="round"
-//           />
-
-//           <Circle cx="40" cy="45" r="6" fill={WHITE} opacity={0.3} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * ☂️ 우산
-//      * ================================================== */
-
-//     case "파란 우산":
-//     case "검은 우산":
-//     case "umbrella":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M15 52
-//               Q50 18 85 52
-//               Q78 49 72 56
-//               Q64 49 57 56
-//               Q50 49 43 56
-//               Q36 49 28 56
-//               Q22 49 15 52Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Path
-//             d="M50 52 V82 Q50 92 60 88"
-//             fill="none"
-//             stroke={STROKE}
-//             strokeWidth="5"
-//             strokeLinecap="round"
-//           />
-
-//           <Ellipse cx="38" cy="42" rx="8" ry="5" fill={WHITE} opacity={0.3} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐳 고래
-//      * ================================================== */
-
-//     case "고래":
-//     case "whale":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M15 58
-//               C22 35 55 29 78 43
-//               C88 49 89 61 80 67
-//               C60 80 28 74 15 58Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Polygon
-//             points="18,57 6,45 10,62 5,72 22,66"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Circle cx="70" cy="48" r="4" fill={WHITE} />
-//           <Circle cx="71" cy="48" r="2" fill="#374151" />
-
-//           <Path
-//             d="M75 57 Q79 61 83 57"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           {/* 물 뿜기 */}
-//           <Path
-//             d="M48 31 Q44 20 38 18 M48 30 Q50 18 56 15"
-//             stroke="#7DD3FC"
-//             strokeWidth="4"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🍌 바나나
-//      * ================================================== */
-
-//
-
-//     /* ==================================================
-//      * 🍋 레몬
-//      * ================================================== */
-
-//     case "레몬":
-//     case "lemon":
-//       return (
-//         <Svg {...commonProps}>
-//           <Ellipse
-//             cx="50"
-//             cy="53"
-//             rx="34"
-//             ry="25"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             transform="rotate(-15 50 53)"
-//           />
-
-//           <Ellipse
-//             cx="38"
-//             cy="44"
-//             rx="8"
-//             ry="5"
-//             fill={WHITE}
-//             opacity={0.3}
-//             transform="rotate(-15 38 44)"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐥 병아리
-//      * ================================================== */
-
-//     case "병아리":
-//     case "chick":
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="50"
-//             cy="55"
-//             r="29"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 머리 털 */}
-//           <Path
-//             d="M43 29 Q47 18 50 28 Q54 17 57 29"
-//             stroke={colorHex}
-//             strokeWidth="7"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           {/* 눈 */}
-//           <Circle cx="40" cy="52" r="4" fill="#374151" />
-//           <Circle cx="60" cy="52" r="4" fill="#374151" />
-
-//           {/* 부리 */}
-//           <Polygon
-//             points="50,57 41,64 59,64"
-//             fill="#FF9F43"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-
-//           <Ellipse cx="39" cy="43" rx="7" ry="9" fill={WHITE} opacity={0.25} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🌻 해바라기
-//      * ================================================== */
-
-//     case "해바라기":
-//     case "sunflower":
-//       return (
-//         <Svg {...commonProps}>
-//           <G>
-//             <Circle cx="50" cy="25" r="13" fill={colorHex} />
-//             <Circle cx="25" cy="38" r="13" fill={colorHex} />
-//             <Circle cx="75" cy="38" r="13" fill={colorHex} />
-//             <Circle cx="22" cy="63" r="13" fill={colorHex} />
-//             <Circle cx="78" cy="63" r="13" fill={colorHex} />
-//             <Circle cx="50" cy="78" r="13" fill={colorHex} />
-//             <Circle cx="50" cy="50" r="19" fill="#8B5E34" />
-//             <Circle cx="45" cy="44" r="5" fill={WHITE} opacity={0.25} />
-//           </G>
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * ⭐ 별
-//      * ================================================== */
-
-//     case "노란 별":
-//     case "star":
-//       return (
-//         <Svg {...commonProps}>
-//           <Polygon
-//             points="50,10 61,38 91,39 67,56 76,86 50,68 24,86 33,56 9,39 39,38"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Ellipse
-//             cx="36"
-//             cy="34"
-//             rx="7"
-//             ry="5"
-//             fill={WHITE}
-//             opacity={0.35}
-//             transform="rotate(-25 36 34)"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🌳 나무
-//      * ================================================== */
-
-//     case "초록 나무":
-//     case "tree":
-//       return (
-//         <Svg {...commonProps}>
-//           <Rect
-//             x="43"
-//             y="55"
-//             width="14"
-//             height="32"
-//             rx="5"
-//             fill="#9A6B45"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-
-//           <Circle
-//             cx="35"
-//             cy="47"
-//             r="19"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="65"
-//             cy="47"
-//             r="19"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="50"
-//             cy="31"
-//             r="20"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Ellipse cx="43" cy="28" rx="7" ry="10" fill={WHITE} opacity={0.2} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🥦 브로콜리
-//      * ================================================== */
-
-//     case "브로콜리":
-//     case "broccoli":
-//       return (
-//         <Svg {...commonProps}>
-//           <Rect
-//             x="42"
-//             y="57"
-//             width="16"
-//             height="30"
-//             rx="6"
-//             fill="#86C06A"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//           />
-
-//           <Circle
-//             cx="32"
-//             cy="48"
-//             r="17"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="50"
-//             cy="38"
-//             r="21"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="68"
-//             cy="48"
-//             r="17"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Ellipse cx="44" cy="31" rx="7" ry="9" fill={WHITE} opacity={0.2} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐊 악어
-//      * ================================================== */
-
-//     case "악어":
-//     case "crocodile":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M12 58
-//               Q22 36 53 42
-//               Q75 45 87 58
-//               Q76 70 51 68
-//               Q27 70 12 58Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle cx="68" cy="48" r="5" fill="#FFFFFF" />
-//           <Circle cx="69" cy="48" r="2.5" fill="#374151" />
-
-//           <Path
-//             d="M75 59 Q82 63 87 58"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           <Ellipse cx="35" cy="49" rx="8" ry="5" fill={WHITE} opacity={0.25} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐈 고양이
-//      * ================================================== */
-
-//     case "검은 고양이":
-//     case "고양이":
-//     case "cat":
-//       return (
-//         <Svg {...commonProps}>
-//           <Polygon
-//             points="25,39 28,16 44,31 56,31 72,16 75,39"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Circle
-//             cx="50"
-//             cy="58"
-//             r="28"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle cx="40" cy="54" r="4" fill="#F8FAFC" />
-//           <Circle cx="60" cy="54" r="4" fill="#F8FAFC" />
-
-//           <Circle cx="40" cy="54" r="2" fill="#374151" />
-//           <Circle cx="60" cy="54" r="2" fill="#374151" />
-
-//           <Path
-//             d="M47 63 Q50 66 53 63"
-//             stroke="#F472B6"
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-
-//           <Path
-//             d="M28 63 H13 M28 68 H15 M72 63 H87 M72 68 H85"
-//             stroke={STROKE}
-//             strokeWidth="2"
-//             strokeLinecap="round"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * ☁️ 구름
-//      * ================================================== */
-
-//     case "구름":
-//     case "cloud":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M18 67
-//               C13 58 20 47 31 47
-//               C33 34 44 27 56 31
-//               C65 25 79 32 80 44
-//               C91 45 95 56 89 64
-//               C85 70 76 72 67 71
-//               H29
-//               C24 71 20 70 18 67Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Ellipse cx="40" cy="44" rx="10" ry="7" fill={WHITE} opacity={0.45} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * ☃️ 눈사람
-//      * ================================================== */
-
-//     case "눈사람":
-//     case "snowman":
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="50"
-//             cy="67"
-//             r="25"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="50"
-//             cy="35"
-//             r="19"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           {/* 눈 */}
-//           <Circle cx="43" cy="33" r="3" fill="#374151" />
-//           <Circle cx="57" cy="33" r="3" fill="#374151" />
-
-//           {/* 코 */}
-//           <Polygon points="50,38 63,42 50,45" fill="#FF9F43" />
-
-//           {/* 목도리 */}
-//           <Path
-//             d="M33 48 Q50 55 67 48"
-//             stroke="#F87171"
-//             strokeWidth="7"
-//             fill="none"
-//           />
-
-//           <Ellipse cx="44" cy="26" rx="5" ry="7" fill={WHITE} opacity={0.35} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🐰 토끼
-//      * ================================================== */
-
-//     case "흰 토끼":
-//     case "토끼":
-//     case "rabbit":
-//       return (
-//         <Svg {...commonProps}>
-//           {/* 귀 */}
-//           <Ellipse
-//             cx="38"
-//             cy="25"
-//             rx="9"
-//             ry="20"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Ellipse
-//             cx="62"
-//             cy="25"
-//             rx="9"
-//             ry="20"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Ellipse cx="38" cy="25" rx="4" ry="12" fill="#F9A8D4" />
-
-//           <Ellipse cx="62" cy="25" rx="4" ry="12" fill="#F9A8D4" />
-
-//           {/* 얼굴 */}
-//           <Circle
-//             cx="50"
-//             cy="61"
-//             r="27"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle cx="40" cy="58" r="4" fill="#374151" />
-//           <Circle cx="60" cy="58" r="4" fill="#374151" />
-
-//           <Circle cx="50" cy="66" r="4" fill="#F472B6" />
-
-//           <Path
-//             d="M45 72 Q50 77 55 72"
-//             stroke={STROKE}
-//             strokeWidth="3"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🍬 솜사탕
-//      * ================================================== */
-
-//     case "솜사탕":
-//     case "cottonCandy":
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="36"
-//             cy="47"
-//             r="16"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="55"
-//             cy="39"
-//             r="19"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Circle
-//             cx="70"
-//             cy="50"
-//             r="15"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Path
-//             d="M50 61 L50 90"
-//             stroke="#C58B5A"
-//             strokeWidth="6"
-//             strokeLinecap="round"
-//           />
-
-//           <Ellipse cx="48" cy="32" rx="8" ry="6" fill={WHITE} opacity={0.35} />
-//         </Svg>
-//       );
-
-//     /* ==================================================
-//      * 🥛 우유
-//      * ================================================== */
-
-//     case "우유":
-//     case "milk":
-//       return (
-//         <Svg {...commonProps}>
-//           <Path
-//             d="M28 28 L40 19 H67 L77 29 V82 Q77 88 71 88 H29 Q23 88 23 82 V35Z"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//             strokeLinejoin="round"
-//           />
-
-//           <Path
-//             d="M40 19 L45 29 H77"
-//             fill="none"
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-
-//           <Rect
-//             x="34"
-//             y="45"
-//             width="32"
-//             height="20"
-//             rx="6"
-//             fill={WHITE}
-//             opacity={0.65}
-//           />
-
-//           <Path
-//             d="M43 55 Q50 48 57 55"
-//             stroke="#60A5FA"
-//             strokeWidth="4"
-//             fill="none"
-//             strokeLinecap="round"
-//           />
-//         </Svg>
-//       );
-
-//     default:
-//       return (
-//         <Svg {...commonProps}>
-//           <Circle
-//             cx="50"
-//             cy="50"
-//             r="32"
-//             fill={colorHex}
-//             stroke={STROKE}
-//             strokeWidth="4"
-//           />
-//           <Ellipse cx="39" cy="38" rx="8" ry="10" fill={WHITE} opacity={0.3} />
-//         </Svg>
-//       );
-//   }
-// };
