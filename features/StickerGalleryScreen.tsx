@@ -16,6 +16,7 @@ export default function StickerGalleryScreen() {
     "#2F9E44",
     "#AE3EC9",
     "#E8590C",
+    "#FFF",
   ];
 
   const stickerKeys = [

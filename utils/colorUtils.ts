@@ -52,7 +52,7 @@ export function getColorVariants(colorHex: string) {
     base: colorHex,
     light: lightenColor(colorHex, 0.2),
     dark: darkenColor(colorHex, 0.25),
-    lighter: lightenColor(colorHex, 0.35),
-    darker: darkenColor(colorHex, 0.4),
+    darker: darkenColor(colorHex, 0.35),
+    darkest: darkenColor(colorHex, 0.4),
   };
 }
