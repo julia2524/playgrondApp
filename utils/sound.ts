@@ -44,6 +44,7 @@ export async function preloadSounds() {
     players.wrong_sound = [
       createAudioPlayer(require("../assets/sounds/wrong_sound_1.wav")),
       createAudioPlayer(require("../assets/sounds/wrong_sound_2.wav")),
+      createAudioPlayer(require("../assets/sounds/wrong_sound_3.wav")),
     ];
 
     // ⭐ 음계 10개 미리 로드

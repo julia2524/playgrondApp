@@ -5,10 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import CountdownOverlay from "./components/common/CountDownOverlay";
-import AppNavigator from "./navigation/AppNavigator";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./design-system/theme/theme";
+import AppNavigator from "./navigation/AppNavigator";
 
 // 폰트가 로딩되는 동안 스플래시 화면이 유지되도록 설정
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +34,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <View style={styles.container} onLayout={onLayoutRootView}>
         <NavigationContainer>
-          <StatusBar hidden={true} />
+          <StatusBar hidden={true} translucent={true} />
           <AppNavigator />
         </NavigationContainer>
       </View>

@@ -13,7 +13,7 @@ export default function Mascot({ size = 150 }: MascotProps) {
       <Bear
         source={ASSETS.mascotBear as ImageSourcePropType}
         size={size}
-        resizeMode="contain"
+        resizeMode="cover"
       />
     </MascotContainer>
   );

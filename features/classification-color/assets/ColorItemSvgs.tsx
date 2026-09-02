@@ -130,7 +130,7 @@ const Balloon = ({ colorHex }: ItemSvgProps) => {
 const FireTruck = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Rect
         x="12"
         y="38"
@@ -227,7 +227,7 @@ const Cherry = ({ colorHex }: ItemSvgProps) => {
 const Fish = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="95" height="95" viewBox="0 0 100 100">
       {/* 꼬리 */}
 
       <Path
@@ -329,7 +329,7 @@ const Umbrella = ({ colorHex }: ItemSvgProps) => {
 const Whale = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Path
         d="
         M16 59
@@ -374,7 +374,7 @@ const Whale = ({ colorHex }: ItemSvgProps) => {
 const Owl = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Polygon
         points="32,20 40,34 26,34"
         fill={colors.base}
@@ -426,7 +426,7 @@ const Owl = ({ colorHex }: ItemSvgProps) => {
 const Frog = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Circle
         cx="34"
         cy="30"
@@ -510,7 +510,7 @@ const Rocket = ({ colorHex }: ItemSvgProps) => {
 };
 
 const Snail = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
+  <Svg width="95" height="95" viewBox="0 0 100 100">
     {/* 몸 */}
     <Path
       d="
@@ -578,7 +578,7 @@ const Bee = ({ colorHex }: ItemSvgProps) => {
         cy="50"
         rx="15"
         ry="10"
-        fill={WHITE}
+        fill={colors.dark}
         stroke={OUTLINE}
         strokeWidth="3"
         opacity={0.8}
@@ -590,7 +590,7 @@ const Bee = ({ colorHex }: ItemSvgProps) => {
         cy="50"
         rx="15"
         ry="10"
-        fill={WHITE}
+        fill={colors.dark}
         stroke={OUTLINE}
         strokeWidth="3"
         opacity={0.8}
@@ -642,6 +642,30 @@ const Penguin = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
     <Svg width="100" height="100" viewBox="0 0 100 100">
+      {/* 날개 */}
+      <Ellipse
+        cx="20"
+        cy="50"
+        rx="15"
+        ry="10"
+        fill={colors.dark}
+        stroke={OUTLINE}
+        strokeWidth="3"
+        opacity={0.8}
+        transform="rotate(-30 38 38)"
+      />
+
+      <Ellipse
+        cx="80"
+        cy="50"
+        rx="15"
+        ry="10"
+        fill={colors.dark}
+        stroke={OUTLINE}
+        strokeWidth="3"
+        opacity={0.8}
+        transform="rotate(30 61 38)"
+      />
       {/* 몸 */}
       <Path
         d="
@@ -999,7 +1023,7 @@ const Car = ({ colorHex }: ItemSvgProps) => {
 const Clock = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Circle
         cx="50"
         cy="52"
@@ -1165,7 +1189,7 @@ const Banana = ({ colorHex }: ItemSvgProps) => {
 const Grape = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* ======================
         줄기
     ====================== */}
@@ -1398,7 +1422,7 @@ const Watermelon = ({ colorHex }: ItemSvgProps) => {
 const Koala = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="93" height="93" viewBox="0 0 100 100">
       {/* 귀 */}
       <Circle
         cx="24"
@@ -1574,7 +1598,7 @@ const Chick = ({ colorHex }: ItemSvgProps) => {
 const Sunflower = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* 줄기 + 잎 */}
       <Path
         d="M50 62 L50 90"
@@ -1625,7 +1649,7 @@ const Sunflower = ({ colorHex }: ItemSvgProps) => {
 const Flower = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* 꽃잎 */}
 
       <Circle
@@ -1691,7 +1715,7 @@ const Flower = ({ colorHex }: ItemSvgProps) => {
 const Star = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       <Polygon
         points="
         50,12
@@ -1794,7 +1818,7 @@ const Broccoli = ({ colorHex }: ItemSvgProps) => {
 const Butterfly = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* ======================
         더듬이
     ====================== */}
@@ -1987,7 +2011,7 @@ const Cupcake = ({ colorHex }: ItemSvgProps) => {
 const Cactus = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* 화분 */}
       <Path
         d="M30 82 L70 82 L66 94 L34 94Z"
@@ -2065,7 +2089,7 @@ const Cactus = ({ colorHex }: ItemSvgProps) => {
 const Cloud = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="95" height="95" viewBox="0 0 100 100">
       <Path
         d="M20 65
          C15 52 24 42 37 44
@@ -2086,7 +2110,7 @@ const Cloud = ({ colorHex }: ItemSvgProps) => {
 const Snowman = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="95" height="95" viewBox="0 0 100 100">
       <Circle
         cx="50"
         cy="65"
@@ -2165,7 +2189,7 @@ const Milk = ({ colorHex }: ItemSvgProps) => {
 const Rabbit = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="80" height="80" viewBox="0 0 100 100">
       <Ellipse
         cx="38"
         cy="25"
@@ -2287,7 +2311,7 @@ const CottonCandy = ({ colorHex }: ItemSvgProps) => {
 const Crow = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="83" height="83" viewBox="0 0 100 100">
       {/* 꼬리 깃털 */}
       <Path
         d="M28 66 C18 70 12 78 14 84 C20 80 26 76 32 70Z"
@@ -2358,7 +2382,7 @@ const Crow = ({ colorHex }: ItemSvgProps) => {
 const Cat = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
   return (
-    <Svg width="100" height="100" viewBox="0 0 100 100">
+    <Svg width="90" height="90" viewBox="0 0 100 100">
       {/* 귀 (바깥) */}
       <Polygon
         points="26,42 32,16 47,38"
@@ -2435,7 +2459,7 @@ const Donut = ({ colorHex }: ItemSvgProps) => {
         cx="50"
         cy="50"
         r="11"
-        fill={WHITE}
+        fill={colors.light}
         stroke={OUTLINE}
         strokeWidth="3"
       />

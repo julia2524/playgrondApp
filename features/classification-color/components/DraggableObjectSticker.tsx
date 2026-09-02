@@ -266,7 +266,7 @@ export function DraggableObjectSticker({
             // Wrong
             // ---------------------
             if (result === "wrong") {
-              playLastSuccessNote();
+              playSound("wrong_sound");
               triggerHaptic("error");
 
               setTimeout(() => {
@@ -281,7 +281,8 @@ export function DraggableObjectSticker({
             // Outside
             // ---------------------
             if (result === "outside") {
-              playLastSuccessNote();
+              // playLastSuccessNote();
+              playSound("wrong_sound");
               triggerHaptic("light");
 
               setTimeout(() => {
