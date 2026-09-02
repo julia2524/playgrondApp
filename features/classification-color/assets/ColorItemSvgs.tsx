@@ -9,10 +9,58 @@ interface ItemSvgProps {
    공통 스타일
 ================================================== */
 
-const ORANGE = "#FB923C";
-const OUTLINE = "#2C3E50";
+const OUTLINE = "#4B5563";
 const WHITE = "#FFFFFF";
 const DARK = "#2C3E50";
+
+function hexToRgb(hex: string) {
+  const cleaned = hex.replace("#", "");
+
+  const value =
+    cleaned.length === 3
+      ? cleaned
+          .split("")
+          .map((char) => char + char)
+          .join("")
+      : cleaned;
+
+  const number = parseInt(value, 16);
+
+  return {
+    r: (number >> 16) & 255,
+    g: (number >> 8) & 255,
+    b: number & 255,
+  };
+}
+
+function rgbToHex(r: number, g: number, b: number) {
+  return (
+    "#" +
+    [r, g, b]
+      .map((value) => {
+        const hex = Math.round(Math.max(0, Math.min(255, value))).toString(16);
+
+        return hex.padStart(2, "0");
+      })
+      .join("")
+  );
+}
+function lightenColor(hex: string, amount: number = 0.2) {
+  const { r, g, b } = hexToRgb(hex);
+
+  return rgbToHex(
+    r + (255 - r) * amount,
+    g + (255 - g) * amount,
+    b + (255 - b) * amount,
+  );
+}
+function darkenColor(hex: string, amount: number = 0.2) {
+  const { r, g, b } = hexToRgb(hex);
+
+  return rgbToHex(r * (1 - amount), g * (1 - amount), b * (1 - amount));
+}
+
+const ORANGE = "#FB923C";
 const PINK = "#FF9EC4";
 const BROWN = "#9A5B32";
 const LIGHT_BROWN = "#D99A62";
@@ -24,49 +72,54 @@ const WATERMELON_RED = "#FF7B7B";
 const WATERMELON_GREEN = "#4DBA70";
 const PURPLE = "#8B6BE8";
 
-export const Apple = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Path
-      d="
+export const Apple = ({ colorHex }: ItemSvgProps) => {
+  const lightColor = lightenColor(colorHex, 0.2);
+  const darkColor = darkenColor(colorHex, 0.25);
+
+  return (
+    <Svg width="100" height="100" viewBox="0 0 100 100">
+      <Path
+        d="
         M50 28
         C42 20 26 23 20 38
         C13 56 23 82 50 82
         C77 82 87 56 80 38
         C74 23 58 20 50 28Z
       "
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-      strokeLinejoin="round"
-    />
+        fill={colorHex}
+        stroke={OUTLINE}
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
 
-    <Path
-      d="M50 28 C50 20 54 15 61 12"
-      stroke={BROWN}
-      strokeWidth="5"
-      strokeLinecap="round"
-      fill="none"
-    />
+      <Path
+        d="M50 28 C50 20 54 15 61 12"
+        stroke={darkColor}
+        strokeWidth="5"
+        strokeLinecap="round"
+        fill="none"
+      />
 
-    <Path
-      d="M56 18 C67 12 77 16 79 25 C68 28 61 25 56 18Z"
-      fill={GREEN}
-      stroke={OUTLINE}
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
+      <Path
+        d="M56 18 C67 12 77 16 79 25 C68 28 61 25 56 18Z"
+        fill={lightColor}
+        stroke={OUTLINE}
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
 
-    <Ellipse
-      cx="34"
-      cy="45"
-      rx="8"
-      ry="13"
-      fill={WHITE}
-      opacity={0.35}
-      transform="rotate(25 34 45)"
-    />
-  </Svg>
-);
+      <Ellipse
+        cx="34"
+        cy="45"
+        rx="8"
+        ry="13"
+        fill={WHITE}
+        opacity={0.35}
+        transform="rotate(25 34 45)"
+      />
+    </Svg>
+  );
+};
 
 const Strawberry = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
