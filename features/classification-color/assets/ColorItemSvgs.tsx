@@ -1,5 +1,6 @@
 import React from "react";
 import Svg, { Circle, Ellipse, Path, Polygon, Rect, G } from "react-native-svg";
+import { getColorVariants } from "../../../utils/colorUtils";
 
 interface ItemSvgProps {
   colorHex: string;
@@ -12,53 +13,6 @@ interface ItemSvgProps {
 const OUTLINE = "#4B5563";
 const WHITE = "#FFFFFF";
 const DARK = "#2C3E50";
-
-function hexToRgb(hex: string) {
-  const cleaned = hex.replace("#", "");
-
-  const value =
-    cleaned.length === 3
-      ? cleaned
-          .split("")
-          .map((char) => char + char)
-          .join("")
-      : cleaned;
-
-  const number = parseInt(value, 16);
-
-  return {
-    r: (number >> 16) & 255,
-    g: (number >> 8) & 255,
-    b: number & 255,
-  };
-}
-
-function rgbToHex(r: number, g: number, b: number) {
-  return (
-    "#" +
-    [r, g, b]
-      .map((value) => {
-        const hex = Math.round(Math.max(0, Math.min(255, value))).toString(16);
-
-        return hex.padStart(2, "0");
-      })
-      .join("")
-  );
-}
-function lightenColor(hex: string, amount: number = 0.2) {
-  const { r, g, b } = hexToRgb(hex);
-
-  return rgbToHex(
-    r + (255 - r) * amount,
-    g + (255 - g) * amount,
-    b + (255 - b) * amount,
-  );
-}
-function darkenColor(hex: string, amount: number = 0.2) {
-  const { r, g, b } = hexToRgb(hex);
-
-  return rgbToHex(r * (1 - amount), g * (1 - amount), b * (1 - amount));
-}
 
 const ORANGE = "#FB923C";
 const PINK = "#FF9EC4";
@@ -73,8 +27,7 @@ const WATERMELON_GREEN = "#4DBA70";
 const PURPLE = "#8B6BE8";
 
 export const Apple = ({ colorHex }: ItemSvgProps) => {
-  const lightColor = lightenColor(colorHex, 0.2);
-  const darkColor = darkenColor(colorHex, 0.25);
+  const colors = getColorVariants(colorHex);
 
   return (
     <Svg width="100" height="100" viewBox="0 0 100 100">
@@ -94,7 +47,7 @@ export const Apple = ({ colorHex }: ItemSvgProps) => {
 
       <Path
         d="M50 28 C50 20 54 15 61 12"
-        stroke={darkColor}
+        stroke={colors.dark}
         strokeWidth="5"
         strokeLinecap="round"
         fill="none"
@@ -102,7 +55,7 @@ export const Apple = ({ colorHex }: ItemSvgProps) => {
 
       <Path
         d="M56 18 C67 12 77 16 79 25 C68 28 61 25 56 18Z"
-        fill={lightColor}
+        fill={colors.light}
         stroke={OUTLINE}
         strokeWidth="3"
         strokeLinejoin="round"
