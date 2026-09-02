@@ -8,7 +8,7 @@ import * as SplashScreen from "expo-splash-screen";
 import CountdownOverlay from "./components/common/CountDownOverlay";
 import AppNavigator from "./navigation/AppNavigator";
 import { ThemeProvider } from "styled-components/native";
-import { theme } from "./constants/theme";
+import { theme } from "./design-system/theme/theme";
 
 // 폰트가 로딩되는 동안 스플래시 화면이 유지되도록 설정
 SplashScreen.preventAutoHideAsync();
