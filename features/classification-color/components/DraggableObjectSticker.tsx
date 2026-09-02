@@ -81,9 +81,6 @@ export function DraggableObjectSticker({
     y: 0,
   });
   const isScreenPositionReadyRef = useRef(false);
-  useEffect(() => {
-    preloadSounds(); // 한 번만 호출
-  }, []);
 
   // --------------------------------------------------
   // Correct Animation
@@ -266,18 +263,32 @@ export function DraggableObjectSticker({
             }
 
             // ---------------------
-            // Wrong || Outside
+            // Wrong
             // ---------------------
-            if (result === "wrong" || result === "outside") {
-              playLastSuccessNote(); // ⭐ 직전에 성공한 음 그대로 재생
-              // playSound("wrong");
-              // playSound("wrong_sound");
+            if (result === "wrong") {
+              playLastSuccessNote();
               triggerHaptic("error");
 
               setTimeout(() => {
                 playWrongAnimation();
                 onWrong();
               }, 150);
+
+              return;
+            }
+
+            // ---------------------
+            // Outside
+            // ---------------------
+            if (result === "outside") {
+              playLastSuccessNote();
+              triggerHaptic("light");
+
+              setTimeout(() => {
+                playWrongAnimation();
+                onOutside();
+              }, 150);
+
               return;
             }
           });

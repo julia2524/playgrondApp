@@ -9,9 +9,14 @@ const players = {
   notes: [] as AudioPlayer[], // ⭐ 음계용
 };
 // ⭐ 마지막으로 성공한 음계 인덱스를 기억
+let isPreloaded = false;
 let lastSuccessNoteIndex = 0; // 0 = 도
 
 export async function preloadSounds() {
+  // ⭐ 이미 생성했으면 다시 생성하지 않음
+  if (isPreloaded) {
+    return;
+  }
   try {
     players.grab = [createAudioPlayer(require("../assets/sounds/grab.wav"))];
 
@@ -52,8 +57,12 @@ export async function preloadSounds() {
       createAudioPlayer(require("../assets/sounds/note_9.wav")), // 높은 레
       createAudioPlayer(require("../assets/sounds/note_10.wav")), // 높은 미
     ];
+    isPreloaded = true;
+
+    console.log("🔊 사운드 프리로드 완료!");
   } catch (e) {
     console.log("사운드 프리로드 실패:", e);
+    isPreloaded = false;
   }
 }
 
@@ -93,7 +102,7 @@ export function playStreakNote(streakCount: number) {
   }
 }
 
-// ⭐ 오답일 때 호출 → 직전에 성공했던 음 그대로 재생
+// ⭐ 오답일 때 호출 → 직전에 성공했던 음 그대로 재생!
 export function playLastSuccessNote() {
   try {
     const player = players.notes[lastSuccessNoteIndex];
@@ -103,5 +112,42 @@ export function playLastSuccessNote() {
     player.play();
   } catch (error) {
     console.log("이전 음계 재생 실패:", error);
+  }
+}
+
+// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 순차 연주!
+// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 깨끗하게 순차 연주
+export function playEarnedNotes(earnedStars: number) {
+  if (!players.notes || players.notes.length === 0) {
+    console.log("음계 플레이어가 아직 준비되지 않음");
+    return;
+  }
+
+  const count = Math.min(Math.max(earnedStars, 0), players.notes.length);
+  if (count <= 0) return;
+
+  // 이전 연주 중인 음들을 일단 전부 정지
+  players.notes.forEach((player) => {
+    try {
+      if (player) {
+        player.pause();
+        player.seekTo(0);
+      }
+    } catch (e) {}
+  });
+
+  // 순차 재생 (간격을 충분히 줌)
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      try {
+        const player = players.notes[i];
+        if (player) {
+          player.seekTo(0);
+          player.play();
+        }
+      } catch (e) {
+        console.log(`음계 ${i + 1} 재생 실패:`, e);
+      }
+    }, i * 150); // ← 여기가 핵심! 380~450ms 추천
   }
 }

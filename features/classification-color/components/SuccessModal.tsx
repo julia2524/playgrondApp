@@ -10,17 +10,16 @@ import Mascot from "../../../design-system/ui/Mascot";
 import { STAGE_CONFIGS } from "../../StageMap/stageConfigs";
 import CandyStar from "../../../design-system/ui/CandyStar";
 import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
+import { useEffect } from "react";
+import { playEarnedNotes } from "../../../utils/sound";
 
 interface SuccessModalProps {
   show: boolean;
-
   level: number;
-
   earnedStars: number;
-
   onRestart: () => void;
-
   onNextLevel: () => void;
+  correctStreakCount: number;
 }
 
 type GameOverNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -31,9 +30,17 @@ export default function SuccessModal({
   earnedStars,
   onRestart,
   onNextLevel,
+  correctStreakCount,
 }: SuccessModalProps) {
   const navigation = useNavigation<GameOverNavigationProp>();
 
+  // ⭐ 2. 모달이 열릴 때(show가 true가 될 때) earnedStars 개수만큼 음계 연주!
+  //console.log(correctStreakCount);
+  useEffect(() => {
+    if (show) {
+      playEarnedNotes(correctStreakCount);
+    }
+  }, [show, correctStreakCount]);
   if (!show) return null;
 
   const currentStageIndex = STAGE_CONFIGS.findIndex(

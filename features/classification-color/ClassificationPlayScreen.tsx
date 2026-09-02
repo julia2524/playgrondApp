@@ -17,6 +17,7 @@ import SuccessModal from "./components/SuccessModal";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
 import { completeLevel, createInitialProgress } from "./progress/gameProgress";
+import { preloadSounds } from "../../utils/sound";
 
 // ==================================================
 // Navigation 타입
@@ -41,6 +42,10 @@ export default function ClassificationPlayScreen() {
   const route = useRoute<PlayScreenRouteProp>();
 
   const navigation = useNavigation<PlayScreenNavigationProp>();
+
+  useEffect(() => {
+    preloadSounds(); // 한 번만 호출
+  }, []);
 
   const { level } = route.params;
 
@@ -168,9 +173,27 @@ export default function ClassificationPlayScreen() {
     ),
   );
 
-  const currentRound = rounds[roundIndex] as ClassificationRound;
+  const currentRound = rounds[roundIndex];
+  // ⭐ 안전하게 처리
+  if (
+    !currentRound ||
+    !currentRound.targets ||
+    currentRound.targets.length === 0
+  ) {
+    console.log("⚠️ currentRound 없음", {
+      roundsLength: rounds.length,
+      roundIndex,
+      rounds,
+    });
+    return null; // 또는 로딩 화면
+  }
 
   const target = currentRound.targets[0];
+  if (!target) {
+    console.log("⚠️ target 없음", currentRound);
+
+    return null;
+  }
 
   // ==================================================
   // ⭐ 정답 Object
@@ -279,32 +302,53 @@ export default function ClassificationPlayScreen() {
 
   const goToNextRound = async (finalStars: number) => {
     setFeedback(null);
-
-    // ⭐ 마지막 라운드가 아니면
-    if (roundIndex < rounds.length - 1) {
-      setRoundIndex((prev) => prev + 1);
-      setMatchedObjectIds([]);
+    // ⭐ 이미 마지막 라운드를 넘어간 상태면 그냥 모달만 띄우고 끝
+    if (roundIndex >= rounds.length - 1) {
+      clearIdleTimer();
+      setTutorialVisible(false);
+      await saveCompletedLevel(levelConfig.level, finalStars);
+      setShowSuccessModal(true);
       setIsTargetFront(false);
       setActiveStickerId(null);
-
       isProcessingRef.current = false;
-
       return;
     }
+    // 아직 남은 라운드가 있을 때만 증가
+    setRoundIndex((prev) => {
+      const next = prev + 1;
+      // 혹시라도 넘어가지 못하게 한 번 더 방어
+      return next >= rounds.length ? prev : next;
+    });
+    setMatchedObjectIds([]);
+    setIsTargetFront(false);
+    setActiveStickerId(null);
+    isProcessingRef.current = false;
+
+    // ⭐ 마지막 라운드가 아니면
+    // if (roundIndex < rounds.length - 1) {
+    //   setRoundIndex((prev) => prev + 1);
+    //   setMatchedObjectIds([]);
+    //   setIsTargetFront(false);
+    //   setActiveStickerId(null);
+
+    //   isProcessingRef.current = false;
+
+    //   return;
+    // }
 
     // ==================================================
     // ⭐ 마지막 라운드
     // ==================================================
 
-    clearIdleTimer();
+    // clearIdleTimer();
 
-    setTutorialVisible(false);
-    await saveCompletedLevel(levelConfig.level, finalStars);
-    setShowSuccessModal(true);
-    setIsTargetFront(false);
-    setActiveStickerId(null);
+    // setTutorialVisible(false);
+    // await saveCompletedLevel(levelConfig.level, finalStars);
+    // setShowSuccessModal(true);
+    // setIsTargetFront(false);
+    // setActiveStickerId(null);
 
-    isProcessingRef.current = false;
+    // isProcessingRef.current = false;
   };
 
   // ==================================================
@@ -541,6 +585,7 @@ export default function ClassificationPlayScreen() {
         earnedStars={earnedStars}
         onRestart={handleRestart}
         onNextLevel={handleNextLevel}
+        correctStreakCount={correctRoundCount} // ⭐ 추가: "이번에 맞히면 몇 번째인지"
       />
     </Container>
   );
