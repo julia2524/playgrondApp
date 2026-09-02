@@ -91,7 +91,7 @@ export const SHAPE_POOL: ShapeDefinition[] = [
   { id: "whale", label: "고래" },
   { id: "milk", label: "우유" },
   { id: "banana", label: "바나나" },
-  { id: "lemon", label: "레몬" },
+  { id: "bee", label: "벌" },
   { id: "ship", label: "돛단배" },
   { id: "dog", label: "강아지" },
   { id: "clock", label: "시계" },
@@ -140,7 +140,7 @@ export const COLOR_ITEM_POOL: Record<string, string[]> = {
   purple: ["포도", "가지", "보라 왕관", "고구마", "보라 나비"],
   violet: ["제비꽃", "라벤더", "포도젤리", "보라색 조개", "아네모네", "포도"],
   orange: ["오렌지", "당근", "농구공", "감", "주황 우산"],
-  yellow: ["바나나", "레몬", "병아리", "해바라기", "노란 별", "나비", "종"],
+  yellow: ["바나나", "벌", "병아리", "해바라기", "노란 별", "나비", "종"],
   brown: [
     "도토리",
     "초콜릿",

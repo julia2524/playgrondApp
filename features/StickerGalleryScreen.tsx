@@ -30,7 +30,7 @@ export default function StickerGalleryScreen() {
     "whale",
     "milk",
     "banana",
-    "lemon",
+    "bee",
     "bell",
     "chick",
     "sunflower",
