@@ -28,7 +28,6 @@ const PURPLE = "#8B6BE8";
 
 export const Apple = ({ colorHex }: ItemSvgProps) => {
   const colors = getColorVariants(colorHex);
-
   return (
     <Svg width="100" height="100" viewBox="0 0 100 100">
       <Path
@@ -39,7 +38,7 @@ export const Apple = ({ colorHex }: ItemSvgProps) => {
         C77 82 87 56 80 38
         C74 23 58 20 50 28Z
       "
-        fill={colorHex}
+        fill={colors.base}
         stroke={OUTLINE}
         strokeWidth="4"
         strokeLinejoin="round"
@@ -74,235 +73,169 @@ export const Apple = ({ colorHex }: ItemSvgProps) => {
   );
 };
 
-const Strawberry = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Path
-      d="M50 82
+const Strawberry = ({ colorHex }: ItemSvgProps) => {
+  const colors = getColorVariants(colorHex);
+  return (
+    <Svg width="100" height="100" viewBox="0 0 100 100">
+      <Path
+        d="M50 82
          C38 70 25 55 27 42
          C29 29 41 25 50 31
          C59 25 71 29 73 42
          C75 55 62 70 50 82Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    {/* 잎 */}
-    <Path
-      d="M50 34
+      {/* 잎 */}
+      <Path
+        d="M50 34
          C42 25 34 25 30 30
          C37 31 42 35 50 34
          C58 35 63 31 70 30
          C66 25 58 25 50 34Z"
-      fill={GREEN}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+        fill={colors.light}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    {/* 씨앗 */}
-    <Ellipse cx="40" cy="48" rx="2" ry="4" fill="#FDE68A" />
-    <Ellipse cx="52" cy="45" rx="2" ry="4" fill="#FDE68A" />
-    <Ellipse cx="62" cy="50" rx="2" ry="4" fill="#FDE68A" />
-    <Ellipse cx="47" cy="60" rx="2" ry="4" fill="#FDE68A" />
-    <Ellipse cx="57" cy="64" rx="2" ry="4" fill="#FDE68A" />
-  </Svg>
-);
+      {/* 씨앗 */}
+      <Ellipse cx="40" cy="48" rx="2" ry="4" fill={colors.lighter} />
+      <Ellipse cx="52" cy="45" rx="2" ry="4" fill={colors.lighter} />
+      <Ellipse cx="62" cy="50" rx="2" ry="4" fill={colors.lighter} />
+      <Ellipse cx="47" cy="60" rx="2" ry="4" fill={colors.lighter} />
+      <Ellipse cx="57" cy="64" rx="2" ry="4" fill={colors.lighter} />
+    </Svg>
+  );
+};
 
-// export const Strawberry = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="
-//         M25 35
-//         C30 22 70 22 75 35
-//         C80 50 67 80 50 87
-//         C33 80 20 50 25 35Z
-//       "
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//       strokeLinejoin="round"
-//     />
+const Balloon = ({ colorHex }: ItemSvgProps) => {
+  const colors = getColorVariants(colorHex);
+  return (
+    <Svg width="100" height="100" viewBox="0 0 100 100">
+      <Ellipse
+        cx="50"
+        cy="40"
+        rx="27"
+        ry="32"
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-//     <Path
-//       d="M50 28 L42 15 L50 19 L58 15Z"
-//       fill={GREEN}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//       strokeLinejoin="round"
-//     />
-//     <Ellipse cx="40" cy="48" rx="2" ry="4" fill="#FDE68A" />
-//     <Ellipse cx="52" cy="45" rx="2" ry="4" fill="#FDE68A" />
+      <Polygon points="46,69 54,69 50,77" fill={colors.base} />
 
-//     <Ellipse cx="47" cy="60" rx="2" ry="4" fill="#FDE68A" />
-//     <Ellipse cx="57" cy="64" rx="2" ry="4" fill="#FDE68A" />
-//     <Ellipse cx="32" cy="55" rx="2" ry="4" fill="#FDE68A" />
-//     <Ellipse cx="69" cy="45" rx="2" ry="4" fill="#FDE68A" />
+      <Path
+        d="M50 77 C48 85 55 88 51 96"
+        stroke={colors.lighter}
+        strokeWidth="4"
+        fill="none"
+        strokeLinecap="round"
+      />
 
-//     {/* <Circle cx="36" cy="47" r="2.5" fill={YELLOW} />
-//     <Circle cx="51" cy="43" r="2.5" fill={YELLOW} />
-//     <Circle cx="64" cy="50" r="2.5" fill={YELLOW} />
-//     <Circle cx="42" cy="61" r="2.5" fill={YELLOW} />
-//     <Circle cx="57" cy="65" r="2.5" fill={YELLOW} /> */}
+      <Ellipse cx="40" cy="30" rx="7" ry="11" fill={WHITE} opacity={0.5} />
+    </Svg>
+  );
+};
 
-//     <Ellipse
-//       cx="35"
-//       cy="39"
-//       rx="6"
-//       ry="9"
-//       fill={WHITE}
-//       opacity={0.3}
-//       transform="rotate(25 35 39)"
-//     />
-//   </Svg>
-// );
+const FireTruck = ({ colorHex }: ItemSvgProps) => {
+  const colors = getColorVariants(colorHex);
+  return (
+    <Svg width="100" height="100" viewBox="0 0 100 100">
+      <Rect
+        x="12"
+        y="38"
+        width="58"
+        height="36"
+        rx="8"
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-const Balloon = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Ellipse
-      cx="50"
-      cy="40"
-      rx="27"
-      ry="32"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+      <Rect
+        x="68"
+        y="48"
+        width="20"
+        height="26"
+        rx="5"
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    <Polygon points="46,69 54,69 50,77" fill={colorHex} />
+      {/* 창문 */}
+      <Rect
+        x="73"
+        y="52"
+        width="11"
+        height="10"
+        rx="3"
+        fill={colors.lighter}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    <Path
-      d="M50 77 C48 85 55 88 51 96"
-      stroke="#94A3B8"
-      strokeWidth="4"
-      fill="none"
-      strokeLinecap="round"
-    />
+      {/* 사다리 */}
+      <Rect
+        x="25"
+        y="28"
+        width="38"
+        height="6"
+        rx="3"
+        fill={colors.lighter}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    <Ellipse cx="40" cy="30" rx="7" ry="11" fill={WHITE} opacity={0.5} />
-  </Svg>
-);
+      <Circle cx="27" cy="77" r="9" fill={colors.darker} />
+      <Circle cx="73" cy="77" r="9" fill={colors.darker} />
 
-const FireTruck = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Rect
-      x="12"
-      y="38"
-      width="58"
-      height="36"
-      rx="8"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+      <Circle cx="27" cy="77" r="4" fill={colors.lighter} />
+      <Circle cx="73" cy="77" r="4" fill={colors.lighter} />
+    </Svg>
+  );
+};
+const Cherry = ({ colorHex }: ItemSvgProps) => {
+  const colors = getColorVariants(colorHex);
+  return (
+    <Svg width="100" height="100" viewBox="0 0 100 100">
+      <Circle
+        cx="37"
+        cy="62"
+        r="17"
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    <Rect
-      x="68"
-      y="48"
-      width="20"
-      height="26"
-      rx="5"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+      <Circle
+        cx="63"
+        cy="62"
+        r="17"
+        fill={colors.base}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
 
-    {/* 창문 */}
-    <Rect
-      x="73"
-      y="52"
-      width="11"
-      height="10"
-      rx="3"
-      fill="#BAE6FD"
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
+      <Path
+        d="M37 47 C40 27 50 22 63 45"
+        stroke={colors.lighter}
+        strokeWidth="4"
+        fill="none"
+        strokeLinecap="round"
+      />
 
-    {/* 사다리 */}
-    <Rect
-      x="25"
-      y="28"
-      width="38"
-      height="6"
-      rx="3"
-      fill="#F8FAFC"
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-
-    <Circle cx="27" cy="77" r="9" fill={DARK} />
-    <Circle cx="73" cy="77" r="9" fill={DARK} />
-
-    <Circle cx="27" cy="77" r="4" fill="#CBD5E1" />
-    <Circle cx="73" cy="77" r="4" fill="#CBD5E1" />
-  </Svg>
-);
-const Cherry = ({ colorHex }: ItemSvgProps) => (
-  <Svg width="100" height="100" viewBox="0 0 100 100">
-    <Circle
-      cx="37"
-      cy="62"
-      r="17"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-
-    <Circle
-      cx="63"
-      cy="62"
-      r="17"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-
-    <Path
-      d="M37 47 C40 27 50 22 63 45"
-      stroke={GREEN}
-      strokeWidth="4"
-      fill="none"
-      strokeLinecap="round"
-    />
-
-    <Path
-      d="M47 29 C54 20 67 21 71 27 C61 32 53 32 47 29Z"
-      fill={GREEN}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-  </Svg>
-);
-// const Fish = ({ colorHex }: ItemSvgProps) => (
-//   <Svg width="100" height="100" viewBox="0 0 100 100">
-//     <Path
-//       d="M20 50
-//          C32 30 64 28 77 50
-//          C64 72 32 70 20 50Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//     />
-
-//     <Polygon
-//       points="76,50 92,35 92,65"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//     />
-
-//     <Circle cx="38" cy="44" r="5" fill={WHITE} />
-//     <Circle cx="39" cy="44" r="2.5" fill={DARK} />
-
-//     <Path
-//       d="M52 42 Q60 50 52 58"
-//       stroke={WHITE}
-//       strokeWidth="3"
-//       fill="none"
-//       opacity={0.7}
-//     />
-//   </Svg>
-// );
+      <Path
+        d="M47 29 C54 20 67 21 71 27 C61 32 53 32 47 29Z"
+        fill={colors.lighter}
+        stroke={OUTLINE}
+        strokeWidth="4"
+      />
+    </Svg>
+  );
+};
 const Fish = ({ colorHex }: ItemSvgProps) => (
   <Svg width="100" height="100" viewBox="0 0 100 100">
     {/* 꼬리 */}
