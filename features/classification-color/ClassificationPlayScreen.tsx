@@ -17,7 +17,7 @@ import SuccessModal from "./components/SuccessModal";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
 import { completeLevel, createInitialProgress } from "./progress/gameProgress";
-import { preloadSounds } from "../../utils/sound";
+import { preloadSounds, resetLastSuccessNote } from "../../utils/sound";
 
 // ==================================================
 // Navigation 타입
@@ -441,6 +441,7 @@ export default function ClassificationPlayScreen() {
 
   const handleRestart = () => {
     clearIdleTimer();
+    resetLastSuccessNote(); // ⭐ 여기 추가
 
     setRounds(generateRounds(levelConfig));
     setRoundIndex(0);
@@ -463,7 +464,7 @@ export default function ClassificationPlayScreen() {
 
   const handleNextLevel = () => {
     clearIdleTimer();
-
+    resetLastSuccessNote(); // ⭐ 여기 추가
     const nextLevelIndex = levelIndex + 1;
 
     // 마지막 레벨이면 Map으로

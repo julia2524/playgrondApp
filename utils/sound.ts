@@ -151,3 +151,7 @@ export function playEarnedNotes(earnedStars: number) {
     }, i * 150); // ← 여기가 핵심! 380~450ms 추천
   }
 }
+// ⭐ 리플레이 / 레벨 시작 시 호출해서 초기화
+export function resetLastSuccessNote() {
+  lastSuccessNoteIndex = 0;
+}
