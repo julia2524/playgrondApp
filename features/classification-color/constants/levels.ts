@@ -1,6 +1,6 @@
-import { ClassificationLevel } from "../types";
+import { ClassificationColorLevel } from "../types";
 
-export const classificationLevels: ClassificationLevel[] = [
+export const classificationColorLevels: ClassificationColorLevel[] = [
   // --- [초급: 원색으로 손풀기 & 마진 좁히기] ---
   {
     level: 1,

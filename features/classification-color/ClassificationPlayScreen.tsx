@@ -6,7 +6,7 @@ import { RootStackParamList } from "../../navigation/types";
 import { ClassificationRound, DropResult, Layout } from "./types";
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
-import { classificationLevels } from "./constants/levels";
+import { classificationColorLevels } from "./constants/levels";
 import { calculateStars } from "../../components/common/rewardSystem";
 import { generateRounds } from "./createRounds";
 import GameHeader from "./components/GameHeader";
@@ -84,8 +84,8 @@ export default function ClassificationPlayScreen() {
   // ==================================================
 
   const levelConfig =
-    classificationLevels[levelIndex] ??
-    classificationLevels[classificationLevels.length - 1];
+    classificationColorLevels[levelIndex] ??
+    classificationColorLevels[classificationColorLevels.length - 1];
 
   // ==================================================
   // ⭐ Tutorial Timer
@@ -168,8 +168,8 @@ export default function ClassificationPlayScreen() {
 
   const [rounds, setRounds] = useState(() =>
     generateRounds(
-      classificationLevels[level - 1] ??
-        classificationLevels[classificationLevels.length - 1],
+      classificationColorLevels[level - 1] ??
+        classificationColorLevels[classificationColorLevels.length - 1],
     ),
   );
 
@@ -468,13 +468,13 @@ export default function ClassificationPlayScreen() {
     const nextLevelIndex = levelIndex + 1;
 
     // 마지막 레벨이면 Map으로
-    if (nextLevelIndex >= classificationLevels.length) {
+    if (nextLevelIndex >= classificationColorLevels.length) {
       navigation.goBack();
 
       return;
     }
 
-    const nextConfig = classificationLevels[nextLevelIndex];
+    const nextConfig = classificationColorLevels[nextLevelIndex];
 
     setLevelIndex(nextLevelIndex);
     setRounds(generateRounds(nextConfig));

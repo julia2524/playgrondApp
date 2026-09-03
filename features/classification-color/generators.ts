@@ -4,7 +4,7 @@ import {
   PRIMARY_COLORS,
   SHAPE_POOL,
 } from "./constants/colorPool";
-import { ClassificationLevel, ClassificationRound } from "./types";
+import { ClassificationColorLevel, ClassificationRound } from "./types";
 
 // ==================================================
 // 배열 섞기
@@ -19,7 +19,7 @@ const shuffleArray = <T>(array: T[]): T[] =>
 // ==================================================
 
 function pickColorPoolForLevel(
-  colorPool: ClassificationLevel["colorPool"],
+  colorPool: ClassificationColorLevel["colorPool"],
 ): string[] {
   switch (colorPool) {
     case "primary":
@@ -41,7 +41,7 @@ function pickColorPoolForLevel(
 // ==================================================
 
 export function createColorClassificationRound(
-  levelConfig: ClassificationLevel,
+  levelConfig: ClassificationColorLevel,
   roundNumber: number,
 ): ClassificationRound {
   const level = levelConfig.level || 1;
@@ -168,7 +168,7 @@ export function createColorClassificationRound(
 // ==================================================
 
 export function createRoundByRule(
-  levelConfig: ClassificationLevel,
+  levelConfig: ClassificationColorLevel,
   roundNumber: number,
 ): ClassificationRound {
   return createColorClassificationRound(levelConfig, roundNumber);

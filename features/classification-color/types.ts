@@ -25,17 +25,6 @@ export type GameTarget = {
   items?: string[]; // 추가!
 };
 
-//나중에 일반화
-// export type ClassificationItem = {
-//   id: string;
-//   color?: string;
-//   shape?: string;
-//   size?: string;
-//   number?: number;
-// };
-// export type GameObject = ClassificationItem;
-// export type GameTarget = ClassificationItem;
-
 export type ClassificationRoundType =
   | "drag_sort"
   | "multi_target_sort"
@@ -68,21 +57,8 @@ export type ClassificationRound = {
   answer: Record<string, string>;
   missingItem?: string; // [추가] 라운드별 회색 빈자리 아이템 이름
 };
-// export type FilterSelectRound = ClassificationRoundBase & {
-//   type: "filter_select";
 
-//   objects: GameObject[];
-
-//   answer: string[];
-// };
-// export type FilterSelectRound = ClassificationRoundBase & {
-//   type: "filter_select";
-
-//   objects: FilterObject[];
-
-//   answer: string[];
-// };
-export type ClassificationLevel = {
+export type ClassificationColorLevel = {
   level: number;
   type: "drag_sort";
   objectCount: number;
