@@ -1,0 +1,25 @@
+import { Image, StyleSheet, View } from "react-native";
+
+export default function CustomSplash() {
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/splash-icon.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F9FE",
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+});
