@@ -1,3 +1,13 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { useNavigation } from "@react-navigation/native";
+
+import { RootStackParamList } from "../../../navigation/types";
+import Mascot from "../../../design-system/ui/Mascot";
+import AppHeader from "../../../components/common/AppHeader";
+import StarBadge from "../../../design-system/ui/StarBadge";
+import GradientBackground from "../../../design-system/backgrounds/GradientBackground";
+import { ColorLevelConfig } from "../color/type/types";
 import {
   GameHeaderCenter,
   GameHeaders,
@@ -6,19 +16,8 @@ import {
   TitleText,
 } from "../styles/classificationStyles";
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-import { useNavigation } from "@react-navigation/native";
-
-import { ClassificationColorLevel } from "../types";
-import { RootStackParamList } from "../../../navigation/types";
-import Mascot from "../../../design-system/ui/Mascot";
-import AppHeader from "../../../components/common/AppHeader";
-import StarBadge from "../../../design-system/ui/StarBadge";
-import GradientBackground from "../../../design-system/backgrounds/GradientBackground";
-
 interface GameHeaderProps {
-  levelConfig: ClassificationColorLevel;
+  levelConfig: ColorLevelConfig;
   roundIndex: number;
   earnedStars: number; // ⭐ 실제 획득 별
 }
@@ -33,6 +32,8 @@ export default function GameHeader({
   const totalStars = 5;
 
   const navigation = useNavigation<GameHeaderNavigationProp>();
+  //  const headerTitle =
+  //     gameType === "shape" ? "모양 찾기" : "색깔 찾기";
 
   return (
     <GameHeaders>

@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { ScrollView, View } from "react-native";
 
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -26,7 +31,7 @@ import {
   StageMapHeaderCenter,
   StageMapTitle,
 } from "./stageMapStyles";
-import { useProgress } from "../classification-color/progress/useProgress";
+import { useProgress } from "../classification/progress/useProgress";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -44,6 +49,12 @@ const HORIZONTAL_SAFE_PADDING = 60;
 const FALLBACK_VIEWPORT_HEIGHT = 560;
 
 export default function StageMapScreen() {
+  const route = useRoute<RouteProp<RootStackParamList, "StageMapScreen">>();
+  const { gameType } = route.params || { gameType: "color" };
+
+  const headerTitle =
+    gameType === "shape" ? "모양 분류 모험" : "색깔 분류 모험";
+
   const navigation = useNavigation<NavigationProp>();
   const scrollRef = useRef<ScrollView>(null);
   const [trackWidth, setTrackWidth] = useState(0);
@@ -57,7 +68,7 @@ export default function StageMapScreen() {
     isLevelCompleted,
     isLoading,
     reloadProgress,
-  } = useProgress();
+  } = useProgress(gameType);
 
   useFocusEffect(
     useCallback(() => {
@@ -124,7 +135,7 @@ export default function StageMapScreen() {
   const handleStagePress = (level: number) => {
     const unlocked = isLevelUnlocked(level);
     if (!unlocked) return;
-    navigation.navigate("ClassificationPlayScreen", { level });
+    navigation.navigate("ClassificationPlayScreen", { gameType, level });
   };
 
   return (
@@ -136,7 +147,7 @@ export default function StageMapScreen() {
         onBack={() => navigation.goBack()}
         center={
           <StageMapHeaderCenter>
-            <StageMapTitle>색깔 분류 모험</StageMapTitle>
+            <StageMapTitle>{headerTitle}</StageMapTitle>
           </StageMapHeaderCenter>
         }
       />

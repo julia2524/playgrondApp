@@ -1,14 +1,13 @@
 import { View } from "react-native";
 
+import { DraggableObjectSticker } from "./DraggableObjectSticker";
+import { COLORS } from "../../../design-system/tokens/colors";
+import { GameObject, Layout } from "../color/type/types";
 import {
   ObjectsContainer,
   ObjectSection,
   SectionLabel,
 } from "../styles/classificationStyles";
-
-import { DraggableObjectSticker } from "./DraggableObjectSticker";
-import { COLORS } from "../../../design-system/tokens/colors";
-import { GameObject, Layout } from "../types";
 
 interface ObjectAreaProps {
   objects: GameObject[];

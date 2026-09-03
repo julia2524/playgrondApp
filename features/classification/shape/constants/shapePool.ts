@@ -1,40 +1,124 @@
+export type ShapeDefinition = {
+  id: string;
+  label: string;
+  matchItemIds: string[];
+};
+
+export type ShapeItem = {
+  id: string;
+  label: string;
+  shapeId: string;
+};
+
 // --------------------------------------------------
 // 티어 0: 초초보 (만 1세 ~ 2세 초반)
 // 사물 형태가 가장 단순하고 명확한 기본형
 // --------------------------------------------------
-export const BABY_SHAPES = [
+export const BABY_SHAPES: ShapeDefinition[] = [
   {
     id: "circle",
     label: "동그라미",
-    matchItems: ["공", "바퀴", "시계", "접시", "쿠키", "단추", "보름달"],
+    matchItemIds: [
+      "ball",
+      "wheel",
+      "clock",
+      "plate",
+      "cookie",
+      "button",
+      "fullMoon",
+    ],
   },
+
   {
     id: "square",
     label: "네모",
-    matchItems: ["상자", "블록", "창문", "식빵", "액자", "선물상자", "타일"],
+    matchItemIds: [
+      "box",
+      "block",
+      "window",
+      "bread",
+      "frame",
+      "giftBox",
+      "tile",
+    ],
   },
+
   {
     id: "triangle",
     label: "세모",
-    matchItems: [
-      "삼각김밥",
-      "조각케이크",
-      "지붕",
-      "피자 한 조각",
-      "산",
-      "파티모자",
+    matchItemIds: [
+      "triangleRiceBall",
+      "cakeSlice",
+      "roof",
+      "pizzaSlice",
+      "mountain",
+      "partyHat",
     ],
   },
+
   {
     id: "heart",
     label: "하트",
-    matchItems: ["하트 쿠키", "하트 풍선", "하트 안경", "하트 초콜릿"],
+    matchItemIds: [
+      "heartCookie",
+      "heartBalloon",
+      "heartGlasses",
+      "heartChocolate",
+    ],
   },
+
   {
     id: "star",
     label: "별",
-    matchItems: ["별 스티커", "요술봉", "불가사리", "별사탕", "밤하늘 별"],
+    matchItemIds: [
+      "starSticker",
+      "magicWand",
+      "starfish",
+      "starCandy",
+      "nightStar",
+    ],
   },
+];
+
+export const SHAPE_ITEM_POOL: ShapeItem[] = [
+  // 🔵 동그라미
+  { id: "ball", label: "공", shapeId: "circle" },
+  { id: "wheel", label: "바퀴", shapeId: "circle" },
+  { id: "clock", label: "시계", shapeId: "circle" },
+  { id: "plate", label: "접시", shapeId: "circle" },
+  { id: "cookie", label: "쿠키", shapeId: "circle" },
+  { id: "button", label: "단추", shapeId: "circle" },
+  { id: "fullMoon", label: "보름달", shapeId: "circle" },
+
+  // 🟦 네모
+  { id: "box", label: "상자", shapeId: "square" },
+  { id: "block", label: "블록", shapeId: "square" },
+  { id: "window", label: "창문", shapeId: "square" },
+  { id: "bread", label: "식빵", shapeId: "square" },
+  { id: "frame", label: "액자", shapeId: "square" },
+  { id: "giftBox", label: "선물상자", shapeId: "square" },
+  { id: "tile", label: "타일", shapeId: "square" },
+
+  // 🔺 세모
+  { id: "triangleRiceBall", label: "삼각김밥", shapeId: "triangle" },
+  { id: "cakeSlice", label: "조각케이크", shapeId: "triangle" },
+  { id: "roof", label: "지붕", shapeId: "triangle" },
+  { id: "pizzaSlice", label: "피자 한 조각", shapeId: "triangle" },
+  { id: "mountain", label: "산", shapeId: "triangle" },
+  { id: "partyHat", label: "파티모자", shapeId: "triangle" },
+
+  // ❤️ 하트
+  { id: "heartCookie", label: "하트 쿠키", shapeId: "heart" },
+  { id: "heartBalloon", label: "하트 풍선", shapeId: "heart" },
+  { id: "heartGlasses", label: "하트 안경", shapeId: "heart" },
+  { id: "heartChocolate", label: "하트 초콜릿", shapeId: "heart" },
+
+  // ⭐ 별
+  { id: "starSticker", label: "별 스티커", shapeId: "star" },
+  { id: "magicWand", label: "요술봉", shapeId: "star" },
+  { id: "starfish", label: "불가사리", shapeId: "star" },
+  { id: "starCandy", label: "별사탕", shapeId: "star" },
+  { id: "nightStar", label: "밤하늘 별", shapeId: "star" },
 ];
 
 // --------------------------------------------------

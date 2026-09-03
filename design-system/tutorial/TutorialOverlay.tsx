@@ -3,8 +3,8 @@ import { Animated, Easing, View } from "react-native";
 import styled from "styled-components/native";
 
 import { COLORS } from "../tokens/colors";
-import { RenderItemSvg } from "../../features/classification-color/assets/ColorItemSvgs";
 import HandPointer from "../ui/HandPointer";
+import { RenderItemSvg } from "../../features/classification/color/assets/ColorItemSvgs";
 
 interface TutorialOverlayProps {
   visible: boolean;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Animated } from "react-native";
 import { TargetItemCircle } from "../styles/classificationStyles";
-import { RenderItemSvg } from "../assets/ColorItemSvgs";
+import { RenderItemSvg } from "../color/assets/ColorItemSvgs";
 
 interface TargetSlotItemProps {
   isMissingItem: boolean;

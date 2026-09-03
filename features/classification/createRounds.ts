@@ -1,11 +1,11 @@
 import {
   createColorClassificationRound,
   createRoundByRule,
-} from "./generators";
-import { ClassificationColorLevel, ClassificationRound } from "./types";
+} from "./color/generators";
+import { ColorLevelConfig, ClassificationRound } from "./color/type/types";
 
 export function createRounds(
-  levelConfig: ClassificationColorLevel,
+  levelConfig: ColorLevelConfig,
   roundCount = 10,
 ): ClassificationRound[] {
   const rounds: ClassificationRound[] = [];

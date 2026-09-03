@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import AppHeader from "../components/common/AppHeader";
-import { RenderItemSvg } from "./classification-color/assets/ColorItemSvgs";
+import AppHeader from "../../components/common/AppHeader";
+import { RenderItemSvg } from "./color/assets/ColorItemSvgs";
 
 export default function StickerGalleryScreen() {
   const navigation = useNavigation<any>();

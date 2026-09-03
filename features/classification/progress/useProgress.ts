@@ -13,7 +13,7 @@ import {
 // Progress Hook
 // ==================================================
 
-export function useProgress() {
+export function useProgress(gameType: "color" | "shape" = "color") {
   const [progress, setProgress] = useState<GameProgress>(
     createInitialProgress(),
   );
@@ -26,7 +26,7 @@ export function useProgress() {
 
   const reloadProgress = useCallback(async () => {
     try {
-      const savedProgress = await loadGameProgress();
+      const savedProgress = await loadGameProgress(gameType);
 
       if (savedProgress) {
         const mergedProgress = mergeProgressWithStages(savedProgress);
@@ -34,7 +34,7 @@ export function useProgress() {
         setProgress(mergedProgress);
 
         // Stage가 새로 추가됐을 수도 있으므로 다시 저장
-        await saveGameProgress(mergedProgress);
+        await saveGameProgress(gameType, mergedProgress);
 
         return mergedProgress;
       }
@@ -43,7 +43,7 @@ export function useProgress() {
 
       setProgress(initialProgress);
 
-      await saveGameProgress(initialProgress);
+      await saveGameProgress(gameType, initialProgress);
 
       return initialProgress;
     } catch (error) {

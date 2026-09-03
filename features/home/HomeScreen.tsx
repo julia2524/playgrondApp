@@ -27,8 +27,8 @@ type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavigationProp>();
   // 색깔 분류 게임으로 이동하는 함수
-  const goToStageMap = () => {
-    navigation.navigate("StageMapScreen");
+  const goToStageMap = (gameType: "color" | "shape") => {
+    navigation.navigate("StageMapScreen", { gameType });
   };
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
@@ -92,7 +92,7 @@ export default function HomeScreen() {
               emoji="🎨"
               title="색깔 분류"
               desc="같은 색끼리!"
-              onPress={() => navigation.navigate("StageMapScreen")}
+              onPress={() => goToStageMap("color")}
             />
 
             {/* 2. 모양 분류 (준비중) */}
@@ -101,7 +101,7 @@ export default function HomeScreen() {
               emoji="🔷"
               title="모양 분류"
               desc="같은 모양끼리!"
-              onPress={() => handleLockedGame("모양 분류")}
+              onPress={() => goToStageMap("shape")}
             />
 
             {/* 3. 크기 분류 (준비중) */}

@@ -3,20 +3,15 @@ import { useEffect, useRef } from "react";
 import { Animated, PanResponder, View } from "react-native";
 
 import { clamp } from "../logic/judgeDropPosition";
-import { DropResult, Layout } from "../types";
 
 import {
   BOARD_HORIZONTAL_PADDING,
   BOARD_VERTICAL_PADDING,
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
-} from "../assets/dragConstants";
+} from "../../classification/assets/dragConstants";
 import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
-import { RenderItemSvg } from "../assets/ColorItemSvgs";
-import {
-  ObjectSticker,
-  ObjectStickerShadowWrapper,
-} from "../styles/classificationStyles";
+
 import {
   playLastSuccessNote,
   playSound,
@@ -24,6 +19,13 @@ import {
   preloadSounds,
 } from "../../../utils/sound";
 import { triggerHaptic } from "../../../utils/haptic";
+import { RenderItemSvg } from "../../classification/color/assets/ColorItemSvgs";
+import { DropResult, Layout } from "../color/type/types";
+import {
+  ObjectSticker,
+  ObjectStickerShadowWrapper,
+} from "../styles/classificationStyles";
+
 export function DraggableObjectSticker({
   obj,
   color,

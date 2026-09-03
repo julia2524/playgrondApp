@@ -1,6 +1,6 @@
 import React from "react";
 import Svg, { Circle, Ellipse, Path, Polygon, Rect, G } from "react-native-svg";
-import { getColorVariants } from "../../../utils/colorUtils";
+import { getColorVariants } from "../../../../utils/colorUtils";
 
 interface ItemSvgProps {
   colorHex: string;

@@ -58,7 +58,7 @@ export type ClassificationRound = {
   missingItem?: string; // [추가] 라운드별 회색 빈자리 아이템 이름
 };
 
-export type ClassificationColorLevel = {
+export type ColorLevelConfig = {
   level: number;
   type: "drag_sort";
   objectCount: number;

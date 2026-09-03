@@ -1,6 +1,6 @@
 import { MissionBubble, MissionText } from "../styles/classificationStyles";
-import { COLOR_NAMES } from "../constants/colorPool";
-import { GameTarget } from "../types";
+import { GameTarget } from "../color/type/types";
+import { COLOR_NAMES } from "../color/constants/colorPool";
 
 interface MissionBubbleProps {
   feedback: string | null;

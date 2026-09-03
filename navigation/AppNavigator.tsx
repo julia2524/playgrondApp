@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../features/home/HomeScreen";
-import ClassificationPlayScreen from "../features/classification-color/ClassificationPlayScreen";
+import ClassificationPlayScreen from "../features/classification/ClassificationPlayScreen";
 import StageMapScreen from "../features/StageMap/StageMapScreen";
-import StickerGalleryScreen from "../features/StickerGalleryScreen";
+import StickerGalleryScreen from "../features/classification/StickerGalleryScreen";
 
 const Stack = createNativeStackNavigator();
 

@@ -3,21 +3,23 @@ import { View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
-import { ClassificationRound, DropResult, Layout } from "./types";
+import { ClassificationRound, DropResult, Layout } from "./color/type/types";
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
-import { classificationColorLevels } from "./constants/levels";
+
 import { calculateStars } from "../../components/common/rewardSystem";
 import { generateRounds } from "./createRounds";
+
+import { Container, GameBoard } from "./styles/classificationStyles";
+import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
+import { completeLevel, createInitialProgress } from "./progress/gameProgress";
+import { preloadSounds, resetLastSuccessNote } from "../../utils/sound";
 import GameHeader from "./components/GameHeader";
 import MissionBubbleArea from "./components/MissionBubbleArea";
 import TargetArea from "./components/TargetArea";
 import ObjectArea from "./components/ObjectArea";
 import SuccessModal from "./components/SuccessModal";
-import { Container, GameBoard } from "./styles/classificationStyles";
-import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
-import { completeLevel, createInitialProgress } from "./progress/gameProgress";
-import { preloadSounds, resetLastSuccessNote } from "../../utils/sound";
+import { colorLevels } from "./color/constants/levels";
 
 // ==================================================
 // Navigation 타입
@@ -47,7 +49,7 @@ export default function ClassificationPlayScreen() {
     preloadSounds(); // 한 번만 호출
   }, []);
 
-  const { level } = route.params;
+  const { gameType = "color", level } = route.params;
 
   // ==================================================
   // ⭐ Level / Round
@@ -84,8 +86,7 @@ export default function ClassificationPlayScreen() {
   // ==================================================
 
   const levelConfig =
-    classificationColorLevels[levelIndex] ??
-    classificationColorLevels[classificationColorLevels.length - 1];
+    colorLevels[levelIndex] ?? colorLevels[colorLevels.length - 1];
 
   // ==================================================
   // ⭐ Tutorial Timer
@@ -168,8 +169,7 @@ export default function ClassificationPlayScreen() {
 
   const [rounds, setRounds] = useState(() =>
     generateRounds(
-      classificationColorLevels[level - 1] ??
-        classificationColorLevels[classificationColorLevels.length - 1],
+      colorLevels[level - 1] ?? colorLevels[colorLevels.length - 1],
     ),
   );
 
@@ -278,7 +278,8 @@ export default function ClassificationPlayScreen() {
 
   const saveCompletedLevel = async (completedLevel: number, stars: number) => {
     try {
-      const savedProgress = await loadGameProgress();
+      // ⭐ loadGameProgress와 saveGameProgress에 gameType 전달!
+      const savedProgress = await loadGameProgress(gameType);
 
       const currentProgress = savedProgress ?? createInitialProgress();
 
@@ -288,7 +289,7 @@ export default function ClassificationPlayScreen() {
         stars,
       );
 
-      await saveGameProgress(nextProgress);
+      await saveGameProgress(gameType, nextProgress);
 
       console.log("🌟 Level Progress 저장 완료", nextProgress);
     } catch (error) {
@@ -323,32 +324,6 @@ export default function ClassificationPlayScreen() {
     setIsTargetFront(false);
     setActiveStickerId(null);
     isProcessingRef.current = false;
-
-    // ⭐ 마지막 라운드가 아니면
-    // if (roundIndex < rounds.length - 1) {
-    //   setRoundIndex((prev) => prev + 1);
-    //   setMatchedObjectIds([]);
-    //   setIsTargetFront(false);
-    //   setActiveStickerId(null);
-
-    //   isProcessingRef.current = false;
-
-    //   return;
-    // }
-
-    // ==================================================
-    // ⭐ 마지막 라운드
-    // ==================================================
-
-    // clearIdleTimer();
-
-    // setTutorialVisible(false);
-    // await saveCompletedLevel(levelConfig.level, finalStars);
-    // setShowSuccessModal(true);
-    // setIsTargetFront(false);
-    // setActiveStickerId(null);
-
-    // isProcessingRef.current = false;
   };
 
   // ==================================================
@@ -468,13 +443,13 @@ export default function ClassificationPlayScreen() {
     const nextLevelIndex = levelIndex + 1;
 
     // 마지막 레벨이면 Map으로
-    if (nextLevelIndex >= classificationColorLevels.length) {
+    if (nextLevelIndex >= colorLevels.length) {
       navigation.goBack();
 
       return;
     }
 
-    const nextConfig = classificationColorLevels[nextLevelIndex];
+    const nextConfig = colorLevels[nextLevelIndex];
 
     setLevelIndex(nextLevelIndex);
     setRounds(generateRounds(nextConfig));
