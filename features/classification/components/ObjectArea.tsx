@@ -2,15 +2,16 @@ import { View } from "react-native";
 
 import { DraggableObjectSticker } from "./DraggableObjectSticker";
 import { COLORS } from "../../../design-system/tokens/colors";
-import { GameObject, Layout } from "../color/type/types";
+import { ColorGameObject } from "../color/type/types";
 import {
   ObjectsContainer,
   ObjectSection,
   SectionLabel,
 } from "../styles/classificationStyles";
+import { Layout } from "../type/types";
 
 interface ObjectAreaProps {
-  objects: GameObject[];
+  objects: ColorGameObject[];
 
   gameBoardLayout: React.MutableRefObject<Layout>;
 
@@ -21,7 +22,7 @@ interface ObjectAreaProps {
   onGrab: (objectId: string) => void;
 
   onRelease: (
-    obj: GameObject,
+    obj: ColorGameObject,
     stickerX: number,
     stickerY: number,
     width: number,

@@ -17,6 +17,7 @@ import {
 } from "../styles/classificationStyles";
 
 interface GameHeaderProps {
+  gameType: "color" | "shape"; // 🌟 추가
   levelConfig: ColorLevelConfig;
   roundIndex: number;
   earnedStars: number; // ⭐ 실제 획득 별
@@ -25,6 +26,7 @@ interface GameHeaderProps {
 type GameHeaderNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function GameHeader({
+  gameType, // 🌟 받아서 사용
   levelConfig,
   roundIndex,
   earnedStars,
@@ -32,8 +34,7 @@ export default function GameHeader({
   const totalStars = 5;
 
   const navigation = useNavigation<GameHeaderNavigationProp>();
-  //  const headerTitle =
-  //     gameType === "shape" ? "모양 찾기" : "색깔 찾기";
+  const headerTitle = gameType === "shape" ? "모양 찾기" : "색깔 찾기";
 
   return (
     <GameHeaders>
@@ -43,7 +44,7 @@ export default function GameHeader({
         onBack={() => navigation.goBack()}
         center={
           <GameHeaderCenter>
-            <TitleText>색깔 찾기</TitleText>
+            <TitleText>{headerTitle}</TitleText>
           </GameHeaderCenter>
         }
       />

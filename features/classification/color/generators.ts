@@ -4,7 +4,7 @@ import {
   PRIMARY_COLORS,
   SHAPE_POOL,
 } from "./constants/colorPool";
-import { ColorLevelConfig, ClassificationRound } from "./type/types";
+import { ColorLevelConfig, ColorRound } from "./type/types";
 
 // ==================================================
 // 배열 섞기
@@ -40,10 +40,10 @@ function pickColorPoolForLevel(
 // 색깔 분류 라운드 생성
 // ==================================================
 
-export function createColorClassificationRound(
+export function createColorColorRound(
   levelConfig: ColorLevelConfig,
   roundNumber: number,
-): ClassificationRound {
+): ColorRound {
   const level = levelConfig.level || 1;
 
   // ==================================================
@@ -170,6 +170,6 @@ export function createColorClassificationRound(
 export function createRoundByRule(
   levelConfig: ColorLevelConfig,
   roundNumber: number,
-): ClassificationRound {
-  return createColorClassificationRound(levelConfig, roundNumber);
+): ColorRound {
+  return createColorColorRound(levelConfig, roundNumber);
 }

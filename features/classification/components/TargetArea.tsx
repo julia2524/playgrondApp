@@ -11,16 +11,16 @@ import {
 } from "../styles/classificationStyles";
 import { SHAPE_POOL } from "../color/constants/colorPool";
 import {
-  ClassificationRound,
-  GameObject,
-  GameTarget,
+  ColorRound,
+  ColorGameObject,
+  ColorGameTarget,
 } from "../color/type/types";
 
 interface TargetAreaProps {
   isFront: boolean;
-  currentRound: ClassificationRound;
-  objects: GameObject[];
-  target: GameTarget;
+  currentRound: ColorRound;
+  objects: ColorGameObject[];
+  target: ColorGameTarget;
   matchedObjectIds: string[];
   missingItemRef: React.RefObject<View | null>;
 }

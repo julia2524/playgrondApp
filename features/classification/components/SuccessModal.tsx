@@ -8,10 +8,10 @@ import { BASIC_COLORS, PASTEL_BG } from "../../../design-system/tokens/colors";
 import { RootStackParamList } from "../../../navigation/types";
 import Mascot from "../../../design-system/ui/Mascot";
 import { STAGE_CONFIGS } from "../../StageMap/stageConfigs";
-import CandyStar from "../../../design-system/ui/CandyStar";
 import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
 import { useEffect } from "react";
 import { playEarnedNotes } from "../../../utils/sound";
+import CandyStar from "../../../design-system/ui/CandyStar";
 
 interface SuccessModalProps {
   show: boolean;

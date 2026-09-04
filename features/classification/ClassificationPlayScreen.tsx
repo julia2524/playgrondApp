@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
-import { ClassificationRound, DropResult, Layout } from "./color/type/types";
+import { ColorRound } from "./color/type/types";
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
 
@@ -20,6 +20,8 @@ import TargetArea from "./components/TargetArea";
 import ObjectArea from "./components/ObjectArea";
 import SuccessModal from "./components/SuccessModal";
 import { colorLevels } from "./color/constants/levels";
+import { DropResult, Layout } from "./type/types";
+import { shapeLevels } from "./shape/constants/levels";
 
 // ==================================================
 // Navigation 타입
@@ -84,9 +86,10 @@ export default function ClassificationPlayScreen() {
   // ==================================================
   // ⭐ Level Config
   // ==================================================
+  // 1. gameType에 따라 사용할 레벨 설정 배열 선택
+  const levels = gameType === "shape" ? shapeLevels : colorLevels;
 
-  const levelConfig =
-    colorLevels[levelIndex] ?? colorLevels[colorLevels.length - 1];
+  const levelConfig = levels[levelIndex] ?? levels[colorLevels.length - 1];
 
   // ==================================================
   // ⭐ Tutorial Timer
@@ -172,6 +175,15 @@ export default function ClassificationPlayScreen() {
       colorLevels[level - 1] ?? colorLevels[colorLevels.length - 1],
     ),
   );
+  // 2. gameType에 따라 라운드 생성 함수 선택
+  // const [rounds, setRounds] = useState(() => {
+  //   const targetLevels = gameType === "shape" ? shapeLevels : colorLevels;
+  //   const currentConfig = targetLevels[level - 1] ?? targetLevels[targetLevels.length - 1];
+
+  //   return gameType === "shape"
+  //     ? generateShapeRounds(currentConfig)
+  //     : generateRounds(currentConfig);
+  // });
 
   const currentRound = rounds[roundIndex];
   // ⭐ 안전하게 처리
@@ -477,6 +489,7 @@ export default function ClassificationPlayScreen() {
           Header
       ========================================== */}
       <GameHeader
+        gameType={gameType}
         levelConfig={levelConfig}
         roundIndex={roundIndex}
         earnedStars={earnedStars}
@@ -485,7 +498,11 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           Mission
       ========================================== */}
-      <MissionBubbleArea feedback={feedback} target={target} />
+      <MissionBubbleArea
+        gameType={gameType}
+        feedback={feedback}
+        target={target}
+      />
 
       {/* ==========================================
           Game Board

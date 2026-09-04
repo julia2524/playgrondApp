@@ -20,11 +20,12 @@ import {
 } from "../../../utils/sound";
 import { triggerHaptic } from "../../../utils/haptic";
 import { RenderItemSvg } from "../../classification/color/assets/ColorItemSvgs";
-import { DropResult, Layout } from "../color/type/types";
+
 import {
   ObjectSticker,
   ObjectStickerShadowWrapper,
 } from "../styles/classificationStyles";
+import { DropResult, Layout } from "../type/types";
 
 export function DraggableObjectSticker({
   obj,

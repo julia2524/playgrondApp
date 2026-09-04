@@ -192,6 +192,7 @@ export default function StageMapScreen() {
 
                 return (
                   <StageNode
+                    gameType={gameType} // 🌟 여기에 추가
                     key={stage.level}
                     level={stage.level}
                     name={stage.name}

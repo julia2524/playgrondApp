@@ -1,5 +1,8 @@
+// 실제 색상 팔레트
+export type ColorPalette = "primary" | "pastel" | "natural" | "all";
+
 //분류게임에서 분류해야 하는 하나의 대상
-export type GameObject = {
+export type ColorGameObject = {
   id: string;
 
   color?: string;
@@ -12,7 +15,7 @@ export type GameObject = {
   name?: string; // 추가!
 };
 
-export type GameTarget = {
+export type ColorGameTarget = {
   id: string;
 
   color?: string;
@@ -25,7 +28,7 @@ export type GameTarget = {
   items?: string[]; // 추가!
 };
 
-export type ClassificationRoundType =
+export type ColorRoundType =
   | "drag_sort"
   | "multi_target_sort"
   | "filter_select"
@@ -37,23 +40,23 @@ export type ClassificationDragSortRule =
   | "category"
   | "size"
   | "color_shape";
-export type ClassificationRoundBase = {
+export type ColorRoundBase = {
   id: string;
   game: "classification";
   level: number;
   round: number;
-  type: ClassificationRoundType;
+  type: ColorRoundType;
 };
 
-export type ClassificationRound = {
+export type ColorRound = {
   id: string;
   game: "classification";
   level: number;
   round: number;
-  type: ClassificationRoundType;
+  type: ColorRoundType;
   rule: string;
-  objects: GameObject[];
-  targets: GameTarget[];
+  objects: ColorGameObject[];
+  targets: ColorGameTarget[];
   answer: Record<string, string>;
   missingItem?: string; // [추가] 라운드별 회색 빈자리 아이템 이름
 };
@@ -63,7 +66,7 @@ export type ColorLevelConfig = {
   type: "drag_sort";
   objectCount: number;
   targetCount: number;
-  colorPool: "primary" | "all" | "pastel";
+  colorPool: ColorPalette;
   margin: number;
   features: {
     color: boolean;
@@ -76,12 +79,4 @@ export type ColorLevelConfig = {
   };
 
   rule: string;
-};
-
-export type DropResult = "correct" | "wrong" | "outside";
-export type Layout = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
 };
