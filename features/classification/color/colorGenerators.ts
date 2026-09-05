@@ -40,7 +40,7 @@ function pickColorPoolForLevel(
 // 색깔 분류 라운드 생성
 // ==================================================
 
-export function createColorColorRound(
+export function createColorRound(
   levelConfig: ColorLevelConfig,
   roundNumber: number,
 ): ColorRound {
@@ -167,9 +167,9 @@ export function createColorColorRound(
 // Router
 // ==================================================
 
-export function createRoundByRule(
+export function createColorRoundByRule(
   levelConfig: ColorLevelConfig,
   roundNumber: number,
 ): ColorRound {
-  return createColorColorRound(levelConfig, roundNumber);
+  return createColorRound(levelConfig, roundNumber);
 }

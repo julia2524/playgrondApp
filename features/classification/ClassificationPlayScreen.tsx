@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
-import { ColorRound } from "./color/type/types";
+
 import { isStickerInsideTarget } from "./logic/judgeDropPosition";
 import TutorialOverlay from "../../design-system/tutorial/TutorialOverlay";
 
@@ -22,6 +22,13 @@ import SuccessModal from "./components/SuccessModal";
 import { colorLevels } from "./color/constants/levels";
 import { DropResult, Layout } from "./type/types";
 import { shapeLevels } from "./shape/constants/levels";
+import {
+  getCorrectObjectId,
+  toDisplayObjects,
+  toDisplayTargets,
+  toMissingItem,
+} from "./adapters/toDisplayModal";
+import { DisplayObject } from "./type/displayTypes";
 
 // ==================================================
 // Navigation 타입
@@ -88,8 +95,7 @@ export default function ClassificationPlayScreen() {
   // ==================================================
   // 1. gameType에 따라 사용할 레벨 설정 배열 선택
   const levels = gameType === "shape" ? shapeLevels : colorLevels;
-
-  const levelConfig = levels[levelIndex] ?? levels[colorLevels.length - 1];
+  const levelConfig = levels[levelIndex] ?? levels[levels.length - 1];
 
   // ==================================================
   // ⭐ Tutorial Timer
@@ -170,20 +176,12 @@ export default function ClassificationPlayScreen() {
   // Rounds
   // ==================================================
 
-  const [rounds, setRounds] = useState(() =>
-    generateRounds(
-      colorLevels[level - 1] ?? colorLevels[colorLevels.length - 1],
-    ),
-  );
   // 2. gameType에 따라 라운드 생성 함수 선택
-  // const [rounds, setRounds] = useState(() => {
-  //   const targetLevels = gameType === "shape" ? shapeLevels : colorLevels;
-  //   const currentConfig = targetLevels[level - 1] ?? targetLevels[targetLevels.length - 1];
+  const [rounds, setRounds] = useState(() => {
+    const currentConfig = levels[level - 1] ?? levels[levels.length - 1];
 
-  //   return gameType === "shape"
-  //     ? generateShapeRounds(currentConfig)
-  //     : generateRounds(currentConfig);
-  // });
+    return generateRounds(currentConfig, gameType);
+  });
 
   const currentRound = rounds[roundIndex];
   // ⭐ 안전하게 처리
@@ -200,29 +198,34 @@ export default function ClassificationPlayScreen() {
     return null; // 또는 로딩 화면
   }
 
-  const target = currentRound.targets[0];
+  const displayTargets = toDisplayTargets(currentRound);
+  const target = displayTargets[0]; // shape는 항상 1개만 나옴
+  // const target = currentRound.targets[0];
   if (!target) {
     console.log("⚠️ target 없음", currentRound);
-
     return null;
   }
 
   // ==================================================
   // ⭐ 정답 Object
   // ==================================================
+  // ⭐ 라운드가 바뀔 때마다 매번 새로 계산되지만 가벼운 연산이라 괜찮음
+  const displayObjects = toDisplayObjects(currentRound);
 
-  const correctObjectId = Object.keys(currentRound.answer)[0];
+  const correctObjectId = getCorrectObjectId(currentRound);
 
-  const correctObject = currentRound.objects.find(
+  const correctObject = displayObjects.find(
     (object) => object.id === correctObjectId,
   );
+
+  console.log("🎮 SHAPE GENERATOR TEST", JSON.stringify(currentRound, null, 2));
 
   // ==================================================
   // ⭐ Drop Judge
   // ==================================================
 
   const handleDrop = (
-    item: any,
+    item: DisplayObject,
     stickerX: number,
     stickerY: number,
     stickerWidth: number,
@@ -429,8 +432,7 @@ export default function ClassificationPlayScreen() {
   const handleRestart = () => {
     clearIdleTimer();
     resetLastSuccessNote(); // ⭐ 여기 추가
-
-    setRounds(generateRounds(levelConfig));
+    setRounds(generateRounds(levelConfig, gameType)); // ⭐ gameType 추가
     setRoundIndex(0);
     setEarnedStars(0);
     setCorrectRoundCount(0);
@@ -455,16 +457,15 @@ export default function ClassificationPlayScreen() {
     const nextLevelIndex = levelIndex + 1;
 
     // 마지막 레벨이면 Map으로
-    if (nextLevelIndex >= colorLevels.length) {
+    if (nextLevelIndex >= levels.length) {
       navigation.goBack();
-
       return;
     }
 
-    const nextConfig = colorLevels[nextLevelIndex];
+    const nextConfig = levels[nextLevelIndex];
 
     setLevelIndex(nextLevelIndex);
-    setRounds(generateRounds(nextConfig));
+    setRounds(generateRounds(nextConfig, gameType));
     setRoundIndex(0);
     setEarnedStars(0);
     setCorrectRoundCount(0);
@@ -478,7 +479,11 @@ export default function ClassificationPlayScreen() {
 
     isProcessingRef.current = false;
   };
-
+  console.log(
+    "🎯 displayTargets",
+    JSON.stringify(toDisplayTargets(currentRound), null, 2),
+  );
+  console.log("🕳️ missingItem", toMissingItem(currentRound));
   // ==================================================
   // Render
   // ==================================================
@@ -490,8 +495,8 @@ export default function ClassificationPlayScreen() {
       ========================================== */}
       <GameHeader
         gameType={gameType}
-        levelConfig={levelConfig}
-        roundIndex={roundIndex}
+        // levelConfig={levelConfig}
+        // roundIndex={roundIndex}
         earnedStars={earnedStars}
       />
 
@@ -523,16 +528,19 @@ export default function ClassificationPlayScreen() {
         {/* Target */}
         <TargetArea
           isFront={isTargetFront}
-          currentRound={currentRound}
+          roundId={currentRound.id}
+          answer={currentRound.answer}
+          missingItem={toMissingItem(currentRound)}
           target={target}
-          objects={currentRound.objects}
+          objects={displayObjects}
           matchedObjectIds={matchedObjectIds}
           missingItemRef={missingItemRef}
+          correctObject={correctObject}
         />
 
         {/* Objects */}
         <ObjectArea
-          objects={currentRound.objects}
+          objects={displayObjects}
           gameBoardLayout={gameBoardLayout}
           activeStickerId={activeStickerId}
           roundIndex={roundIndex}
@@ -558,14 +566,13 @@ export default function ClassificationPlayScreen() {
           onComplete={() => {
             setTutorialVisible(false);
 
-            // ⭐ Tutorial 끝난 뒤 다시
-            // 3초 무조작 감지 시작
-            startIdleTimer();
+            startIdleTimer(); // ⭐ Tutorial 끝난 뒤 다시 3초 무조작 감지 시작
           }}
           fromRef={correctObjectRef}
           toRef={missingItemRef}
-          shapeId={correctObject.name}
+          shapeId={correctObject.renderId}
           colorKey={correctObject.color}
+          kind={correctObject.kind}
         />
       )}
 
@@ -573,6 +580,7 @@ export default function ClassificationPlayScreen() {
           ⭐ Success Modal
       ========================================== */}
       <SuccessModal
+        gameType={gameType}
         show={showSuccessModal}
         level={levelConfig.level}
         earnedStars={earnedStars}

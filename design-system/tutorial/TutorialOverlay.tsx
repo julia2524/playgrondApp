@@ -4,7 +4,12 @@ import styled from "styled-components/native";
 
 import { COLORS } from "../tokens/colors";
 import HandPointer from "../ui/HandPointer";
-import { RenderItemSvg } from "../../features/classification/color/assets/ColorItemSvgs";
+import { RenderColorItemSvg } from "../../features/classification/color/assets/ColorItemSvgs";
+import { DisplayItemKind } from "../../features/classification/type/displayTypes";
+import {
+  RenderBasicShapeSvg,
+  RenderShapeItemSvg,
+} from "../../features/classification/shape/assets/shapeItemSvgs";
 
 interface TutorialOverlayProps {
   visible: boolean;
@@ -18,6 +23,7 @@ interface TutorialOverlayProps {
 
   shapeId?: string;
   colorKey?: string;
+  kind?: DisplayItemKind; // ★ 추가
 }
 
 export default function TutorialOverlay({
@@ -27,6 +33,7 @@ export default function TutorialOverlay({
   toRef,
   shapeId,
   colorKey,
+  kind = "color", // 기본값 color
 }: TutorialOverlayProps) {
   // ==================================================
   // ⭐ Animation Values
@@ -393,9 +400,29 @@ export default function TutorialOverlay({
   const svgColor = colorKey ? COLORS[colorKey] : "#EF4444";
 
   // ==================================================
+  // ⭐ SVG 렌더러 선택
+  // ==================================================
+  const renderTutorialSvg = () => {
+    if (!shapeId) return null;
+
+    if (kind === "color") {
+      return <RenderColorItemSvg shapeId={shapeId} colorHex={svgColor} />;
+    }
+
+    if (kind === "item") {
+      return <RenderShapeItemSvg itemId={shapeId} colorHex={svgColor} />;
+    }
+
+    // kind === "shape"
+    return <RenderBasicShapeSvg shapeId={shapeId} colorHex={svgColor} />;
+  };
+
+  // ==================================================
   // ⭐ Render
   // ==================================================
-
+  if (!visible || !startPoint) {
+    return null;
+  }
   return (
     <TutorialLayer pointerEvents="none">
       {/* ==============================================
@@ -427,7 +454,7 @@ export default function TutorialOverlay({
           opacity,
         }}
       >
-        {shapeId && <RenderItemSvg shapeId={shapeId} colorHex={svgColor} />}
+        {renderTutorialSvg()}
       </Animated.View>
 
       {/* ==============================================

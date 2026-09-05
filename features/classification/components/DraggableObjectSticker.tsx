@@ -19,13 +19,18 @@ import {
   preloadSounds,
 } from "../../../utils/sound";
 import { triggerHaptic } from "../../../utils/haptic";
-import { RenderItemSvg } from "../../classification/color/assets/ColorItemSvgs";
+import { RenderColorItemSvg } from "../../classification/color/assets/ColorItemSvgs";
 
 import {
   ObjectSticker,
   ObjectStickerShadowWrapper,
 } from "../styles/classificationStyles";
 import { DropResult, Layout } from "../type/types";
+import {
+  RenderBasicShapeSvg,
+  RenderShapeItemSvg,
+} from "../shape/assets/shapeItemSvgs";
+import { DisplayObject } from "../type/displayTypes";
 
 export function DraggableObjectSticker({
   obj,
@@ -41,7 +46,7 @@ export function DraggableObjectSticker({
   registerRef,
   correctStreakCount,
 }: {
-  obj: any;
+  obj: DisplayObject;
   color: string;
   itemCount: number;
   gameBoardLayout: React.MutableRefObject<Layout>;
@@ -61,28 +66,30 @@ export function DraggableObjectSticker({
   registerRef?: (el: View | null) => void;
   correctStreakCount: number;
 }) {
+  // ⭐ measureInWindow 대상은 이제 "바깥(position) 레이어"의 ref
   const stickerRef = useRef<View>(null);
+  const isInteractingRef = useRef(false);
 
   // ⭐ 내부 ref + 외부 정답 ref 연결
   const setStickerRef = (el: View | null) => {
     stickerRef.current = el;
-
     registerRef?.(el);
   };
 
+  // --------------------------------------------------
+  // Animated Values
+  // --------------------------------------------------
+  // ⭐ position: 드래그 위치 전용 — 바깥 레이어에서만 사용
   const position = useRef(new Animated.ValueXY()).current;
+
+  // ⭐ 아래 넷은 전부 "안쪽 비주얼 레이어" 전용 — native driver로 통일
   const shakeX = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const pressScale = useRef(new Animated.Value(1)).current;
   const opacity = useRef(new Animated.Value(1)).current;
-  const startPosition = useRef({
-    x: 0,
-    y: 0,
-  });
-  const startScreenPosition = useRef({
-    x: 0,
-    y: 0,
-  });
+
+  const startPosition = useRef({ x: 0, y: 0 });
+  const startScreenPosition = useRef({ x: 0, y: 0 });
   const isScreenPositionReadyRef = useRef(false);
 
   // --------------------------------------------------
@@ -95,7 +102,6 @@ export function DraggableObjectSticker({
         duration: CORRECT_ANIMATION_DURATION_MS,
         useNativeDriver: true,
       }),
-
       Animated.timing(opacity, {
         toValue: 0,
         duration: CORRECT_ANIMATION_DURATION_MS,
@@ -118,32 +124,28 @@ export function DraggableObjectSticker({
       Animated.timing(shakeX, {
         toValue: -12,
         duration: 60,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
-
       Animated.timing(shakeX, {
         toValue: 12,
         duration: 60,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
-
       Animated.timing(shakeX, {
         toValue: -8,
         duration: 50,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
-
       Animated.timing(shakeX, {
         toValue: 8,
         duration: 50,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
-
       Animated.spring(shakeX, {
         toValue: 0,
         friction: 4,
         tension: 120,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }),
     ]).start();
   };
@@ -158,11 +160,11 @@ export function DraggableObjectSticker({
 
       // ⭐⭐⭐ 잡는 순간
       onPanResponderGrant: () => {
-        // 효과음 + 햅틱
+        if (isInteractingRef.current) return;
+        isInteractingRef.current = true;
+
         playSound("grab");
         triggerHaptic("light");
-
-        // 부모에게 알려서 tutorial 즉시 제거
         onGrab(obj.id);
 
         isScreenPositionReadyRef.current = false;
@@ -176,12 +178,12 @@ export function DraggableObjectSticker({
           Animated.timing(pressScale, {
             toValue: 0.9,
             duration: 100,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
           Animated.timing(opacity, {
             toValue: 0.8,
             duration: 100,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
         ]).start();
 
@@ -233,41 +235,30 @@ export function DraggableObjectSticker({
           Animated.timing(pressScale, {
             toValue: 1,
             duration: 150,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
           Animated.timing(opacity, {
             toValue: 1,
             duration: 150,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
         ]).start();
 
         stickerRef.current?.measureInWindow((x, y, width, height) => {
           onRelease(obj, x, y, width, height, (result) => {
-            // ---------------------
-            // Correct
-            // ---------------------
             if (result === "correct") {
-              // 1. 음계 먼저 재생 (스트릭에 따라)
               playStreakNote(correctStreakCount);
-
-              // 2. 기존 정답 효과음 / 음성도 같이 내고 싶으면
-              // playSound("correct");
-              // playSound("correct_sound");
-
               triggerHaptic("success");
 
               setTimeout(() => {
                 playCorrectAnimation(() => {
                   onCorrectAnimationComplete(obj.id);
+                  isInteractingRef.current = false;
                 });
               }, 150);
               return;
             }
 
-            // ---------------------
-            // Wrong
-            // ---------------------
             if (result === "wrong") {
               playSound("wrong_sound");
               triggerHaptic("error");
@@ -275,24 +266,20 @@ export function DraggableObjectSticker({
               setTimeout(() => {
                 playWrongAnimation();
                 onWrong();
+                isInteractingRef.current = false;
               }, 150);
-
               return;
             }
 
-            // ---------------------
-            // Outside
-            // ---------------------
             if (result === "outside") {
-              // playLastSuccessNote();
               playSound("wrong_sound");
               triggerHaptic("light");
 
               setTimeout(() => {
                 playWrongAnimation();
                 onOutside();
+                isInteractingRef.current = false;
               }, 150);
-
               return;
             }
           });
@@ -301,17 +288,18 @@ export function DraggableObjectSticker({
 
       onPanResponderTerminate: () => {
         isScreenPositionReadyRef.current = false;
+        isInteractingRef.current = false;
 
         Animated.parallel([
           Animated.timing(pressScale, {
             toValue: 1,
             duration: 150,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
           Animated.timing(opacity, {
             toValue: 1,
             duration: 150,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
         ]).start();
       },
@@ -321,40 +309,52 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   // Render
   // --------------------------------------------------
+  const colorHex = COLORS[obj.color ?? "blue"] ?? "#FFFFFF";
+  const softColor = obj.color ? SOFT_COLORS[obj.color] : undefined;
+
+  const renderSvg = () => {
+    if (obj.kind === "color") {
+      return <RenderColorItemSvg shapeId={obj.renderId} colorHex={colorHex} />;
+    }
+    if (obj.kind === "item") {
+      return <RenderShapeItemSvg itemId={obj.renderId} colorHex={colorHex} />;
+    }
+    return <RenderBasicShapeSvg shapeId={obj.renderId} colorHex={colorHex} />;
+  };
 
   return (
     <ObjectStickerShadowWrapper>
+      {/* ⭐⭐⭐ 바깥 레이어: 드래그 위치 전용
+          - measureInWindow는 여기서 재기 때문에 native 애니메이션과 절대 안 섞임
+          - panHandlers도 여기에 붙임 (제스처 감지 영역) */}
       <Animated.View
         ref={setStickerRef}
         {...panResponder.panHandlers}
-        renderToHardwareTextureAndroid={true} // ⭐ 핵심: 안드로이드 전용, 통째로 비트맵화
-        needsOffscreenAlphaCompositing={true} // ⭐ opacity 애니메이션도 함께 있으니 이것도 추가
         style={{
-          transform: [
-            {
-              translateX: position.x,
-            },
-            {
-              translateX: shakeX,
-            },
-            {
-              translateY: position.y,
-            },
-            {
-              scale,
-            },
-            { scale: pressScale },
-          ],
-          opacity,
+          transform: [{ translateX: position.x }, { translateY: position.y }],
           zIndex: isActive ? 9999 : 1,
           elevation: isActive ? 99 : 1,
         }}
       >
-        <ObjectSticker color={SOFT_COLORS[obj.color]} itemCount={itemCount}>
-          <RenderItemSvg
-            shapeId={obj.name}
-            colorHex={COLORS[obj.color] || "#FFF"}
-          />
+        {/* ⭐⭐⭐ 안쪽 레이어: 순수 비주얼 피드백 전용
+            - shakeX / scale / pressScale / opacity 전부 native로 마음껏
+            - ObjectSticker는 이미 styled(Animated.View)라 style prop이
+              자체 스타일과 자동 병합됨 (추가 View 안 만들어도 됨) */}
+        <ObjectSticker
+          color={softColor ?? "transparent"}
+          itemCount={itemCount}
+          renderToHardwareTextureAndroid={true}
+          needsOffscreenAlphaCompositing={true}
+          style={{
+            transform: [
+              { translateX: shakeX },
+              { scale },
+              { scale: pressScale },
+            ],
+            opacity,
+          }}
+        >
+          {renderSvg()}
         </ObjectSticker>
       </Animated.View>
     </ObjectStickerShadowWrapper>

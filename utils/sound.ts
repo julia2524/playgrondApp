@@ -15,12 +15,18 @@ let isNotesReady = false;
 let isPlayingNote = false; // ⭐ 연달아 재생 방지용
 
 export async function preloadSounds() {
+  console.log("🔥 preloadSounds 시작");
   // ⭐ 이미 생성했으면 다시 생성하지 않음
   if (isPreloaded) {
+    console.log("🔥 이미 preload 되어 있음");
     return;
   }
   try {
-    players.grab = [createAudioPlayer(require("../assets/sounds/grab.wav"))];
+    players.grab = [
+      createAudioPlayer(require("../assets/sounds/grab.wav")),
+      createAudioPlayer(require("../assets/sounds/grab.wav")),
+      createAudioPlayer(require("../assets/sounds/grab.wav")),
+    ];
 
     players.correct = [
       createAudioPlayer(require("../assets/sounds/correct_1.mp3")),
@@ -69,59 +75,52 @@ export async function preloadSounds() {
     isPreloaded = false;
   }
 }
+// ⭐ 사운드 타입별로 "다음에 쓸 플레이어 인덱스"를 순환시킴
+const roundRobinIndex: Record<string, number> = {
+  grab: 0,
+  correct: 0,
+  wrong: 0,
+  correct_sound: 0,
+  wrong_sound: 0,
+};
 
+async function playPlayerSafely(player: AudioPlayer) {
+  try {
+    await player.seekTo(0);
+    await player.play();
+  } catch (error) {
+    console.log("오디오 재생 실패:", error);
+  }
+}
 // 기존 랜덤 재생
-export function playSound(
+export async function playSound(
   soundType: "grab" | "correct" | "wrong" | "correct_sound" | "wrong_sound",
 ) {
   try {
     const list = players[soundType];
-    if (!list || list.length === 0) return;
+    console.log("🔊 playSound 호출:", soundType);
+    console.log("🔊 player 개수:", list?.length);
+    if (!list || list.length === 0) {
+      console.log("❌ 플레이어가 없음:", soundType);
+      return;
+    }
 
     const randomIndex = Math.floor(Math.random() * list.length);
     const player = list[randomIndex];
-    player.seekTo(0);
-    player.play();
+    await playPlayerSafely(player);
+
+    console.log("🔊 실제 play:", soundType, randomIndex);
+
+    // player.seekTo(0);
+    // player.play();
   } catch (error) {
     console.log("오디오 재생 실패:", error);
   }
 }
 
-// ⭐ 정답일 때 호출 (스트릭에 따라 음계 올라감)
-// export function playStreakNote(streakCount: number) {
-//   try {
-//     // 1~10으로 제한
-//     const index = Math.min(Math.max(streakCount, 1), 10) - 1;
-
-//     // 성공한 음을 기억
-//     lastSuccessNoteIndex = index;
-
-//     const player = players.notes[index];
-//     if (!player) return;
-
-//     player.seekTo(0);
-//     player.play();
-//   } catch (error) {
-//     console.log("음계 재생 실패:", error);
-//   }
-// }
-
-// // ⭐ 오답일 때 호출 → 직전에 성공했던 음 그대로 재생!
-// export function playLastSuccessNote() {
-//   try {
-//     const player = players.notes[lastSuccessNoteIndex];
-//     if (!player) return;
-
-//     player.seekTo(0);
-//     player.play();
-//   } catch (error) {
-//     console.log("이전 음계 재생 실패:", error);
-//   }
-// }
-
 // ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 순차 연주!
 // ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 깨끗하게 순차 연주
-export function playEarnedNotes(earnedStars: number) {
+export async function playEarnedNotes(earnedStars: number) {
   if (!players.notes || players.notes.length === 0) {
     console.log("음계 플레이어가 아직 준비되지 않음");
     return;
@@ -131,40 +130,53 @@ export function playEarnedNotes(earnedStars: number) {
   if (count <= 0) return;
 
   // 이전 연주 중인 음들을 일단 전부 정지
-  players.notes.forEach((player) => {
+  for (const player of players.notes) {
     try {
       if (player) {
-        player.pause();
-        player.seekTo(0);
+        await player.pause();
+        await player.seekTo(0); // ⭐ 여기도 await
       }
     } catch (e) {}
-  });
+  }
+  // players.notes.forEach((player) => {
+  //   try {
+  //     if (player) {
+  //       player.pause();
+  //       player.seekTo(0);
+  //     }
+  //   } catch (e) {}
+  // });
 
   // 순차 재생 (간격을 충분히 줌)
   for (let i = 0; i < count; i++) {
-    setTimeout(() => {
-      try {
-        const player = players.notes[i];
-        if (player) {
-          player.seekTo(0);
-          player.play();
-        }
-      } catch (e) {
-        console.log(`음계 ${i + 1} 재생 실패:`, e);
+    setTimeout(async () => {
+      const player = players.notes[i];
+      if (player) {
+        await playPlayerSafely(player);
       }
-    }, i * 150); // ← 여기가 핵심! 380~450ms 추천
+    }, i * 150);
   }
+  // for (let i = 0; i < count; i++) {
+  //   setTimeout(() => {
+  //     try {
+  //       const player = players.notes[i];
+  //       if (player) {
+  //         player.seekTo(0);
+  //         player.play();
+  //       }
+  //     } catch (e) {
+  //       console.log(`음계 ${i + 1} 재생 실패:`, e);
+  //     }
+  //   }, i * 150); // ← 여기가 핵심! 380~450ms 추천
+  // }
 }
-// ⭐ 리플레이 / 레벨 시작 시 호출해서 초기화
-// export function resetLastSuccessNote() {
-//   lastSuccessNoteIndex = 0;
-// }
+
 export function resetLastSuccessNote() {
   lastSuccessNoteIndex = 0;
 }
 
 // 안전하게 음 하나 재생
-function playNoteByIndex(index: number) {
+async function playNoteByIndex(index: number) {
   if (!isNotesReady || !players.notes[index]) {
     console.log("음계 아직 준비 안 됨:", index);
     return;
@@ -178,8 +190,9 @@ function playNoteByIndex(index: number) {
   try {
     isPlayingNote = true;
     const player = players.notes[index];
-    player.seekTo(0);
-    player.play();
+    // player.seekTo(0);
+    // player.play();
+    await playPlayerSafely(player);
 
     // 음 길이만큼 잠금 (0.35초 정도 추천)
     setTimeout(() => {
@@ -192,17 +205,13 @@ function playNoteByIndex(index: number) {
 }
 
 // 정답일 때
-export function playStreakNote(streakCount: number) {
+export async function playStreakNote(streakCount: number) {
   const index = Math.min(Math.max(streakCount, 1), 10) - 1;
   lastSuccessNoteIndex = index;
-  playNoteByIndex(index);
+  await playNoteByIndex(index);
 }
 
-// 오답일 때 (이전 음 다시)
-// export function playLastSuccessNote() {
-//   playNoteByIndex(lastSuccessNoteIndex);
-// }
-export function playLastSuccessNote() {
+export async function playLastSuccessNote() {
   try {
     // ⭐ 아직 성공한 적이 없으면 아무 소리도 안 냄
     if (lastSuccessNoteIndex === null) {
@@ -210,11 +219,10 @@ export function playLastSuccessNote() {
     }
 
     const player = players.notes[lastSuccessNoteIndex];
-
     if (!player) return;
-
-    player.seekTo(0);
-    player.play();
+    await playPlayerSafely(player);
+    // player.seekTo(0);
+    // player.play();
   } catch (error) {
     console.log("이전 음계 재생 실패:", error);
   }

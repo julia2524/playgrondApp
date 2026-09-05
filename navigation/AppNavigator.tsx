@@ -3,6 +3,7 @@ import HomeScreen from "../features/home/HomeScreen";
 import ClassificationPlayScreen from "../features/classification/ClassificationPlayScreen";
 import StageMapScreen from "../features/StageMap/StageMapScreen";
 import StickerGalleryScreen from "../features/classification/StickerGalleryScreen";
+import ShapeStickerGalleryScreen from "../features/classification/ShapeStickerGalleryScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ export default function AppNavigator() {
       <Stack.Screen
         name="StickerGalleryScreen"
         component={StickerGalleryScreen}
+      />
+      <Stack.Screen
+        name="ShapeStickerGalleryScreen"
+        component={ShapeStickerGalleryScreen}
       />
     </Stack.Navigator>
   );

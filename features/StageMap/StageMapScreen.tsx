@@ -31,7 +31,11 @@ import {
   StageMapHeaderCenter,
   StageMapTitle,
 } from "./stageMapStyles";
+
 import { useProgress } from "../classification/progress/useProgress";
+
+import { colorLevels } from "../classification/color/constants/levels";
+import { shapeLevels } from "../classification/shape/constants/levels";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -57,9 +61,10 @@ export default function StageMapScreen() {
 
   const navigation = useNavigation<NavigationProp>();
   const scrollRef = useRef<ScrollView>(null);
+
   const [trackWidth, setTrackWidth] = useState(0);
 
-  // ⭐ 추가: 스크롤 뷰포트(Content)의 실제 렌더링 높이
+  // ⭐ ScrollView 뷰포트의 실제 높이
   const [viewportHeight, setViewportHeight] = useState(0);
 
   const {
@@ -76,16 +81,38 @@ export default function StageMapScreen() {
     }, [reloadProgress]),
   );
 
-  const contentHeight =
-    TOP_PADDING + BOTTOM_PADDING + (STAGE_CONFIGS.length - 1) * NODE_STEP_Y;
+  // ==================================================
+  // ⭐ 현재 게임에 실제로 존재하는 Level 가져오기
+  // ==================================================
 
-  const positions = STAGE_CONFIGS.map((stage, index) => {
+  const levels = gameType === "color" ? colorLevels : shapeLevels;
+
+  // ⭐ STAGE_CONFIGS 중에서 실제 게임에 존재하는 스테이지만 사용
+  const availableStages = STAGE_CONFIGS.filter((stage) =>
+    levels.some((levelConfig) => levelConfig.level === stage.level),
+  );
+
+  // ==================================================
+  // ⭐ 실제 스테이지 개수에 맞춰 Content 높이 계산
+  // ==================================================
+
+  const contentHeight =
+    TOP_PADDING + BOTTOM_PADDING + (availableStages.length - 1) * NODE_STEP_Y;
+
+  // ==================================================
+  // ⭐ 실제 스테이지 개수에 맞춰 위치 계산
+  // ==================================================
+
+  const positions = availableStages.map((stage, index) => {
     const y = contentHeight - BOTTOM_PADDING - index * NODE_STEP_Y;
+
     const usableHalfWidth = Math.max(
       trackWidth / 2 - HORIZONTAL_SAFE_PADDING,
       0,
     );
+
     const x = trackWidth / 2 + stage.xOffset * usableHalfWidth;
+
     return { x, y };
   });
 
@@ -98,14 +125,13 @@ export default function StageMapScreen() {
   )?.level;
 
   // ==================================================
-  // ⭐ 진행 중인 Level 위치로 자동 스크롤 (실측 뷰포트 높이 사용)
+  // ⭐ 진행 중인 Level 위치로 자동 스크롤
   // ==================================================
 
   useEffect(() => {
     if (trackWidth === 0 || isLoading) return;
 
     const timer = setTimeout(() => {
-      // ⭐ 실측값이 아직 0이면(레이아웃 전) 폴백값 사용
       const effectiveViewportHeight =
         viewportHeight > 0 ? viewportHeight : FALLBACK_VIEWPORT_HEIGHT;
 
@@ -114,7 +140,8 @@ export default function StageMapScreen() {
         return;
       }
 
-      const targetIndex = STAGE_CONFIGS.findIndex(
+      // ⭐ availableStages에서 현재 Level의 위치를 찾는다
+      const targetIndex = availableStages.findIndex(
         (stage) => stage.level === currentLevel,
       );
 
@@ -124,23 +151,44 @@ export default function StageMapScreen() {
       }
 
       const targetY = positions[targetIndex].y;
+
       const scrollToY = Math.max(targetY - effectiveViewportHeight / 2, 0);
 
-      scrollRef.current?.scrollTo({ y: scrollToY, animated: false });
+      scrollRef.current?.scrollTo({
+        y: scrollToY,
+        animated: false,
+      });
     }, 50);
 
     return () => clearTimeout(timer);
-  }, [trackWidth, isLoading, currentLevel, viewportHeight]);
+  }, [
+    trackWidth,
+    isLoading,
+    currentLevel,
+    viewportHeight,
+    availableStages,
+    positions,
+  ]);
+
+  // ==================================================
+  // ⭐ Stage 클릭
+  // ==================================================
 
   const handleStagePress = (level: number) => {
     const unlocked = isLevelUnlocked(level);
+
     if (!unlocked) return;
-    navigation.navigate("ClassificationPlayScreen", { gameType, level });
+
+    navigation.navigate("ClassificationPlayScreen", {
+      gameType,
+      level,
+    });
   };
 
   return (
     <Container>
       <GradientBackground />
+
       <DecorativeBackground />
 
       <AppHeader
@@ -152,7 +200,6 @@ export default function StageMapScreen() {
         }
       />
 
-      {/* ⭐ 로딩 중일 때는 컨텐츠 영역을 비워두거나 스피너만 띄워서 배경이 절대 리마운트되지 않게 유지! */}
       {!isLoading && (
         <Content
           onLayout={(event) => {
@@ -170,29 +217,40 @@ export default function StageMapScreen() {
             }}
           >
             <View style={{ height: contentHeight }}>
+              {/* ==========================================
+                  ⭐ MapTrail
+                 ========================================== */}
+
               {trackWidth > 0 && (
                 <MapTrail
                   width={trackWidth}
                   height={contentHeight}
-                  points={STAGE_CONFIGS.map((stage, index) => ({
+                  points={availableStages.map((stage, index) => ({
                     ...positions[index],
                     completed: isLevelCompleted(stage.level),
                   }))}
                 />
               )}
 
-              {STAGE_CONFIGS.map((stage, index) => {
+              {/* ==========================================
+                  ⭐ StageNode
+                 ========================================== */}
+
+              {availableStages.map((stage, index) => {
                 const pos = positions[index];
+
                 const unlocked = isLevelUnlocked(stage.level);
                 const completed = isLevelCompleted(stage.level);
+
                 const levelProgress = progress.levels.find(
                   (item) => item.level === stage.level,
                 );
+
                 const stars = levelProgress?.stars ?? 0;
 
                 return (
                   <StageNode
-                    gameType={gameType} // 🌟 여기에 추가
+                    gameType={gameType}
                     key={stage.level}
                     level={stage.level}
                     name={stage.name}

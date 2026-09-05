@@ -1,3 +1,4 @@
+//"어떤 도형/사물이 존재하는가?"
 export type ShapeDefinition = {
   id: string;
   label: string;
@@ -19,13 +20,14 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "circle",
     label: "동그라미",
     matchItemIds: [
-      "ball",
-      "wheel",
-      "clock",
-      "plate",
-      "cookie",
-      "button",
-      "fullMoon",
+      "basiccircle",
+      "ball", // "공",
+      "wheel", //"바퀴",
+      "clock", //"시계",
+      "plate", //"접시",
+      "cookie", //"쿠키",
+      "button", //"단추",
+      "fullMoon", // "보름달",
     ],
   },
 
@@ -33,13 +35,14 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "square",
     label: "네모",
     matchItemIds: [
-      "box",
-      "block",
-      "window",
-      "bread",
-      "frame",
-      "giftBox",
-      "tile",
+      "basicsquare",
+      "box", // "상자",
+      "block", // "블록",
+      "window", // "창문",
+      "bread", // "식빵",
+      "frame", // "액자",
+      "giftBox", // "선물상자",
+      "tile", // "타일",
     ],
   },
 
@@ -47,12 +50,13 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "triangle",
     label: "세모",
     matchItemIds: [
-      "triangleRiceBall",
-      "cakeSlice",
-      "roof",
-      "pizzaSlice",
-      "mountain",
-      "partyHat",
+      "basictriangle",
+      "triangleRiceBall", //   "삼각김밥",
+      "cakeSlice", //      "조각케이크",
+      "roof", //      "지붕",
+      "pizzaSlice", //      "피자 한 조각",
+      "mountain", //      "산",
+      "partyHat", //      "파티모자",
     ],
   },
 
@@ -60,10 +64,11 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "heart",
     label: "하트",
     matchItemIds: [
-      "heartCookie",
-      "heartBalloon",
-      "heartGlasses",
-      "heartChocolate",
+      "basicheart",
+      "heartCookie", //  "하트 쿠키",
+      "heartBalloon", //      "하트 풍선",
+      "heartGlasses", //      "하트 안경",
+      "heartChocolate", //      "하트 초콜릿",
     ],
   },
 
@@ -71,14 +76,23 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "star",
     label: "별",
     matchItemIds: [
-      "starSticker",
-      "magicWand",
-      "starfish",
-      "starCandy",
-      "nightStar",
+      "basicstar",
+      "starSticker", //  "별 스티커",
+      "magicWand", //      "요술봉",
+      "starfish", //      "불가사리",
+      "starCandy", //      "별사탕",
+      "nightStar", //      "밤하늘 별",
     ],
   },
 ];
+
+/**
+ * 실제 SVG renderer에서 사용하는 itemId와
+ * 반드시 동일하게 맞춰야 한다.
+ *
+ * 자연스러운 기본 색상은 여기서 관리하지 않는다.
+ * natural일 경우 SVG가 자기 기본 색상을 사용한다.
+ */
 
 export const SHAPE_ITEM_POOL: ShapeItem[] = [
   // 🔵 동그라미
@@ -120,6 +134,20 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "starCandy", label: "별사탕", shapeId: "star" },
   { id: "nightStar", label: "밤하늘 별", shapeId: "star" },
 ];
+export type ShapeId = "circle" | "square" | "triangle" | "heart" | "star";
+export const getShapeDefinition = (shapeId: ShapeId): ShapeDefinition => {
+  const shape = BABY_SHAPES.find((item) => item.id === shapeId);
+
+  if (!shape) {
+    throw new Error(`Unknown shapeId: ${shapeId}`);
+  }
+
+  return shape;
+};
+
+export const getShapeItems = (shapeId: ShapeId): ShapeItem[] => {
+  return SHAPE_ITEM_POOL.filter((item) => item.shapeId === shapeId);
+};
 
 // --------------------------------------------------
 // 티어 1: 기본형 (만 2세 ~ 3세 초반)

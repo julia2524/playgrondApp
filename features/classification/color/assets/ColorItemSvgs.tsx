@@ -2580,10 +2580,10 @@ const ITEM_SVGS: Record<string, React.ComponentType<ItemSvgProps>> = {
   mushroom: Mushroom,
 };
 /* ==================================================
-   🎨 최종 RenderItemSvg
+   🎨 최종 RenderColorItemSvg
 ================================================== */
 
-export const RenderItemSvg = ({
+export const RenderColorItemSvg = ({
   shapeId, // ⭐ itemName(한글) → shapeId(영문)로 변경
   colorHex,
 }: ItemSvgProps & { shapeId: string }) => {

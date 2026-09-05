@@ -15,11 +15,13 @@ import {
   StarRow,
   TitleText,
 } from "../styles/classificationStyles";
+import SunBadge from "../../../design-system/ui/SunBadge";
+import GameRewardBadge from "./GameRewardBadge";
 
 interface GameHeaderProps {
   gameType: "color" | "shape"; // 🌟 추가
-  levelConfig: ColorLevelConfig;
-  roundIndex: number;
+  // levelConfig: ColorLevelConfig;
+  // roundIndex: number;
   earnedStars: number; // ⭐ 실제 획득 별
 }
 
@@ -27,14 +29,22 @@ type GameHeaderNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function GameHeader({
   gameType, // 🌟 받아서 사용
-  levelConfig,
-  roundIndex,
   earnedStars,
 }: GameHeaderProps) {
   const totalStars = 5;
 
   const navigation = useNavigation<GameHeaderNavigationProp>();
   const headerTitle = gameType === "shape" ? "모양 찾기" : "색깔 찾기";
+
+  // const renderSvg = (key: number, type: "full" | "half" | "empty") => {
+  //   if (gameType === "color") {
+  //     return <StarBadge key={key} type={type} />;
+  //   }
+  //   if (gameType === "shape") {
+  //     return <SunBadge key={key} type={type} />;
+  //   }
+  //   return <StarBadge key={key} type={type} />;
+  // };
 
   return (
     <GameHeaders>
@@ -65,7 +75,9 @@ export default function GameHeader({
             type = "half";
           }
 
-          return <StarBadge key={index} type={type} />;
+          return (
+            <GameRewardBadge key={index} gameType={gameType} type={type} />
+          );
         })}
       </StarRow>
 

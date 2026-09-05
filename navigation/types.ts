@@ -6,4 +6,5 @@ export type RootStackParamList = {
   // 🌟 level(number 타입)을 파라미터로 받겠다고 정의!
   ClassificationPlayScreen: { gameType: "color" | "shape"; level: number };
   StickerGalleryScreen: undefined;
+  ShapeStickerGalleryScreen: undefined;
 };

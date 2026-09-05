@@ -3,12 +3,16 @@ import CandyStar from "./CandyStar";
 
 interface StarBadgeProps {
   type?: "full" | "half" | "empty";
+  size?: number;
 }
 
-export default function StarBadge({ type = "empty" }: StarBadgeProps) {
+export default function StarBadge({
+  type = "empty",
+  size = 30,
+}: StarBadgeProps) {
   return (
     <Badge>
-      <CandyStar size={30} type={type} />
+      <CandyStar size={size} type={type} />
     </Badge>
   );
 }

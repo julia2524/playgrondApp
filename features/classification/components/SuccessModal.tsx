@@ -12,8 +12,12 @@ import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
 import { useEffect } from "react";
 import { playEarnedNotes } from "../../../utils/sound";
 import CandyStar from "../../../design-system/ui/CandyStar";
+import GameRewardBadge from "./GameRewardBadge";
+import { colorLevels } from "../color/constants/levels";
+import { shapeLevels } from "../shape/constants/levels";
 
 interface SuccessModalProps {
+  gameType: "color" | "shape";
   show: boolean;
   level: number;
   earnedStars: number;
@@ -25,6 +29,7 @@ interface SuccessModalProps {
 type GameOverNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function SuccessModal({
+  gameType,
   show,
   level,
   earnedStars,
@@ -46,8 +51,11 @@ export default function SuccessModal({
   const currentStageIndex = STAGE_CONFIGS.findIndex(
     (stage) => stage.level === level,
   );
+  const levels = gameType === "color" ? colorLevels : shapeLevels;
 
-  const isLastLevel = currentStageIndex === STAGE_CONFIGS.length - 1;
+  const isLastLevel = level === levels[levels.length - 1].level;
+
+  // const isLastLevel = currentStageIndex === STAGE_CONFIGS.length - 1;
 
   const onGoHome = () => {
     navigation.navigate("Home");
@@ -91,7 +99,7 @@ export default function SuccessModal({
                     marginTop: starOffsets[index],
                   }}
                 >
-                  <CandyStar size={46} type={type} />
+                  <GameRewardBadge gameType={gameType} type={type} size={33} />
                 </SuccessStarWrapper>
               );
             })}

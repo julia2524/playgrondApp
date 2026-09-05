@@ -1,4 +1,4 @@
-import { ColorLevelConfig } from "../types";
+import { ColorLevelConfig } from "../type/types";
 
 export const colorLevels: ColorLevelConfig[] = [
   // --- [초급: 원색으로 손풀기 & 마진 좁히기] ---

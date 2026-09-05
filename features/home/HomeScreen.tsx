@@ -22,6 +22,8 @@ import {
   TitleContainer,
 } from "./homeStyles";
 import CustomAlert from "../../components/common/CustomAlert";
+import { shapeLevels } from "../classification/shape/constants/levels";
+import { createShapeRound } from "../classification/shape/shapeGenerators";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -45,6 +47,91 @@ export default function HomeScreen() {
     showAlert("잠금", `${gameName}는\n 다음 업데이트에서 만나요!`);
     // Alert.alert("잠금", ` ${gameName}은 다음 업데이트에서 만나요!`);
   };
+  const testAllShapeLevels = () => {
+    shapeLevels.forEach((config) => {
+      const round = createShapeRound(config, 1);
+
+      console.log(`\n========== LEVEL ${config.level} ==========`);
+      console.log(JSON.stringify(round, null, 2));
+
+      // 1. 정답 Object 찾기
+      const correctObject = round.objects.find(
+        (object) => object.id === round.correctObjectId,
+      );
+
+      // 2. answer에 연결된 실제 Target 찾기
+      const correctTargetId = correctObject
+        ? round.answer[correctObject.id]
+        : undefined;
+
+      const correctTarget = round.targets.find(
+        (target) => target.id === correctTargetId,
+      );
+
+      // 3. 검증
+      const isShapeMatched = correctObject?.shapeId === correctTarget?.shapeId;
+
+      // 추가 검증 (있으면 더 좋음)
+      const hasCorrectAnswer = !!correctTargetId;
+      const hasWrongObject =
+        config.mode === "choice"
+          ? (round.wrongObjectIds?.length ?? 0) > 0
+          : true;
+
+      const passed = isShapeMatched && hasCorrectAnswer && hasWrongObject;
+
+      console.log(`Level ${config.level}:`, passed ? "✅ PASS" : "❌ FAIL");
+
+      if (!passed) {
+        console.log("  - correctObject shapeId:", correctObject?.shapeId);
+        console.log("  - correctTarget shapeId:", correctTarget?.shapeId);
+        console.log("  - answer:", round.answer);
+      }
+    });
+  };
+  const testAllShapeLevelsMultiple = (times = 100) => {
+    let failCount = 0;
+
+    for (let i = 0; i < times; i++) {
+      shapeLevels.forEach((config) => {
+        try {
+          const round = createShapeRound(config, 1);
+          // 1. 정답 Object 찾기
+          const correctObject = round.objects.find(
+            (object) => object.id === round.correctObjectId,
+          );
+
+          // 2. answer에 연결된 실제 Target 찾기
+          const correctTargetId = correctObject
+            ? round.answer[correctObject.id]
+            : undefined;
+
+          const correctTarget = round.targets.find(
+            (target) => target.id === correctTargetId,
+          );
+
+          // 3. 검증
+          const isShapeMatched =
+            correctObject?.shapeId === correctTarget?.shapeId;
+
+          // 추가 검증 (있으면 더 좋음)
+          const hasCorrectAnswer = !!correctTargetId;
+          const hasWrongObject =
+            config.mode === "choice"
+              ? (round.wrongObjectIds?.length ?? 0) > 0
+              : true;
+
+          const passed = isShapeMatched && hasCorrectAnswer && hasWrongObject;
+          if (!passed) failCount++;
+        } catch (e) {
+          console.error(`Level ${config.level} throw:`, e);
+          failCount++;
+        }
+      });
+    }
+
+    console.log(`총 실패 횟수: ${failCount}`);
+  };
 
   return (
     <ImageBackground
@@ -66,7 +153,7 @@ export default function HomeScreen() {
             {/* <SettingButtonText>⚙️</SettingButtonText> */}
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("StickerGalleryScreen" as never)
+                navigation.navigate("ShapeStickerGalleryScreen" as never)
               }
             >
               <Text
@@ -119,8 +206,8 @@ export default function HomeScreen() {
               emoji="✨"
               title="새로운 놀이"
               desc="준비 중이에요"
-              disabled={true}
-              onPress={() => handleLockedGame("새로운 놀이")}
+              // disabled={true}
+              onPress={testAllShapeLevels}
             />
           </GameGrid>
         </GameGridWrapper>

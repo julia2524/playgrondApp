@@ -2,82 +2,121 @@ import React, { useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
-import AppHeader from "../../components/common/AppHeader";
-import { RenderColorItemSvg } from "./color/assets/ColorItemSvgs";
 
-export default function StickerGalleryScreen() {
+import AppHeader from "../../components/common/AppHeader";
+import { RenderShapeItemSvg } from "./shape/assets/shapeItemSvgs";
+
+export default function ShapeStickerGalleryScreen() {
   const navigation = useNavigation<any>();
+
   const [selectedColor, setSelectedColor] = useState("#F03E3E");
 
   const sampleColors = [
-    "#F03E3E",
-    "#1971C2",
-    "#F9C80E",
-    "#2F9E44",
-    "#AE3EC9",
-    "#E8590C",
+    "#F03E3E", // 빨강
+    "#1971C2", // 파랑
+    "#F9C80E", // 노랑
+    "#2F9E44", // 초록
+    "#AE3EC9", // 보라
+    "#E8590C", // 주황
     "#FFF",
   ];
 
-  const stickerKeys = [
-    "apple",
-    "strawberry",
-    "balloon",
-    "fireTruck",
-    "cherry",
-    "fish",
-    "blueberry",
-    "umbrella",
-    "whale",
-    "milk",
-    "banana",
-    "bee",
-    "bell",
-    "chick",
-    "sunflower",
-    "star",
-    "tree",
-    "broccoli",
-    "butterfly",
-    "cactus",
-    "crow",
-    "cat",
-    "cloud",
-    "snowman",
-    "rabbit",
-    "cottonCandy",
-    "cupcake",
-    "donut",
-    "mushroom",
-    "flower",
-    "ladybug",
-    "koala",
-    "watermelon",
-    "grape",
-    "owl",
-    "rocket",
-    "frog",
+  // 현재 shapeItemSvgs.tsx에 등록되어 있는 SVG
+  const shapeStickerKeys = [
+    // 🔵 circle
+    "ball",
+    "wheel",
     "clock",
-    "car",
-    "ship",
-    "dog",
-    "fox",
-    "pig",
-    "bear",
-    "penguin",
-    "snail",
+    "plate",
+    "cookie",
+    "button",
+    "fullMoon",
+    "donut",
+    "orange",
+    "lollipop",
+    "sun",
+    "roundBalloon",
+    "roundLollipop",
+    "roundDonut",
+    "roundOrange",
+
+    // 🟦 square
+    "box",
+    "block",
+    "window",
+    "bread",
+    "frame",
+    "giftBox",
+    "tile",
+    "envelope",
+    "envelope2",
+    "chocolateBar",
+    "chocolateBar2",
+    "cheeseSlice",
+    "waffle",
+    "book",
+
+    //triangle
+    "triangleRiceBall",
+    "cakeSlice",
+    "roof",
+    "pizzaSlice",
+    "mountain",
+    "partyHat",
+    "christmasTree",
+    "watermelonSlice",
+    "tent",
+    "iceCreamCone",
+    "sandwich",
+    "triangleFlag",
+
+    //heart
+    "heartCookie",
+    "heartBalloon",
+    "heartGlasses",
+    "heartChocolate",
+    "ring",
+    "heartBox",
+    "heartLollipop",
+    "heartEnvelope",
+    "heartBadge",
+
+    //star
+    "starSticker",
+    "magicWand",
+    "starfish",
+    "starCandy",
+    "nightStar",
+    "medal",
+    "starCrown",
+    "shootingStar",
+    "starCookie",
+    "starBalloon",
+    "sheriffBadge",
+
+    "basiccircle",
+    "basictriangle",
+    "basicsquare",
+    "basicheart",
+    "basicstar",
   ];
 
   return (
     <Container>
       <AppHeader
         onBack={() => navigation.goBack()}
-        center={<HeaderTitle>스티커 갤러리 모음</HeaderTitle>}
+        center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
       />
 
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
+      <ScrollView
+        contentContainerStyle={{
+          padding: 20,
+          paddingBottom: 60,
+        }}
+      >
         <ColorPickerBar>
           <ColorLabel>적용할 색상:</ColorLabel>
+
           {sampleColors.map((color) => (
             <ColorButton
               key={color}
@@ -89,9 +128,10 @@ export default function StickerGalleryScreen() {
         </ColorPickerBar>
 
         <GridContainer>
-          {stickerKeys.map((key) => (
+          {shapeStickerKeys.map((key) => (
             <StickerCard key={key}>
-              <RenderColorItemSvg shapeId={key} colorHex={selectedColor} />
+              <RenderShapeItemSvg itemId={key} colorHex={selectedColor} />
+
               <StickerName>{key}</StickerName>
             </StickerCard>
           ))}
