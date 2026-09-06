@@ -66,23 +66,19 @@ export function DraggableObjectSticker({
   registerRef?: (el: View | null) => void;
   correctStreakCount: number;
 }) {
-  // ⭐ measureInWindow 대상은 이제 "바깥(position) 레이어"의 ref
   const stickerRef = useRef<View>(null);
   const isInteractingRef = useRef(false);
 
-  // ⭐ 내부 ref + 외부 정답 ref 연결
+  // ⭐⭐⭐ 새로 추가: 이 스티커가 "이미 답변 처리됨" 상태인지 영구적으로 기억
+  // 한 번 true가 되면 다음 라운드(리마운트)까지 절대 false로 안 돌아옴
+  const hasAnsweredRef = useRef(false);
+
   const setStickerRef = (el: View | null) => {
     stickerRef.current = el;
     registerRef?.(el);
   };
 
-  // --------------------------------------------------
-  // Animated Values
-  // --------------------------------------------------
-  // ⭐ position: 드래그 위치 전용 — 바깥 레이어에서만 사용
   const position = useRef(new Animated.ValueXY()).current;
-
-  // ⭐ 아래 넷은 전부 "안쪽 비주얼 레이어" 전용 — native driver로 통일
   const shakeX = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const pressScale = useRef(new Animated.Value(1)).current;
@@ -155,12 +151,15 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+      // ⭐⭐⭐ 이미 답변 처리됐으면 애초에 제스처 자체를 안 잡음
+      // → onPanResponderGrant/Move/Release가 아예 호출 안 됨
+      onStartShouldSetPanResponder: () => !hasAnsweredRef.current,
+      onMoveShouldSetPanResponder: () => !hasAnsweredRef.current,
 
       // ⭐⭐⭐ 잡는 순간
       onPanResponderGrant: () => {
-        if (isInteractingRef.current) return;
+        // ⭐ 방어 코드 (Should*에서 이미 막지만 이중 안전장치)
+        if (isInteractingRef.current || hasAnsweredRef.current) return;
         isInteractingRef.current = true;
 
         playSound("grab");
@@ -198,6 +197,7 @@ export function DraggableObjectSticker({
       // --------------------------------------------------
       onPanResponderMove: (_, gesture) => {
         if (!isScreenPositionReadyRef.current) return;
+        if (hasAnsweredRef.current) return; // ⭐ 방어 코드
 
         const board = gameBoardLayout.current;
         const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
@@ -246,6 +246,11 @@ export function DraggableObjectSticker({
 
         stickerRef.current?.measureInWindow((x, y, width, height) => {
           onRelease(obj, x, y, width, height, (result) => {
+            // ⭐⭐⭐ 핵심: 이 콜백이 이미 한 번 실행됐으면 완전히 무시
+            // (result 판정 자체는 정상 처리되지만, 그 이후의 재시도는 여기서 걸러짐)
+            if (hasAnsweredRef.current) return;
+            hasAnsweredRef.current = true; // ⭐ 영구 잠금 시작
+
             if (result === "correct") {
               playStreakNote(correctStreakCount);
               triggerHaptic("success");
@@ -289,6 +294,8 @@ export function DraggableObjectSticker({
       onPanResponderTerminate: () => {
         isScreenPositionReadyRef.current = false;
         isInteractingRef.current = false;
+        // ⭐ terminate는 "답변 안 하고 제스처가 끊긴 것"이므로
+        //    hasAnsweredRef는 여기서 true로 만들지 않음 → 다시 잡을 수 있어야 정상
 
         Animated.parallel([
           Animated.timing(pressScale, {
@@ -324,9 +331,6 @@ export function DraggableObjectSticker({
 
   return (
     <ObjectStickerShadowWrapper>
-      {/* ⭐⭐⭐ 바깥 레이어: 드래그 위치 전용
-          - measureInWindow는 여기서 재기 때문에 native 애니메이션과 절대 안 섞임
-          - panHandlers도 여기에 붙임 (제스처 감지 영역) */}
       <Animated.View
         ref={setStickerRef}
         {...panResponder.panHandlers}
@@ -336,10 +340,6 @@ export function DraggableObjectSticker({
           elevation: isActive ? 99 : 1,
         }}
       >
-        {/* ⭐⭐⭐ 안쪽 레이어: 순수 비주얼 피드백 전용
-            - shakeX / scale / pressScale / opacity 전부 native로 마음껏
-            - ObjectSticker는 이미 styled(Animated.View)라 style prop이
-              자체 스타일과 자동 병합됨 (추가 View 안 만들어도 됨) */}
         <ObjectSticker
           color={softColor ?? "transparent"}
           itemCount={itemCount}
