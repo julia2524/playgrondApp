@@ -66,9 +66,9 @@ const createTargetColors = (
   mode: ColorMode,
   count: number,
 ): (string | undefined)[] => {
-  // TODO: SVG 수정 후 undefined로 변경
+  // TODO: SVG 수정 후 undefined로 변경 "brown"
   if (mode === "natural") {
-    return Array.from({ length: count }, () => "brown");
+    return Array.from({ length: count }, () => undefined);
   }
   if (mode === "same" || mode === "same_as_each_other") {
     const color = pickColor();
@@ -94,7 +94,7 @@ const resolveObjectColor = (params: {
   } = params;
 
   // TODO: SVG 수정 후 undefined로 변경
-  if (mode === "natural") return "brown";
+  if (mode === "natural") return undefined;
 
   if (
     mode === "same_as_target" ||

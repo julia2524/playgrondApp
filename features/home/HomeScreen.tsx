@@ -24,6 +24,8 @@ import {
 import CustomAlert from "../../components/common/CustomAlert";
 import { shapeLevels } from "../classification/shape/constants/levels";
 import { createShapeRound } from "../classification/shape/shapeGenerators";
+import { clearGameProgress } from "../classification/progress/progressStorage";
+import ResetProgressButton from "../../components/common/ResetProgressButton";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -133,6 +135,15 @@ export default function HomeScreen() {
     console.log(`총 실패 횟수: ${failCount}`);
   };
 
+  // 색상(Color) 게임 초기화 함수
+  const handleResetColor = async () => {
+    await clearGameProgress("color"); // @classification_game_progress_color 삭제됨
+  };
+
+  // 모양(Shape) 게임 초기화 함수
+  const handleResetShape = async () => {
+    await clearGameProgress("shape"); // @classification_game_progress_shape 삭제됨
+  };
   return (
     <ImageBackground
       source={ASSETS.homeBackground}
@@ -206,8 +217,16 @@ export default function HomeScreen() {
               emoji="✨"
               title="새로운 놀이"
               desc="준비 중이에요"
-              // disabled={true}
-              onPress={testAllShapeLevels}
+              disabled={true}
+              onPress={() => handleLockedGame("크기 분류")}
+            />
+            <ResetProgressButton
+              gameType="shape"
+              onResetComplete={handleResetShape}
+            />
+            <ResetProgressButton
+              gameType="color"
+              onResetComplete={handleResetColor}
             />
           </GameGrid>
         </GameGridWrapper>

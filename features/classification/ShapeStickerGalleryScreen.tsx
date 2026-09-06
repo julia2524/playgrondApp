@@ -8,10 +8,11 @@ import { RenderShapeItemSvg } from "./shape/assets/shapeItemSvgs";
 
 export default function ShapeStickerGalleryScreen() {
   const navigation = useNavigation<any>();
-
-  const [selectedColor, setSelectedColor] = useState("#F03E3E");
+  // 🌟 "natural"을 초기값 혹은 선택값으로 지정할 수 있게 설정
+  const [selectedColor, setSelectedColor] = useState<string>("natural");
 
   const sampleColors = [
+    "natural",
     "#F03E3E", // 빨강
     "#1971C2", // 파랑
     "#F9C80E", // 노랑
@@ -22,83 +23,161 @@ export default function ShapeStickerGalleryScreen() {
   ];
 
   // 현재 shapeItemSvgs.tsx에 등록되어 있는 SVG
+  // const shapeStickerKeys = [
+  //   // 🔵 circle
+  //   "ball",
+  //   "wheel",
+  //   "clock",
+  //   "plate",
+  //   "cookie",
+  //   "button",
+  //   "fullMoon",
+  //   "donut",
+  //   "orange",
+  //   "lollipop",
+  //   "sun",
+  //   "roundBalloon",
+  //   "roundLollipop",
+  //   "roundDonut",
+  //   "roundOrange",
+
+  //   // 🟦 square
+  //   "box",
+  //   "block",
+  //   "window",
+  //   "bread",
+  //   "frame",
+  //   "giftBox",
+  //   "tile",
+  //   "envelope",
+  //   "envelope2",
+  //   "chocolateBar",
+  //   "chocolateBar2",
+  //   "cheeseSlice",
+  //   "waffle",
+  //   "book",
+
+  //   //triangle
+  //   "triangleRiceBall",
+  //   "cakeSlice",
+  //   "roof",
+  //   "pizzaSlice",
+  //   "mountain",
+  //   "partyHat",
+  //   "christmasTree",
+  //   "watermelonSlice",
+  //   "tent",
+  //   "iceCreamCone",
+  //   "sandwich",
+  //   "triangleFlag",
+
+  //   //heart
+  //   "heartCookie",
+  //   "heartBalloon",
+  //   "heartGlasses",
+  //   "heartChocolate",
+  //   "ring",
+  //   "heartBox",
+  //   "heartLollipop",
+  //   "heartEnvelope",
+  //   "heartBadge",
+
+  //   //star
+  //   "starSticker",
+  //   "magicWand",
+  //   "starfish",
+  //   "starCandy",
+  //   "nightStar",
+  //   "medal",
+  //   "starCrown",
+  //   "shootingStar",
+  //   "starCookie",
+  //   "starBalloon",
+  //   "sheriffBadge",
+
+  //   "basiccircle",
+  //   "basictriangle",
+  //   "basicsquare",
+  //   "basicheart",
+  //   "basicstar",
+  // ];
   const shapeStickerKeys = [
     // 🔵 circle
     "ball",
-    "wheel",
-    "clock",
-    "plate",
+    "tomato",
+    "watermelon",
     "cookie",
-    "button",
-    "fullMoon",
     "donut",
-    "orange",
+    "button",
+    "circleClock",
+    "wheel",
     "lollipop",
-    "sun",
-    "roundBalloon",
-    "roundLollipop",
-    "roundDonut",
-    "roundOrange",
+    "cake",
+    "circleGiftBox",
+    // "drum",
 
     // 🟦 square
-    "box",
-    "block",
-    "window",
-    "bread",
-    "frame",
-    "giftBox",
-    "tile",
-    "envelope",
-    "envelope2",
-    "chocolateBar",
-    "chocolateBar2",
-    "cheeseSlice",
-    "waffle",
     "book",
+    "window",
+    "calendar",
+    "microwave",
+    "pillow",
+    "calculator",
+    "tv",
+    "giftBox",
+    "squareClock",
+    "door",
+    "bookshelf",
+    "refrigerator",
+    "laptop",
+    "squareCakeSlice",
+    "sandwich",
 
-    //triangle
-    "triangleRiceBall",
-    "cakeSlice",
-    "roof",
-    "pizzaSlice",
-    "mountain",
+    // triangle
+    "triangleInstrument",
     "partyHat",
     "christmasTree",
-    "watermelonSlice",
-    "tent",
-    "iceCreamCone",
-    "sandwich",
-    "triangleFlag",
+    "flag",
+    "triangleCakeSlice",
 
-    //heart
+    "triangleSandwich",
+    "triangleKimbap",
+
+    "tent",
+    "mountain",
+    "sailboat",
+    "triangleCookie",
+    "triangleBox",
+
+    // heart
     "heartCookie",
     "heartBalloon",
-    "heartGlasses",
-    "heartChocolate",
-    "ring",
-    "heartBox",
+    "heartGiftBox",
     "heartLollipop",
-    "heartEnvelope",
-    "heartBadge",
+    "heartPillow",
+    "heartCake",
+    "heartButton",
+    "heartClock",
+    "heartSunglasses",
+    "heartGem",
 
-    //star
-    "starSticker",
-    "magicWand",
-    "starfish",
-    "starCandy",
-    "nightStar",
-    "medal",
-    "starCrown",
-    "shootingStar",
+    // star
     "starCookie",
     "starBalloon",
-    "sheriffBadge",
+    "starGiftBox",
+    "starWand",
+    "starPillow",
+    "starfish",
+    "starButton",
+    "starClock",
+    "starCake",
+    "starOrnament",
 
-    "basiccircle",
-    "basictriangle",
-    "basicsquare",
-    "basicheart",
-    "basicstar",
+    "basicCircle",
+    "basicTriangle",
+    "basicSquare",
+    "basicHeart",
+    "basicStar",
   ];
 
   return (
@@ -130,8 +209,12 @@ export default function ShapeStickerGalleryScreen() {
         <GridContainer>
           {shapeStickerKeys.map((key) => (
             <StickerCard key={key}>
-              <RenderShapeItemSvg itemId={key} colorHex={selectedColor} />
-
+              <RenderShapeItemSvg
+                itemId={key}
+                colorHex={
+                  selectedColor === "natural" ? undefined : selectedColor
+                }
+              />
               <StickerName>{key}</StickerName>
             </StickerCard>
           ))}
