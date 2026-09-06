@@ -103,6 +103,14 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "cookie", label: "쿠키", shapeId: "circle" },
   { id: "button", label: "단추", shapeId: "circle" },
   { id: "fullMoon", label: "보름달", shapeId: "circle" },
+  { id: "donut", label: "도넛", shapeId: "circle" },
+  { id: "roundDonut", label: "링 도넛", shapeId: "circle" },
+  { id: "orange", label: "오렌지", shapeId: "circle" },
+  { id: "roundOrange", label: "상큼 오렌지", shapeId: "circle" },
+  { id: "lollipop", label: "사탕", shapeId: "circle" },
+  { id: "sun", label: "해", shapeId: "circle" },
+  { id: "roundBalloon", label: "둥근 풍선", shapeId: "circle" },
+  { id: "roundLollipop", label: "동그란 막대사탕", shapeId: "circle" },
 
   // 🟦 네모
   { id: "box", label: "상자", shapeId: "square" },
@@ -112,6 +120,13 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "frame", label: "액자", shapeId: "square" },
   { id: "giftBox", label: "선물상자", shapeId: "square" },
   { id: "tile", label: "타일", shapeId: "square" },
+  { id: "envelope", label: "편지봉투", shapeId: "square" },
+  { id: "envelope2", label: "서류봉투", shapeId: "square" },
+  { id: "chocolateBar", label: "초콜릿", shapeId: "square" },
+  { id: "chocolateBar2", label: "네모 초콜릿", shapeId: "square" },
+  { id: "cheeseSlice", label: "치즈 조각", shapeId: "square" },
+  { id: "waffle", label: "와플", shapeId: "square" },
+  { id: "book", label: "책", shapeId: "square" },
 
   // 🔺 세모
   { id: "triangleRiceBall", label: "삼각김밥", shapeId: "triangle" },
@@ -120,12 +135,24 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "pizzaSlice", label: "피자 한 조각", shapeId: "triangle" },
   { id: "mountain", label: "산", shapeId: "triangle" },
   { id: "partyHat", label: "파티모자", shapeId: "triangle" },
+  { id: "christmasTree", label: "크리스마스 트리", shapeId: "triangle" },
+  { id: "christmasTree2", label: "반짝 트리", shapeId: "triangle" },
+  { id: "watermelonSlice", label: "수박 조각", shapeId: "triangle" },
+  { id: "tent", label: "텐트", shapeId: "triangle" },
+  { id: "iceCreamCone", label: "아이스크림 콘", shapeId: "triangle" },
+  { id: "sandwich", label: "샌드위치", shapeId: "triangle" },
+  { id: "triangleFlag", label: "삼각 깃발", shapeId: "triangle" },
 
   // ❤️ 하트
   { id: "heartCookie", label: "하트 쿠키", shapeId: "heart" },
   { id: "heartBalloon", label: "하트 풍선", shapeId: "heart" },
   { id: "heartGlasses", label: "하트 안경", shapeId: "heart" },
   { id: "heartChocolate", label: "하트 초콜릿", shapeId: "heart" },
+  { id: "ring", label: "반지", shapeId: "heart" },
+  { id: "heartBox", label: "하트 상자", shapeId: "heart" },
+  { id: "heartLollipop", label: "하트 사탕", shapeId: "heart" },
+  { id: "heartEnvelope", label: "하트 편지", shapeId: "heart" },
+  { id: "heartBadge", label: "하트 배지", shapeId: "heart" },
 
   // ⭐ 별
   { id: "starSticker", label: "별 스티커", shapeId: "star" },
@@ -133,6 +160,19 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "starfish", label: "불가사리", shapeId: "star" },
   { id: "starCandy", label: "별사탕", shapeId: "star" },
   { id: "nightStar", label: "밤하늘 별", shapeId: "star" },
+  { id: "medal", label: "메달", shapeId: "star" },
+  { id: "starCrown", label: "별 왕관", shapeId: "star" },
+  { id: "shootingStar", label: "유성", shapeId: "star" },
+  { id: "starCookie", label: "별 쿠키", shapeId: "star" },
+  { id: "starBalloon", label: "별 풍선", shapeId: "star" },
+  { id: "sheriffBadge", label: "보안관 배지", shapeId: "star" },
+
+  // 기본 도형들
+  { id: "basiccircle", label: "동그라미", shapeId: "circle" },
+  { id: "basictriangle", label: "세모", shapeId: "triangle" },
+  { id: "basicsquare", label: "네모", shapeId: "square" },
+  { id: "basicheart", label: "하트", shapeId: "heart" },
+  { id: "basicstar", label: "별", shapeId: "star" },
 ];
 export type ShapeId = "circle" | "square" | "triangle" | "heart" | "star";
 export const getShapeDefinition = (shapeId: ShapeId): ShapeDefinition => {
