@@ -173,11 +173,11 @@ export default function ShapeStickerGalleryScreen() {
     "starCake",
     "starOrnament",
 
-    "basicCircle",
-    "basicTriangle",
-    "basicSquare",
-    "basicHeart",
-    "basicStar",
+    "basiccircle",
+    "basictriangle",
+    "basicsquare",
+    "basicheart",
+    "basicstar",
   ];
 
   return (

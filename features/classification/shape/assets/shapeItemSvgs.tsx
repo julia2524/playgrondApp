@@ -1291,34 +1291,6 @@
 //   </Svg>
 // );
 
-// // ⛺ 텐트
-export const Tent = ({ colorHex = "#118AB2" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    <Polygon
-      points="50,18 85,80 15,80"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-      strokeLinejoin="round"
-    />
-    {/* 텐트 문 */}
-    <Path
-      d="M50 48 L65 80 L35 80 Z"
-      fill={WHITE}
-      stroke={OUTLINE}
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
-    {/* 깃발 */}
-    <Path
-      d="M50 18 L50 10 L62 14 L50 18 Z"
-      fill="#FFD166"
-      stroke={OUTLINE}
-      strokeWidth="2"
-    />
-  </Svg>
-);
-
 // // ============================================================
 // // 🟦 네모 추가 사물들
 // // ============================================================
@@ -2037,83 +2009,7 @@ export const Tent = ({ colorHex = "#118AB2" }: ItemSvgProps) => (
 //     />
 //   </Svg>
 // );
-export const HeartLollipop = ({ colorHex = "#F72585" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    <Line
-      x1="50"
-      y1="60"
-      x2="50"
-      y2="88"
-      stroke="#C9A66B"
-      strokeWidth="5"
-      strokeLinecap="round"
-    />
-    <Path
-      d="M50 62 C50 62 22 42 22 24 C22 13 30 8 38 8 C44 8 50 13 50 13 C50 13 56 8 62 8 C70 8 78 13 78 24 C78 42 50 62 50 62 Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-    <Path
-      d="M34 22 L40 28"
-      stroke={WHITE}
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      opacity={0.6}
-    />
-  </Svg>
-);
-export const HeartEnvelope = ({ colorHex = "#FFD6E8" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    <Rect
-      x="18"
-      y="28"
-      width="64"
-      height="46"
-      rx="6"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-    <Path
-      d="M18 30 L50 56 L82 30"
-      stroke={OUTLINE}
-      strokeWidth="3"
-      fill="none"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M50 44 C50 44 42 38 42 32 C42 28 45 26 48 26 C50 26 50 28 50 28 C50 28 50 26 52 26 C55 26 58 28 58 32 C58 38 50 44 50 44 Z"
-      fill="#F72585"
-      stroke={OUTLINE}
-      strokeWidth="2.5"
-    />
-  </Svg>
-);
-export const HeartBadge = ({ colorHex = "#FFD166" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    <Circle
-      cx="50"
-      cy="45"
-      r="28"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-    <Path
-      d="M50 60 C50 60 30 46 30 32 C30 24 36 20 42 20 C47 20 50 24 50 24 C50 24 53 20 58 20 C64 20 70 24 70 32 C70 46 50 60 50 60 Z"
-      fill={WHITE}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-    <Polygon
-      points="40,68 60,68 55,88 45,88"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="3"
-    />
-  </Svg>
-);
+
 // export const ShootingStar = ({ colorHex = "#4CC9F0" }: ItemSvgProps) => (
 //   <Svg width="95" height="95" viewBox="0 0 100 100">
 //     <Path
@@ -2147,33 +2043,7 @@ export const HeartBadge = ({ colorHex = "#FFD166" }: ItemSvgProps) => (
 //     <Circle cx="55" cy="62" r="3" fill="#7B341E" />
 //   </Svg>
 // );
-export const StarBalloon = ({ colorHex = "#9B5DE5" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    <Line
-      x1="50"
-      y1="70"
-      x2="50"
-      y2="88"
-      stroke={OUTLINE}
-      strokeWidth="2"
-      opacity={0.7}
-    />
-    <Path
-      d="M50 10 L60 34 L86 36 L66 53 L72 78 L50 65 L28 78 L34 53 L14 36 L40 34 Z"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M38 28 L44 34"
-      stroke={WHITE}
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      opacity={0.6}
-    />
-  </Svg>
-);
+
 // export const SheriffBadge = ({ colorHex = "#FFD166" }: ItemSvgProps) => (
 //   <Svg width="95" height="95" viewBox="0 0 100 100">
 //     <Circle
@@ -2359,7 +2229,14 @@ import Svg, {
 interface ItemSvgProps {
   colorHex?: string;
 }
-
+const COLOR_HEX_MAP: Record<string, string> = {
+  red: "#F44336",
+  blue: "#42A5F5",
+  yellow: "#FFD166",
+  green: "#66BB6A",
+  black: "#333333",
+  white: "#FFFFFF",
+};
 const OUTLINE = "#5B4B4B";
 const WHITE = "#FFFFFF";
 const DARK = "#3D3333";
@@ -3348,6 +3225,33 @@ export const Sandwich = ({ colorHex = "#F4C27A" }: ItemSvgProps) => (
   </Svg>
 );
 // ------------------------------------------------------------
+// // ⛺ 텐트
+export const Tent = ({ colorHex = "#118AB2" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    <Polygon
+      points="50,18 85,80 15,80"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    {/* 텐트 문 */}
+    <Path
+      d="M50 48 L65 80 L35 80 Z"
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+      strokeLinejoin="round"
+    />
+    {/* 깃발 */}
+    <Path
+      d="M50 18 L50 10 L62 14 L50 18 Z"
+      fill="#FFD166"
+      stroke={OUTLINE}
+      strokeWidth="2"
+    />
+  </Svg>
+);
 
 // export const TriangleKimbap = ({ colorHex = "#22272B" }: ItemSvgProps) => (
 //   <Svg width="95" height="95" viewBox="0 0 100 100">
@@ -3658,6 +3562,83 @@ export const HeartBalloon = ({ colorHex = "#FF4F6D" }: ItemSvgProps) => (
 
 // ------------------------------------------------------------
 
+export const HeartLollipop = ({ colorHex = "#F72585" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    <Line
+      x1="50"
+      y1="60"
+      x2="50"
+      y2="88"
+      stroke="#C9A66B"
+      strokeWidth="5"
+      strokeLinecap="round"
+    />
+    <Path
+      d="M50 62 C50 62 22 42 22 24 C22 13 30 8 38 8 C44 8 50 13 50 13 C50 13 56 8 62 8 C70 8 78 13 78 24 C78 42 50 62 50 62 Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Path
+      d="M34 22 L40 28"
+      stroke={WHITE}
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      opacity={0.6}
+    />
+  </Svg>
+);
+export const HeartEnvelope = ({ colorHex = "#FFD6E8" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    <Rect
+      x="18"
+      y="28"
+      width="64"
+      height="46"
+      rx="6"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Path
+      d="M18 30 L50 56 L82 30"
+      stroke={OUTLINE}
+      strokeWidth="3"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M50 44 C50 44 42 38 42 32 C42 28 45 26 48 26 C50 26 50 28 50 28 C50 28 50 26 52 26 C55 26 58 28 58 32 C58 38 50 44 50 44 Z"
+      fill="#F72585"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
+    />
+  </Svg>
+);
+export const HeartBadge = ({ colorHex = "#FFD166" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    <Circle
+      cx="50"
+      cy="45"
+      r="28"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
+    <Path
+      d="M50 60 C50 60 30 46 30 32 C30 24 36 20 42 20 C47 20 50 24 50 24 C50 24 53 20 58 20 C64 20 70 24 70 32 C70 46 50 60 50 60 Z"
+      fill={WHITE}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+    <Polygon
+      points="40,68 60,68 55,88 45,88"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="3"
+    />
+  </Svg>
+);
 // export const HeartGiftBox = ({ colorHex = "#FF5E7E" }: ItemSvgProps) => (
 //   <Svg width="95" height="95" viewBox="0 0 100 100">
 //     <Path
@@ -4219,6 +4200,34 @@ export const StarWand = ({ colorHex = "#FFD43B" }: ItemSvgProps) => (
     <Circle cx="83" cy="20" r="3" fill="#FFD166" />
     <Circle cx="87" cy="38" r="3" fill="#FFD166" />
     <Circle cx="71" cy="14" r="3" fill="#FFD166" />
+  </Svg>
+);
+
+export const StarBalloon = ({ colorHex = "#9B5DE5" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    <Line
+      x1="50"
+      y1="70"
+      x2="50"
+      y2="88"
+      stroke={OUTLINE}
+      strokeWidth="2"
+      opacity={0.7}
+    />
+    <Path
+      d="M50 10 L60 34 L86 36 L66 53 L72 78 L50 65 L28 78 L34 53 L14 36 L40 34 Z"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M38 28 L44 34"
+      stroke={WHITE}
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      opacity={0.6}
+    />
   </Svg>
 );
 
@@ -6169,17 +6178,24 @@ export const BasicStar = ({ colorHex = DEFAULT_COLOR }: ItemSvgProps) => (
 // ============================================================
 
 export const BASIC_SHAPE_SVGS = {
-  basicCircle: BasicCircle,
-  basicSquare: BasicSquare,
-  basicTriangle: BasicTriangle,
-  basicHeart: BasicHeart,
-  basicStar: BasicStar,
+  basiccircle: BasicCircle,
+  basicsquare: BasicSquare,
+  basictriangle: BasicTriangle,
+  basicheart: BasicHeart,
+  basicstar: BasicStar,
 } as const;
 
 // ============================================================
 // RENDER BASIC SHAPE
 // ============================================================
 
+const resolveColor = (colorHex?: string) => {
+  if (!colorHex) {
+    return undefined;
+  }
+
+  return COLOR_HEX_MAP[colorHex] ?? colorHex;
+};
 export const RenderBasicShapeSvg = ({
   shapeId,
   colorHex,
@@ -6193,8 +6209,9 @@ export const RenderBasicShapeSvg = ({
   if (!ShapeComponent) {
     return null;
   }
+  const resolvedColor = resolveColor(colorHex);
 
-  return <ShapeComponent colorHex={colorHex} />;
+  return <ShapeComponent colorHex={resolvedColor} />;
 };
 
 // ============================================================
@@ -6240,6 +6257,7 @@ export const RenderShapeItemSvg = ({
       </Svg>
     );
   }
+  const resolvedColor = resolveColor(colorHex);
 
-  return <ItemComponent colorHex={colorHex} />;
+  return <ItemComponent colorHex={resolvedColor} />;
 };

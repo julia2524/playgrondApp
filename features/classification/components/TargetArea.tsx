@@ -2,7 +2,11 @@ import { View } from "react-native";
 
 import TargetSlotItem from "./TargetSlotItem";
 
-import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
+import {
+  COLORS,
+  PASTEL_BG,
+  SOFT_COLORS,
+} from "../../../design-system/tokens/colors";
 
 import {
   TargetBox,
@@ -146,8 +150,9 @@ export default function TargetArea({
             const isEmptySlot = isMissingItem && !isMatched;
 
             // 슬롯별 색상
-            const slotColor =
-              target.slotColors?.[idx] ?? target.color ?? "blue";
+            // const slotColor =
+            //   target.slotColors?.[idx] ?? target.color ?? "blue";
+            const slotColor = target.slotColors?.[idx] ?? target.color;
 
             // ★ 슬롯별 kind (정답 칸은 object 우선)
             const slotKind = target.slotKinds?.[idx] ?? target.kind;
@@ -158,14 +163,26 @@ export default function TargetArea({
             const kind =
               isMissingItem && correctObject ? correctObject.kind : slotKind;
 
+            // natural은 background만 brown으로
             const backgroundColor = isEmptySlot
               ? "transparent"
-              : (SOFT_COLORS[slotColor] ?? "#E2E8F0");
+              : slotColor
+                ? (SOFT_COLORS[slotColor] ?? "#E2E8F0")
+                : PASTEL_BG.neutral; // natural background
 
-            const svgColor =
-              isEmptySlot && correctObject?.color
-                ? (COLORS[correctObject.color] ?? "#FFFFFF")
-                : (COLORS[slotColor] ?? "#FFFFFF");
+            // ⭐ SVG에는 natural이면 undefined 그대로 전달
+            const svgColor = slotColor
+              ? (COLORS[slotColor] ?? "#FFFFFF")
+              : undefined;
+
+            // const backgroundColor = isEmptySlot
+            //   ? "transparent"
+            //   : (SOFT_COLORS[slotColor] ?? "#E2E8F0");
+
+            // const svgColor =
+            //   isEmptySlot && correctObject?.color
+            //     ? (COLORS[correctObject.color] ?? "#FFFFFF")
+            //     : (COLORS[slotColor] ?? "#FFFFFF");
 
             return (
               <TargetSlotItem

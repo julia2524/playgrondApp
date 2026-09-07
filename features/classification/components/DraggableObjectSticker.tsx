@@ -10,7 +10,11 @@ import {
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
 } from "../../classification/assets/dragConstants";
-import { COLORS, SOFT_COLORS } from "../../../design-system/tokens/colors";
+import {
+  COLORS,
+  PASTEL_BG,
+  SOFT_COLORS,
+} from "../../../design-system/tokens/colors";
 
 import {
   playLastSuccessNote,
@@ -316,12 +320,20 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   // Render
   // --------------------------------------------------
-  const colorHex = COLORS[obj.color ?? "blue"] ?? "#FFFFFF";
-  const softColor = obj.color ? SOFT_COLORS[obj.color] : undefined;
+  // const colorHex = COLORS[obj.color ?? "blue"] ?? "#FFFFFF";
+  // const softColor = obj.color ? SOFT_COLORS[obj.color] : undefined;
+  const colorHex = obj.color ? (COLORS[obj.color] ?? "#FFFFFF") : undefined;
+
+  const softColor = obj.color ? SOFT_COLORS[obj.color] : PASTEL_BG.neutral;
 
   const renderSvg = () => {
     if (obj.kind === "color") {
-      return <RenderColorItemSvg shapeId={obj.renderId} colorHex={colorHex} />;
+      return (
+        <RenderColorItemSvg
+          shapeId={obj.renderId}
+          colorHex={colorHex ?? "#FFFFFF"}
+        />
+      );
     }
     if (obj.kind === "item") {
       return <RenderShapeItemSvg itemId={obj.renderId} colorHex={colorHex} />;

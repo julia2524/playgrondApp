@@ -14,7 +14,7 @@ interface TargetSlotItemProps {
   backgroundColor: string;
   renderId: string;
   kind: DisplayItemKind;
-  svgColor: string;
+  svgColor: string | undefined;
   missingItemRef?: React.RefObject<any>;
 }
 
@@ -53,7 +53,12 @@ export default function TargetSlotItem({
   const renderSvg = () => {
     // 1. 색깔 분류 게임
     if (kind === "color") {
-      return <RenderColorItemSvg shapeId={renderId} colorHex={svgColor} />;
+      return (
+        <RenderColorItemSvg
+          shapeId={renderId}
+          colorHex={svgColor ?? "#FFFFFF"}
+        />
+      );
     }
 
     // 2. 모양 분류 - 아이템 (ball, cookie, pizzaSlice 등)
