@@ -17,11 +17,7 @@ import MapTrail from "./components/MapTrail";
 
 import StageNode from "./components/StageNode";
 
-import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
-
 import AppHeader from "../../components/common/AppHeader";
-
-import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { STAGE_CONFIGS } from "./stageConfigs";
 
@@ -36,6 +32,10 @@ import { useProgress } from "../classification/progress/useProgress";
 
 import { colorLevels } from "../classification/color/constants/levels";
 import { shapeLevels } from "../classification/shape/constants/levels";
+import SettingScreen from "../setting/SettingScreen";
+import SettingButton from "../../components/common/SettingButton";
+import GradientBackground from "../../design-system/backgrounds/GradientBackground";
+import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -188,15 +188,18 @@ export default function StageMapScreen() {
   return (
     <Container>
       <GradientBackground />
-
       <DecorativeBackground />
-
       <AppHeader
         onBack={() => navigation.goBack()}
         center={
           <StageMapHeaderCenter>
             <StageMapTitle>{headerTitle}</StageMapTitle>
           </StageMapHeaderCenter>
+        }
+        right={
+          <SettingButton
+            onPress={() => navigation.navigate("SettingScreen" as never)}
+          />
         }
       />
 

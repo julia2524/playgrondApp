@@ -4,6 +4,7 @@ import ClassificationPlayScreen from "../features/classification/ClassificationP
 import StageMapScreen from "../features/StageMap/StageMapScreen";
 import StickerGalleryScreen from "../features/classification/StickerGalleryScreen";
 import ShapeStickerGalleryScreen from "../features/classification/ShapeStickerGalleryScreen";
+import SettingScreen from "../features/setting/SettingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,13 @@ export default function AppNavigator() {
       <Stack.Screen
         name="ClassificationPlayScreen"
         component={ClassificationPlayScreen}
+        options={{
+          animation: "fade",
+        }}
+      />
+      <Stack.Screen
+        name="SettingScreen"
+        component={SettingScreen}
         options={{
           animation: "fade",
         }}

@@ -7,4 +7,5 @@ export type RootStackParamList = {
   ClassificationPlayScreen: { gameType: "color" | "shape"; level: number };
   StickerGalleryScreen: undefined;
   ShapeStickerGalleryScreen: undefined;
+  SettingScreen: undefined;
 };

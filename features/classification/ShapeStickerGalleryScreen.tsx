@@ -29,31 +29,47 @@ export default function ShapeStickerGalleryScreen() {
     "watermelon",
     "cookie",
     "donut",
-    "button",
+    "donut1",
+    "button1",
+    "button2",
     "circleClock",
     "wheel",
     "lollipop",
     "cake",
-    "circleGiftBox",
+
     "sunglasses",
     "basketball",
     "baseball",
     "tennisBall",
+    "plate",
+    "fullMoon",
+    "orange",
+    "roundBalloon",
+    "sun",
 
     // "drum",
 
     // 🟦 square
+    "envelop",
+    "cheese",
+    "chocolateBar",
+
+    "box",
     "phone",
     "switch",
     "remoteControl",
+    "frame",
     "book",
+    "bread",
     "window",
+    "window1",
     "calendar",
     "microwave",
     "pillow",
     "calculator",
     "tv",
     "giftBox",
+    "giftBox1",
     "squareClock",
     "door",
     "bookshelf",
@@ -64,6 +80,7 @@ export default function ShapeStickerGalleryScreen() {
     "squareSunglasses",
 
     // triangle
+    "triangleRuller",
     "pizzaSlice",
     "watermelonSlice",
     "triangleInstrument",
@@ -79,12 +96,10 @@ export default function ShapeStickerGalleryScreen() {
     "mountain",
     "sailboat",
     "triangleCookie",
-    "triangleBox",
 
     // heart
     "heartCookie",
-    "heartBalloon",
-    "heartGiftBox",
+
     "heartLollipop",
     "heartPillow",
     "heartCake",
@@ -97,7 +112,8 @@ export default function ShapeStickerGalleryScreen() {
     // star
     "starCookie",
     "starBalloon",
-    "starGiftBox",
+    "starBalloon1",
+
     "starWand",
     "starPillow",
     "starfish",
@@ -107,6 +123,7 @@ export default function ShapeStickerGalleryScreen() {
     "starOrnament",
     "starSunglasses",
     "starNecklace",
+    "medal",
   ];
 
   return (

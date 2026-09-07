@@ -15,7 +15,6 @@ import {
   GuideText,
   GuideTextContainer,
   Header,
-  SettingButton,
   SettingButtonText,
   SubTitle,
   Title,
@@ -26,6 +25,7 @@ import { shapeLevels } from "../classification/shape/constants/levels";
 import { createShapeRound } from "../classification/shape/shapeGenerators";
 import { clearGameProgress } from "../classification/progress/progressStorage";
 import ResetProgressButton from "../../components/common/ResetProgressButton";
+import SettingButton from "../../components/common/SettingButton";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -135,15 +135,6 @@ export default function HomeScreen() {
     console.log(`총 실패 횟수: ${failCount}`);
   };
 
-  // 색상(Color) 게임 초기화 함수
-  const handleResetColor = async () => {
-    await clearGameProgress("color"); // @classification_game_progress_color 삭제됨
-  };
-
-  // 모양(Shape) 게임 초기화 함수
-  const handleResetShape = async () => {
-    await clearGameProgress("shape"); // @classification_game_progress_shape 삭제됨
-  };
   return (
     <ImageBackground
       source={ASSETS.homeBackground}
@@ -158,11 +149,10 @@ export default function HomeScreen() {
             <Title>어떤 놀이를 해볼까?</Title>
           </TitleContainer>
           <SettingButton
-            onPress={() => showAlert("설정", "설정 화면은 준비 중이에요!")}
-            activeOpacity={0.8}
-          >
-            {/* <SettingButtonText>⚙️</SettingButtonText> */}
-            <TouchableOpacity
+            onPress={() => navigation.navigate("SettingScreen" as never)}
+          />
+          {/*  
+          <TouchableOpacity
               onPress={() =>
                 navigation.navigate("ShapeStickerGalleryScreen" as never)
               }
@@ -171,9 +161,9 @@ export default function HomeScreen() {
                 style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
               >
                 스티커보기
-              </Text>
+              </Text> 
             </TouchableOpacity>
-          </SettingButton>
+*/}
         </Header>
 
         {/* 안내 문구 */}
@@ -219,14 +209,6 @@ export default function HomeScreen() {
               desc="준비 중이에요"
               disabled={true}
               onPress={() => handleLockedGame("크기 분류")}
-            />
-            <ResetProgressButton
-              gameType="shape"
-              onResetComplete={handleResetShape}
-            />
-            <ResetProgressButton
-              gameType="color"
-              onResetComplete={handleResetColor}
             />
           </GameGrid>
         </GameGridWrapper>

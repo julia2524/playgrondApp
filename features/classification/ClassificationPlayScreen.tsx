@@ -493,12 +493,7 @@ export default function ClassificationPlayScreen() {
       {/* ==========================================
           Header
       ========================================== */}
-      <GameHeader
-        gameType={gameType}
-        // levelConfig={levelConfig}
-        // roundIndex={roundIndex}
-        earnedStars={earnedStars}
-      />
+      <GameHeader gameType={gameType} earnedStars={earnedStars} />
 
       {/* ==========================================
           Mission

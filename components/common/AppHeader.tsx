@@ -31,6 +31,7 @@ const Header = styled.View`
   align-items: center;
   justify-content: center;
   padding-horizontal: 16px;
+  align-items: center;
   background-color: transparent;
   z-index: 10;
   padding-top: 20px;
@@ -63,8 +64,8 @@ const Center = styled.View`
 
 const Right = styled.View`
   position: absolute;
-  right: 16px;
-  top: 0px;
+  right: 5px;
+  top: 8.3px;
   width: 72px;
   height: 76px;
   align-items: center;

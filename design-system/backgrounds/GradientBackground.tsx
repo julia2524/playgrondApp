@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 import Svg, { Defs, LinearGradient, Stop, Rect } from "react-native-svg";
 
-export default function DecorativeBackground() {
+export default function GradientBackground() {
   return (
     <Svg height="120%" width="100%" style={StyleSheet.absoluteFill}>
       <Defs>

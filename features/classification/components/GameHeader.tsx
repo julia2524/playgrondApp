@@ -17,6 +17,7 @@ import {
 } from "../styles/classificationStyles";
 import SunBadge from "../../../design-system/ui/SunBadge";
 import GameRewardBadge from "./GameRewardBadge";
+import SettingButton from "../../../components/common/SettingButton";
 
 interface GameHeaderProps {
   gameType: "color" | "shape"; // 🌟 추가
@@ -56,6 +57,11 @@ export default function GameHeader({
           <GameHeaderCenter>
             <TitleText>{headerTitle}</TitleText>
           </GameHeaderCenter>
+        }
+        right={
+          <SettingButton
+            onPress={() => navigation.navigate("SettingScreen" as never)}
+          />
         }
       />
 
