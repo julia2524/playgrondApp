@@ -40,6 +40,7 @@ export const BABY_SHAPES: ShapeDefinition[] = [
       "lollipop",
       "cake",
       "circleGiftBox",
+      "sunglasses",
       // "drum",
     ],
   },
@@ -61,6 +62,7 @@ export const BABY_SHAPES: ShapeDefinition[] = [
       "refrigerator",
       "laptop",
       "squareCakeSlice",
+      "squareSunglasses",
     ],
   },
   {
@@ -134,7 +136,10 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "lollipop", label: "막대사탕", shapeId: "circle" },
   { id: "cake", label: "케이크", shapeId: "circle" },
   { id: "circleGiftBox", label: "동그란 선물상자", shapeId: "circle" },
-  // { id: "drum", label: "북", shapeId: "circle" },
+  { id: "sunglasses", label: "선글라스", shapeId: "circle" },
+  { id: "basketball", label: "농구공", shapeId: "circle" },
+  { id: "baseball", label: "야구공", shapeId: "circle" },
+  { id: "tennisBall", label: "테니스공", shapeId: "circle" },
 
   // ==================================================
   // SQUARE
@@ -154,6 +159,10 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "calculator", label: "계산기", shapeId: "square" },
   { id: "squareCakeSlice", label: "조각케이크", shapeId: "square" },
   { id: "sandwich", label: "샌드위치", shapeId: "square" },
+  { id: "squareSunglasses", label: "사각 선글라스", shapeId: "square" },
+  { id: "phone", label: "휴대폰", shapeId: "square" },
+  { id: "remoteControl", label: "리모콘", shapeId: "square" },
+  { id: "switch", label: "스위치", shapeId: "square" },
 
   // ==================================================
   // TRIANGLE
@@ -164,13 +173,15 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "flag", label: "삼각 깃발", shapeId: "triangle" },
   { id: "triangleSandwich", label: "샌드위치", shapeId: "triangle" },
   { id: "triangleKimbap", label: "삼각김밥", shapeId: "triangle" },
-  { id: "triangleCakeSlice", label: "삼각김밥", shapeId: "triangle" },
-
+  // { id: "triangleCakeSlice", label: "조각케익", shapeId: "triangle" },
+  { id: "pyramid", label: "피라미드", shapeId: "triangle" },
   { id: "tent", label: "텐트", shapeId: "triangle" },
   { id: "mountain", label: "산", shapeId: "triangle" },
   { id: "sailboat", label: "범선", shapeId: "triangle" },
   { id: "triangleCookie", label: "세모 쿠키", shapeId: "triangle" },
   { id: "triangleBox", label: "세모 상자", shapeId: "triangle" },
+  { id: "watermelonSlice", label: "수박 조각", shapeId: "triangle" },
+  { id: "pizzaSlice", label: "피자 조각", shapeId: "triangle" },
 
   // ==================================================
   // HEART
@@ -186,6 +197,8 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "heartSunglasses", label: "하트 선글라스", shapeId: "heart" },
   { id: "heartGem", label: "하트 보석", shapeId: "heart" },
 
+  { id: "heartNecklace", label: "하트 목걸이", shapeId: "heart" },
+
   // ==================================================
   // STAR
   // ==================================================
@@ -199,6 +212,8 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   { id: "starClock", label: "별 시계", shapeId: "star" },
   { id: "starCake", label: "별 케이크", shapeId: "star" },
   { id: "starOrnament", label: "별 장식", shapeId: "star" },
+  { id: "starSunglasses", label: "별 선글라스", shapeId: "star" },
+  { id: "starNecklace", label: "별 목걸이", shapeId: "start" },
 ];
 
 export type ShapeId = "circle" | "square" | "triangle" | "heart" | "star";

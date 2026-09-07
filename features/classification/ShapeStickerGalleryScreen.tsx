@@ -22,85 +22,6 @@ export default function ShapeStickerGalleryScreen() {
     "#FFF",
   ];
 
-  // 현재 shapeItemSvgs.tsx에 등록되어 있는 SVG
-  // const shapeStickerKeys = [
-  //   // 🔵 circle
-  //   "ball",
-  //   "wheel",
-  //   "clock",
-  //   "plate",
-  //   "cookie",
-  //   "button",
-  //   "fullMoon",
-  //   "donut",
-  //   "orange",
-  //   "lollipop",
-  //   "sun",
-  //   "roundBalloon",
-  //   "roundLollipop",
-  //   "roundDonut",
-  //   "roundOrange",
-
-  //   // 🟦 square
-  //   "box",
-  //   "block",
-  //   "window",
-  //   "bread",
-  //   "frame",
-  //   "giftBox",
-  //   "tile",
-  //   "envelope",
-  //   "envelope2",
-  //   "chocolateBar",
-  //   "chocolateBar2",
-  //   "cheeseSlice",
-  //   "waffle",
-  //   "book",
-
-  //   //triangle
-  //   "triangleRiceBall",
-  //   "cakeSlice",
-  //   "roof",
-  //   "pizzaSlice",
-  //   "mountain",
-  //   "partyHat",
-  //   "christmasTree",
-  //   "watermelonSlice",
-  //   "tent",
-  //   "iceCreamCone",
-  //   "sandwich",
-  //   "triangleFlag",
-
-  //   //heart
-  //   "heartCookie",
-  //   "heartBalloon",
-  //   "heartGlasses",
-  //   "heartChocolate",
-  //   "ring",
-  //   "heartBox",
-  //   "heartLollipop",
-  //   "heartEnvelope",
-  //   "heartBadge",
-
-  //   //star
-  //   "starSticker",
-  //   "magicWand",
-  //   "starfish",
-  //   "starCandy",
-  //   "nightStar",
-  //   "medal",
-  //   "starCrown",
-  //   "shootingStar",
-  //   "starCookie",
-  //   "starBalloon",
-  //   "sheriffBadge",
-
-  //   "basiccircle",
-  //   "basictriangle",
-  //   "basicsquare",
-  //   "basicheart",
-  //   "basicstar",
-  // ];
   const shapeStickerKeys = [
     // 🔵 circle
     "ball",
@@ -114,9 +35,17 @@ export default function ShapeStickerGalleryScreen() {
     "lollipop",
     "cake",
     "circleGiftBox",
+    "sunglasses",
+    "basketball",
+    "baseball",
+    "tennisBall",
+
     // "drum",
 
     // 🟦 square
+    "phone",
+    "switch",
+    "remoteControl",
     "book",
     "window",
     "calendar",
@@ -132,14 +61,17 @@ export default function ShapeStickerGalleryScreen() {
     "laptop",
     "squareCakeSlice",
     "sandwich",
+    "squareSunglasses",
 
     // triangle
+    "pizzaSlice",
+    "watermelonSlice",
     "triangleInstrument",
     "partyHat",
     "christmasTree",
     "flag",
-    "triangleCakeSlice",
-
+    // "triangleCakeSlice",
+    "pyramid",
     "triangleSandwich",
     "triangleKimbap",
 
@@ -160,6 +92,7 @@ export default function ShapeStickerGalleryScreen() {
     "heartClock",
     "heartSunglasses",
     "heartGem",
+    "heartNecklace",
 
     // star
     "starCookie",
@@ -172,12 +105,8 @@ export default function ShapeStickerGalleryScreen() {
     "starClock",
     "starCake",
     "starOrnament",
-
-    "basiccircle",
-    "basictriangle",
-    "basicsquare",
-    "basicheart",
-    "basicstar",
+    "starSunglasses",
+    "starNecklace",
   ];
 
   return (
@@ -190,7 +119,7 @@ export default function ShapeStickerGalleryScreen() {
       <ScrollView
         contentContainerStyle={{
           padding: 20,
-          paddingBottom: 60,
+          paddingBottom: 300,
         }}
       >
         <ColorPickerBar>
