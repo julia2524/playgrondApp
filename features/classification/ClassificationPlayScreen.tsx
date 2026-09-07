@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
 
@@ -13,7 +18,12 @@ import { generateRounds } from "./createRounds";
 import { Container, GameBoard } from "./styles/classificationStyles";
 import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
 import { completeLevel, createInitialProgress } from "./progress/gameProgress";
-import { preloadSounds, resetLastSuccessNote } from "../../utils/sound";
+import {
+  playSound,
+  playStreakNote,
+  preloadSounds,
+  resetLastSuccessNote,
+} from "../../utils/sound";
 import GameHeader from "./components/GameHeader";
 import MissionBubbleArea from "./components/MissionBubbleArea";
 import TargetArea from "./components/TargetArea";
@@ -29,6 +39,7 @@ import {
   toMissingItem,
 } from "./adapters/toDisplayModal";
 import { DisplayObject } from "./type/displayTypes";
+import { getSoundEnabled } from "../audio/audioSettingsStorage";
 
 // ==================================================
 // Navigation 타입
@@ -54,10 +65,32 @@ export default function ClassificationPlayScreen() {
 
   const navigation = useNavigation<PlayScreenNavigationProp>();
 
+  const [soundEffect, setSoundEffect] = useState(true);
+  const [soundSettingLoaded, setSoundSettingLoaded] = useState(false);
   useEffect(() => {
     preloadSounds(); // 한 번만 호출
   }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      let isMounted = true;
 
+      const loadSoundSetting = async () => {
+        const enabled = await getSoundEnabled();
+
+        if (!isMounted) return;
+
+        setSoundEffect(enabled);
+        setSoundSettingLoaded(true);
+      };
+
+      setSoundSettingLoaded(false);
+      loadSoundSetting();
+
+      return () => {
+        isMounted = false;
+      };
+    }, []),
+  );
   const { gameType = "color", level } = route.params;
 
   // ==================================================
@@ -535,6 +568,8 @@ export default function ClassificationPlayScreen() {
 
         {/* Objects */}
         <ObjectArea
+          soundSettingLoaded={soundSettingLoaded}
+          soundEffect={soundEffect}
           objects={displayObjects}
           gameBoardLayout={gameBoardLayout}
           activeStickerId={activeStickerId}

@@ -53,11 +53,12 @@ export const Section = styled.View`
 `;
 
 export const SectionTitle = styled.Text`
-  margin-bottom: 12px;
-
+  margin-bottom: 8px;
+  padding-left: 20px;
   font-family: ${(props) => props.theme.fontFamily};
 
-  font-size: 19px;
+  font-size: ${(props) => props.theme.typography.subheading}px;
+
   font-weight: 700;
 
   color: ${BASIC_COLORS.TEXT_MAIN};
@@ -102,7 +103,7 @@ export const SettingIcon = styled.Text`
 
   margin-right: 10px;
 
-  font-size: 25px;
+  font-size: ${(props) => props.theme.typography.heading}px;
 
   text-align: center;
 `;
@@ -113,8 +114,7 @@ export const SettingTextWrapper = styled.View`
 
 export const SettingTitle = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
-
-  font-size: 16px;
+  font-size: ${(props) => props.theme.typography.body}px;
   font-weight: 700;
 
   color: ${BASIC_COLORS.TEXT_MAIN};
@@ -125,7 +125,7 @@ export const SettingDescription = styled.Text`
 
   font-family: ${(props) => props.theme.fontFamily};
 
-  font-size: 12px;
+  font-size: ${(props) => props.theme.typography.small}px;
 
   color: #8b7b7b;
 `;

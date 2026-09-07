@@ -71,7 +71,7 @@ const GameInfo = styled.View`
 
 const GameTitle = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 16px;
+  font-size: ${(props) => props.theme.typography.body}px;
   font-weight: 700;
   color: #5b4b4b;
 `;
@@ -80,7 +80,7 @@ const GameDescription = styled.Text`
   margin-top: 4px;
 
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 12px;
+  font-size: ${(props) => props.theme.typography.small}px;
   color: #9a8b84;
 `;
 

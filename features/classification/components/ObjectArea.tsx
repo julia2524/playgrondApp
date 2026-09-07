@@ -42,6 +42,8 @@ interface ObjectAreaProps {
   // ⭐ 현재 라운드의 정답 Object ID
   correctObjectId?: string;
   correctStreakCount: number;
+  soundEffect: boolean;
+  soundSettingLoaded: boolean;
 }
 
 export default function ObjectArea({
@@ -57,6 +59,8 @@ export default function ObjectArea({
   registerFirstStickerRef,
   correctObjectId,
   correctStreakCount,
+  soundEffect,
+  soundSettingLoaded,
 }: ObjectAreaProps) {
   return (
     <ObjectSection>
@@ -65,6 +69,8 @@ export default function ObjectArea({
       <ObjectsContainer>
         {objects.map((obj) => (
           <DraggableObjectSticker
+            soundSettingLoaded={soundSettingLoaded}
+            soundEffect={soundEffect}
             key={`${roundIndex}-${obj.id}`}
             obj={obj}
             color={obj.color ? COLORS[obj.color] : "#ccc"}

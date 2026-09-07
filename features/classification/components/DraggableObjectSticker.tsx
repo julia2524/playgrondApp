@@ -49,6 +49,8 @@ export function DraggableObjectSticker({
   onOutside,
   registerRef,
   correctStreakCount,
+  soundEffect,
+  soundSettingLoaded,
 }: {
   obj: DisplayObject;
   color: string;
@@ -69,6 +71,8 @@ export function DraggableObjectSticker({
   ) => void;
   registerRef?: (el: View | null) => void;
   correctStreakCount: number;
+  soundEffect: boolean;
+  soundSettingLoaded: boolean;
 }) {
   const stickerRef = useRef<View>(null);
   const isInteractingRef = useRef(false);
@@ -91,6 +95,16 @@ export function DraggableObjectSticker({
   const startPosition = useRef({ x: 0, y: 0 });
   const startScreenPosition = useRef({ x: 0, y: 0 });
   const isScreenPositionReadyRef = useRef(false);
+
+  // 1. ref 선언
+  const soundEffectRef = useRef(soundEffect);
+  const soundSettingLoadedRef = useRef(soundSettingLoaded);
+
+  // 2. props가 바뀔 때마다 ref 갱신
+  useEffect(() => {
+    soundEffectRef.current = soundEffect;
+    soundSettingLoadedRef.current = soundSettingLoaded;
+  }, [soundEffect, soundSettingLoaded]);
 
   // --------------------------------------------------
   // Correct Animation
@@ -165,8 +179,9 @@ export function DraggableObjectSticker({
         // ⭐ 방어 코드 (Should*에서 이미 막지만 이중 안전장치)
         if (isInteractingRef.current || hasAnsweredRef.current) return;
         isInteractingRef.current = true;
-
-        playSound("grab");
+        if (soundSettingLoadedRef.current && soundEffectRef.current) {
+          playSound("grab");
+        }
         triggerHaptic("light");
         onGrab(obj.id);
 
@@ -256,7 +271,10 @@ export function DraggableObjectSticker({
             hasAnsweredRef.current = true; // ⭐ 영구 잠금 시작
 
             if (result === "correct") {
-              playStreakNote(correctStreakCount);
+              if (soundSettingLoadedRef.current && soundEffectRef.current) {
+                playStreakNote(correctStreakCount);
+              }
+
               triggerHaptic("success");
 
               setTimeout(() => {
@@ -269,7 +287,9 @@ export function DraggableObjectSticker({
             }
 
             if (result === "wrong") {
-              playSound("wrong_sound");
+              if (soundSettingLoadedRef.current && soundEffectRef.current) {
+                playSound("wrong_sound");
+              }
               triggerHaptic("error");
 
               setTimeout(() => {
@@ -281,7 +301,9 @@ export function DraggableObjectSticker({
             }
 
             if (result === "outside") {
-              playSound("wrong_sound");
+              if (soundSettingLoadedRef.current && soundEffectRef.current) {
+                playSound("wrong_sound");
+              }
               triggerHaptic("light");
 
               setTimeout(() => {

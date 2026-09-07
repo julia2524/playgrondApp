@@ -13,7 +13,7 @@ import DecorativeBackground from "../../design-system/backgrounds/DecorativeBack
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { clearGameProgress } from "../classification/progress/progressStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Content,
@@ -32,6 +32,10 @@ import {
   Title,
 } from "./SettingScreenStyles";
 import CustomAlert from "../../components/common/CustomAlert";
+import {
+  getSoundEnabled,
+  setSoundEnabled,
+} from "../audio/audioSettingsStorage";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -113,6 +117,20 @@ export default function SettingScreen() {
   const [backgroundMusic, setBackgroundMusic] = useState(true);
   const [correctEffect, setCorrectEffect] = useState(true);
 
+  useEffect(() => {
+    const loadSoundSetting = async () => {
+      const enabled = await getSoundEnabled();
+      setSoundEffect(enabled);
+    };
+
+    loadSoundSetting();
+  }, []);
+
+  const handleSoundToggle = async (value: boolean) => {
+    setSoundEffect(value);
+    await setSoundEnabled(value);
+  };
+
   return (
     <Container>
       <GradientBackground />
@@ -132,7 +150,7 @@ export default function SettingScreen() {
            ========================= */}
 
         <Section>
-          <SectionTitle>🔊 소리 설정</SectionTitle>
+          <SectionTitle>소리 설정</SectionTitle>
 
           <SettingCard>
             <SettingRow>
@@ -149,7 +167,7 @@ export default function SettingScreen() {
 
               <StyledSwitch
                 value={soundEffect}
-                onValueChange={setSoundEffect}
+                onValueChange={handleSoundToggle}
               />
             </SettingRow>
 
@@ -200,7 +218,7 @@ export default function SettingScreen() {
            ========================= */}
 
         <Section>
-          <SectionTitle>🔄 게임 기록</SectionTitle>
+          <SectionTitle>게임 기록</SectionTitle>
           <SettingCard>
             <ResetProgressButton gameType="color" onPress={handleResetColor} />
             <ResetProgressButton gameType="shape" onPress={handleResetShape} />

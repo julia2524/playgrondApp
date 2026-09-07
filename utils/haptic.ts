@@ -9,7 +9,7 @@ export function triggerHaptic(type: "light" | "success" | "error") {
   try {
     switch (type) {
       case "light":
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         break;
       case "success":
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
