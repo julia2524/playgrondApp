@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SOUND_ENABLED_KEY = "@classification_sound_enabled";
 const CORRECT_EFFECT_ENABLED_KEY = "@classification_correct_effect_enabled";
+const BGM_ENABLED_KEY = "@classification_bgm_enabled";
 
 export async function getSoundEnabled(): Promise<boolean> {
   const value = await AsyncStorage.getItem(SOUND_ENABLED_KEY);
