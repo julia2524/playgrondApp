@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { Switch } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
 import ResetProgressButton from "../../components/common/ResetProgressButton";
@@ -13,7 +13,7 @@ import DecorativeBackground from "../../design-system/backgrounds/DecorativeBack
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { clearGameProgress } from "../classification/progress/progressStorage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Content,
@@ -33,7 +33,9 @@ import {
 } from "./SettingScreenStyles";
 import CustomAlert from "../../components/common/CustomAlert";
 import {
+  getCorrectEffectEnabled,
   getSoundEnabled,
+  setCorrectEffectEnabled,
   setSoundEnabled,
 } from "../audio/audioSettingsStorage";
 
@@ -117,18 +119,34 @@ export default function SettingScreen() {
   const [backgroundMusic, setBackgroundMusic] = useState(true);
   const [correctEffect, setCorrectEffect] = useState(true);
 
-  useEffect(() => {
-    const loadSoundSetting = async () => {
-      const enabled = await getSoundEnabled();
-      setSoundEffect(enabled);
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      let isMounted = true;
 
-    loadSoundSetting();
-  }, []);
+      const loadSoundSetting = async () => {
+        const enabled = await getSoundEnabled();
+        const correctEnabled = await getCorrectEffectEnabled();
 
+        if (!isMounted) return;
+
+        setSoundEffect(enabled);
+        setCorrectEffect(correctEnabled);
+      };
+
+      loadSoundSetting();
+
+      return () => {
+        isMounted = false;
+      };
+    }, []),
+  );
   const handleSoundToggle = async (value: boolean) => {
     setSoundEffect(value);
     await setSoundEnabled(value);
+  };
+  const handleCorrectToggle = async (value: boolean) => {
+    setCorrectEffect(value);
+    await setCorrectEffectEnabled(value);
   };
 
   return (
@@ -207,7 +225,7 @@ export default function SettingScreen() {
 
               <StyledSwitch
                 value={correctEffect}
-                onValueChange={setCorrectEffect}
+                onValueChange={handleCorrectToggle}
               />
             </SettingRow>
           </SettingCard>

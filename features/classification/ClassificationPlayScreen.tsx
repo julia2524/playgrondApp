@@ -23,6 +23,8 @@ import {
   playStreakNote,
   preloadSounds,
   resetLastSuccessNote,
+  setGeneralSoundEnabled,
+  setSuccessSoundEnabled,
 } from "../../utils/sound";
 import GameHeader from "./components/GameHeader";
 import MissionBubbleArea from "./components/MissionBubbleArea";
@@ -39,8 +41,10 @@ import {
   toMissingItem,
 } from "./adapters/toDisplayModal";
 import { DisplayObject } from "./type/displayTypes";
-import { getSoundEnabled } from "../audio/audioSettingsStorage";
-
+import {
+  getCorrectEffectEnabled,
+  getSoundEnabled,
+} from "../audio/audioSettingsStorage";
 // ==================================================
 // Navigation 타입
 // ==================================================
@@ -67,20 +71,27 @@ export default function ClassificationPlayScreen() {
 
   const [soundEffect, setSoundEffect] = useState(true);
   const [soundSettingLoaded, setSoundSettingLoaded] = useState(false);
+
   useEffect(() => {
     preloadSounds(); // 한 번만 호출
   }, []);
+
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true;
 
       const loadSoundSetting = async () => {
         const enabled = await getSoundEnabled();
+        const correctEffectEnabled = await getCorrectEffectEnabled(); // 새로 추가할 함수
 
         if (!isMounted) return;
 
         setSoundEffect(enabled);
         setSoundSettingLoaded(true);
+
+        // 사운드 모듈 플래그 갱신
+        setGeneralSoundEnabled(enabled);
+        setSuccessSoundEnabled(correctEffectEnabled); // 모듈에 있는 setter
       };
 
       setSoundSettingLoaded(false);

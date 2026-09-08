@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SOUND_ENABLED_KEY = "@classification_sound_enabled";
+const CORRECT_EFFECT_ENABLED_KEY = "@classification_correct_effect_enabled";
 
 export async function getSoundEnabled(): Promise<boolean> {
   const value = await AsyncStorage.getItem(SOUND_ENABLED_KEY);
@@ -15,4 +16,16 @@ export async function getSoundEnabled(): Promise<boolean> {
 
 export async function setSoundEnabled(enabled: boolean): Promise<void> {
   await AsyncStorage.setItem(SOUND_ENABLED_KEY, String(enabled));
+}
+
+export async function getCorrectEffectEnabled(): Promise<boolean> {
+  const value = await AsyncStorage.getItem(CORRECT_EFFECT_ENABLED_KEY);
+
+  if (value === null) return true;
+
+  return value === "true";
+}
+
+export async function setCorrectEffectEnabled(enabled: boolean): Promise<void> {
+  await AsyncStorage.setItem(CORRECT_EFFECT_ENABLED_KEY, String(enabled));
 }

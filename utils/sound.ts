@@ -1,4 +1,8 @@
 import { createAudioPlayer, AudioPlayer } from "expo-audio";
+import {
+  getCorrectEffectEnabled,
+  getSoundEnabled,
+} from "../features/audio/audioSettingsStorage";
 
 const players = {
   grab: [] as AudioPlayer[],
@@ -8,11 +12,44 @@ const players = {
   wrong_sound: [] as AudioPlayer[],
   notes: [] as AudioPlayer[], // ⭐ 음계용
 };
+
 // ⭐ 마지막으로 성공한 음계 인덱스를 기억
 let isPreloaded = false;
 let lastSuccessNoteIndex: number | null = null;
 let isNotesReady = false;
 let isPlayingNote = false; // ⭐ 연달아 재생 방지용
+
+// ⭐ 추가: 정답 효과 전용 플래그
+let successSoundEnabled = true;
+
+// 기존 general 사운드용도 같이 관리하고 싶으면
+let generalSoundEnabled = true;
+
+export function setSuccessSoundEnabled(enabled: boolean) {
+  successSoundEnabled = enabled;
+
+  // 끄는 순간 진행 중인 음계도 바로 멈춰주기 (선택사항이지만 추천)
+  if (!enabled) {
+    stopAllNotes();
+  }
+}
+
+export function setGeneralSoundEnabled(enabled: boolean) {
+  generalSoundEnabled = enabled;
+}
+
+// 음계 전부 정지 헬퍼
+async function stopAllNotes() {
+  for (const player of players.notes) {
+    try {
+      if (player) {
+        await player.pause();
+        await player.seekTo(0);
+      }
+    } catch (e) {}
+  }
+  isPlayingNote = false;
+}
 
 export async function preloadSounds() {
   console.log("🔥 preloadSounds 시작");
@@ -96,12 +133,16 @@ async function playPlayerSafely(player: AudioPlayer) {
 export async function playSound(
   soundType: "grab" | "correct" | "wrong" | "correct_sound" | "wrong_sound",
 ) {
+  // if (!generalSoundEnabled) return; // ⭐ 일반 효과음
+  const enabled = await getSoundEnabled();
+  if (!enabled) return;
+
   try {
     const list = players[soundType];
-    console.log("🔊 playSound 호출:", soundType);
-    console.log("🔊 player 개수:", list?.length);
+    // console.log("🔊 playSound 호출:", soundType);
+    // console.log("🔊 player 개수:", list?.length);
     if (!list || list.length === 0) {
-      console.log("❌ 플레이어가 없음:", soundType);
+      // console.log("❌ 플레이어가 없음:", soundType);
       return;
     }
 
@@ -109,66 +150,13 @@ export async function playSound(
     const player = list[randomIndex];
     await playPlayerSafely(player);
 
-    console.log("🔊 실제 play:", soundType, randomIndex);
+    // console.log("🔊 실제 play:", soundType, randomIndex);
 
     // player.seekTo(0);
     // player.play();
   } catch (error) {
-    console.log("오디오 재생 실패:", error);
+    // console.log("오디오 재생 실패:", error);
   }
-}
-
-// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 순차 연주!
-// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 깨끗하게 순차 연주
-export async function playEarnedNotes(earnedStars: number) {
-  if (!players.notes || players.notes.length === 0) {
-    console.log("음계 플레이어가 아직 준비되지 않음");
-    return;
-  }
-
-  const count = Math.min(Math.max(earnedStars, 0), players.notes.length);
-  if (count <= 0) return;
-
-  // 이전 연주 중인 음들을 일단 전부 정지
-  for (const player of players.notes) {
-    try {
-      if (player) {
-        await player.pause();
-        await player.seekTo(0); // ⭐ 여기도 await
-      }
-    } catch (e) {}
-  }
-  // players.notes.forEach((player) => {
-  //   try {
-  //     if (player) {
-  //       player.pause();
-  //       player.seekTo(0);
-  //     }
-  //   } catch (e) {}
-  // });
-
-  // 순차 재생 (간격을 충분히 줌)
-  for (let i = 0; i < count; i++) {
-    setTimeout(async () => {
-      const player = players.notes[i];
-      if (player) {
-        await playPlayerSafely(player);
-      }
-    }, i * 150);
-  }
-  // for (let i = 0; i < count; i++) {
-  //   setTimeout(() => {
-  //     try {
-  //       const player = players.notes[i];
-  //       if (player) {
-  //         player.seekTo(0);
-  //         player.play();
-  //       }
-  //     } catch (e) {
-  //       console.log(`음계 ${i + 1} 재생 실패:`, e);
-  //     }
-  //   }, i * 150); // ← 여기가 핵심! 380~450ms 추천
-  // }
 }
 
 export function resetLastSuccessNote() {
@@ -206,12 +194,20 @@ async function playNoteByIndex(index: number) {
 
 // 정답일 때
 export async function playStreakNote(streakCount: number) {
+  // if (!successSoundEnabled) return; // ⭐ 정답 효과
+  const enabled = await getSoundEnabled();
+  if (!enabled) return;
+
   const index = Math.min(Math.max(streakCount, 1), 10) - 1;
   lastSuccessNoteIndex = index;
   await playNoteByIndex(index);
 }
 
 export async function playLastSuccessNote() {
+  // if (!successSoundEnabled) return; // ⭐
+  const enabled = await getSoundEnabled();
+  if (!enabled) return;
+
   try {
     // ⭐ 아직 성공한 적이 없으면 아무 소리도 안 냄
     if (lastSuccessNoteIndex === null) {
@@ -221,9 +217,36 @@ export async function playLastSuccessNote() {
     const player = players.notes[lastSuccessNoteIndex];
     if (!player) return;
     await playPlayerSafely(player);
-    // player.seekTo(0);
-    // player.play();
   } catch (error) {
-    console.log("이전 음계 재생 실패:", error);
+    // console.log("이전 음계 재생 실패:", error);
+  }
+}
+
+// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 순차 연주!
+// ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 깨끗하게 순차 연주
+export async function playEarnedNotes(earnedStars: number) {
+  // if (!successSoundEnabled) return; // ⭐ 가장 중요!
+  const enabled = await getCorrectEffectEnabled();
+  if (!enabled) return;
+
+  if (!players.notes || players.notes.length === 0) {
+    console.log("음계 플레이어가 아직 준비되지 않음");
+    return;
+  }
+
+  const count = Math.min(Math.max(earnedStars, 0), players.notes.length);
+  if (count <= 0) return;
+
+  // 이전 연주 중인 음들을 일단 전부 정지
+  await stopAllNotes();
+
+  // 순차 재생 (간격을 충분히 줌)
+  for (let i = 0; i < count; i++) {
+    setTimeout(async () => {
+      const player = players.notes[i];
+      if (player) {
+        await playPlayerSafely(player);
+      }
+    }, i * 150);
   }
 }
