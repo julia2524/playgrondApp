@@ -33,11 +33,14 @@ import {
 } from "./SettingScreenStyles";
 import CustomAlert from "../../components/common/CustomAlert";
 import {
+  getBGMEnabled,
   getCorrectEffectEnabled,
   getSoundEnabled,
+  setBGMEnabled,
   setCorrectEffectEnabled,
   setSoundEnabled,
 } from "../audio/audioSettingsStorage";
+import { useBackgroundMusic } from "../audio/BackgroundMusicContext";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -116,8 +119,9 @@ export default function SettingScreen() {
   // =========================
 
   const [soundEffect, setSoundEffect] = useState(true);
-  const [backgroundMusic, setBackgroundMusic] = useState(true);
+  // const [backgroundMusic, setBackgroundMusic] = useState(true);
   const [correctEffect, setCorrectEffect] = useState(true);
+  const { backgroundMusic, setBackgroundMusic } = useBackgroundMusic();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -140,6 +144,7 @@ export default function SettingScreen() {
       };
     }, []),
   );
+
   const handleSoundToggle = async (value: boolean) => {
     setSoundEffect(value);
     await setSoundEnabled(value);
@@ -202,7 +207,6 @@ export default function SettingScreen() {
                   </SettingDescription>
                 </SettingTextWrapper>
               </SettingInfo>
-
               <StyledSwitch
                 value={backgroundMusic}
                 onValueChange={setBackgroundMusic}

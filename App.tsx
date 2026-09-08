@@ -9,14 +9,12 @@ import { ThemeProvider } from "styled-components/native";
 import { theme } from "./design-system/theme/theme";
 import AppNavigator from "./navigation/AppNavigator";
 import CustomSplash from "./components/CustomSplash";
-import { useBackgroundMusic } from "./utils/useBackgroundMusic";
+import { BackgroundMusicProvider } from "./features/audio/BackgroundMusicContext";
 
 // 폰트가 로딩되는 동안 스플래시 화면이 유지되도록 설정
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  // 배경음악 실행 훅 호출
-  useBackgroundMusic();
   // 1. 주아체 폰트 불러오기 (경로가 다를 경우 수정해 줘!)
   const [fontsLoaded] = useFonts({
     Jua: require("./assets/fonts/Jua-Regular.ttf"),
@@ -61,14 +59,16 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <View style={styles.container}>
-        <NavigationContainer>
-          <StatusBar hidden={true} translucent={true} />
-          <AppNavigator />
-        </NavigationContainer>
-      </View>
-    </ThemeProvider>
+    <BackgroundMusicProvider>
+      <ThemeProvider theme={theme}>
+        <View style={styles.container}>
+          <NavigationContainer>
+            <StatusBar hidden={true} translucent={true} />
+            <AppNavigator />
+          </NavigationContainer>
+        </View>
+      </ThemeProvider>
+    </BackgroundMusicProvider>
   );
 }
 

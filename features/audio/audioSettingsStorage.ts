@@ -30,3 +30,20 @@ export async function getCorrectEffectEnabled(): Promise<boolean> {
 export async function setCorrectEffectEnabled(enabled: boolean): Promise<void> {
   await AsyncStorage.setItem(CORRECT_EFFECT_ENABLED_KEY, String(enabled));
 }
+
+// =========================
+// 배경음악
+// =========================
+
+export async function getBGMEnabled(): Promise<boolean> {
+  const value = await AsyncStorage.getItem(BGM_ENABLED_KEY);
+
+  // 저장된 값이 없으면 기본값 ON
+  if (value === null) return true;
+
+  return value === "true";
+}
+
+export async function setBGMEnabled(enabled: boolean): Promise<void> {
+  await AsyncStorage.setItem(BGM_ENABLED_KEY, String(enabled));
+}
