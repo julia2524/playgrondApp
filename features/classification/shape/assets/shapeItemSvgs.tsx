@@ -1,65 +1,3 @@
-export const Envelop = ({ colorHex = "#FFD6E8" }: ItemSvgProps) => (
-  <Svg width="95" height="95" viewBox="0 0 100 100">
-    {/* 봉투 몸체 */}
-    <Rect
-      x="18"
-      y="34"
-      width="64"
-      height="46"
-      rx="6"
-      fill={colorHex}
-      stroke={OUTLINE}
-      strokeWidth="4"
-    />
-
-    {/* 접히는 뚜껑 (네모) */}
-    <Rect
-      x="18"
-      y="20"
-      width="64"
-      height="24"
-      rx="5"
-      fill="#FFE8F1"
-      stroke={OUTLINE}
-      strokeWidth="4"
-      strokeLinejoin="round"
-    />
-
-    {/* 뚜껑 접힘선 (네모 뚜껑이 접혀 내려온 느낌의 가로줄) */}
-    <Line
-      x1="22"
-      y1="44"
-      x2="78"
-      y2="44"
-      stroke={OUTLINE}
-      strokeWidth="2.5"
-      opacity={0.4}
-    />
-
-    {/* 봉투 스티커/씰 (네모) */}
-    <Rect
-      x="43"
-      y="34"
-      width="16"
-      height="16"
-      rx="3"
-      fill="#F45B69"
-      stroke={OUTLINE}
-      strokeWidth="2.5"
-    />
-
-    {/* 하이라이트 */}
-    <Ellipse
-      cx="30"
-      cy="50"
-      rx="5"
-      ry="2"
-      fill={WHITE}
-      opacity={0.4}
-      transform="rotate(-20 30 50)"
-    />
-  </Svg>
-);
 import React from "react";
 
 import Svg, {
@@ -970,7 +908,68 @@ export const Tv = ({ colorHex = "#555E68" }: ItemSvgProps) => (
     />
   </Svg>
 );
+export const Envelop = ({ colorHex = "#FFD6E8" }: ItemSvgProps) => (
+  <Svg width="95" height="95" viewBox="0 0 100 100">
+    {/* 봉투 몸체 */}
+    <Rect
+      x="18"
+      y="34"
+      width="64"
+      height="46"
+      rx="6"
+      fill={colorHex}
+      stroke={OUTLINE}
+      strokeWidth="4"
+    />
 
+    {/* 접히는 뚜껑 (네모) */}
+    <Rect
+      x="18"
+      y="20"
+      width="64"
+      height="24"
+      rx="5"
+      fill="#FFE8F1"
+      stroke={OUTLINE}
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+
+    {/* 뚜껑 접힘선 (네모 뚜껑이 접혀 내려온 느낌의 가로줄) */}
+    <Line
+      x1="22"
+      y1="44"
+      x2="78"
+      y2="44"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
+      opacity={0.4}
+    />
+
+    {/* 봉투 스티커/씰 (네모) */}
+    <Rect
+      x="43"
+      y="34"
+      width="16"
+      height="16"
+      rx="3"
+      fill="#F45B69"
+      stroke={OUTLINE}
+      strokeWidth="2.5"
+    />
+
+    {/* 하이라이트 */}
+    <Ellipse
+      cx="30"
+      cy="50"
+      rx="5"
+      ry="2"
+      fill={WHITE}
+      opacity={0.4}
+      transform="rotate(-20 30 50)"
+    />
+  </Svg>
+);
 // ------------------------------------------------------------
 
 export const GiftBox = ({ colorHex = "#FFD43B" }: ItemSvgProps) => (

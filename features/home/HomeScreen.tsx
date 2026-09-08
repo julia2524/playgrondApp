@@ -151,19 +151,18 @@ export default function HomeScreen() {
           <SettingButton
             onPress={() => navigation.navigate("SettingScreen" as never)}
           />
-          {/*  
+
           <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ShapeStickerGalleryScreen" as never)
-              }
+            onPress={() =>
+              navigation.navigate("CategoryStickerGalleryScreen" as never)
+            }
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
             >
-              <Text
-                style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
-              >
-                스티커보기
-              </Text> 
-            </TouchableOpacity>
-*/}
+              스티커보기
+            </Text>
+          </TouchableOpacity>
         </Header>
 
         {/* 안내 문구 */}

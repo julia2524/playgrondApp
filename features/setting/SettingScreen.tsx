@@ -92,7 +92,7 @@ export default function SettingScreen() {
         await clearGameProgress("color");
         showAlert(
           "초기화 완료",
-          `색깔 놀이를\n 처음부터 다시 시작할 수 있어요!`,
+          `색깔 놀이를 처음부터\n 다시 시작할 수 있어요!`,
         );
       },
       { showCancel: true, confirmText: "다시 시작" },
@@ -107,7 +107,7 @@ export default function SettingScreen() {
         await clearGameProgress("shape");
         showAlert(
           "초기화 완료",
-          `모양 놀이를\n 처음부터 다시 시작할 수 있어요!`,
+          `모양 놀이를 처음부터\n 다시 시작할 수 있어요!`,
         );
       },
       { showCancel: true, confirmText: "다시 시작" },
