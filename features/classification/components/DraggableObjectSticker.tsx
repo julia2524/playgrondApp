@@ -379,9 +379,17 @@ export function DraggableObjectSticker({
       return (
         <RenderCategoryItemSvg
           itemId={obj.renderId}
-          colorHex={colorHex}
-          primary={colorHex}
+          colorHex={obj.variant?.primary ?? colorHex}
+          primary={obj.variant?.primary}
+          secondary={obj.variant?.secondary}
+          accent={obj.variant?.accent}
+          pattern={obj.variant?.pattern}
         />
+        // <RenderCategoryItemSvg
+        //   itemId={obj.renderId}
+        //   colorHex={colorHex}
+        //   primary={colorHex}
+        // />
       );
     }
     return <RenderBasicShapeSvg shapeId={obj.renderId} colorHex={colorHex} />;

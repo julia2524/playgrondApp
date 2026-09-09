@@ -11,7 +11,5 @@ export type RootStackParamList = {
   StickerGalleryScreen: undefined;
   ShapeStickerGalleryScreen: undefined;
   CategoryStickerGalleryScreen: undefined;
-  CategoryTestScreen: undefined;
-  RainbowTestScreen: undefined;
   SettingScreen: undefined;
 };

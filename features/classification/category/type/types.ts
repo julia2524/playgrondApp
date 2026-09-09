@@ -120,7 +120,7 @@ export type CategoryVariant = {
   primary: string; // 메인 색상 (fill)
   secondary?: string; // 보조 색상 (귀, 배, 무늬 등)
   accent?: string; // 포인트 색상 (코, 눈, 줄기 등)
-  pattern?: "none" | "spots" | "stripes" | "patches"; // 간단한 무늬 타입
+  pattern?: "spots" | "stripes" | "patches"; // 간단한 무늬 타입
 };
 
 export type CategoryGameObject = {

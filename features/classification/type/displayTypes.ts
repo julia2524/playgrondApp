@@ -1,3 +1,5 @@
+import { CategoryVariant } from "../category/type/types";
+
 export interface DisplayRound {
   id: string;
   answer: Record<string, string>;
@@ -13,7 +15,7 @@ export type DisplayObject = {
   kind: "color" | "shape" | "item" | "category";
   color?: string;
   name?: string;
-  variant?: any; // Category용
+  variant?: CategoryVariant; // Category용
   isCorrect?: boolean; // Category용
 };
 
@@ -26,4 +28,5 @@ export type DisplayTarget = {
   slotColors?: string[];
   slotKinds?: string[];
   slotItems?: any[]; // Category용 (targetBox 내용)
+  slotVariants?: CategoryVariant[];
 };

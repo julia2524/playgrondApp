@@ -15,7 +15,6 @@ import {
   GuideText,
   GuideTextContainer,
   Header,
-  SettingButtonText,
   SubTitle,
   Title,
   TitleContainer,
@@ -23,8 +22,6 @@ import {
 import CustomAlert from "../../components/common/CustomAlert";
 import { shapeLevels } from "../classification/shape/constants/levels";
 import { createShapeRound } from "../classification/shape/shapeGenerators";
-import { clearGameProgress } from "../classification/progress/progressStorage";
-import ResetProgressButton from "../../components/common/ResetProgressButton";
 import SettingButton from "../../components/common/SettingButton";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
@@ -152,7 +149,7 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("SettingScreen" as never)}
           />
 
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={() =>
               navigation.navigate("CategoryStickerGalleryScreen" as never)
             }
@@ -162,8 +159,8 @@ export default function HomeScreen() {
             >
               스티커보기
             </Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity
+          </TouchableOpacity>
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate("CategoryTestScreen" as never)}
           >
             <Text
@@ -171,7 +168,7 @@ export default function HomeScreen() {
             >
               종류 분류 테스터
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <TouchableOpacity
             onPress={() => navigation.navigate("RainbowTestScreen" as never)}
           >

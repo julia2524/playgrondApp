@@ -16,6 +16,13 @@ interface TargetSlotItemProps {
   renderId: string;
   kind: DisplayItemKind;
   svgColor: string | undefined;
+  // ⭐ Category variant
+  variant?: {
+    primary?: string;
+    secondary?: string;
+    accent?: string;
+    pattern?: "spots" | "stripes" | "patches";
+  };
   missingItemRef?: React.RefObject<any>;
 }
 
@@ -26,6 +33,7 @@ export default function TargetSlotItem({
   renderId,
   kind,
   svgColor,
+  variant,
   missingItemRef,
 }: TargetSlotItemProps) {
   const isEmptySlot = isMissingItem && !isMatched;
@@ -72,8 +80,11 @@ export default function TargetSlotItem({
       return (
         <RenderCategoryItemSvg
           itemId={renderId}
-          colorHex={svgColor} // hex 그대로 전달
-          primary={svgColor}
+          colorHex={variant?.primary ?? svgColor}
+          primary={variant?.primary}
+          secondary={variant?.secondary}
+          accent={variant?.accent}
+          pattern={variant?.pattern}
         />
       );
     }

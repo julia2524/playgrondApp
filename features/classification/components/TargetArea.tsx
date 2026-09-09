@@ -82,11 +82,17 @@ export default function TargetArea({
             const isEmptySlot = isMissingItem && !isMatched;
 
             const slotColor = target.slotColors?.[idx] ?? target.color;
+
             const slotKind = (target.slotKinds?.[idx] ??
               target.kind) as DisplayItemKind;
 
             const renderId =
               isMissingItem && correctObject ? correctObject.renderId : shapeId;
+
+            const slotVariant =
+              isMissingItem && correctObject
+                ? correctObject.variant
+                : target.slotVariants?.[idx];
 
             const kind: DisplayItemKind =
               isMissingItem && correctObject
@@ -118,6 +124,7 @@ export default function TargetArea({
                 renderId={renderId}
                 kind={kind}
                 svgColor={svgColor}
+                variant={slotVariant}
                 missingItemRef={isMissingItem ? missingItemRef : undefined}
               />
             );
