@@ -5,91 +5,105 @@ import { useNavigation } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
 import { RenderCategoryItemSvg } from "./category/assets/categoryItemSvgs";
+import { CategoryGameObjects1 } from "./category/constants/categoryPool";
+import { CategoryGameObject } from "./category/type/types";
+
+// ---------- 색상 거리 유틸 (generator와 동일 로직) ----------
+function hexToRgb(hex: string) {
+  const h = hex.replace("#", "");
+  const full =
+    h.length === 3
+      ? h
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : h;
+  return {
+    r: parseInt(full.slice(0, 2), 16),
+    g: parseInt(full.slice(2, 4), 16),
+    b: parseInt(full.slice(4, 6), 16),
+  };
+}
+
+function colorDistance(hexA: string, hexB: string): number {
+  const a = hexToRgb(hexA);
+  const b = hexToRgb(hexB);
+  const rmean = (a.r + b.r) / 2;
+  const dr = a.r - b.r;
+  const dg = a.g - b.g;
+  const db = a.b - b.b;
+  return Math.sqrt(
+    (2 + rmean / 256) * dr * dr +
+      4 * dg * dg +
+      (2 + (255 - rmean) / 256) * db * db,
+  );
+}
+
+// ---------- 실제 데이터 기반 색상 계열 ----------
+// 데이터에 자주 등장하는 variant id들 (필요하면 자유롭게 추가/삭제)
+const COLOR_FAMILIES = [
+  "natural",
+  "red",
+  "orange",
+  "yellow",
+  "green",
+  "blue",
+  "purple",
+  "pink",
+  "brown",
+  "gray",
+  "white",
+  "black",
+] as const;
+
+type ColorFamily = (typeof COLOR_FAMILIES)[number];
+
+// 해당 계열 id를 가진 variant를 데이터 전체에서 찾아 대표 hex로 사용 (버튼 스와치용)
+function getRepresentativeHex(familyId: string): string {
+  for (const obj of CategoryGameObjects1) {
+    const match = obj.variants.find((v) => v.id === familyId);
+    if (match) return match.primary;
+  }
+  return "#CCCCCC"; // 데이터에 아예 없는 계열이면 회색으로 폴백
+}
+
+// 오브젝트별로 "이 계열에 가장 알맞은 variant"를 찾아 실제 hex 반환
+function resolveVariantHex(
+  obj: CategoryGameObject,
+  familyId: ColorFamily,
+): string | undefined {
+  if (familyId === "natural") return undefined; // 컴포넌트 기본색 사용
+
+  // 1순위: id가 정확히 일치하는 variant
+  const exact = obj.variants.find((v) => v.id === familyId);
+  if (exact) return exact.primary;
+
+  // 2순위: 대표색과 가장 색이 비슷한 variant
+  const representative = getRepresentativeHex(familyId);
+  let closest = obj.variants[0];
+  let closestDist = colorDistance(closest.primary, representative);
+  for (const v of obj.variants) {
+    const d = colorDistance(v.primary, representative);
+    if (d < closestDist) {
+      closest = v;
+      closestDist = d;
+    }
+  }
+  return closest.primary;
+}
+
+// 버튼에 쓸 {id, 대표hex} 목록 (컴포넌트 바깥에서 한 번만 계산)
+const sampleColors: { id: ColorFamily; hex: string }[] = COLOR_FAMILIES.map(
+  (id) => ({
+    id,
+    hex: id === "natural" ? "natural" : getRepresentativeHex(id),
+  }),
+);
 
 export default function CategoryStickerGalleryScreen() {
   const navigation = useNavigation<any>();
-  // 🌟 "natural"을 초기값 혹은 선택값으로 지정할 수 있게 설정
-  const [selectedColor, setSelectedColor] = useState<string>("natural");
+  const [selectedFamily, setSelectedFamily] = useState<ColorFamily>("natural");
 
-  const sampleColors = [
-    "natural",
-    "#F03E3E", // 빨강
-    "#1971C2", // 파랑
-    "#F9C80E", // 노랑
-    "#2F9E44", // 초록
-    "#AE3EC9", // 보라
-    "#E8590C", // 주황
-    "#FFF",
-  ];
-
-  const categoryStickerKeys = [
-    // 동물
-    "dog",
-    "cat",
-    "rabbit",
-    "turtle",
-    "tiger",
-    "bear",
-    "chicken",
-    "duck",
-    "penguin",
-    "whale",
-    "shark",
-    "octopus",
-    "dolphin",
-    "insect",
-    "butterfly",
-    "ladybug",
-
-    // 먹는 것
-    "apple",
-    "banana",
-    "strawberry",
-    "watermelon",
-    "grape",
-    "carrot",
-    "cucumber",
-    "tomato",
-    "rice",
-    "gimbap",
-    "pizza",
-    "hamburger",
-    "cake",
-    "cookie",
-    "bread",
-    "iceCream",
-    "milk",
-    "drink",
-
-    // 입는 것
-    "tshirt",
-    "clothes",
-    "shoes",
-    "sneakers",
-    "hat",
-
-    // 생활하는 것
-    "tv",
-    "bed",
-    "furniture",
-    "electronics",
-    "stationery",
-    "umbrella",
-    "daily",
-    "cleaning",
-    "bathroom",
-    "kitchen",
-
-    // 탈것
-    "car",
-    "bus",
-    "train",
-    "airplane",
-    "ship",
-    "vehicle",
-    "road",
-    "air",
-  ];
   const categoryStickerKeys1 = [
     "dog",
     "cat",
@@ -157,37 +171,34 @@ export default function CategoryStickerGalleryScreen() {
         center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
       />
 
-      <ScrollView
-        contentContainerStyle={{
-          padding: 20,
-          paddingBottom: 300,
-        }}
-      >
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 300 }}>
         <ColorPickerBar>
-          <ColorLabel>적용할 색상:</ColorLabel>
+          <ColorLabel></ColorLabel>
 
-          {sampleColors.map((color) => (
+          {sampleColors.map(({ id, hex }) => (
             <ColorButton
-              key={color}
-              color={color}
-              isSelected={selectedColor === color}
-              onPress={() => setSelectedColor(color)}
+              key={id}
+              color={id === "natural" ? "#FFFFFF" : hex}
+              isSelected={selectedFamily === id}
+              onPress={() => setSelectedFamily(id)}
             />
           ))}
         </ColorPickerBar>
 
         <GridContainer>
-          {categoryStickerKeys1.map((key) => (
-            <StickerCard key={key}>
-              <RenderCategoryItemSvg
-                itemId={key}
-                colorHex={
-                  selectedColor === "natural" ? undefined : selectedColor
-                }
-              />
-              <StickerName>{key}</StickerName>
-            </StickerCard>
-          ))}
+          {categoryStickerKeys1.map((key) => {
+            const obj = CategoryGameObjects1.find((o) => o.id === key);
+            const colorHex = obj
+              ? resolveVariantHex(obj, selectedFamily)
+              : undefined;
+
+            return (
+              <StickerCard key={key}>
+                <RenderCategoryItemSvg itemId={key} colorHex={colorHex} />
+                <StickerName>{key}</StickerName>
+              </StickerCard>
+            );
+          })}
         </GridContainer>
       </ScrollView>
     </Container>
