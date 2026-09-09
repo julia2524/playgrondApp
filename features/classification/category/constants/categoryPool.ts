@@ -1,6 +1,6 @@
-import { CategoryObject } from "../type/types";
+import { CategoryGameObject } from "../type/types";
 
-export const categoryObjects: CategoryObject[] = [
+export const CategoryGameObjects: CategoryGameObject[] = [
   // ========== 동물 > 육지동물 ==========
 
   {
@@ -3443,7 +3443,7 @@ export const categoryObjects: CategoryObject[] = [
     name: "아이스크림",
     topCategory: "food",
     subCategory: "snack",
-    svgKey: "ice_cream",
+    svgKey: "iceCream",
     variants: [
       {
         id: "vanilla",
@@ -8072,7 +8072,7 @@ export const categoryObjects: CategoryObject[] = [
   },
 ];
 
-export const categoryObjects1: CategoryObject[] = [
+export const CategoryGameObjects1: CategoryGameObject[] = [
   {
     id: "ship",
     name: "배",
@@ -8249,7 +8249,7 @@ export const categoryObjects1: CategoryObject[] = [
     name: "아이스크림",
     topCategory: "food",
     subCategory: "snack",
-    svgKey: "ice_cream",
+    svgKey: "iceCream",
     variants: [
       {
         id: "vanilla",

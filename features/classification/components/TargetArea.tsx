@@ -14,7 +14,11 @@ import {
   TargetSection,
 } from "../styles/classificationStyles";
 
-import { DisplayObject, DisplayTarget } from "../type/displayTypes";
+import {
+  DisplayItemKind,
+  DisplayObject,
+  DisplayTarget,
+} from "../type/displayTypes";
 
 interface TargetAreaProps {
   isFront: boolean;
@@ -44,145 +48,66 @@ export default function TargetArea({
     <TargetSection isFront={isFront}>
       <TargetBox>
         <TargetItemsGrid>
-          {/* {target.items?.map((shapeId: string, idx: number) => {
-            const isMissingItem =
-              target.missingIndex !== undefined
-                ? idx === target.missingIndex
-                : shapeId === missingItem;
-
-            const matchingObject = objects.find(
-              (o) => o.renderId === shapeId && answer[o.id] === target.id,
-            );
-
-            const isMatched = matchingObject
-              ? matchedObjectIds.includes(matchingObject.id)
-              : false;
-
-            const isEmptySlot = isMissingItem && !isMatched;
-
-            const targetColor =
-              target.slotColors?.[idx] ?? target.color ?? "blue";
-
-            const backgroundColor = isEmptySlot
-              ? "transparent"
-              : (SOFT_COLORS[targetColor] ?? "#E2E8F0");
-
-            const svgColor = COLORS[targetColor] ?? "#FFFFFF";
-
-            return (
-              <TargetSlotItem
-                key={`${roundId}-${shapeId}-${idx}`}
-                isMissingItem={isMissingItem}
-                isMatched={isMatched}
-                backgroundColor={backgroundColor}
-                renderId={shapeId}
-                kind={target.kind}
-                svgColor={svgColor}
-                missingItemRef={isMissingItem ? missingItemRef : undefined}
-              />
-            );
-          })} */}
-          {/* {target.items?.map((shapeId: string, idx: number) => {
-            const isMissingItem =
-              target.missingIndex !== undefined
-                ? idx === target.missingIndex
-                : shapeId === missingItem;
-
-            const matchingObject = objects.find(
-              (o) => o.renderId === shapeId && answer[o.id] === target.id,
-            );
-
-            const isMatched = matchingObject
-              ? matchedObjectIds.includes(matchingObject.id)
-              : false;
-
-            const isEmptySlot = isMissingItem && !isMatched;
-
-            // ★ 각 슬롯 색상 (힌트용)
-            const slotColor =
-              target.slotColors?.[idx] ?? target.color ?? "blue";
-
-            // ★ 정답 칸이면 Object의 정보를 사용, 아니면 target 정보 사용
-            const renderId =
-              isMissingItem && correctObject ? correctObject.renderId : shapeId;
-
-            const kind =
-              isMissingItem && correctObject ? correctObject.kind : target.kind;
-
-            // 빈칸이면 투명, 아니면 해당 슬롯 색
-            const backgroundColor = isEmptySlot
-              ? "transparent"
-              : (SOFT_COLORS[slotColor] ?? "#E2E8F0");
-
-            // SVG 색상: 빈칸일 때는 object 색, 아니면 슬롯 색
-            const svgColor =
-              isEmptySlot && correctObject?.color
-                ? (COLORS[correctObject.color] ?? "#FFFFFF")
-                : (COLORS[slotColor] ?? "#FFFFFF");
-
-            return (
-              <TargetSlotItem
-                key={`${roundId}-${shapeId}-${idx}`}
-                isMissingItem={isMissingItem}
-                isMatched={isMatched}
-                backgroundColor={backgroundColor}
-                renderId={renderId}
-                kind={kind}
-                svgColor={svgColor}
-                missingItemRef={isMissingItem ? missingItemRef : undefined}
-              />
-            );
-          })} */}
           {target.items?.map((shapeId: string, idx: number) => {
             const isMissingItem =
               target.missingIndex !== undefined
                 ? idx === target.missingIndex
                 : shapeId === missingItem;
+            // ⭐ Category / 기존 분기
+            let isMatched = false;
 
-            const matchingObject = objects.find(
-              (o) => o.renderId === shapeId && answer[o.id] === target.id,
-            );
+            if (target.kind === "category") {
+              // 빈칸이고, 정답 object가 이미 맞춰졌으면 matched
+              isMatched =
+                isMissingItem &&
+                !!correctObject &&
+                matchedObjectIds.includes(correctObject.id);
+            } else {
+              const matchingObject = objects.find(
+                (o) => o.renderId === shapeId && answer[o.id] === target.id,
+              );
+              isMatched = matchingObject
+                ? matchedObjectIds.includes(matchingObject.id)
+                : false;
+            }
 
-            const isMatched = matchingObject
-              ? matchedObjectIds.includes(matchingObject.id)
-              : false;
+            // const matchingObject = objects.find(
+            //   (o) => o.renderId === shapeId && answer[o.id] === target.id,
+            // );
+
+            // const isMatched = matchingObject
+            //   ? matchedObjectIds.includes(matchingObject.id)
+            //   : false;
 
             const isEmptySlot = isMissingItem && !isMatched;
 
-            // 슬롯별 색상
-            // const slotColor =
-            //   target.slotColors?.[idx] ?? target.color ?? "blue";
             const slotColor = target.slotColors?.[idx] ?? target.color;
-
-            // ★ 슬롯별 kind (정답 칸은 object 우선)
-            const slotKind = target.slotKinds?.[idx] ?? target.kind;
+            const slotKind = (target.slotKinds?.[idx] ??
+              target.kind) as DisplayItemKind;
 
             const renderId =
               isMissingItem && correctObject ? correctObject.renderId : shapeId;
 
-            const kind =
-              isMissingItem && correctObject ? correctObject.kind : slotKind;
+            const kind: DisplayItemKind =
+              isMissingItem && correctObject
+                ? (correctObject.kind as DisplayItemKind)
+                : slotKind;
 
-            // natural은 background만 brown으로
+            const isCategory = target.kind === "category";
+
             const backgroundColor = isEmptySlot
               ? "transparent"
+              : isCategory
+                ? PASTEL_BG.neutral // hex + 투명도, 또는 고정 파스텔
+                : slotColor
+                  ? (SOFT_COLORS[slotColor] ?? "#E2E8F0")
+                  : PASTEL_BG.neutral;
+
+            const svgColor = isCategory
+              ? slotColor // hex 그대로
               : slotColor
-                ? (SOFT_COLORS[slotColor] ?? "#E2E8F0")
-                : PASTEL_BG.neutral; // natural background
-
-            // ⭐ SVG에는 natural이면 undefined 그대로 전달
-            const svgColor = slotColor
-              ? (COLORS[slotColor] ?? "#FFFFFF")
-              : undefined;
-
-            // const backgroundColor = isEmptySlot
-            //   ? "transparent"
-            //   : (SOFT_COLORS[slotColor] ?? "#E2E8F0");
-
-            // const svgColor =
-            //   isEmptySlot && correctObject?.color
-            //     ? (COLORS[correctObject.color] ?? "#FFFFFF")
-            //     : (COLORS[slotColor] ?? "#FFFFFF");
+                ? (COLORS[slotColor] ?? "#FFFFFF")
+                : undefined;
 
             return (
               <TargetSlotItem

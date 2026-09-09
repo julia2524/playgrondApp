@@ -31,7 +31,7 @@ type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavigationProp>();
   // 색깔 분류 게임으로 이동하는 함수
-  const goToStageMap = (gameType: "color" | "shape") => {
+  const goToStageMap = (gameType: "color" | "shape" | "category") => {
     navigation.navigate("StageMapScreen", { gameType });
   };
   const [alertVisible, setAlertVisible] = useState(false);
@@ -152,7 +152,7 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate("SettingScreen" as never)}
           />
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() =>
               navigation.navigate("CategoryStickerGalleryScreen" as never)
             }
@@ -162,7 +162,25 @@ export default function HomeScreen() {
             >
               스티커보기
             </Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("CategoryTestScreen" as never)}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
+            >
+              종류 분류 테스터
+            </Text>
           </TouchableOpacity>
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate("RainbowTestScreen" as never)}
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
+            >
+              무지개 테스터
+            </Text>
+          </TouchableOpacity> */}
         </Header>
 
         {/* 안내 문구 */}
@@ -177,8 +195,8 @@ export default function HomeScreen() {
             <GameCardItem
               bgColor="#FE9404"
               emoji="🎨"
-              title="색깔 분류"
-              desc="같은 색끼리!"
+              title="알록달록 색깔"
+              desc="같은 색끼리 척척!"
               onPress={() => goToStageMap("color")}
             />
 
@@ -186,18 +204,18 @@ export default function HomeScreen() {
             <GameCardItem
               bgColor="#7569E8"
               emoji="🔷"
-              title="모양 분류"
-              desc="같은 모양끼리!"
+              title="반짝반짝 모양"
+              desc="같은 모양끼리 쏙쏙!"
               onPress={() => goToStageMap("shape")}
             />
 
             {/* 3. 크기 분류 (준비중) */}
             <GameCardItem
               bgColor="#45B48B"
-              emoji="📏"
-              title="크기 분류"
-              desc="같은 크기끼리!"
-              onPress={() => handleLockedGame("크기 분류")}
+              emoji="🥑"
+              title="친구들 모여라"
+              desc="종류별로 짝을 찾아줘!"
+              onPress={() => goToStageMap("category")}
             />
 
             {/* 4. 새로운 놀이 (준비중) */}

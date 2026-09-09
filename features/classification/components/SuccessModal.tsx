@@ -15,9 +15,10 @@ import CandyStar from "../../../design-system/ui/CandyStar";
 import GameRewardBadge from "./GameRewardBadge";
 import { colorLevels } from "../color/constants/levels";
 import { shapeLevels } from "../shape/constants/levels";
+import { categoryLevels } from "../category/constants/levels";
 
 interface SuccessModalProps {
-  gameType: "color" | "shape";
+  gameType: "color" | "shape" | "category";
   show: boolean;
   level: number;
   earnedStars: number;
@@ -51,7 +52,12 @@ export default function SuccessModal({
   const currentStageIndex = STAGE_CONFIGS.findIndex(
     (stage) => stage.level === level,
   );
-  const levels = gameType === "color" ? colorLevels : shapeLevels;
+  const levels =
+    gameType === "color"
+      ? colorLevels
+      : gameType === "shape"
+        ? shapeLevels
+        : categoryLevels;
 
   const isLastLevel = level === levels[levels.length - 1].level;
 

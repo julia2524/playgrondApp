@@ -1,41 +1,30 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-
 import { ScrollView, View } from "react-native";
-
 import {
   RouteProp,
   useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { RootStackParamList } from "../../navigation/types";
-
 import MapTrail from "./components/MapTrail";
-
 import StageNode from "./components/StageNode";
-
 import AppHeader from "../../components/common/AppHeader";
-
 import { STAGE_CONFIGS } from "./stageConfigs";
-
 import {
   Container,
   Content,
   StageMapHeaderCenter,
   StageMapTitle,
 } from "./stageMapStyles";
-
 import { useProgress } from "../classification/progress/useProgress";
-
 import { colorLevels } from "../classification/color/constants/levels";
 import { shapeLevels } from "../classification/shape/constants/levels";
-import SettingScreen from "../setting/SettingScreen";
 import SettingButton from "../../components/common/SettingButton";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
+import { categoryLevels } from "../classification/category/constants/levels";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -57,7 +46,11 @@ export default function StageMapScreen() {
   const { gameType } = route.params || { gameType: "color" };
 
   const headerTitle =
-    gameType === "shape" ? "모양 분류 모험" : "색깔 분류 모험";
+    gameType === "shape"
+      ? "모양 분류 모험"
+      : gameType === "category"
+        ? "종류 분류 모험"
+        : "색깔 분류 모험";
 
   const navigation = useNavigation<NavigationProp>();
   const scrollRef = useRef<ScrollView>(null);
@@ -84,8 +77,12 @@ export default function StageMapScreen() {
   // ==================================================
   // ⭐ 현재 게임에 실제로 존재하는 Level 가져오기
   // ==================================================
-
-  const levels = gameType === "color" ? colorLevels : shapeLevels;
+  const levels =
+    gameType === "color"
+      ? colorLevels
+      : gameType === "shape"
+        ? shapeLevels
+        : categoryLevels;
 
   // ⭐ STAGE_CONFIGS 중에서 실제 게임에 존재하는 스테이지만 사용
   const availableStages = STAGE_CONFIGS.filter((stage) =>

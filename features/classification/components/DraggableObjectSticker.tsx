@@ -35,10 +35,10 @@ import {
   RenderShapeItemSvg,
 } from "../shape/assets/shapeItemSvgs";
 import { DisplayObject } from "../type/displayTypes";
+import { RenderCategoryItemSvg } from "../category/assets/categoryItemSvgs";
 
 export function DraggableObjectSticker({
   obj,
-  color,
   itemCount,
   gameBoardLayout,
   isActive,
@@ -342,11 +342,25 @@ export function DraggableObjectSticker({
   // --------------------------------------------------
   // Render
   // --------------------------------------------------
-  // const colorHex = COLORS[obj.color ?? "blue"] ?? "#FFFFFF";
-  // const softColor = obj.color ? SOFT_COLORS[obj.color] : undefined;
-  const colorHex = obj.color ? (COLORS[obj.color] ?? "#FFFFFF") : undefined;
 
-  const softColor = obj.color ? SOFT_COLORS[obj.color] : PASTEL_BG.neutral;
+  const colorHex =
+    obj.kind === "category"
+      ? obj.color // 이미 hex
+      : obj.color
+        ? (COLORS[obj.color] ?? "#FFFFFF")
+        : undefined;
+  const softColor =
+    obj.kind === "category"
+      ? PASTEL_BG.neutral // ⭐ 배경 제거
+      : obj.color
+        ? SOFT_COLORS[obj.color]
+        : PASTEL_BG.neutral;
+  // const softColor =
+  //   obj.kind === "category"
+  //     ? (obj.color ?? "#E2E8F0") + "55"
+  //     : obj.color
+  //       ? SOFT_COLORS[obj.color]
+  //       : PASTEL_BG.neutral;
 
   const renderSvg = () => {
     if (obj.kind === "color") {
@@ -359,6 +373,16 @@ export function DraggableObjectSticker({
     }
     if (obj.kind === "item") {
       return <RenderShapeItemSvg itemId={obj.renderId} colorHex={colorHex} />;
+    }
+    // ⭐ Category 추가
+    if (obj.kind === "category") {
+      return (
+        <RenderCategoryItemSvg
+          itemId={obj.renderId}
+          colorHex={colorHex}
+          primary={colorHex}
+        />
+      );
     }
     return <RenderBasicShapeSvg shapeId={obj.renderId} colorHex={colorHex} />;
   };

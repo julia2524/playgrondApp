@@ -19,8 +19,6 @@ import { Container, GameBoard } from "./styles/classificationStyles";
 import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
 import { completeLevel, createInitialProgress } from "./progress/gameProgress";
 import {
-  playSound,
-  playStreakNote,
   preloadSounds,
   resetLastSuccessNote,
   setGeneralSoundEnabled,
@@ -45,20 +43,17 @@ import {
   getCorrectEffectEnabled,
   getSoundEnabled,
 } from "../audio/audioSettingsStorage";
+import { categoryLevels } from "./category/constants/levels";
+
 // ==================================================
 // Navigation 타입
 // ==================================================
-
 type PlayScreenRouteProp = RouteProp<
   RootStackParamList,
   "ClassificationPlayScreen"
 >;
 
 type PlayScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-// ==================================================
-// ⭐ 별 계산
-// ==================================================
 
 // ==================================================
 // Screen
@@ -138,7 +133,12 @@ export default function ClassificationPlayScreen() {
   // ⭐ Level Config
   // ==================================================
   // 1. gameType에 따라 사용할 레벨 설정 배열 선택
-  const levels = gameType === "shape" ? shapeLevels : colorLevels;
+  const levels =
+    gameType === "shape"
+      ? shapeLevels
+      : gameType === "category"
+        ? categoryLevels
+        : colorLevels;
   const levelConfig = levels[levelIndex] ?? levels[levels.length - 1];
 
   // ==================================================
@@ -229,18 +229,40 @@ export default function ClassificationPlayScreen() {
 
   const currentRound = rounds[roundIndex];
   // ⭐ 안전하게 처리
-  if (
-    !currentRound ||
-    !currentRound.targets ||
-    currentRound.targets.length === 0
-  ) {
+  if (!currentRound) {
     console.log("⚠️ currentRound 없음", {
       roundsLength: rounds.length,
       roundIndex,
-      rounds,
     });
-    return null; // 또는 로딩 화면
+    return null;
   }
+
+  // category는 targets가 없음 → 분기
+  const isCategory = currentRound.game === "category";
+
+  if (!isCategory) {
+    // color / shape만 targets 검사
+    if (
+      !("targets" in currentRound) ||
+      !currentRound.targets ||
+      currentRound.targets.length === 0
+    ) {
+      console.log("⚠️ targets 없음", currentRound);
+      return null;
+    }
+  }
+  // if (
+  //   !currentRound ||
+  //   !currentRound.targets ||
+  //   currentRound.targets.length === 0
+  // ) {
+  //   console.log("⚠️ currentRound 없음", {
+  //     roundsLength: rounds.length,
+  //     roundIndex,
+  //     rounds,
+  //   });
+  //   return null; // 또는 로딩 화면
+  // }
 
   const displayTargets = toDisplayTargets(currentRound);
   const target = displayTargets[0]; // shape는 항상 1개만 나옴
@@ -304,7 +326,15 @@ export default function ClassificationPlayScreen() {
           return;
         }
 
-        const correctTargetId = currentRound.answer[item.id];
+        // ⭐ Category 분기
+        if (currentRound.game === "category") {
+          const isCorrect = item.id === currentRound.correctObjectId;
+          callback(isCorrect ? "correct" : "wrong");
+          return;
+        }
+
+        // ⭐ Color / Shape
+        const correctTargetId = currentRound.answer?.[item.id];
 
         if (correctTargetId) {
           callback("correct");
@@ -528,6 +558,7 @@ export default function ClassificationPlayScreen() {
     JSON.stringify(toDisplayTargets(currentRound), null, 2),
   );
   console.log("🕳️ missingItem", toMissingItem(currentRound));
+
   // ==================================================
   // Render
   // ==================================================

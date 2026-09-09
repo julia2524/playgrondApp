@@ -7,6 +7,7 @@ import {
   RenderBasicShapeSvg,
 } from "../shape/assets/shapeItemSvgs"; // 경로 확인
 import { DisplayItemKind } from "../type/displayTypes";
+import { RenderCategoryItemSvg } from "../category/assets/categoryItemSvgs";
 
 interface TargetSlotItemProps {
   isMissingItem: boolean;
@@ -66,6 +67,16 @@ export default function TargetSlotItem({
       return <RenderShapeItemSvg itemId={renderId} colorHex={svgColor} />;
     }
 
+    // ⭐ Category 추가
+    if (kind === "category") {
+      return (
+        <RenderCategoryItemSvg
+          itemId={renderId}
+          colorHex={svgColor} // hex 그대로 전달
+          primary={svgColor}
+        />
+      );
+    }
     // 3. 모양 분류 - 기본 도형 (circle, triangle, star 등)
     return <RenderBasicShapeSvg shapeId={renderId} colorHex={svgColor} />;
   };

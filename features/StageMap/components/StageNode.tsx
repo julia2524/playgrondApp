@@ -10,9 +10,10 @@ import {
   GlowRing,
 } from "../stageMapStyles";
 import ProgressSun from "../../../components/stageMap/ProgressSun";
+import ProgressRainbow from "../../../components/stageMap/ProgressRainbow";
 
 interface StageNodeProps {
-  gameType: "color" | "shape"; // 🌟 추가
+  gameType: "color" | "shape" | "category"; // 🌟 추가
   level: number;
   name: string;
   unlocked: boolean;
@@ -115,9 +116,11 @@ export default function StageNode({
       >
         {/* 🌟 gameType에 따라 별 또는 다른 형태(해 등)로 분기 */}
         {gameType === "shape" ? (
-          <ProgressSun size={120} progress={progress} /> // 예시: 해 조각 컴포넌트
+          <ProgressSun size={120} progress={progress} />
+        ) : gameType === "category" ? (
+          <ProgressRainbow size={120} progress={progress} />
         ) : (
-          <ProgressStar size={120} progress={progress} /> // 기존 별 조각 컴포넌트
+          <ProgressStar size={120} progress={progress} />
         )}
 
         {/* ⭐ 잠긴 스테이지 */}

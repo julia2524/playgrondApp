@@ -13,7 +13,9 @@ import {
 // Progress Hook
 // ==================================================
 
-export function useProgress(gameType: "color" | "shape" = "color") {
+export function useProgress(
+  gameType: "color" | "shape" | "category" = "color",
+) {
   const [progress, setProgress] = useState<GameProgress>(
     createInitialProgress(),
   );

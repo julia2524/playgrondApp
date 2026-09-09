@@ -5,7 +5,7 @@ import { COLOR_NAMES } from "../color/constants/colorPool";
 interface MissionBubbleProps {
   feedback: string | null;
   target: any;
-  gameType: "color" | "shape";
+  gameType: "color" | "shape" | "category";
 }
 
 export default function MissionBubbleArea({

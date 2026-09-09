@@ -12,6 +12,10 @@ const DEFAULT_COLOR = "#FFD166";
 
 export type ItemSvgProps = {
   colorHex?: string;
+  primary?: string;
+  secondary?: string;
+  accent?: string;
+  size?: number;
 };
 
 // ============================================================
@@ -254,6 +258,46 @@ export const Airplane = ({ colorHex = "#90CAF9" }: ItemSvgProps) => (
 // 🚢 배
 // ============================================================
 
+// export const Ship = ({
+//   primary = "#FFFFFF",
+//   secondary = "#1E88E5",
+//   accent = "#E53935",
+//   size = 95,
+// }: ItemSvgProps) => (
+//   <Svg width={size} height={size} viewBox="0 0 100 100">
+//     {/* 선체 */}
+//     <Path
+//       d="M18 62
+//          L26 82
+//          L74 82
+//          L82 62
+//          Z"
+//       fill={secondary}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//     />
+//     {/* 갑판 */}
+//     <Rect
+//       x="30"
+//       y="42"
+//       width="40"
+//       height="22"
+//       fill={primary}
+//       stroke={OUTLINE}
+//       strokeWidth="3"
+//     />
+//     {/* 굴뚝 */}
+//     <Rect
+//       x="55"
+//       y="28"
+//       width="12"
+//       height="16"
+//       fill={accent}
+//       stroke={OUTLINE}
+//       strokeWidth="2"
+//     />
+//   </Svg>
+// );
 export const Ship = ({ colorHex = "#42A5F5" }: ItemSvgProps) => (
   <Svg width="95" height="95" viewBox="0 0 100 100">
     {/* 선체 */}
@@ -313,9 +357,10 @@ export const Ship = ({ colorHex = "#42A5F5" }: ItemSvgProps) => (
     />
   </Svg>
 );
-// ============================================================
-// 🍚 밥
-// ============================================================
+
+//============================================================
+//🍚 밥
+//============================================================
 
 export const Rice = ({ colorHex = "#FFFFFF" }: ItemSvgProps) => (
   <Svg width="95" height="95" viewBox="0 0 100 100">
@@ -546,7 +591,51 @@ export const IceCream = ({ colorHex = "#F48FB1" }: ItemSvgProps) => (
 // ============================================================
 // 🍎 사과
 // ============================================================
-
+// export const Apple = ({
+//   primary = "#E53935",
+//   secondary = "#C62828",
+//   accent = "#2E7D32",
+//   size = 95,
+// }: ItemSvgProps) => (
+//   <Svg width={size} height={size} viewBox="0 0 100 100">
+//     {/* 본체 */}
+//     <Path
+//       d="M50 30
+//          C36 22 24 34 22 52
+//          C20 72 32 88 50 86
+//          C68 88 80 72 78 52
+//          C76 34 64 22 50 30Z"
+//       fill={primary}
+//       stroke={OUTLINE}
+//       strokeWidth="4"
+//     />
+//     {/* 꼭지 */}
+//     <Path
+//       d="M50 30 Q48 18 56 12"
+//       fill="none"
+//       stroke="#5D4037"
+//       strokeWidth="5"
+//       strokeLinecap="round"
+//     />
+//     {/* 잎 */}
+//     <Path
+//       d="M54 20 C66 10 78 18 72 28 C64 30 54 26 54 20Z"
+//       fill={accent}
+//       stroke={OUTLINE}
+//       strokeWidth="3"
+//     />
+//     {/* 하이라이트 */}
+//     <Ellipse
+//       cx="36"
+//       cy="48"
+//       rx="8"
+//       ry="5"
+//       fill={WHITE}
+//       opacity={0.35}
+//       transform="rotate(-30 36 48)"
+//     />
+//   </Svg>
+// );
 export const Apple = ({ colorHex = "#E53935" }: ItemSvgProps) => (
   <Svg width="95" height="95" viewBox="0 0 100 100">
     {/* 사과 */}
@@ -593,9 +682,9 @@ export const Apple = ({ colorHex = "#E53935" }: ItemSvgProps) => (
   </Svg>
 );
 
-// ============================================================
-// 🍌 바나나
-// ============================================================
+//============================================================
+//🍌 바나나
+//============================================================
 
 export const Banana = ({ colorHex = "#FDD835" }: ItemSvgProps) => (
   <Svg width="95" height="95" viewBox="0 0 100 100">
@@ -1443,6 +1532,7 @@ const resolveColor = (colorHex?: string) => {
 export const RenderCategoryItemSvg = ({
   itemId,
   colorHex,
+  primary, // 추가
 }: ItemSvgProps & { itemId?: string }) => {
   const ItemComponent = itemId
     ? CATEGORY_ITEM_SVGS[itemId as keyof typeof CATEGORY_ITEM_SVGS]
@@ -1476,7 +1566,9 @@ export const RenderCategoryItemSvg = ({
       </Svg>
     );
   }
-  const resolvedColor = resolveColor(colorHex);
+  // const resolvedColor = resolveColor(colorHex);
+  // primary가 있으면 우선 사용, 없으면 colorHex 사용
+  const finalColor = primary || colorHex;
 
-  return <ItemComponent colorHex={resolvedColor} />;
+  return <ItemComponent colorHex={finalColor} />;
 };

@@ -47,7 +47,7 @@ export function darkenColor(hex: string, amount: number = 0.2) {
   return rgbToHex(r * (1 - amount), g * (1 - amount), b * (1 - amount));
 }
 
-export function getColorVariants(colorHex: string) {
+export function getCategoryVariants(colorHex: string) {
   return {
     base: colorHex,
     light: lightenColor(colorHex, 0.2),

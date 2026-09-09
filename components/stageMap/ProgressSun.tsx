@@ -75,9 +75,10 @@ export default function ProgressSun({ progress, size = 80 }: ProgressSunProps) {
             key={index}
             points={ray.points}
             fill={ray.isFilled ? "#FFD85C" : "#F3F4F8"}
-            stroke="#D9DCE8"
-            strokeWidth={1}
+            stroke="#FFFFFF"
+            strokeWidth="1"
             strokeLinejoin="round"
+            strokeLinecap="round"
           />
         ))}
       </G>
@@ -123,8 +124,10 @@ export default function ProgressSun({ progress, size = 80 }: ProgressSunProps) {
           cy={center}
           r={sunRadius}
           fill="none"
-          stroke="#D9DCE8"
-          strokeWidth={0.5}
+          stroke="#FFFFFF"
+          strokeWidth="2"
+          strokeLinejoin="round"
+          strokeLinecap="round"
         />
       </G>
 
@@ -135,8 +138,8 @@ export default function ProgressSun({ progress, size = 80 }: ProgressSunProps) {
         r={sunRadius}
         fill="#FFD85C"
         stroke="#E8C94F"
-        strokeWidth={1.5}
-      /> */}
+        strokeWidth={1.5} 
+      />*/}
     </Svg>
   );
 }

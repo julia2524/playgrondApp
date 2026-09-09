@@ -75,7 +75,7 @@ const GameEmoji = styled.Text`
 
 const GameTitle = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.subheading}px;
+  font-size: ${(props) => props.theme.typography.button}px;
   color: #ffffff;
   margin-bottom: 4px;
   text-align: center; // 🌟 확실하게 가운데 정렬
@@ -83,7 +83,7 @@ const GameTitle = styled.Text`
 
 const GameDesc = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
+  font-size: ${(props) => props.theme.typography.tiny}px;
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
 `;

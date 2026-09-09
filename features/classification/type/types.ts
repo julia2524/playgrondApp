@@ -1,3 +1,8 @@
+import {
+  CategoryGameObject,
+  CategoryLevelConfig,
+  CategoryRound,
+} from "../category/type/types";
 import { ColorLevelConfig, ColorRound } from "../color/type/types";
 import { ShapeLevelConfig, ShapeRound } from "../shape/type/types";
 
@@ -10,20 +15,26 @@ export type Layout = {
   height: number;
 };
 
-export type GameType = "color" | "shape";
+export type GameType = "color" | "shape" | "category";
 
-// ⭐ 기존 걸 이름만 바꿔서 그대로 유지 — "이 타입 하나로 좁혀 쓰고 싶을 때" 용도
-export type LevelConfigFor<T extends GameType = "color"> = T extends "shape"
-  ? ShapeLevelConfig
-  : ColorLevelConfig;
+export type LevelConfigFor<T extends GameType = "color"> = T extends "color"
+  ? ColorLevelConfig
+  : T extends "shape"
+    ? ShapeLevelConfig
+    : CategoryLevelConfig;
 
-export type GameRoundFor<T extends GameType = "color"> = T extends "shape"
-  ? ShapeRound
-  : ColorRound;
+export type GameRoundFor<T extends GameType = "color"> = T extends "color"
+  ? ColorRound
+  : T extends "shape"
+    ? ShapeRound
+    : CategoryRound;
 
-// ⭐ 새로 추가 — "여러 게임 다 받아야 하는 곳"에 쓰는 진짜 유니온
-export type LevelConfig = ColorLevelConfig | ShapeLevelConfig;
-export type GameRound = ColorRound | ShapeRound;
+// 유니온
+export type LevelConfig =
+  | ColorLevelConfig
+  | ShapeLevelConfig
+  | CategoryLevelConfig;
+export type GameRound = ColorRound | ShapeRound | CategoryRound;
 
 // type/types.ts
 
@@ -64,4 +75,4 @@ export interface BaseRound {
 //   targets: BaseGameTarget[];
 // }
 
-export type GameObject = ColorGameObject | ShapeGameObject;
+export type GameObject = ColorGameObject | ShapeGameObject | CategoryGameObject;

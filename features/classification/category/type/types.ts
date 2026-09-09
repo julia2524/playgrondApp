@@ -113,7 +113,7 @@ export type SubCategory =
   | "air_vehicle"
   | "water_vehicle";
 
-export type ColorVariant = {
+export type CategoryVariant = {
   id: string; // "white", "brown", "spotted", "red" 등
   name?: string; // "흰둥이", "누렁이", "빨간사과" (선택)
   // SVG에 바로 넣을 수 있는 색상 값들
@@ -123,7 +123,7 @@ export type ColorVariant = {
   pattern?: "none" | "spots" | "stripes" | "patches"; // 간단한 무늬 타입
 };
 
-export type CategoryObject = {
+export type CategoryGameObject = {
   id: string; // "dog"
   name: string; // "개"
   topCategory: TopCategory;
@@ -131,5 +131,38 @@ export type CategoryObject = {
   // SVG를 그릴 때 사용할 기본 모양 키 (컴포넌트 매핑용)
   svgKey: string; // "dog", "apple", "car" 등
   // 이 종류의 자연스러운 색상 변주들
-  variants: ColorVariant[];
+  variants: CategoryVariant[];
+};
+
+// category/type/types.ts (또는 공통 types)
+
+export type GeneratedItem = {
+  id: string; // 고유 ID (예: "obj-dog-white-1")
+  objectId: string; // "dog"
+  variantId: string; // "white"
+  svgKey: string; // "dog"
+  name: string; // "개"
+  variant: CategoryVariant;
+  isCorrect: boolean;
+};
+
+export type CategoryRound = {
+  id: string;
+  game: "category";
+  level: number;
+  round: number;
+  type: "category_classification";
+  rule: "category_classification";
+
+  // Shape와 동일한 인터페이스
+  objects: GeneratedItem[]; // 드래그할 스티커들 (정답 + 오답)
+  targets: GeneratedItem[]; // TargetArea에 보여줄 것들 (3개 예시 + 1개 빈칸용)
+  answer: Record<string, string>; // objectId → targetId
+
+  correctObjectId: string;
+  wrongObjectIds?: string[];
+
+  // 디버깅/추가 정보용 (선택)
+  targetBox?: GeneratedItem[]; // 원래 3개 예시
+  correctIndex?: number;
 };

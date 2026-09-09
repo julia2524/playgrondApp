@@ -5,9 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../navigation/types";
 import Mascot from "../../../design-system/ui/Mascot";
 import AppHeader from "../../../components/common/AppHeader";
-import StarBadge from "../../../design-system/ui/StarBadge";
 import GradientBackground from "../../../design-system/backgrounds/GradientBackground";
-import { ColorLevelConfig } from "../color/type/types";
+
 import {
   GameHeaderCenter,
   GameHeaders,
@@ -15,14 +14,11 @@ import {
   StarRow,
   TitleText,
 } from "../styles/classificationStyles";
-import SunBadge from "../../../design-system/ui/SunBadge";
 import GameRewardBadge from "./GameRewardBadge";
 import SettingButton from "../../../components/common/SettingButton";
 
 interface GameHeaderProps {
-  gameType: "color" | "shape"; // 🌟 추가
-  // levelConfig: ColorLevelConfig;
-  // roundIndex: number;
+  gameType: "color" | "shape" | "category"; // 🌟 추가
   earnedStars: number; // ⭐ 실제 획득 별
 }
 
@@ -35,17 +31,12 @@ export default function GameHeader({
   const totalStars = 5;
 
   const navigation = useNavigation<GameHeaderNavigationProp>();
-  const headerTitle = gameType === "shape" ? "모양 찾기" : "색깔 찾기";
-
-  // const renderSvg = (key: number, type: "full" | "half" | "empty") => {
-  //   if (gameType === "color") {
-  //     return <StarBadge key={key} type={type} />;
-  //   }
-  //   if (gameType === "shape") {
-  //     return <SunBadge key={key} type={type} />;
-  //   }
-  //   return <StarBadge key={key} type={type} />;
-  // };
+  const headerTitle =
+    gameType === "shape"
+      ? "모양 찾기"
+      : gameType === "category"
+        ? "친구들 찾기"
+        : "색깔 찾기";
 
   return (
     <GameHeaders>
@@ -75,12 +66,10 @@ export default function GameHeader({
           if (earnedStars >= starPosition) {
             type = "full";
           }
-
           // ⭐ 반개 별
           else if (earnedStars >= starPosition - 0.5) {
             type = "half";
           }
-
           return (
             <GameRewardBadge key={index} gameType={gameType} type={type} />
           );

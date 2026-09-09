@@ -8,7 +8,7 @@ interface SunBadgeProps {
 
 const OUTLINE = "#5B4B4B";
 const SUN_YELLOW = "#FFD85C";
-const EMPTY_COLOR = "#F3F4F8";
+const EMPTY_COLOR = "#E2E8F0";
 
 export default function SunBadge({ type = "empty", size = 30 }: SunBadgeProps) {
   const center = size / 2;
@@ -61,8 +61,8 @@ export default function SunBadge({ type = "empty", size = 30 }: SunBadgeProps) {
             key={index}
             points={ray.points}
             fill={ray.isFilled ? SUN_YELLOW : EMPTY_COLOR}
-            stroke={OUTLINE}
-            strokeWidth={1.5}
+            // stroke={OUTLINE}
+            // strokeWidth={1.5}
             strokeLinejoin="round"
           />
         ))}
@@ -115,8 +115,8 @@ export default function SunBadge({ type = "empty", size = 30 }: SunBadgeProps) {
         cy={center}
         r={sunRadius}
         fill="none"
-        stroke={OUTLINE}
-        strokeWidth={1.5}
+        // stroke={OUTLINE}
+        // strokeWidth={1.5}
       />
     </Svg>
   );

@@ -6,6 +6,8 @@ import StickerGalleryScreen from "../features/classification/StickerGalleryScree
 import ShapeStickerGalleryScreen from "../features/classification/ShapeStickerGalleryScreen";
 import SettingScreen from "../features/setting/SettingScreen";
 import CategoryStickerGalleryScreen from "../features/classification/CategoryStickerGalleyScreen";
+import CategoryTestScreen from "../features/classification/CategoryTestScreen";
+import RainbowTestScreen from "../features/StageMap/RainbowTextScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +53,8 @@ export default function AppNavigator() {
         name="CategoryStickerGalleryScreen"
         component={CategoryStickerGalleryScreen}
       />
+      <Stack.Screen name="CategoryTestScreen" component={CategoryTestScreen} />
+      <Stack.Screen name="RainbowTestScreen" component={RainbowTestScreen} />
     </Stack.Navigator>
   );
 }

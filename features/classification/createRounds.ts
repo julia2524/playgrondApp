@@ -70,9 +70,11 @@
 // createRounds.ts (통합 파일)
 import { createColorRounds } from "./color/createColorRounds";
 import { createShapeRounds } from "./shape/createShapeRounds";
-import { ColorLevelConfig, ColorRound } from "./color/type/types";
-import { ShapeLevelConfig, ShapeRound } from "./shape/type/types";
+import { ColorLevelConfig } from "./color/type/types";
+import { ShapeLevelConfig } from "./shape/type/types";
 import { GameType, LevelConfig, GameRound } from "./type/types"; // 유니온 타입들
+import { createCategoryRounds } from "./category/createCategoryRounds";
+import { CategoryLevelConfig } from "./category/type/types";
 
 export const generateRounds = (
   config: LevelConfig,
@@ -81,6 +83,9 @@ export const generateRounds = (
 ): GameRound[] => {
   if (gameType === "shape") {
     return createShapeRounds(config as ShapeLevelConfig, roundCount);
+  }
+  if (gameType === "category") {
+    return createCategoryRounds(config as CategoryLevelConfig, roundCount);
   }
   return createColorRounds(config as ColorLevelConfig, roundCount);
 };

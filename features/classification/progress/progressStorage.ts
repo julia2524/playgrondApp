@@ -7,7 +7,7 @@ import { GameProgress } from "./gameProgress";
 
 const PROGRESS_STORAGE_KEY = "@classification_game_progress";
 // gameType에 따라 동적으로 키를 생성
-const getStorageKey = (gameType: "color" | "shape") => {
+const getStorageKey = (gameType: "color" | "shape" | "category") => {
   return `@classification_game_progress_${gameType}`;
 };
 
@@ -16,7 +16,7 @@ const getStorageKey = (gameType: "color" | "shape") => {
 // ==================================================
 
 export async function saveGameProgress(
-  gameType: "color" | "shape",
+  gameType: "color" | "shape" | "category",
   progress: GameProgress,
 ) {
   try {
@@ -32,7 +32,7 @@ export async function saveGameProgress(
 // ==================================================
 
 export async function loadGameProgress(
-  gameType: "color" | "shape",
+  gameType: "color" | "shape" | "category",
 ): Promise<GameProgress | null> {
   try {
     const key = getStorageKey(gameType);
@@ -54,7 +54,9 @@ export async function loadGameProgress(
 // Progress 삭제
 // ==================================================
 
-export async function clearGameProgress(gameType: "color" | "shape") {
+export async function clearGameProgress(
+  gameType: "color" | "shape" | "category",
+) {
   try {
     const key = getStorageKey(gameType);
     await AsyncStorage.removeItem(key);
