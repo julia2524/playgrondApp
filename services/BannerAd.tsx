@@ -9,7 +9,7 @@ import {
 export default function BannerAd() {
   const adUnitId = __DEV__
     ? TestIds.BANNER
-    : "ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx";
+    : "ca-app-pub-4226620856687729/2756283514";
 
   return (
     <View
