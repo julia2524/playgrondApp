@@ -35,6 +35,7 @@ import {
   setSoundEnabled,
 } from "../audio/audioSettingsStorage";
 import { useBackgroundMusic } from "../audio/BackgroundMusicContext";
+import { GAME_INFO } from "../../constants/GameInfo";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -77,51 +78,70 @@ export default function SettingScreen() {
   const handleAlertCancel = () => {
     setAlertVisible(false);
   };
+  // 공통 초기화 함수
+  const handleResetGame = (mode: keyof typeof GAME_INFO) => {
+    const { title } = GAME_INFO[mode];
+
+    showAlert(
+      "처음부터 다시 시작할까요?",
+      `${title}의 진행 기록이\n모두 처음으로 돌아가요.`,
+      async () => {
+        await clearGameProgress(mode);
+        showAlert("초기화 완료!", `${title}를\n처음부터 신나게 시작해 보세요!`);
+      },
+      { showCancel: true, confirmText: "다시 시작" },
+    );
+  };
+
+  // 기존 핸들러
+  const handleResetColor = () => handleResetGame("color");
+  const handleResetShape = () => handleResetGame("shape");
+  const handleResetCategory = () => handleResetGame("category");
   // 색깔 놀이 초기화
-  const handleResetColor = () => {
-    showAlert(
-      "처음부터 다시 시작할까요?",
-      `색깔 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-      async () => {
-        await clearGameProgress("color");
-        showAlert(
-          "초기화 완료",
-          `색깔 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-        );
-      },
-      { showCancel: true, confirmText: "다시 시작" },
-    );
-  };
-  // 모양 놀이 초기화
-  const handleResetShape = () => {
-    showAlert(
-      "처음부터 다시 시작할까요?",
-      `모양 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-      async () => {
-        await clearGameProgress("shape");
-        showAlert(
-          "초기화 완료",
-          `모양 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-        );
-      },
-      { showCancel: true, confirmText: "다시 시작" },
-    );
-  };
-  // 모양 놀이 초기화
-  const handleResetCategory = () => {
-    showAlert(
-      "처음부터 다시 시작할까요?",
-      `친구 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-      async () => {
-        await clearGameProgress("category");
-        showAlert(
-          "초기화 완료",
-          `친구 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-        );
-      },
-      { showCancel: true, confirmText: "다시 시작" },
-    );
-  };
+  // const handleResetColor = () => {
+  //   showAlert(
+  //     "처음부터 다시 시작할까요?",
+  //     `색깔 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
+  //     async () => {
+  //       await clearGameProgress("color");
+  //       showAlert(
+  //         "초기화 완료",
+  //         `색깔 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+  //       );
+  //     },
+  //     { showCancel: true, confirmText: "다시 시작" },
+  //   );
+  // };
+  // // 모양 놀이 초기화
+  // const handleResetShape = () => {
+  //   showAlert(
+  //     "처음부터 다시 시작할까요?",
+  //     `모양 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
+  //     async () => {
+  //       await clearGameProgress("shape");
+  //       showAlert(
+  //         "초기화 완료",
+  //         `모양 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+  //       );
+  //     },
+  //     { showCancel: true, confirmText: "다시 시작" },
+  //   );
+  // };
+  // // 모양 놀이 초기화
+  // const handleResetCategory = () => {
+  //   showAlert(
+  //     "처음부터 다시 시작할까요?",
+  //     `친구 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
+  //     async () => {
+  //       await clearGameProgress("category");
+  //       showAlert(
+  //         "초기화 완료",
+  //         `친구 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+  //       );
+  //     },
+  //     { showCancel: true, confirmText: "다시 시작" },
+  //   );
+  // };
 
   // =========================
   // 임시 소리 설정

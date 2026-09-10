@@ -66,6 +66,9 @@ export default function SuccessModal({
   const onGoHome = () => {
     navigation.navigate("Home");
   };
+  const onGoStickerRounge = () => {
+    navigation.navigate("CategoryStickerGalleryScreen");
+  };
 
   // ⭐ 별을 무지개처럼 배치
   const starOffsets = [18, 6, 0, 6, 18];
@@ -150,6 +153,7 @@ export default function SuccessModal({
               <SuccessButton
                 variant="primary"
                 onPress={onGoHome}
+                // onPress={onGoStickerRounge}
                 activeOpacity={0.85}
               >
                 <ButtonText>⌂</ButtonText>

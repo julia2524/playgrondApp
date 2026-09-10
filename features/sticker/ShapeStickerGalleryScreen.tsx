@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
-import { RenderShapeItemSvg } from "./shape/assets/shapeItemSvgs";
+import { RenderShapeItemSvg } from "../classification/shape/assets/shapeItemSvgs";
 
 export default function ShapeStickerGalleryScreen() {
   const navigation = useNavigation<any>();
@@ -132,26 +132,24 @@ export default function ShapeStickerGalleryScreen() {
         onBack={() => navigation.goBack()}
         center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
       />
+      <ColorPickerBar>
+        <ColorLabel>적용할 색상:</ColorLabel>
 
+        {sampleColors.map((color) => (
+          <ColorButton
+            key={color}
+            color={color}
+            isSelected={selectedColor === color}
+            onPress={() => setSelectedColor(color)}
+          />
+        ))}
+      </ColorPickerBar>
       <ScrollView
         contentContainerStyle={{
           padding: 20,
           paddingBottom: 300,
         }}
       >
-        <ColorPickerBar>
-          <ColorLabel>적용할 색상:</ColorLabel>
-
-          {sampleColors.map((color) => (
-            <ColorButton
-              key={color}
-              color={color}
-              isSelected={selectedColor === color}
-              onPress={() => setSelectedColor(color)}
-            />
-          ))}
-        </ColorPickerBar>
-
         <GridContainer>
           {shapeStickerKeys.map((key) => (
             <StickerCard key={key}>

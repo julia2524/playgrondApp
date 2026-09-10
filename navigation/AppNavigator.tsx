@@ -2,10 +2,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../features/home/HomeScreen";
 import ClassificationPlayScreen from "../features/classification/ClassificationPlayScreen";
 import StageMapScreen from "../features/StageMap/StageMapScreen";
-import StickerGalleryScreen from "../features/classification/StickerGalleryScreen";
-import ShapeStickerGalleryScreen from "../features/classification/ShapeStickerGalleryScreen";
+import StickerGalleryScreen from "../features/sticker/StickerGalleryScreen";
+import ShapeStickerGalleryScreen from "../features/sticker/ShapeStickerGalleryScreen";
 import SettingScreen from "../features/setting/SettingScreen";
-import CategoryStickerGalleryScreen from "../features/classification/CategoryStickerGalleyScreen";
+import CategoryStickerGalleryScreen from "../features/sticker/CategoryStickerGalleyScreen";
 
 const Stack = createNativeStackNavigator();
 

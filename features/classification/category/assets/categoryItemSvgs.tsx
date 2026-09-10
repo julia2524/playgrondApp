@@ -5705,6 +5705,184 @@ export const Tangerine = ({
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
+      <G transform="translate(16.5, 16.5) scale(0.67)">
+        {/* 🍊 1. 상단 나뭇잎 2장 (결 무늬 포함) */}
+        <Path
+          d="
+            M 50 25
+            C 35 15, 25 15, 28 8
+            C 38 5, 48 15, 50 25
+            Z
+          "
+          fill={leafColor}
+          stroke={OUTLINE}
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M 33 13 C 38 11, 44 16, 47 22"
+          fill="none"
+          stroke="#2E7D32"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+
+        <Path
+          d="
+            M 50 25
+            C 50 10, 62 2, 72 4
+            C 75 14, 62 22, 50 25
+            Z
+          "
+          fill={leafColor}
+          stroke={OUTLINE}
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M 54 22 C 60 14, 66 8, 70 6"
+          fill="none"
+          stroke="#2E7D32"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+
+        {/* 🍊 2. 귤 몸통 */}
+        <Path
+          d="
+            M 50 25
+            C 60 23, 94 28, 94 60
+            C 94 88, 62 93, 50 92
+            C 38 93, 6 88, 6 60
+            C 6 28, 40 23, 50 25
+            Z
+          "
+          fill={fruitColor}
+          stroke={OUTLINE}
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+        />
+
+        {/* ✨ 3. 왼쪽 상단 흰색 광택 하이라이트 */}
+        <Path
+          d="M 22 36 A 35 35 0 0 1 30 29"
+          fill="none"
+          stroke={WHITE}
+          strokeWidth="3.5"
+          strokeLinecap="round"
+        />
+        <Circle cx="18" cy="43" r="1.8" fill={WHITE} />
+
+        {/* 🍊 4. 귤의 모공 껍질 디테일 */}
+        <Circle
+          cx="30"
+          cy="38"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+        <Circle
+          cx="35"
+          cy="35"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+        <Circle
+          cx="26"
+          cy="46"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+
+        <Circle
+          cx="78"
+          cy="38"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+        <Circle
+          cx="82"
+          cy="42"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+
+        <Circle cx="87" cy="50" r="1" fill={WHITE} opacity="0.9" />
+        <Circle cx="89" cy="56" r="1" fill={WHITE} opacity="0.9" />
+
+        <Circle
+          cx="72"
+          cy="80"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+        <Circle
+          cx="78"
+          cy="76"
+          r="0.8"
+          fill={shade(fruitColor, -0.2)}
+          opacity="0.6"
+        />
+
+        {/* 🌸 5. 미소 표정 디테일 */}
+        <Path
+          d="M 47 53 L 48 57 M 50 52 L 50 57 M 53 53 L 52 57"
+          fill="none"
+          stroke={WHITE}
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+
+        <Circle cx="42" cy="61" r="2.8" fill={detailColor} />
+        <Circle cx="58" cy="61" r="2.8" fill={detailColor} />
+
+        <Path
+          d="M 37 65 C 34 63, 34 67, 37 67 C 39 67, 39 63, 36 63"
+          fill="none"
+          stroke="#FF7043"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.8"
+        />
+        <Path
+          d="M 63 65 C 66 63, 66 67, 63 67 C 61 67, 61 63, 64 63"
+          fill="none"
+          stroke="#FF7043"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          opacity="0.8"
+        />
+
+        <Path
+          d="M 47 62 Q 48.5 64 50 62 Q 51.5 64 53 62"
+          fill="none"
+          stroke={detailColor}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </G>
+    </Svg>
+  );
+};
+export const Tangerine1 = ({
+  colorHex = "#FF8A00",
+  primary,
+  secondary,
+  accent,
+  size = 95,
+}: ItemSvgProps) => {
+  const fruitColor = primary ?? colorHex;
+  const leafColor = secondary ?? "#4CAF50";
+  const detailColor = accent ?? OUTLINE;
+
+  return (
+    <Svg width={size} height={size} viewBox="0 0 100 100">
       {/* 🍊 1. 상단 나뭇잎 2장 (결 무늬 포함) */}
       <Path
         d="
@@ -6691,9 +6869,76 @@ export const Sandwich1 = ({
   );
 };
 
-// ------------------------------------------------------------
-
 export const Dumpling = ({
+  colorHex = "#FFF3E0",
+  primary,
+  secondary,
+  accent,
+  size = 95,
+}: ItemSvgProps) => {
+  const dumplingColor = primary ?? colorHex;
+  const blushColor = secondary ?? "#F8BBD0"; // 볼터치 핑크 색상
+  const foldColor = accent ?? OUTLINE; // 주름 및 눈/입 색상
+
+  return (
+    <Svg width={size} height={size} viewBox="0 0 100 100">
+      {/* 🥟 3/4 축소 및 Y축 상단 이동 조정 */}
+      <G transform="translate(12.5, 8) scale(0.75)">
+        {/* 1. 만두 몸통 */}
+        <Path
+          d="
+            M 50 10
+            C 53 10, 56 15, 58 15
+            C 61 15, 62 12, 67 15
+            C 72 20, 68 28, 62 30
+            C 76 34, 92 52, 88 72
+            C 84 88, 16 88, 12 72
+            C 8 52, 24 34, 38 30
+            C 32 28, 28 20, 33 15
+            C 38 12, 39 15, 42 15
+            C 44 15, 47 10, 50 10
+            Z
+          "
+          fill={dumplingColor}
+          stroke={OUTLINE}
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+        />
+
+        {/* 2. 상단 꼭지 주름 선 3개 */}
+        <Path
+          d="
+            M 38 23 L 42 18
+            M 50 24 L 50 17
+            M 62 23 L 58 18
+          "
+          fill="none"
+          stroke={foldColor}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+
+        {/* 3. 볼터치 */}
+        <Circle cx="20" cy="63" r="7" fill={blushColor} opacity="0.6" />
+        <Circle cx="80" cy="63" r="7" fill={blushColor} opacity="0.6" />
+
+        {/* 4. 동그란 눈 */}
+        <Circle cx="32" cy="54" r="4.5" fill={OUTLINE} />
+        <Circle cx="68" cy="54" r="4.5" fill={OUTLINE} />
+
+        {/* 5. 스마일 입 곡선 */}
+        <Path
+          d="M 44 59 Q 50 65 56 59"
+          fill="none"
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+      </G>
+    </Svg>
+  );
+};
+export const Dumpling1 = ({
   colorHex = "#FFF3E0",
   primary,
   secondary,

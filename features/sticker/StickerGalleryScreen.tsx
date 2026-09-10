@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import AppHeader from "../../components/common/AppHeader";
-import { RenderColorItemSvg } from "./color/assets/ColorItemSvgs";
+import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs";
 
 export default function StickerGalleryScreen() {
   const navigation = useNavigation<any>();
@@ -74,6 +74,17 @@ export default function StickerGalleryScreen() {
         onBack={() => navigation.goBack()}
         center={<HeaderTitle>스티커 갤러리 모음</HeaderTitle>}
       />
+      <ColorPickerBar>
+        <ColorLabel>적용할 색상:</ColorLabel>
+        {sampleColors.map((color) => (
+          <ColorButton
+            key={color}
+            color={color}
+            isSelected={selectedColor === color}
+            onPress={() => setSelectedColor(color)}
+          />
+        ))}
+      </ColorPickerBar>
 
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 60 }}>
         <ColorPickerBar>

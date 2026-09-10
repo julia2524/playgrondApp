@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "playgroundApp",
+    "name": "KidsPlayground",
     "slug": "playgroundApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.julia2524.playgroundApp",
+      "bundleIdentifier": "com.skinnymommybear.playgroundApp",
       "jsEngine": "hermes"
     },
     "android": {
@@ -28,7 +28,7 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
-      "package": "com.julia2524.playgroundApp"
+      "package": "com.skinnymommybear.playgroundApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,7 +40,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-4226620856687729~8092988256"
+          "androidAppId": "ca-app-pub-5145202325745375~4363210355"
         }
       ]
     ],

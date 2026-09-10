@@ -44,6 +44,7 @@ import {
   getSoundEnabled,
 } from "../audio/audioSettingsStorage";
 import { categoryLevels } from "./category/constants/levels";
+import { unlockSticker } from "../sticker/utils/stickerStorage";
 
 // ==================================================
 // Navigation 타입
@@ -431,6 +432,19 @@ export default function ClassificationPlayScreen() {
     setTutorialVisible(false);
     setIsTargetFront(true);
     setFeedback("참 잘했어요! 👏");
+
+    // ----------------------------------------------------
+    // 🏆 [스티커 도장깨기 해금 로직 추가]
+    // 정답으로 맞춰진 objectId (예: "sparrow", "apple" 등)를 스티커로 저장!
+    // ----------------------------------------------------
+    if (objectId) {
+      unlockSticker(objectId).then((isNew) => {
+        if (isNew) {
+          console.log(`🎉 새로운 스티커 획득!: ${objectId}`);
+          // 필요하다면 여기서 토스트 메시지나 효과음 추가 가능!
+        }
+      });
+    }
 
     // ⭐ 성공 횟수 증가
     const nextCorrectRoundCount = correctRoundCount + 1;
