@@ -13,6 +13,7 @@ import StageNode from "./components/StageNode";
 import AppHeader from "../../components/common/AppHeader";
 import { STAGE_CONFIGS } from "./stageConfigs";
 import {
+  BannerAdContainer,
   Container,
   Content,
   StageMapHeaderCenter,
@@ -25,6 +26,7 @@ import SettingButton from "../../components/common/SettingButton";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
 import { categoryLevels } from "../classification/category/constants/levels";
+import BannerAd from "../../services/BannerAd";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -214,6 +216,7 @@ export default function StageMapScreen() {
             }}
             contentContainerStyle={{
               minHeight: contentHeight,
+              // paddingBottom: 70, // ⭐ 광고 영역 확보
             }}
           >
             <View style={{ height: contentHeight }}>
@@ -269,6 +272,10 @@ export default function StageMapScreen() {
               })}
             </View>
           </ScrollView>
+          {/* ⭐ 화면 하단 고정 광고 */}
+          <BannerAdContainer>
+            <BannerAd />
+          </BannerAdContainer>
         </Content>
       )}
     </Container>

@@ -105,6 +105,11 @@ export default function CategoryStickerGalleryScreen() {
   const [selectedFamily, setSelectedFamily] = useState<ColorFamily>("natural");
 
   const categoryStickerKeys1 = [
+    "sparrow",
+    "corn",
+    "broccoli",
+    "mushroom",
+    "stingray",
     "dog",
     "cat",
     "rabbit",
@@ -170,21 +175,19 @@ export default function CategoryStickerGalleryScreen() {
         onBack={() => navigation.goBack()}
         center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
       />
+      <ColorPickerBar>
+        <ColorLabel></ColorLabel>
 
+        {sampleColors.map(({ id, hex }) => (
+          <ColorButton
+            key={id}
+            color={id === "natural" ? "#FFFFFF" : hex}
+            isSelected={selectedFamily === id}
+            onPress={() => setSelectedFamily(id)}
+          />
+        ))}
+      </ColorPickerBar>
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 300 }}>
-        <ColorPickerBar>
-          <ColorLabel></ColorLabel>
-
-          {sampleColors.map(({ id, hex }) => (
-            <ColorButton
-              key={id}
-              color={id === "natural" ? "#FFFFFF" : hex}
-              isSelected={selectedFamily === id}
-              onPress={() => setSelectedFamily(id)}
-            />
-          ))}
-        </ColorPickerBar>
-
         <GridContainer>
           {categoryStickerKeys1.map((key) => {
             const obj = CategoryGameObjects1.find((o) => o.id === key);

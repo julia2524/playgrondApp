@@ -1479,6 +1479,51 @@ export const CategoryGameObjects: CategoryGameObject[] = [
       },
     ],
   },
+  {
+    id: "sparrow",
+    name: "참새",
+    topCategory: "animal",
+    subCategory: "bird",
+    svgKey: "sparrow",
+    variants: [
+      {
+        id: "classic",
+        primary: "#A1785C", // 클래식 갈색
+        secondary: "#F5EBE6", // 아이보리 배
+        accent: "#E0986B", // 살구색 부리
+      },
+      {
+        id: "dark_brown",
+        primary: "#6D4C41", // 딥 브라운
+        secondary: "#E0D5D0", // 회갈색 배
+        accent: "#D87A51", // 다크 앤틱 부리
+      },
+      {
+        id: "beige",
+        primary: "#D7CCC8", // 밝은 베이지
+        secondary: "#FFFFFF", // 순백색 배
+        accent: "#FFB74D", // 연주황 부리
+      },
+      {
+        id: "golden",
+        primary: "#C0CA33", // 황금/올리브 깃털
+        secondary: "#F0F4C3", // 연연두 배
+        accent: "#FFA726", // 주황 부리
+      },
+      {
+        id: "ash_gray",
+        primary: "#78909C", // 애쉬 애쉬그레이
+        secondary: "#ECEFF1", // 밝은 회색 배
+        accent: "#FF8A65", // 코랄 부리
+      },
+      {
+        id: "cinnamon",
+        primary: "#BCAAA4", // 시나몬 모카
+        secondary: "#F5F5F5", // 웜 화이트 배
+        accent: "#FFB300", // 옐로우 골드 부리
+      },
+    ],
+  },
 
   // ========== 동물 > 바다동물 ==========
   {
@@ -1548,7 +1593,58 @@ export const CategoryGameObjects: CategoryGameObject[] = [
     ],
   },
   {
-    id: "squid",
+    id: "stingray",
+    name: "가오리",
+    topCategory: "animal",
+    subCategory: "sea_animal",
+    svgKey: "stingray",
+    variants: [
+      {
+        // 1. 매가오리 / 네이비 블루 가오리 (가장 대표적인 바다 가오리)
+        id: "navy",
+        primary: "#5C6BC0",
+        secondary: "#9FA8DA",
+        accent: "#1A237E",
+      },
+      {
+        // 2. 만타가오리 / 흑가오리 (멋진 딥 블루/블랙 톤)
+        id: "black",
+        primary: "#455A64",
+        secondary: "#90A4AE",
+        accent: "#212121",
+      },
+      {
+        // 3. 노랑가오리 (해안가에 사는 귀여운 노란빛 가오리)
+        id: "yellow",
+        primary: "#FBC02D",
+        secondary: "#FFF59D",
+        accent: "#F57F17",
+      },
+      {
+        // 4. 에메랄드 / 민트 가오리 (청량한 열대 바다 느낌)
+        id: "teal",
+        primary: "#26A69A",
+        secondary: "#80CBC4",
+        accent: "#004D40",
+      },
+      {
+        // 5. 분홍 가오리 (동화 속 느낌의 귀여운 핑크 가오리)
+        id: "pink",
+        primary: "#F48FB1",
+        secondary: "#F8BBD0",
+        accent: "#AD1457",
+      },
+      {
+        // 6. 라벤더 / 보라 가오리 (몽환적이고 신비로운 퍼플)
+        id: "purple",
+        primary: "#AB47BC",
+        secondary: "#E1BEE7",
+        accent: "#4A148C",
+      },
+    ],
+  },
+  {
+    id: "dolphin",
     name: "돌고래",
     topCategory: "animal",
     subCategory: "sea_animal",
@@ -1646,72 +1742,7 @@ export const CategoryGameObjects: CategoryGameObject[] = [
       },
     ],
   },
-  {
-    id: "shrimp",
-    name: "새우",
-    topCategory: "animal",
-    subCategory: "sea_animal",
-    svgKey: "shrimp",
-    variants: [
-      {
-        id: "pink",
-        primary: "#F48FB1",
-        secondary: "#EC407A",
-        accent: "#AD1457",
-      },
-      {
-        id: "red",
-        primary: "#E53935",
-        secondary: "#C62828",
-        accent: "#212121",
-      },
-      {
-        id: "blue",
-        primary: "#1E88E5",
-        secondary: "#1565C0",
-        accent: "#212121",
-      },
-      {
-        id: "yellow",
-        primary: "#FDD835",
-        secondary: "#FBC02D",
-        accent: "#212121",
-      },
-    ],
-  },
-  {
-    id: "stingray",
-    name: "가오리",
-    topCategory: "animal",
-    subCategory: "sea_animal",
-    svgKey: "stingray",
-    variants: [
-      {
-        id: "gray",
-        primary: "#78909C",
-        secondary: "#546E7A",
-        accent: "#37474F",
-      },
-      {
-        id: "red",
-        primary: "#E53935",
-        secondary: "#C62828",
-        accent: "#212121",
-      },
-      {
-        id: "blue",
-        primary: "#1E88E5",
-        secondary: "#1565C0",
-        accent: "#212121",
-      },
-      {
-        id: "yellow",
-        primary: "#FDD835",
-        secondary: "#FBC02D",
-        accent: "#212121",
-      },
-    ],
-  },
+
   {
     id: "seal",
     name: "물개",
@@ -8074,6 +8105,51 @@ export const CategoryGameObjects: CategoryGameObject[] = [
 export const CategoryGameObjects1: CategoryGameObject[] = [
   // ========== 탈것 ==========
   {
+    id: "sparrow",
+    name: "참새",
+    topCategory: "animal",
+    subCategory: "bird",
+    svgKey: "sparrow",
+    variants: [
+      {
+        id: "classic",
+        primary: "#A1785C", // 클래식 갈색
+        secondary: "#F5EBE6", // 아이보리 배
+        accent: "#E0986B", // 살구색 부리
+      },
+      {
+        id: "dark_brown",
+        primary: "#6D4C41", // 딥 브라운
+        secondary: "#E0D5D0", // 회갈색 배
+        accent: "#D87A51", // 다크 앤틱 부리
+      },
+      {
+        id: "beige",
+        primary: "#D7CCC8", // 밝은 베이지
+        secondary: "#FFFFFF", // 순백색 배
+        accent: "#FFB74D", // 연주황 부리
+      },
+      {
+        id: "golden",
+        primary: "#C0CA33", // 황금/올리브 깃털
+        secondary: "#F0F4C3", // 연연두 배
+        accent: "#FFA726", // 주황 부리
+      },
+      {
+        id: "ash_gray",
+        primary: "#78909C", // 애쉬 애쉬그레이
+        secondary: "#ECEFF1", // 밝은 회색 배
+        accent: "#FF8A65", // 코랄 부리
+      },
+      {
+        id: "cinnamon",
+        primary: "#BCAAA4", // 시나몬 모카
+        secondary: "#F5F5F5", // 웜 화이트 배
+        accent: "#FFB300", // 옐로우 골드 부리
+      },
+    ],
+  },
+  {
     id: "boat",
 
     name: "보트",
@@ -9648,6 +9724,58 @@ export const CategoryGameObjects1: CategoryGameObject[] = [
     ],
   },
   {
+    id: "stingray",
+    name: "가오리",
+    topCategory: "animal",
+    subCategory: "sea_animal",
+    svgKey: "stingray",
+    variants: [
+      {
+        // 1. 매가오리 / 네이비 블루 가오리 (가장 대표적인 바다 가오리)
+        id: "navy",
+        primary: "#5C6BC0",
+        secondary: "#9FA8DA",
+        accent: "#1A237E",
+      },
+      {
+        // 2. 만타가오리 / 흑가오리 (멋진 딥 블루/블랙 톤)
+        id: "black",
+        primary: "#455A64",
+        secondary: "#90A4AE",
+        accent: "#212121",
+      },
+      {
+        // 3. 노랑가오리 (해안가에 사는 귀여운 노란빛 가오리)
+        id: "yellow",
+        primary: "#FBC02D",
+        secondary: "#FFF59D",
+        accent: "#F57F17",
+      },
+      {
+        // 4. 에메랄드 / 민트 가오리 (청량한 열대 바다 느낌)
+        id: "teal",
+        primary: "#26A69A",
+        secondary: "#80CBC4",
+        accent: "#004D40",
+      },
+      {
+        // 5. 분홍 가오리 (동화 속 느낌의 귀여운 핑크 가오리)
+        id: "pink",
+        primary: "#F48FB1",
+        secondary: "#F8BBD0",
+        accent: "#AD1457",
+      },
+      {
+        // 6. 라벤더 / 보라 가오리 (몽환적이고 신비로운 퍼플)
+        id: "purple",
+        primary: "#AB47BC",
+        secondary: "#E1BEE7",
+        accent: "#4A148C",
+      },
+    ],
+  },
+
+  {
     id: "crab",
 
     name: "꽃게",
@@ -9835,46 +9963,52 @@ export const CategoryGameObjects1: CategoryGameObject[] = [
   },
   {
     id: "squid",
-    name: "돌고래",
+    name: "오징어",
     topCategory: "animal",
     subCategory: "sea_animal",
     svgKey: "squid",
     variants: [
       {
-        id: "blue_gray",
-        primary: "#78909C",
-        secondary: "#B0BEC5",
-        accent: "#37474F",
+        // 1. 싱싱한 물오징어 / 갈색 오징어 (갓 잡은 오징어 특유의 적갈색)
+        id: "brown",
+        primary: "#8D6E63",
+        secondary: "#BCAAA4",
+        accent: "#4E342E",
       },
       {
-        id: "blue",
-        primary: "#42A5F5",
-        secondary: "#90CAF9",
-        accent: "#1565C0",
+        // 2. 붉은 오징어 / 체인지 컬러 (위협받을 때 붉게 변하는 색상)
+        id: "coral",
+        primary: "#FF7043",
+        secondary: "#FFAB91",
+        accent: "#D84315",
       },
       {
-        id: "sky",
-        primary: "#4FC3F7",
-        secondary: "#B3E5FC",
-        accent: "#0277BD",
-      },
-      {
-        id: "teal",
-        primary: "#26A69A",
-        secondary: "#80CBC4",
+        // 3. 무늬오징어 / 흰오징어 (에깅 낚시로 유명한 에메랄드/화이트 톤)
+        id: "emerald",
+        primary: "#4DB6AC",
+        secondary: "#B2DFDB",
         accent: "#00695C",
       },
       {
-        id: "navy",
-        primary: "#5C6BC0",
-        secondary: "#9FA8DA",
-        accent: "#283593",
+        // 4. 심해 대왕오징어 / 보라 오징어 (신비로운 심해의 퍼플 톤)
+        id: "purple",
+        primary: "#AB47BC",
+        secondary: "#E1BEE7",
+        accent: "#6A1B9A",
       },
       {
-        id: "lavender",
-        primary: "#9575CD",
-        secondary: "#B39DDB",
-        accent: "#4527A0",
+        // 5. 귀여운 분홍 오징어 (아동용 교구에 잘 어울리는 상큼한 핑크)
+        id: "pink",
+        primary: "#F48FB1",
+        secondary: "#F8BBD0",
+        accent: "#AD1457",
+      },
+      {
+        // 6. 반짝이는 노랑 오징어 (밝고 귀여운 예쁜 옐로우)
+        id: "yellow",
+        primary: "#FFCA28",
+        secondary: "#FFE082",
+        accent: "#F57F17",
       },
     ],
   },
@@ -10495,6 +10629,164 @@ export const CategoryGameObjects1: CategoryGameObject[] = [
         id: "coral",
         primary: "#FF7043",
         secondary: "#FF8A65",
+        accent: "#558B2F",
+      },
+    ],
+  },
+  // 🍄 1. 버섯 (Mushroom)
+  {
+    id: "mushroom",
+    name: "버섯",
+    topCategory: "food",
+    subCategory: "vegetable",
+    svgKey: "mushroom",
+    variants: [
+      {
+        // 빨간 광대버섯 (가장 대표적이고 알록달록한 동화 속 버섯)
+        id: "redFlyAgaric",
+        primary: "#EF5350",
+        secondary: "#FFFFFF",
+        accent: "#D7CCC8",
+      },
+      {
+        // 표고버섯 / 갈색 양송이 (따뜻한 브라운 톤)
+        id: "brownShiitake",
+        primary: "#8D6E63",
+        secondary: "#E0D7D5",
+        accent: "#BCAAA4",
+      },
+      {
+        // 흰 양송이 / 새송이 (깔끔하고 밝은 베이지-아이보리)
+        id: "whiteButton",
+        primary: "#F5F5F5",
+        secondary: "#FFFFFF",
+        accent: "#D7CCC8",
+      },
+      {
+        // 황금팽이버섯 / 황금버섯 (밝은 노란빛 버섯)
+        id: "goldenEnoki",
+        primary: "#FFCA28",
+        secondary: "#FFF9C4",
+        accent: "#D7CCC8",
+      },
+      {
+        // 독버섯 / 보라버섯 (신비로운 자줏빛 버섯)
+        id: "purplePoison",
+        primary: "#AB47BC",
+        secondary: "#F3E5F5",
+        accent: "#CE93D8",
+      },
+      {
+        // 꾀꼬리버섯 / 살구버섯 (산뜻한 오렌지 톤)
+        id: "chantarelle",
+        primary: "#FF9800",
+        secondary: "#FFE0B2",
+        accent: "#D7CCC8",
+      },
+    ],
+  },
+
+  // 🥦 2. 브로콜리 (Broccoli)
+  {
+    id: "broccoli",
+    name: "브로콜리",
+    topCategory: "food",
+    subCategory: "vegetable",
+    svgKey: "broccoli",
+    variants: [
+      {
+        // 싱싱한 표준 초록 브로콜리
+        id: "freshGreen",
+        primary: "#43A047",
+        secondary: "#A5D6A7",
+        accent: "#81C784",
+      },
+      {
+        // 짙은 딥그린 브로콜리 (더 깊고 짙은 녹색)
+        id: "darkGreen",
+        primary: "#2E7D32",
+        secondary: "#81C784",
+        accent: "#66BB6A",
+      },
+      {
+        // 연두빛 데친 브로콜리 / 로마네스코
+        id: "lightGreen",
+        primary: "#7CB342",
+        secondary: "#C5E1A5",
+        accent: "#AED581",
+      },
+      {
+        // 보라 브로콜리 (실제 존재하는 자줏빛 보라 브로콜리)
+        id: "purpleBroccoli",
+        primary: "#7E57C2",
+        secondary: "#D1C4E9",
+        accent: "#9FA8DA",
+      },
+      {
+        // 콜리플라워 (하얀색 브로콜리 친척)
+        id: "cauliflower",
+        primary: "#F5F5F5",
+        secondary: "#FFFFFF",
+        accent: "#C8E6C9",
+      },
+      {
+        // 황금 콜리플라워 / 옐로우 브로콜리
+        id: "yellowBroccoli",
+        primary: "#FBC02D",
+        secondary: "#FFF59D",
+        accent: "#AED581",
+      },
+    ],
+  },
+
+  // 🌽 3. 옥수수 (Corn)
+  {
+    id: "corn",
+    name: "옥수수",
+    topCategory: "food",
+    subCategory: "vegetable",
+    svgKey: "corn",
+    variants: [
+      {
+        // 달콤한 스위트콘 / 노랑 옥수수
+        id: "yellowSweet",
+        primary: "#FFEE58",
+        secondary: "#FBC02D",
+        accent: "#7CB342",
+      },
+      {
+        // 찰옥수수 / 아이보리 백옥수수 (하얗고 쫀득한 옥수수)
+        id: "whiteSticky",
+        primary: "#FFFDE7",
+        secondary: "#FFF59D",
+        accent: "#81C784",
+      },
+      {
+        // 노릇하게 구운 옥수수 / 군옥수수 (따뜻한 오렌지 앰버 톤)
+        id: "roastedOrange",
+        primary: "#FFA726",
+        secondary: "#F57C00",
+        accent: "#689F38",
+      },
+      {
+        // 자색 찰옥수수 / 보라 옥수수 (실제 보랏빛 검은 찰옥수수)
+        id: "purpleSticky",
+        primary: "#5E35B1",
+        secondary: "#311B92",
+        accent: "#558B2F",
+      },
+      {
+        // 바이컬러 / 알록달록 옥수수 (노란알과 흰알이 섞인 옥수수)
+        id: "bicolorMix",
+        primary: "#FFD54F",
+        secondary: "#FFF8E1",
+        accent: "#7CB342",
+      },
+      {
+        // 얼록이 옥수수 / 붉은 옥수수 (레드 인디언 콘)
+        id: "redFlint",
+        primary: "#E53935",
+        secondary: "#B71C1C",
         accent: "#558B2F",
       },
     ],

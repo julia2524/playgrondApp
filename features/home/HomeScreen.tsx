@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, ImageBackground, Text, TouchableOpacity } from "react-native";
+import { ImageBackground, Text, TouchableOpacity } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -148,11 +148,23 @@ export default function HomeScreen() {
           <SettingButton
             onPress={() => navigation.navigate("SettingScreen" as never)}
           />
-          <TouchableOpacity
+
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate("StickerGalleryScreen" as never)}
           >
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
+            >
+              색깔
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("ShapeStickerGalleryScreen" as never)
+            }
+          >
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#25eb74" }}
             >
               모양
             </Text>
@@ -166,24 +178,6 @@ export default function HomeScreen() {
               style={{ fontSize: 12, fontWeight: "bold", color: "#eb2525" }}
             >
               종류
-            </Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity
-            onPress={() => navigation.navigate("CategoryTestScreen" as never)}
-          >
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
-            >
-              종류 분류 테스터
-            </Text>
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity
-            onPress={() => navigation.navigate("RainbowTestScreen" as never)}
-          >
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#2563EB" }}
-            >
-              무지개 테스터
             </Text>
           </TouchableOpacity> */}
         </Header>
@@ -236,7 +230,7 @@ export default function HomeScreen() {
         </GameGridWrapper>
 
         {/* 하단 푸터 */}
-        <Footer>Made with song for little explorers 💛</Footer>
+        <Footer>Made with Mommy Bear for little explorers 💛</Footer>
       </Container>
       {/* ⭐ 2. ImageBackground 바로 아래에 CustomAlert를 넣어주기! */}
       <CustomAlert

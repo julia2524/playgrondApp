@@ -123,3 +123,10 @@ export const StageStar = styled.Text<{ filled: boolean }>`
 
   text-shadow-radius: 1px;
 `;
+
+export const BannerAdContainer = styled.View`
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${BASIC_COLORS.CARD_BG};
+`;
