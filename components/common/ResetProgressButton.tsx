@@ -2,20 +2,25 @@ import React from "react";
 import styled from "styled-components/native";
 
 interface ResetButtonProps {
-  gameType: "color" | "shape";
+  gameType: "color" | "shape" | "category";
   onPress: () => void;
 }
 
 const GAME_INFO = {
   color: {
     icon: "🎨",
-    title: "색깔 놀이",
+    title: "색깔 찾기 놀이",
     description: "색깔 놀이를 처음부터 다시 시작해요",
   },
   shape: {
     icon: "🔷",
-    title: "모양 놀이",
+    title: "모양 찾기 놀이",
     description: "모양 놀이를 처음부터 다시 시작해요",
+  },
+  category: {
+    icon: "🥑",
+    title: "친구 찾기 놀이",
+    description: "친구 찾기 놀이를 처음부터 다시 시작해요",
   },
 };
 

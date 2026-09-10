@@ -1,5 +1,3 @@
-import styled from "styled-components/native";
-import { Switch } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
@@ -7,13 +5,11 @@ import AppHeader from "../../components/common/AppHeader";
 import ResetProgressButton from "../../components/common/ResetProgressButton";
 
 import { RootStackParamList } from "../../navigation/types";
-import { BASIC_COLORS } from "../../design-system/tokens/colors";
 
-import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { clearGameProgress } from "../classification/progress/progressStorage";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Content,
@@ -33,10 +29,8 @@ import {
 } from "./SettingScreenStyles";
 import CustomAlert from "../../components/common/CustomAlert";
 import {
-  getBGMEnabled,
   getCorrectEffectEnabled,
   getSoundEnabled,
-  setBGMEnabled,
   setCorrectEffectEnabled,
   setSoundEnabled,
 } from "../audio/audioSettingsStorage";
@@ -87,12 +81,12 @@ export default function SettingScreen() {
   const handleResetColor = () => {
     showAlert(
       "처음부터 다시 시작할까요?",
-      `색깔 놀이의 진행 상황이\n 모두 사라져요.`,
+      `색깔 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
       async () => {
         await clearGameProgress("color");
         showAlert(
           "초기화 완료",
-          `색깔 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+          `색깔 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
         );
       },
       { showCancel: true, confirmText: "다시 시작" },
@@ -102,12 +96,27 @@ export default function SettingScreen() {
   const handleResetShape = () => {
     showAlert(
       "처음부터 다시 시작할까요?",
-      `모양 놀이의 진행 상황이\n 모두 사라져요.`,
+      `모양 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
       async () => {
         await clearGameProgress("shape");
         showAlert(
           "초기화 완료",
-          `모양 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+          `모양 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
+        );
+      },
+      { showCancel: true, confirmText: "다시 시작" },
+    );
+  };
+  // 모양 놀이 초기화
+  const handleResetCategory = () => {
+    showAlert(
+      "처음부터 다시 시작할까요?",
+      `친구 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
+      async () => {
+        await clearGameProgress("category");
+        showAlert(
+          "초기화 완료",
+          `친구 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
         );
       },
       { showCancel: true, confirmText: "다시 시작" },
@@ -244,6 +253,10 @@ export default function SettingScreen() {
           <SettingCard>
             <ResetProgressButton gameType="color" onPress={handleResetColor} />
             <ResetProgressButton gameType="shape" onPress={handleResetShape} />
+            <ResetProgressButton
+              gameType="category"
+              onPress={handleResetCategory}
+            />
           </SettingCard>
           <CustomAlert
             visible={alertVisible}
