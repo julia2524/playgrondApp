@@ -114,7 +114,7 @@ export default function CategoryStickerGalleryScreen() {
     "whale",
     "shark",
     "octopus",
-    "dolphin",
+    "squid",
     "apple",
     "banana",
     "strawberry",

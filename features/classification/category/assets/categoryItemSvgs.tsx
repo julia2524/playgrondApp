@@ -89,7 +89,6 @@ export const contrastAccent = (
 /* =========================================================
  * 🐾 ANIMAL
  * ======================================================= */
-
 export const Dog = ({
   colorHex = "#FAFAFA",
   primary,
@@ -101,199 +100,233 @@ export const Dog = ({
   const mainColor = primary ?? colorHex;
   const secondaryColor = secondary ?? shade(mainColor, -0.15);
   const accentColor = accent ?? contrastAccent(mainColor);
-  const nose = contrastAccent(mainColor, "#5D4037", "#F5F5F5");
+
+  const noseColor = contrastAccent(mainColor, "#5D4037", "#F5F5F5");
+
   const spotColor = secondaryColor;
+
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Ellipse
-        cx="27"
-        cy="42"
-        rx="13"
-        ry="22"
+      {/* =====================================================
+          강아지 머리
+      ===================================================== */}
+      <Path
+        d="
+          M32 25
+          C45 25 55 25 68 25
+          C78 25 83 33 80 50
+          C77 67 70 85 50 85
+          C30 85 23 67 20 50
+          C17 33 22 25 32 25
+          Z
+        "
         fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="4"
-        transform="rotate(-18 27 42)"
+        strokeLinejoin="round"
       />
-      <Ellipse
-        cx="73"
-        cy="42"
-        rx="13"
-        ry="22"
+
+      {/* =====================================================
+          귀 (너비를 양쪽 모두 2씩 줄임)
+      ===================================================== */}
+      {/* =====================================================
+    귀 (가로 폭만 줄임)
+===================================================== */}
+
+      {/* 왼쪽 귀 */}
+      <Path
+        d="
+    M29 25
+    C21 25 14 30 12 41
+    C10 51 12 61 16 66
+    C20 70 23 66 27 60
+    C31 53 33 43 34 32
+    C34 27 32 25 29 25
+    Z
+  "
         fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="4"
-        transform="rotate(18 73 42)"
+        strokeLinejoin="round"
       />
-      <Circle
-        cx="50"
-        cy="51"
-        r="29"
+
+      {/* 오른쪽 귀 */}
+      <Path
+        d="
+    M71 25
+    C79 25 86 30 88 41
+    C90 51 88 61 84 66
+    C80 70 77 66 73 60
+    C69 53 67 43 66 32
+    C66 27 68 25 71 25
+    Z
+  "
         fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="4"
+        strokeLinejoin="round"
       />
+
+      {/* 귀 안쪽 - 왼쪽 */}
+      <Path
+        d="
+    M28 31
+    C22 32 18 37 17 44
+    C16 51 18 56 20 58
+    C22 59 25 54 28 49
+    C30 43 31 36 30 32
+    C30 31 29 31 28 31
+    Z
+  "
+        fill={secondaryColor}
+        opacity="0.55"
+      />
+
+      {/* 귀 안쪽 - 오른쪽 */}
+      <Path
+        d="
+    M72 31
+    C78 32 82 37 83 44
+    C84 51 82 56 80 58
+    C78 59 75 54 72 49
+    C70 43 69 36 70 32
+    C70 31 71 31 72 31
+    Z
+  "
+        fill={secondaryColor}
+        opacity="0.55"
+      />
+
+      {/* =====================================================
+          무늬
+      ===================================================== */}
+
       {pattern === "spots" && (
         <G opacity="0.9">
-          <Circle cx="32" cy="34" r="6" fill={spotColor} />
-          <Circle cx="66" cy="60" r="7" fill={spotColor} />
-          <Circle cx="68" cy="32" r="4.5" fill={spotColor} />
+          <Circle cx="32" cy="34" r="5.5" fill={spotColor} />
+
+          <Circle cx="68" cy="63" r="6.5" fill={spotColor} />
+
+          <Circle cx="67" cy="31" r="4" fill={spotColor} />
         </G>
       )}
-      <Circle cx="39" cy="49" r="4" fill={DARK} />
-      <Circle cx="61" cy="49" r="4" fill={DARK} />
-      <Circle cx="40" cy="48" r="1.4" fill={WHITE} />
-      <Circle cx="62" cy="48" r="1.4" fill={WHITE} />
-      <Ellipse
-        cx="50"
-        cy="62"
-        rx="13"
-        ry="10"
-        fill="#F3D5C0"
-        stroke={OUTLINE}
-        strokeWidth="2.5"
-      />
-      <Ellipse cx="50" cy="59" rx="5" ry="4" fill={nose} />
+
+      {pattern === "patches" && (
+        <G opacity="0.9">
+          {/* 눈 주변 패치 */}
+          <Path
+            d="
+              M27 38
+              C28 31 35 27 41 30
+              C46 33 46 40 42 45
+              C38 49 31 48 28 44
+              C27 42 26 40 27 38
+              Z
+            "
+            fill={spotColor}
+          />
+
+          {/* 아래쪽 패치 */}
+          <Path
+            d="
+              M59 66
+              C61 60 67 57 72 60
+              C77 63 77 69 73 73
+              C69 77 62 75 60 71
+              C59 69 58 68 59 66
+              Z
+            "
+            fill={spotColor}
+          />
+        </G>
+      )}
+
+      {pattern === "stripes" && (
+        <G
+          opacity="0.7"
+          stroke={spotColor}
+          strokeWidth="3"
+          strokeLinecap="round"
+        >
+          <Path d="M27 43 Q32 45 37 44" />
+          <Path d="M27 50 Q32 52 37 51" />
+
+          <Path d="M63 44 Q68 45 73 43" />
+          <Path d="M63 51 Q68 52 73 50" />
+        </G>
+      )}
+
+      {/* =====================================================
+          눈
+      ===================================================== */}
+
+      <Circle cx="39" cy="46" r="4" fill={DARK} />
+
+      <Circle cx="61" cy="46" r="4" fill={DARK} />
+
+      {/* 눈 반짝임 */}
+      <Circle cx="40" cy="45" r="1.2" fill={WHITE} />
+
+      <Circle cx="62" cy="45" r="1.2" fill={WHITE} />
+
+      {/* =====================================================
+          주둥이
+      ===================================================== */}
+
+      <Ellipse cx="50" cy="63" rx="13" ry="10" fill="#F3D5C0" />
+
+      {/* =====================================================
+          코
+      ===================================================== */}
+
       <Path
-        d="M50 63 Q45 70 40 67 M50 63 Q55 70 60 67"
+        d="
+          M44.5 59
+          Q50 55
+          55.5 59
+          Q55 64
+          50 64
+          Q45 64
+          44.5 59
+          Z
+        "
+        fill={noseColor}
+      />
+
+      {/* 코 하이라이트 */}
+      <Ellipse cx="48" cy="59" rx="1.4" ry="0.9" fill={WHITE} opacity="0.8" />
+
+      {/* =====================================================
+          입
+      ===================================================== */}
+
+      <Path
+        d="M50 63 Q50 67 50 69"
         fill="none"
         stroke={OUTLINE}
-        strokeWidth="2.5"
+        strokeWidth="2.3"
+        strokeLinecap="round"
+      />
+
+      <Path
+        d="M50 68 Q46 71 42 69"
+        fill="none"
+        stroke={OUTLINE}
+        strokeWidth="2.3"
+        strokeLinecap="round"
+      />
+
+      <Path
+        d="M50 68 Q54 71 58 69"
+        fill="none"
+        stroke={OUTLINE}
+        strokeWidth="2.3"
         strokeLinecap="round"
       />
     </Svg>
   );
 };
 
-// export const Cat = ({
-//   colorHex = "#FFB74D",
-//     primary,
-//   secondary,
-//   accent,
-//   pattern,
-//   size = 95,
-// }: ItemSvgProps) => {
-//    const mainColor = primary ?? colorHex;
-//   const secondaryColor = secondary ?? shade(mainColor, -0.15);
-//   const accentColor = accent ?? contrastAccent(mainColor);
-
-//   const earInner = shade(colorHex, 0.25);
-//   const whisker = contrastAccent(colorHex, "#4A4A4A", "#F5F5F5");
-//   const markColor = shade(colorHex, -0.3);
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Polygon
-//         points="22,35 33,10 40,38"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         strokeLinejoin="round"
-//       />
-//       <Polygon
-//         points="78,35 67,10 60,38"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         strokeLinejoin="round"
-//       />
-//       <Polygon points="26,32 33,18 37,34" fill={earInner} opacity="0.8" />
-//       <Polygon points="74,32 67,18 63,34" fill={earInner} opacity="0.8" />
-//       <Circle
-//         cx="50"
-//         cy="55"
-//         r="28"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       {pattern === "patches" && (
-//         <G opacity="0.9">
-//           <Circle cx="30" cy="46" r="8" fill={markColor} />
-//           <Circle cx="68" cy="62" r="9" fill={markColor} />
-//         </G>
-//       )}
-//       {pattern === "stripes" && (
-//         <G
-//           stroke={markColor}
-//           strokeWidth="4"
-//           strokeLinecap="round"
-//           opacity="0.8"
-//         >
-//           <Line x1="26" y1="40" x2="34" y2="32" />
-//           <Line x1="30" y1="50" x2="40" y2="44" />
-//           <Line x1="74" y1="40" x2="66" y2="32" />
-//           <Line x1="70" y1="50" x2="60" y2="44" />
-//         </G>
-//       )}
-//       <Path
-//         d="M32 45 Q39 40 46 45"
-//         fill="none"
-//         stroke={OUTLINE}
-//         strokeWidth="3"
-//         strokeLinecap="round"
-//       />
-//       <Path
-//         d="M68 45 Q61 40 54 45"
-//         fill="none"
-//         stroke={OUTLINE}
-//         strokeWidth="3"
-//         strokeLinecap="round"
-//       />
-//       <Circle cx="39" cy="53" r="3.5" fill={DARK} />
-//       <Circle cx="61" cy="53" r="3.5" fill={DARK} />
-//       <Polygon
-//         points="50,60 46,65 54,65"
-//         fill="#F5A9B8"
-//         stroke={OUTLINE}
-//         strokeWidth="1.5"
-//         strokeLinejoin="round"
-//       />
-//       <Path
-//         d="M50 65 Q46 70 41 68 M50 65 Q54 70 59 68"
-//         fill="none"
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="12"
-//         y1="58"
-//         x2="28"
-//         y2="55"
-//         stroke={whisker}
-//         strokeWidth="1.8"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="12"
-//         y1="64"
-//         x2="28"
-//         y2="64"
-//         stroke={whisker}
-//         strokeWidth="1.8"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="88"
-//         y1="58"
-//         x2="72"
-//         y2="55"
-//         stroke={whisker}
-//         strokeWidth="1.8"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="88"
-//         y1="64"
-//         x2="72"
-//         y2="64"
-//         stroke={whisker}
-//         strokeWidth="1.8"
-//         strokeLinecap="round"
-//       />
-//     </Svg>
-//   );
-// };
 export const Cat = ({
   colorHex = "#FFB74D",
   primary,
@@ -312,241 +345,129 @@ export const Cat = ({
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Polygon
-        points="22,35 33,10 40,38"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        strokeLinejoin="round"
-      />
-
-      <Polygon
-        points="78,35 67,10 60,38"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        strokeLinejoin="round"
-      />
-
-      <Polygon points="26,32 33,18 37,34" fill={earInner} opacity="0.8" />
-
-      <Polygon points="74,32 67,18 63,34" fill={earInner} opacity="0.8" />
-
-      <Circle
-        cx="50"
-        cy="55"
-        r="28"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-      />
-
-      {pattern === "patches" && (
-        <G opacity="0.9">
-          <Circle cx="30" cy="46" r="8" fill={secondaryColor} />
-          <Circle cx="68" cy="62" r="9" fill={secondaryColor} />
-        </G>
-      )}
-
-      {pattern === "stripes" && (
-        <G
-          stroke={accentColor}
+      {/* 전체 고양이 요소를 Y축 아래 방향으로 이동 */}
+      <G transform="translate(0, 5)">
+        {/* 바깥 귀 (왼쪽, 오른쪽) */}
+        <Polygon
+          points="22,44 34,12 46,44"
+          fill={mainColor}
+          stroke={OUTLINE}
           strokeWidth="4"
+          strokeLinejoin="round"
+        />
+
+        <Polygon
+          points="78,44 66,12 54,44"
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          strokeLinejoin="round"
+        />
+
+        {/* 안쪽 귀 (왼쪽, 오른쪽) */}
+        <Polygon points="27,40 34,20 41,40" fill={earInner} opacity="0.8" />
+
+        <Polygon points="73,40 66,20 59,40" fill={earInner} opacity="0.8" />
+
+        {/* 머리: 타원형 */}
+        <Ellipse
+          cx="50"
+          cy="58"
+          rx="32"
+          ry="25"
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+        />
+
+        {pattern === "patches" && (
+          <G opacity="0.9">
+            <Circle cx="28" cy="50" r="7.5" fill={secondaryColor} />
+            <Circle cx="68" cy="64" r="8" fill={secondaryColor} />
+          </G>
+        )}
+
+        {pattern === "stripes" && (
+          <G
+            stroke={accentColor}
+            strokeWidth="4"
+            strokeLinecap="round"
+            opacity="0.8"
+          >
+            <Line x1="26" y1="44" x2="34" y2="36" />
+            <Line x1="30" y1="54" x2="40" y2="48" />
+            <Line x1="74" y1="44" x2="66" y2="36" />
+            <Line x1="70" y1="54" x2="60" y2="48" />
+          </G>
+        )}
+
+        {/* 눈 */}
+        <Circle cx="38" cy="55" r="3.5" fill={DARK} />
+        <Circle cx="62" cy="55" r="3.5" fill={DARK} />
+
+        {/* 코 */}
+        <Polygon
+          points="50,61 46,66 54,66"
+          fill={accentColor}
+          stroke={OUTLINE}
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+
+        {/* 입 */}
+        <Path
+          d="M50 66 Q46 71 41 69 M50 66 Q54 71 59 69"
+          fill="none"
+          stroke={OUTLINE}
+          strokeWidth="2.5"
           strokeLinecap="round"
-          opacity="0.8"
-        >
-          <Line x1="26" y1="40" x2="34" y2="32" />
-          <Line x1="30" y1="50" x2="40" y2="44" />
-          <Line x1="74" y1="40" x2="66" y2="32" />
-          <Line x1="70" y1="50" x2="60" y2="44" />
-        </G>
-      )}
+        />
 
-      <Path
-        d="M32 45 Q39 40 46 45"
-        fill="none"
-        stroke={OUTLINE}
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+        {/* 수염 (왼쪽) */}
+        <Line
+          x1="10"
+          y1="59"
+          x2="26"
+          y2="57"
+          stroke={whisker}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
 
-      <Path
-        d="M68 45 Q61 40 54 45"
-        fill="none"
-        stroke={OUTLINE}
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
+        <Line
+          x1="10"
+          y1="65"
+          x2="26"
+          y2="65"
+          stroke={whisker}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
 
-      <Circle cx="39" cy="53" r="3.5" fill={DARK} />
-      <Circle cx="61" cy="53" r="3.5" fill={DARK} />
+        {/* 수염 (오른쪽) */}
+        <Line
+          x1="90"
+          y1="59"
+          x2="74"
+          y2="57"
+          stroke={whisker}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
 
-      <Polygon
-        points="50,60 46,65 54,65"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-
-      <Path
-        d="M50 65 Q46 70 41 68 M50 65 Q54 70 59 68"
-        fill="none"
-        stroke={OUTLINE}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-
-      <Line
-        x1="12"
-        y1="58"
-        x2="28"
-        y2="55"
-        stroke={whisker}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-
-      <Line
-        x1="12"
-        y1="64"
-        x2="28"
-        y2="64"
-        stroke={whisker}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-
-      <Line
-        x1="88"
-        y1="58"
-        x2="72"
-        y2="55"
-        stroke={whisker}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-
-      <Line
-        x1="88"
-        y1="64"
-        x2="72"
-        y2="64"
-        stroke={whisker}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+        <Line
+          x1="90"
+          y1="65"
+          x2="74"
+          y2="65"
+          stroke={whisker}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+        />
+      </G>
     </Svg>
   );
 };
-// export const Rabbit = ({ colorHex = "#FAFAFA", size = 95 }: ItemSvgProps) => {
-//   const earInner = shade(colorHex, -0.15);
-//   const whisker = contrastAccent(colorHex, "#4A4A4A", "#F5F5F5");
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Ellipse
-//         cx="36"
-//         cy="24"
-//         rx="9"
-//         ry="26"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         transform="rotate(-12 36 24)"
-//       />
-//       <Ellipse
-//         cx="36"
-//         cy="24"
-//         rx="4.5"
-//         ry="19"
-//         fill={earInner}
-//         transform="rotate(-12 36 24)"
-//       />
-//       <Ellipse
-//         cx="64"
-//         cy="24"
-//         rx="9"
-//         ry="26"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         transform="rotate(12 64 24)"
-//       />
-//       <Ellipse
-//         cx="64"
-//         cy="24"
-//         rx="4.5"
-//         ry="19"
-//         fill={earInner}
-//         transform="rotate(12 64 24)"
-//       />
-//       <Circle
-//         cx="50"
-//         cy="58"
-//         r="27"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       <Circle cx="40" cy="55" r="4" fill={DARK} />
-//       <Circle cx="60" cy="55" r="4" fill={DARK} />
-//       <Circle cx="41" cy="54" r="1.3" fill={WHITE} />
-//       <Circle cx="61" cy="54" r="1.3" fill={WHITE} />
-//       <Ellipse
-//         cx="50"
-//         cy="65"
-//         rx="4"
-//         ry="3"
-//         fill="#F8BBD0"
-//         stroke={OUTLINE}
-//         strokeWidth="1.5"
-//       />
-//       <Path
-//         d="M50 68 Q46 73 41 71 M50 68 Q54 73 59 71"
-//         fill="none"
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="14"
-//         y1="60"
-//         x2="29"
-//         y2="58"
-//         stroke={whisker}
-//         strokeWidth="1.6"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="14"
-//         y1="66"
-//         x2="29"
-//         y2="65"
-//         stroke={whisker}
-//         strokeWidth="1.6"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="86"
-//         y1="60"
-//         x2="71"
-//         y2="58"
-//         stroke={whisker}
-//         strokeWidth="1.6"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="86"
-//         y1="66"
-//         x2="71"
-//         y2="65"
-//         stroke={whisker}
-//         strokeWidth="1.6"
-//         strokeLinecap="round"
-//       />
-//     </Svg>
-//   );
-// };
 export const Rabbit = ({
   colorHex = "#FAFAFA",
   primary,
@@ -564,213 +485,149 @@ export const Rabbit = ({
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Ellipse
-        cx="36"
-        cy="24"
-        rx="9"
-        ry="26"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        transform="rotate(-12 36 24)"
-      />
+      {/* translate(0, 8) -> translate(0, 14)로 조정하여 전체 요소를 아래로 이동 */}
+      <G transform="translate(0, 14)">
+        {/* 왼쪽 귀 */}
+        <Ellipse
+          cx="36"
+          cy="24"
+          rx="9"
+          ry="25"
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          transform="rotate(-12 36 24)"
+        />
 
-      <Ellipse
-        cx="36"
-        cy="24"
-        rx="4.5"
-        ry="19"
-        fill={earInner}
-        transform="rotate(-12 36 24)"
-      />
+        <Ellipse
+          cx="36"
+          cy="24"
+          rx="4.5"
+          ry="18"
+          fill={earInner}
+          transform="rotate(-12 36 24)"
+        />
 
-      <Ellipse
-        cx="64"
-        cy="24"
-        rx="9"
-        ry="26"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        transform="rotate(12 64 24)"
-      />
+        {/* 오른쪽 귀 */}
+        <Ellipse
+          cx="64"
+          cy="24"
+          rx="9"
+          ry="25"
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          transform="rotate(12 64 24)"
+        />
 
-      <Ellipse
-        cx="64"
-        cy="24"
-        rx="4.5"
-        ry="19"
-        fill={earInner}
-        transform="rotate(12 64 24)"
-      />
+        <Ellipse
+          cx="64"
+          cy="24"
+          rx="4.5"
+          ry="18"
+          fill={earInner}
+          transform="rotate(12 64 24)"
+        />
 
-      <Circle
-        cx="50"
-        cy="58"
-        r="27"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-      />
+        {/* [상단 평평한 볼통통 둥근 사다리꼴 머리] */}
+        <Path
+          d="
+            M 42,38
+            C 45,36.8 55,36.8 58,38
 
-      {pattern === "spots" && (
-        <G opacity="0.85">
-          <Circle cx="33" cy="48" r="6" fill={secondaryColor} />
-          <Circle cx="68" cy="63" r="5" fill={secondaryColor} />
-        </G>
-      )}
+            C 68,41 84,52 83,65
+            C 82,78 68,82 50,82
+            C 32,82 18,78 17,65
+            C 16,52 32,41 42,38
 
-      <Circle cx="40" cy="55" r="4" fill={DARK} />
-      <Circle cx="60" cy="55" r="4" fill={DARK} />
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        {pattern === "spots" && (
+          <G opacity="0.85">
+            <Circle cx="28" cy="54" r="6" fill={secondaryColor} />
+            <Circle cx="70" cy="65" r="5" fill={secondaryColor} />
+          </G>
+        )}
 
-      <Circle cx="41" cy="54" r="1.3" fill={WHITE} />
-      <Circle cx="61" cy="54" r="1.3" fill={WHITE} />
+        {/* 눈 & 반사광 */}
+        <Circle cx="38" cy="56" r="4" fill={DARK} />
+        <Circle cx="62" cy="56" r="4" fill={DARK} />
 
-      <Ellipse
-        cx="50"
-        cy="65"
-        rx="4"
-        ry="3"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="1.5"
-      />
+        <Circle cx="39" cy="55" r="1.3" fill={WHITE} />
+        <Circle cx="63" cy="55" r="1.3" fill={WHITE} />
 
-      <Path
-        d="M50 68 Q46 73 41 71 M50 68 Q54 73 59 71"
-        fill="none"
-        stroke={OUTLINE}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
+        {/* 코 */}
+        <Ellipse
+          cx="50"
+          cy="64"
+          rx="4"
+          ry="3"
+          fill={accentColor}
+          stroke={OUTLINE}
+          strokeWidth="1.5"
+        />
 
-      <Line
-        x1="14"
-        y1="60"
-        x2="29"
-        y2="58"
-        stroke={whisker}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+        {/* 입 */}
+        <Path
+          d="M50 67 Q46 72 41 70 M50 67 Q54 72 59 70"
+          fill="none"
+          stroke={OUTLINE}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
 
-      <Line
-        x1="14"
-        y1="66"
-        x2="29"
-        y2="65"
-        stroke={whisker}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+        {/* 수염 (왼쪽) */}
+        <Line
+          x1="9"
+          y1="61"
+          x2="25"
+          y2="59"
+          stroke={whisker}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
 
-      <Line
-        x1="86"
-        y1="60"
-        x2="71"
-        y2="58"
-        stroke={whisker}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+        <Line
+          x1="9"
+          y1="67"
+          x2="25"
+          y2="66"
+          stroke={whisker}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
 
-      <Line
-        x1="86"
-        y1="66"
-        x2="71"
-        y2="65"
-        stroke={whisker}
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
+        {/* 수염 (오른쪽) */}
+        <Line
+          x1="91"
+          y1="61"
+          x2="75"
+          y2="59"
+          stroke={whisker}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+
+        <Line
+          x1="91"
+          y1="67"
+          x2="75"
+          y2="66"
+          stroke={whisker}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        />
+      </G>
     </Svg>
   );
 };
-// export const Chicken = ({
-//   colorHex = "#FAFAFA",
-//   pattern,
-//   size = 95,
-// }: ItemSvgProps) => {
-//   const wing = shade(colorHex, -0.15);
-//   const spotColor = shade(colorHex, -0.35);
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Ellipse
-//         cx="50"
-//         cy="65"
-//         rx="28"
-//         ry="22"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       <Ellipse
-//         cx="34"
-//         cy="66"
-//         rx="9"
-//         ry="14"
-//         fill={wing}
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         transform="rotate(-10 34 66)"
-//       />
-//       {pattern === "spots" && (
-//         <G opacity="0.9">
-//           <Circle cx="60" cy="60" r="5" fill={spotColor} />
-//           <Circle cx="44" cy="76" r="4" fill={spotColor} />
-//         </G>
-//       )}
-//       <Circle
-//         cx="58"
-//         cy="38"
-//         r="22"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       <Path
-//         d="M50 18 Q54 8 58 18 Q62 10 65 19 Q69 12 71 22"
-//         fill="#E53935"
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         strokeLinejoin="round"
-//       />
-//       <Circle cx="64" cy="36" r="3.5" fill={DARK} />
-//       <Circle cx="65" cy="35" r="1.1" fill={WHITE} />
-//       <Polygon
-//         points="76,40 90,36 76,48"
-//         fill="#F0C14B"
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         strokeLinejoin="round"
-//       />
-//       <Path
-//         d="M55 46 Q52 52 58 54"
-//         fill="#E53935"
-//         stroke={OUTLINE}
-//         strokeWidth="1.5"
-//       />
-//       <Line
-//         x1="42"
-//         y1="87"
-//         x2="42"
-//         y2="94"
-//         stroke="#F0C14B"
-//         strokeWidth="4"
-//         strokeLinecap="round"
-//       />
-//       <Line
-//         x1="58"
-//         y1="87"
-//         x2="58"
-//         y2="94"
-//         stroke="#F0C14B"
-//         strokeWidth="4"
-//         strokeLinecap="round"
-//       />
-//     </Svg>
-//   );
-// };
+
 export const Chicken = ({
   colorHex = "#FAFAFA",
   primary,
@@ -794,17 +651,22 @@ export const Chicken = ({
         stroke={OUTLINE}
         strokeWidth="4"
       />
-
-      <Ellipse
-        cx="34"
+      <Path
+        d="M 52 70 C 52 61 39 58 31 64 C 26 68 26 72 31 76 C 39 82 52 79 52 70 Z"
+        fill={secondaryColor}
+        stroke={OUTLINE}
+        strokeWidth="2.5"
+      />
+      {/* <Ellipse
+        cx="37"
         cy="66"
         rx="9"
         ry="14"
         fill={secondaryColor}
         stroke={OUTLINE}
         strokeWidth="2.5"
-        transform="rotate(-10 34 66)"
-      />
+        transform="rotate(77 34 66)"
+      /> */}
 
       {pattern === "spots" && (
         <G opacity="0.9">
@@ -857,7 +719,17 @@ export const Chicken = ({
         strokeWidth="4"
         strokeLinecap="round"
       />
+      <Line
+        x1="38"
+        y1="94"
+        x2="46"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
 
+      {/* 오른쪽 다리 & 발 */}
       <Line
         x1="58"
         y1="87"
@@ -867,60 +739,18 @@ export const Chicken = ({
         strokeWidth="4"
         strokeLinecap="round"
       />
+      <Line
+        x1="54"
+        y1="94"
+        x2="62"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
     </Svg>
   );
 };
-// export const Duck = ({ colorHex = "#FFEE58", size = 95 }: ItemSvgProps) => {
-//   const wing = shade(colorHex, -0.15);
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Ellipse
-//         cx="47"
-//         cy="66"
-//         rx="30"
-//         ry="21"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       <Ellipse
-//         cx="34"
-//         cy="68"
-//         rx="10"
-//         ry="14"
-//         fill={wing}
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//         transform="rotate(-8 34 68)"
-//       />
-//       <Circle
-//         cx="62"
-//         cy="38"
-//         r="20"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//       />
-//       <Circle cx="68" cy="35" r="3.5" fill={DARK} />
-//       <Circle cx="69" cy="34" r="1.1" fill={WHITE} />
-//       <Ellipse
-//         cx="82"
-//         cy="41"
-//         rx="12"
-//         ry="7"
-//         fill="#FF9800"
-//         stroke={OUTLINE}
-//         strokeWidth="2.5"
-//       />
-//       <Path
-//         d="M78 41 Q82 44 86 41"
-//         stroke={OUTLINE}
-//         strokeWidth="1.5"
-//         fill="none"
-//       />
-//     </Svg>
-//   );
-// };
 export const Duck = ({
   colorHex = "#FFEE58",
   primary,
@@ -935,6 +765,21 @@ export const Duck = ({
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
       <Ellipse
+        cx="82"
+        cy="41"
+        rx="12"
+        ry="7"
+        fill={accentColor}
+        stroke={OUTLINE}
+        strokeWidth="2.5"
+      />
+      <Path
+        d="M78 41 Q82 44 86 41"
+        stroke={OUTLINE}
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <Ellipse
         cx="47"
         cy="66"
         rx="30"
@@ -943,16 +788,11 @@ export const Duck = ({
         stroke={OUTLINE}
         strokeWidth="4"
       />
-
-      <Ellipse
-        cx="34"
-        cy="68"
-        rx="10"
-        ry="14"
+      <Path
+        d="M 52 66 C 52 57 39 54 31 60 C 26 64 26 68 31 72 C 39 78 52 75 52 66 Z"
         fill={secondaryColor}
         stroke={OUTLINE}
         strokeWidth="2.5"
-        transform="rotate(-8 34 68)"
       />
 
       <Circle
@@ -967,87 +807,47 @@ export const Duck = ({
       <Circle cx="68" cy="35" r="3.5" fill={DARK} />
       <Circle cx="69" cy="34" r="1.1" fill={WHITE} />
 
-      <Ellipse
-        cx="82"
-        cy="41"
-        rx="12"
-        ry="7"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="2.5"
+      <Line
+        x1="42"
+        y1="87"
+        x2="42"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <Line
+        x1="38"
+        y1="94"
+        x2="46"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
 
-      <Path
-        d="M78 41 Q82 44 86 41"
-        stroke={OUTLINE}
-        strokeWidth="1.5"
-        fill="none"
+      {/* 오른쪽 다리 & 발 */}
+      <Line
+        x1="58"
+        y1="87"
+        x2="58"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <Line
+        x1="54"
+        y1="94"
+        x2="62"
+        y2="94"
+        stroke="#F0C14B"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
     </Svg>
   );
 };
-// export const Penguin = ({ colorHex = "#37474F", size = 95 }: ItemSvgProps) => (
-//   <Svg width={size} height={size} viewBox="0 0 100 100">
-//     <Ellipse
-//       cx="50"
-//       cy="55"
-//       rx="30"
-//       ry="38"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//     />
-//     <Ellipse cx="50" cy="62" rx="18" ry="26" fill="#FAFAFA" />
-//     <Ellipse
-//       cx="26"
-//       cy="52"
-//       rx="7"
-//       ry="15"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//       transform="rotate(20 26 52)"
-//     />
-//     <Ellipse
-//       cx="74"
-//       cy="52"
-//       rx="7"
-//       ry="15"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//       transform="rotate(-20 74 52)"
-//     />
-//     <Ellipse cx="50" cy="34" rx="17" ry="14" fill="#FAFAFA" />
-//     <Circle cx="43" cy="32" r="3.3" fill={DARK} />
-//     <Circle cx="57" cy="32" r="3.3" fill={DARK} />
-//     <Polygon
-//       points="46,38 54,38 50,45"
-//       fill="#FF9800"
-//       stroke={OUTLINE}
-//       strokeWidth="2"
-//       strokeLinejoin="round"
-//     />
-//     <Ellipse
-//       cx="40"
-//       cy="93"
-//       rx="7"
-//       ry="3.5"
-//       fill="#FF9800"
-//       stroke={OUTLINE}
-//       strokeWidth="2"
-//     />
-//     <Ellipse
-//       cx="60"
-//       cy="93"
-//       rx="7"
-//       ry="3.5"
-//       fill="#FF9800"
-//       stroke={OUTLINE}
-//       strokeWidth="2"
-//     />
-//   </Svg>
-// );
 export const Penguin = ({
   colorHex = "#37474F",
   primary,
@@ -1074,8 +874,8 @@ export const Penguin = ({
       <Ellipse cx="50" cy="62" rx="18" ry="26" fill={secondaryColor} />
 
       <Ellipse
-        cx="26"
-        cy="52"
+        cx="23"
+        cy="55"
         rx="7"
         ry="15"
         fill={mainColor}
@@ -1085,8 +885,8 @@ export const Penguin = ({
       />
 
       <Ellipse
-        cx="74"
-        cy="52"
+        cx="77"
+        cy="55"
         rx="7"
         ry="15"
         fill={mainColor}
@@ -1130,44 +930,6 @@ export const Penguin = ({
     </Svg>
   );
 };
-// export const Whale = ({ colorHex = "#42A5F5", size = 95 }: ItemSvgProps) => {
-//   const belly = shade(colorHex, 0.35);
-//   const eye = shade(colorHex, -0.4);
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Path
-//         d="M10 55 Q10 30 40 26 Q70 24 84 40 Q95 46 92 52 Q95 58 84 62 Q68 74 40 70 Q12 66 10 55 Z"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         strokeLinejoin="round"
-//       />
-//       <Path d="M14 58 Q30 66 45 62 Q30 68 16 66 Z" fill={belly} />
-//       <Polygon
-//         points="84,40 98,30 96,44"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3"
-//         strokeLinejoin="round"
-//       />
-//       <Polygon
-//         points="84,62 98,72 96,58"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3"
-//         strokeLinejoin="round"
-//       />
-//       <Circle cx="30" cy="42" r="3.5" fill={eye} />
-//       <Path
-//         d="M40 22 Q40 12 36 8 M40 22 Q44 14 46 9"
-//         stroke={belly}
-//         strokeWidth="3"
-//         strokeLinecap="round"
-//         fill="none"
-//       />
-//     </Svg>
-//   );
-// };
 export const Whale = ({
   colorHex = "#42A5F5",
   primary,
@@ -1179,89 +941,203 @@ export const Whale = ({
   const secondaryColor = secondary ?? shade(mainColor, 0.35);
   const accentColor = accent ?? contrastAccent(mainColor);
 
+  const eyeColor = contrastAccent(mainColor, "#1A237E", "#222");
+  const mouthColor = "#F48FB1";
+  const bellyColor = secondaryColor;
+
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Path
-        d="M10 55 Q10 30 40 26 Q70 24 84 40 Q95 46 92 52 Q95 58 84 62 Q68 74 40 70 Q12 66 10 55 Z"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        strokeLinejoin="round"
-      />
+      <G transform="translate(9.4, 16.7) scale(0.78)">
+        {/* 💦 물줄기: blowhole에서 바로 이어지는 줄기 → 위에서 3갈래로 퍼짐 */}
+        <Path
+          d="M73 15 C73 8 73 2 73 -4"
+          fill="none"
+          stroke={accentColor}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <Path
+          d="M73 2 C69 -2 66 -6 62 -9"
+          fill="none"
+          stroke={accentColor}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+        <Path
+          d="M73 2 C77 -2 80 -6 84 -9"
+          fill="none"
+          stroke={accentColor}
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        />
+        <Circle cx="62" cy="-9" r="2" fill={accentColor} />
+        <Circle cx="84" cy="-9" r="2" fill={accentColor} />
+        <Circle cx="73" cy="-13" r="2.5" fill={accentColor} />
 
-      <Path d="M14 58 Q30 66 45 62 Q30 68 16 66 Z" fill={secondaryColor} />
+        {/* 💦 blowhole 구멍 */}
+        <Circle cx="73" cy="15" r="2" fill={accentColor} opacity="0.8" />
 
-      <Polygon
-        points="84,40 98,30 96,44"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
-        strokeLinejoin="round"
-      />
+        {/* 🐋 고래 몸통 */}
+        <Path
+          d="
+            M9 56
 
-      <Polygon
-        points="84,62 98,72 96,58"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
-        strokeLinejoin="round"
-      />
+            C8 43 12 29 22 21
+            C32 13 45 14 56 19
 
-      <Circle
-        cx="30"
-        cy="42"
-        r="3.5"
-        fill={contrastAccent(mainColor, "#222", "#FAFAFA")}
-      />
+            C65 23 72 29 78 34
+            C83 38 87 38 91 35
 
-      <Path
-        d="M40 22 Q40 12 36 8 M40 22 Q44 14 46 9"
-        stroke={accentColor}
-        strokeWidth="3"
-        strokeLinecap="round"
-        fill="none"
-      />
+            C94 33 97 29 97 32
+            C98 39 94 45 89 48
+
+            C85 51 82 54 81 61
+
+            C79 71 73 78 64 82
+            C53 87 38 86 25 82
+
+            C15 79 8 72 8 63
+            C8 60 8 58 9 56
+
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+
+        {/* 🤍 배 */}
+        <Path
+          d="
+            M6 62
+            C12 68 22 72 33 74
+            C45 77 60 76 70 70
+            C67 76 62 80 55 82
+            C43 85 30 84 19 81
+            C11 78 6 72 6 62
+            Z
+          "
+          fill={bellyColor}
+        />
+
+        {/* 👄 입 안쪽 */}
+        <Path
+          d="
+            M6 60
+            C14 63 22 64 31 62
+            C26 68 18 70 12 67
+            C8 65 6 63 6 60
+            Z
+          "
+          fill={mouthColor}
+          stroke={OUTLINE}
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+
+        {/* 🦷 입 / 배 경계 */}
+        <Path
+          d="
+            M22 66
+            C29 67 37 69 45 70
+            C53 71 61 70 68 66
+          "
+          fill="none"
+          stroke={OUTLINE}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          opacity="0.65"
+        />
+
+        {/* 🐋 아래쪽 왼쪽 지느러미 */}
+        <Path
+          d="
+            M51 78
+            C51 86 55 92 61 96
+            C65 98 67 95 66 91
+            C65 86 62 82 58 78
+            Z
+          "
+          fill={accentColor}
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+
+        {/* 🐋 큰 앞지느러미 */}
+        <Path
+          d="
+            M66 68
+            C71 72 76 76 81 80
+            C85 83 82 86 77 86
+            C70 86 64 83 60 79
+            C57 76 58 71 61 68
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+
+        {/* 🐋 꼬리 위쪽 */}
+        <Path
+          d="
+            M82 36
+            C80 29 80 24 83 20
+            C87 22 91 25 94 27
+            C96 28 98 27 98 29
+            C98 35 94 41 88 45
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+
+        {/* 🐋 꼬리 아래쪽 */}
+        <Path
+          d="
+            M84 38
+            C89 37 94 34 98 30
+            C98 37 95 43 89 47
+            C86 49 83 49 81 47
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+
+        {/* 👁️ 눈 */}
+        <Circle cx="45" cy="50" r="5" fill={eyeColor} />
+        <Circle cx="47" cy="48" r="1.8" fill={WHITE} />
+
+        {/* 😊 볼 */}
+        <Circle cx="60" cy="56" r="3" fill={mouthColor} opacity="0.75" />
+
+        {/* 몸통의 살짝 밝은 부분 */}
+        <Path
+          d="
+            M20 25
+            C28 18 39 18 49 21
+            C56 23 63 27 68 31
+            C58 27 47 24 37 24
+            C29 24 24 27 20 31
+            Z
+          "
+          fill={secondaryColor}
+          opacity="0.45"
+        />
+      </G>
     </Svg>
   );
 };
-// export const Shark = ({ colorHex = "#90A4AE", size = 95 }: ItemSvgProps) => {
-//   const belly = shade(colorHex, 0.35);
-//   const eye = shade(colorHex, -0.4);
-//   return (
-//     <Svg width={size} height={size} viewBox="0 0 100 100">
-//       <Path
-//         d="M8 55 Q15 35 45 33 Q75 32 92 50 Q75 55 45 55 Q60 65 55 72 Q35 68 20 58 Q10 60 8 55 Z"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="4"
-//         strokeLinejoin="round"
-//       />
-//       <Path d="M14 52 Q30 60 45 55 Q30 58 16 58 Z" fill={belly} />
-//       <Polygon
-//         points="45,33 52,14 58,34"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3"
-//         strokeLinejoin="round"
-//       />
-//       <Circle cx="30" cy="44" r="3" fill={eye} />
-//       <Path
-//         d="M18 55 Q28 62 40 60"
-//         stroke={OUTLINE}
-//         strokeWidth="2"
-//         fill="none"
-//         strokeLinecap="round"
-//       />
-//       <Polygon
-//         points="22,53 26,58 30,53"
-//         fill={WHITE}
-//         stroke={OUTLINE}
-//         strokeWidth="1.2"
-//         strokeLinejoin="round"
-//       />
-//     </Svg>
-//   );
-// };
 export const Shark = ({
   colorHex = "#90A4AE",
   primary,
@@ -1270,118 +1146,197 @@ export const Shark = ({
   size = 95,
 }: ItemSvgProps) => {
   const mainColor = primary ?? colorHex;
-  const secondaryColor = secondary ?? shade(mainColor, 0.25);
-  const accentColor = accent ?? shade(mainColor, -0.35);
+  const secondaryColor = secondary ?? shade(mainColor, 0.3);
+  const accentColor = accent ?? shade(mainColor, -0.2);
+
+  // 👁️ 눈동자는 흰자 위에서 확실하게 보이도록 지정
+  const eyeColor = contrastAccent(mainColor, "#1A237E", "#222");
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      <Path
-        d="M8 55 Q15 35 45 33 Q75 32 92 50 Q75 55 45 55 Q60 65 55 72 Q35 68 20 58 Q10 60 8 55 Z"
-        fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-        strokeLinejoin="round"
-      />
+      <G transform="translate(2, 4)">
+        {/* 🦈 1. 상어 꼬리지느러미 (위/아래 뾰족하게 갈라진 모양) */}
+        <Path
+          d="
+            M72 48
+            C79 38 88 24 93 20
+            C90 32 84 40 80 48
+            C85 57 92 68 94 76
+            C88 71 78 58 72 52
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+        />
 
-      <Path d="M14 52 Q30 60 45 55 Q30 58 16 58 Z" fill={secondaryColor} />
+        {/* 🦈 2. 등지느러미 (위로 솟아오른 뾰족 삼각 지느러미) */}
+        <Path
+          d="
+            M42 32
+            C48 22 53 12 60 10
+            C60 20 58 29 57 33
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3.5"
+          strokeLinejoin="round"
+        />
 
-      <Polygon
-        points="45,33 52,14 58,34"
-        fill={accentColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
-        strokeLinejoin="round"
-      />
+        {/* 🦈 3. 유선형 몸통 */}
+        <Path
+          d="
+            M8 52
+            C12 36 32 30 52 32
+            C64 33 70 40 76 48
+            C70 56 62 64 50 66
+            C35 68 18 64 8 52
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="4"
+          strokeLinejoin="round"
+        />
 
-      <Circle cx="30" cy="44" r="3" fill={accentColor} />
+        {/* 🤍 4. 배부분 (하얀/밝은 톤) */}
+        <Path
+          d="
+            M8 52
+            C18 60 30 63 45 62
+            C58 61 68 54 74 49
+            C66 58 52 65 38 65
+            C22 65 12 59 8 52
+            Z
+          "
+          fill={secondaryColor}
+        />
 
-      <Path
-        d="M18 55 Q28 62 40 60"
-        stroke={OUTLINE}
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-      />
+        {/* 🦈 5. 가슴지느러미 (옆 지느러미) */}
+        <Path
+          d="
+            M36 55
+            C38 64 42 72 48 76
+            C48 70 46 62 44 56
+            Z
+          "
+          fill={mainColor}
+          stroke={OUTLINE}
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
 
-      <Polygon
-        points="22,53 26,58 30,53"
-        fill={WHITE}
-        stroke={OUTLINE}
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
+        {/* 🦷 무서우면서 귀여운 뾰족 이빨 */}
+        <Polygon
+          points="18,55 21,60 24,55"
+          fill={WHITE}
+          stroke={OUTLINE}
+          strokeWidth="1.2"
+          strokeLinejoin="round"
+        />
+        <Polygon
+          points="24,55 27,60 30,55"
+          fill={WHITE}
+          stroke={OUTLINE}
+          strokeWidth="1.2"
+          strokeLinejoin="round"
+        />
+
+        {/* 👄 입선 */}
+        <Path
+          d="M14 54 Q25 58 34 55"
+          stroke={OUTLINE}
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+        />
+
+        {/* 🫧 아가미선 3줄 */}
+        <Path
+          d="
+            M44 42 C43 45 43 48 44 50
+            M48 42 C47 45 47 48 48 50
+            M52 42 C51 45 51 48 52 50
+          "
+          fill="none"
+          stroke={OUTLINE}
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.6"
+        />
+
+        {/* 👀 동글동글 초롱초롱한 눈 */}
+        {/* 1. 흰자 */}
+        <Circle cx="25" cy="42" r="5" fill={WHITE} />
+        {/* 2. 눈동자 */}
+        <Circle cx="25" cy="42" r="2.5" fill={eyeColor} />
+        {/* 3. 하이라이트 */}
+        <Circle cx="26.5" cy="40.5" r="1" fill={WHITE} />
+
+        {/* 😊 핑크 볼터치 */}
+        <Circle cx="18" cy="47" r="3" fill="#F48FB1" opacity="0.65" />
+      </G>
     </Svg>
   );
 };
-// export const Octopus = ({ colorHex = "#AB47BC", size = 95 }: ItemSvgProps) => {
-//   const highlight = shade(colorHex, 0.3);
-//   const pupil = shade(colorHex, -0.4);
+// export const Shark = ({
+//   colorHex = "#90A4AE",
+//   primary,
+//   secondary,
+//   accent,
+//   size = 95,
+// }: ItemSvgProps) => {
+//   const mainColor = primary ?? colorHex;
+//   const secondaryColor = secondary ?? shade(mainColor, 0.25);
+//   const accentColor = accent ?? shade(mainColor, -0.35);
+
 //   return (
 //     <Svg width={size} height={size} viewBox="0 0 100 100">
 //       <Path
-//         d="M22 55 Q10 68 18 82 Q24 70 30 80 Q30 66 22 55"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3.5"
-//         strokeLinejoin="round"
-//       />
-//       <Path
-//         d="M38 58 Q30 74 36 88 Q42 76 46 86 Q44 68 38 58"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3.5"
-//         strokeLinejoin="round"
-//       />
-//       <Path
-//         d="M62 58 Q70 74 64 88 Q58 76 54 86 Q56 68 62 58"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3.5"
-//         strokeLinejoin="round"
-//       />
-//       <Path
-//         d="M78 55 Q90 68 82 82 Q76 70 70 80 Q70 66 78 55"
-//         fill={colorHex}
-//         stroke={OUTLINE}
-//         strokeWidth="3.5"
-//         strokeLinejoin="round"
-//       />
-//       <Ellipse
-//         cx="50"
-//         cy="45"
-//         rx="32"
-//         ry="27"
-//         fill={colorHex}
+//         d="M8 55 Q15 35 45 33 Q75 32 92 50 Q75 55 45 55 Q60 65 55 72 Q35 68 20 58 Q10 60 8 55 Z"
+//         fill={mainColor}
 //         stroke={OUTLINE}
 //         strokeWidth="4"
+//         strokeLinejoin="round"
 //       />
-//       <Circle
-//         cx="37"
-//         cy="42"
-//         r="9"
-//         fill={WHITE}
+
+//       <Path d="M14 52 Q30 60 45 55 Q30 58 16 58 Z" fill={secondaryColor} />
+
+//       <Polygon
+//         points="45,33 52,14 58,34"
+//         fill={accentColor}
 //         stroke={OUTLINE}
-//         strokeWidth="2"
+//         strokeWidth="3"
+//         strokeLinejoin="round"
 //       />
-//       <Circle
-//         cx="63"
-//         cy="42"
-//         r="9"
-//         fill={WHITE}
-//         stroke={OUTLINE}
-//         strokeWidth="2"
-//       />
-//       <Circle cx="38" cy="43" r="4" fill={pupil} />
-//       <Circle cx="64" cy="43" r="4" fill={pupil} />
+
+//       <Circle cx="30" cy="44" r="3" fill={accentColor} />
+
 //       <Path
-//         d="M42 56 Q50 62 58 56"
-//         fill="none"
+//         d="M18 55 Q28 62 40 60"
 //         stroke={OUTLINE}
-//         strokeWidth="2.5"
+//         strokeWidth="2"
+//         fill="none"
 //         strokeLinecap="round"
 //       />
-//       <Circle cx="30" cy="35" r="3" fill={highlight} opacity="0.7" />
-//       <Circle cx="70" cy="35" r="3" fill={highlight} opacity="0.7" />
+
+//       <Polygon
+//         points="15,56 19,61 23,56"
+//         fill={WHITE}
+//         stroke={OUTLINE}
+//         strokeWidth="1.2"
+//         strokeLinejoin="round"
+//       />
+
+//       <Polygon
+//         points="9,56 13,61 17,56"
+//         fill={WHITE}
+//         stroke={OUTLINE}
+//         strokeWidth="1.2"
+//         strokeLinejoin="round"
+//       />
 //     </Svg>
 //   );
 // };
@@ -1394,119 +1349,142 @@ export const Octopus = ({
 }: ItemSvgProps) => {
   const mainColor = primary ?? colorHex;
   const secondaryColor = secondary ?? shade(mainColor, 0.2);
-  const accentColor = accent ?? shade(mainColor, -0.35);
+  const accentColor = accent ?? contrastAccent(mainColor);
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
+      {/* 뒤쪽 다리 */}
       <Path
-        d="M22 55 Q10 68 18 82 Q24 70 30 80 Q30 66 22 55"
+        d="
+          M28 57
+          C20 63 17 71 20 78
+          C22 83 27 82 30 76
+          C32 82 36 84 39 80
+          C41 76 38 67 35 60
+          Z
+        "
         fill={secondaryColor}
         stroke={OUTLINE}
         strokeWidth="3.5"
         strokeLinejoin="round"
+        strokeLinecap="round"
       />
 
       <Path
-        d="M38 58 Q30 74 36 88 Q42 76 46 86 Q44 68 38 58"
+        d="
+          M72 57
+          C80 63 83 71 80 78
+          C78 83 73 82 70 76
+          C68 82 64 84 61 80
+          C59 76 62 67 65 60
+          Z
+        "
         fill={secondaryColor}
         stroke={OUTLINE}
         strokeWidth="3.5"
         strokeLinejoin="round"
+        strokeLinecap="round"
       />
 
+      {/* 가운데 다리 */}
       <Path
-        d="M62 58 Q70 74 64 88 Q58 76 54 86 Q56 68 62 58"
-        fill={secondaryColor}
+        d="
+          M39 60
+          C34 70 35 80 40 84
+          C43 86 46 82 46 76
+          C48 83 52 87 55 84
+          C58 81 57 71 54 61
+          Z
+        "
+        fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="3.5"
         strokeLinejoin="round"
+        strokeLinecap="round"
       />
 
+      {/* 오른쪽 앞다리 */}
       <Path
-        d="M78 55 Q90 68 82 82 Q76 70 70 80 Q70 66 78 55"
-        fill={secondaryColor}
+        d="
+          M61 60
+          C67 68 67 78 63 83
+          C60 87 56 83 56 77
+          C54 83 51 85 48 82
+          C46 79 49 68 53 60
+          Z
+        "
+        fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="3.5"
         strokeLinejoin="round"
+        strokeLinecap="round"
       />
 
-      <Ellipse
-        cx="50"
-        cy="45"
-        rx="32"
-        ry="27"
+      {/* 🐙 왕머리 */}
+      <Path
+        d="
+          M20 49
+          C18 38 22 27 31 21
+          C39 15 61 15 69 21
+          C78 27 82 38 80 49
+          C78 59 69 65 61 67
+          C54 69 46 69 39 67
+          C31 65 22 59 20 49
+          Z
+        "
         fill={mainColor}
         stroke={OUTLINE}
         strokeWidth="4"
+        strokeLinejoin="round"
       />
 
-      <Circle
-        cx="37"
-        cy="42"
-        r="9"
-        fill={WHITE}
-        stroke={OUTLINE}
-        strokeWidth="2"
-      />
-
-      <Circle
-        cx="63"
-        cy="42"
-        r="9"
-        fill={WHITE}
-        stroke={OUTLINE}
-        strokeWidth="2"
-      />
-
-      <Circle cx="38" cy="43" r="4" fill={accentColor} />
-      <Circle cx="64" cy="43" r="4" fill={accentColor} />
-
+      {/* 머리 하이라이트 */}
       <Path
-        d="M42 56 Q50 62 58 56"
+        d="
+          M30 29
+          C37 23 45 22 51 23
+        "
+        fill="none"
+        stroke={secondaryColor}
+        strokeWidth="4"
+        strokeLinecap="round"
+        opacity="0.65"
+      />
+
+      {/* 👀 눈 */}
+      {/* 1. 흰자 (가장 아래) */}
+      <Circle cx="36" cy="43" r="5.5" fill={WHITE} />
+      <Circle cx="64" cy="43" r="5.5" fill={WHITE} />
+
+      {/* 2. 눈동자 색상 (중간) */}
+      <Circle cx="37" cy="44" r="2.8" fill={DARK} />
+      <Circle cx="65" cy="44" r="2.8" fill={DARK} />
+
+      {/* 3. 하이라이트 반짝이 (가장 위) */}
+      <Circle cx="38" cy="42" r="1.2" fill={WHITE} />
+      <Circle cx="66" cy="42" r="1.2" fill={WHITE} />
+
+      {/* 😊 입 */}
+      <Path
+        d="M43 54 Q50 60 57 54"
         fill="none"
         stroke={OUTLINE}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
 
-      <Circle cx="30" cy="35" r="3" fill={secondaryColor} opacity="0.8" />
-
-      <Circle cx="70" cy="35" r="3" fill={secondaryColor} opacity="0.8" />
+      {/* 🩷 볼터치 */}
+      <Circle cx="27" cy="53" r="4" fill="#F48FB1" opacity="0.7" />
+      <Circle cx="73" cy="53" r="4" fill="#F48FB1" opacity="0.7" />
     </Svg>
   );
 };
-// export const Dolphin = ({ colorHex = "#78909C", size = 95 }: ItemSvgProps) => (
-//   <Svg width={size} height={size} viewBox="0 0 100 100">
-//     <Path
-//       d="M12 57 Q30 38 57 43 Q71 45 82 55 Q69 70 49 69 Q29 68 12 57 Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//     />
-//     <Path
-//       d="M52 44 L60 27 L66 46 Z"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
-//     <Path
-//       d="M80 55 Q92 45 96 42 Q94 54 87 58 Q95 63 96 72 Q88 68 80 61"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="4"
-//       strokeLinejoin="round"
-//     />
-//     <Path
-//       d="M13 57 Q7 54 5 59 Q10 62 16 61"
-//       fill={colorHex}
-//       stroke={OUTLINE}
-//       strokeWidth="3"
-//     />
-//     <Circle cx="67" cy="52" r="3.5" fill={DARK} />
-//   </Svg>
-// );
-export const Dolphin = ({
-  colorHex = "#78909C",
+// ============================================================
+// 🦑 오징어 Squid
+// ============================================================
+
+export const Squid = ({
+  colorHex = "#FF8A65",
   primary,
   secondary,
   accent,
@@ -1514,43 +1492,149 @@ export const Dolphin = ({
 }: ItemSvgProps) => {
   const mainColor = primary ?? colorHex;
   const secondaryColor = secondary ?? shade(mainColor, 0.25);
-  const accentColor = accent ?? shade(mainColor, -0.35);
+  const accentColor = accent ?? contrastAccent(mainColor);
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
+      {/* 🦑 1. 삼각형 머리 지느러미 (상단) */}
       <Path
-        d="M12 57 Q30 38 57 43 Q71 45 82 55 Q69 70 49 69 Q29 68 12 57 Z"
+        d="
+          M50 8
+          C58 15 72 23 75 30
+          C70 32 60 32 50 32
+          C40 32 30 32 25 30
+          C28 23 42 15 50 8
+          Z
+        "
+        fill={secondaryColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+      />
+
+      {/* 🦑 2. 네모 몸통 (중간) */}
+      <Path
+        d="
+          M27 29
+          C27 28 73 28 73 29
+          C74 42 74 53 72 63
+          C71 67 65 69 50 69
+          C35 69 29 67 28 63
+          C26 53 26 42 27 29
+          Z
+        "
         fill={mainColor}
-        stroke={OUTLINE}
-        strokeWidth="4"
-      />
-
-      <Path
-        d="M52 44 L60 27 L66 46 Z"
-        fill={secondaryColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
-      />
-
-      <Path
-        d="M80 55 Q92 45 96 42 Q94 54 87 58 Q95 63 96 72 Q88 68 80 61"
-        fill={secondaryColor}
         stroke={OUTLINE}
         strokeWidth="4"
         strokeLinejoin="round"
       />
 
+      {/* 몸통 하이라이트 (왼쪽 모서리) */}
       <Path
-        d="M13 57 Q7 54 5 59 Q10 62 16 61"
-        fill={secondaryColor}
-        stroke={OUTLINE}
+        d="
+          M32 34
+          V58
+        "
+        fill="none"
+        stroke={secondaryColor}
         strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.6"
       />
 
-      <Circle cx="67" cy="52" r="3.5" fill={accentColor} />
+      {/* 🦑 3. 다리 4개 (하단) */}
+      {/* 다리 1 (맨 왼쪽) */}
+      <Path
+        d="
+          M33 67
+          C30 74 27 80 30 85
+          C33 88 37 84 37 78
+          C37 73 38 68 39 67
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* 다리 2 (왼쪽 안쪽) */}
+      <Path
+        d="
+          M41 68
+          C40 75 39 82 43 87
+          C46 89 48 85 47 78
+          C46 73 46 69 46 68
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* 다리 3 (오른쪽 안쪽) */}
+      <Path
+        d="
+          M54 68
+          C54 69 54 73 53 78
+          C52 85 54 89 57 87
+          C61 82 60 75 59 68
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* 다리 4 (맨 오른쪽) */}
+      <Path
+        d="
+          M61 67
+          C62 68 63 73 63 78
+          C63 84 67 88 70 85
+          C73 80 70 74 67 67
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+
+      {/* 👀 눈 */}
+      {/* 1. 흰자 */}
+      <Circle cx="39" cy="45" r="6" fill={WHITE} />
+      <Circle cx="61" cy="45" r="6" fill={WHITE} />
+
+      {/* 2. 눈동자 (어두운 eyeColor 사용) */}
+      <Circle cx="40" cy="46" r="3" fill={accentColor} />
+      <Circle cx="62" cy="46" r="3" fill={accentColor} />
+
+      {/* 3. 하이라이트 반짝이 */}
+      <Circle cx="41" cy="44" r="1.2" fill={WHITE} />
+      <Circle cx="63" cy="44" r="1.2" fill={WHITE} />
+
+      {/* 😊 볼터치 */}
+      <Circle cx="31" cy="53" r="3.5" fill="#F48FB1" opacity="0.7" />
+      <Circle cx="69" cy="53" r="3.5" fill="#F48FB1" opacity="0.7" />
+
+      {/* 👄 살짝 벌어진 입 */}
+      <Ellipse
+        cx="50"
+        cy="53"
+        rx="4.5"
+        ry="3"
+        fill="#F48FB1"
+        stroke={OUTLINE}
+        strokeWidth="1.8"
+      />
+      <Ellipse cx="50" cy="53" rx="2" ry="1.2" fill={accentColor} />
     </Svg>
   );
 };
+
 /* =========================================================
  * 🍎 FRUIT / VEGETABLE
  * ======================================================= */
@@ -5163,7 +5247,6 @@ export const Jellyfish = ({
 };
 
 // ------------------------------------------------------------
-
 export const Crab = ({
   colorHex = "#EF5350",
   primary,
@@ -5171,119 +5254,140 @@ export const Crab = ({
   accent,
   size = 95,
 }: ItemSvgProps) => {
-  const bodyColor = primary ?? colorHex;
-  const innerColor = secondary ?? "#FFCDD2";
-  const accentColor = accent ?? "#C62828";
+  const mainColor = primary ?? colorHex;
+  const secondaryColor = secondary ?? shade(mainColor, 0.25);
+  const accentColor = accent ?? contrastAccent(mainColor);
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">
-      {/* legs */}
-      <Line
-        x1="27"
-        y1="55"
-        x2="12"
-        y2="48"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <Line
-        x1="25"
-        y1="62"
-        x2="10"
-        y2="62"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <Line
-        x1="28"
-        y1="69"
-        x2="14"
-        y2="77"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-
-      <Line
-        x1="73"
-        y1="55"
-        x2="88"
-        y2="48"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <Line
-        x1="75"
-        y1="62"
-        x2="90"
-        y2="62"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-      <Line
-        x1="72"
-        y1="69"
-        x2="86"
-        y2="77"
-        stroke={accentColor}
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-
-      {/* claws */}
+      {/* 🦀 아래쪽 작은 다리 */}
       <Path
-        d="M27 45 Q15 34 10 42 Q9 50 20 51 L28 48"
-        fill={bodyColor}
+        d="M30 66 Q23 72 22 78"
+        fill="none"
         stroke={OUTLINE}
-        strokeWidth="3"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
 
       <Path
-        d="M73 45 Q85 34 90 42 Q91 50 80 51 L72 48"
-        fill={bodyColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
-      />
-
-      {/* body */}
-      <Rect
-        x="27"
-        y="39"
-        width="46"
-        height="34"
-        rx="15"
-        fill={bodyColor}
+        d="M37 69 Q31 76 31 81"
+        fill="none"
         stroke={OUTLINE}
         strokeWidth="4"
+        strokeLinecap="round"
       />
 
-      {/* belly */}
-      <Ellipse cx="50" cy="61" rx="17" ry="8" fill={innerColor} />
-
-      {/* eyes */}
-      <Circle
-        cx="40"
-        cy="43"
-        r="6"
-        fill={bodyColor}
+      <Path
+        d="M63 69 Q69 76 69 81"
+        fill="none"
         stroke={OUTLINE}
-        strokeWidth="3"
-      />
-      <Circle
-        cx="60"
-        cy="43"
-        r="6"
-        fill={bodyColor}
-        stroke={OUTLINE}
-        strokeWidth="3"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
 
-      <Circle cx="40" cy="43" r="2.5" fill={OUTLINE} />
-      <Circle cx="60" cy="43" r="2.5" fill={OUTLINE} />
+      <Path
+        d="M70 66 Q77 72 78 78"
+        fill="none"
+        stroke={OUTLINE}
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+
+      {/* 왼쪽 큰 집게 */}
+      <Path
+        d="
+          M28 43
+          C20 43 13 38 11 31
+          C10 26 14 23 18 25
+          C22 27 24 31 26 34
+          C23 28 25 22 29 21
+          C33 21 35 25 33 30
+          C32 35 31 39 28 43
+          Z
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+      />
+
+      {/* 오른쪽 큰 집게 */}
+      <Path
+        d="
+          M72 43
+          C80 43 87 38 89 31
+          C90 26 86 23 82 25
+          C78 27 76 31 74 34
+          C77 28 75 22 71 21
+          C67 21 65 25 67 30
+          C68 35 69 39 72 43
+          Z
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+      />
+
+      {/* 🦀 빵빵한 몸통 */}
+      <Path
+        d="
+          M22 48
+          C22 38 34 32 50 32
+          C66 32 78 38 78 48
+          C78 61 69 71 50 72
+          C31 71 22 61 22 48
+          Z
+        "
+        fill={mainColor}
+        stroke={OUTLINE}
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+
+      {/* 배 */}
+      <Path
+        d="
+          M29 57
+          C36 65 44 67 50 67
+          C56 67 64 65 71 57
+          C67 67 59 70 50 70
+          C41 70 33 67 29 57
+          Z
+        "
+        fill={secondaryColor}
+        opacity="0.7"
+      />
+
+      {/* 👀 툭 튀어나온 눈 */}
+      <Circle
+        cx="39"
+        cy="36"
+        r="6"
+        fill={WHITE}
+        stroke={OUTLINE}
+        strokeWidth="2"
+      />
+      <Circle
+        cx="61"
+        cy="36"
+        r="6"
+        fill={WHITE}
+        stroke={OUTLINE}
+        strokeWidth="2"
+      />
+
+      <Circle cx="40" cy="37" r="3" fill={DARK} />
+      <Circle cx="62" cy="37" r="3" fill={DARK} />
+
+      {/* 😊 입 */}
+      <Path
+        d="M44 54 Q50 59 56 54"
+        fill="none"
+        stroke={OUTLINE}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </Svg>
   );
 };
@@ -5938,7 +6042,7 @@ export const CATEGORY_ITEM_SVGS = {
   whale: Whale,
   shark: Shark,
   octopus: Octopus,
-  dolphin: Dolphin,
+  squid: Squid,
 
   apple: Apple,
   banana: Banana,

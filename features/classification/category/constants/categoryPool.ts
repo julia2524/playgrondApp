@@ -1548,11 +1548,11 @@ export const CategoryGameObjects: CategoryGameObject[] = [
     ],
   },
   {
-    id: "dolphin",
+    id: "squid",
     name: "돌고래",
     topCategory: "animal",
     subCategory: "sea_animal",
-    svgKey: "dolphin",
+    svgKey: "squid",
     variants: [
       {
         id: "blue_gray",
@@ -9834,11 +9834,11 @@ export const CategoryGameObjects1: CategoryGameObject[] = [
     ],
   },
   {
-    id: "dolphin",
+    id: "squid",
     name: "돌고래",
     topCategory: "animal",
     subCategory: "sea_animal",
-    svgKey: "dolphin",
+    svgKey: "squid",
     variants: [
       {
         id: "blue_gray",

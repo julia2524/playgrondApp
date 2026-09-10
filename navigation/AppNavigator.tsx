@@ -6,7 +6,6 @@ import StickerGalleryScreen from "../features/classification/StickerGalleryScree
 import ShapeStickerGalleryScreen from "../features/classification/ShapeStickerGalleryScreen";
 import SettingScreen from "../features/setting/SettingScreen";
 import CategoryStickerGalleryScreen from "../features/classification/CategoryStickerGalleyScreen";
-import CategoryTestScreen from "../features/classification/CategoryTestScreen";
 
 const Stack = createNativeStackNavigator();
 
