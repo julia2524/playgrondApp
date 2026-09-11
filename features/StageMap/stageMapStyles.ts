@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
-import { Animated } from "react-native";
-import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { Animated, TouchableOpacity } from "react-native";
+import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 
 export const Container = styled.View`
   flex: 1;
@@ -129,4 +129,63 @@ export const BannerAdContainer = styled.View`
   align-items: center;
   justify-content: center;
   background-color: ${BASIC_COLORS.CARD_BG};
+`;
+
+export const HeaderRightContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 8px; /* 버튼 사이 간격 */
+`;
+
+export const StickerBookHeaderButton = styled(TouchableOpacity)`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+
+  /* 부드러운 그림자 효과 */
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.1;
+  shadow-radius: 4px;
+  elevation: 3;
+`;
+
+export const StickerButtonEmoji = styled.Text`
+  font-size: 20px;
+`;
+
+// --------------------------------------------------
+// Floating StickerBook Button (하단 플로팅 버튼)
+// --------------------------------------------------
+
+export const StickerBookFloatingButton = styled(TouchableOpacity)`
+  position: absolute;
+  /* 💡 하단 광고 높이(60px) + 여백(16px) = 76px 위쪽으로 배치 */
+  bottom: 68px;
+
+  /* 👈 좌측 아래 배치를 원할 경우 */
+  left: 20px;
+
+  /* 👉 만약 우측 아래로 바꾸고 싶다면 위 left를 주석처리하고 아래 right를 켜기! */
+  /* right: 20px; */
+
+  width: 52px;
+  height: 52px;
+  border-radius: 26px;
+  background-color: ${PASTEL_BG.purple};
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  /* 통통 튀는 입체감 테두리 & 그림자 */
+  border-width: 3px;
+  border-color: #ffffff;
+  elevation: 8;
+  shadow-color: #1e3a8a;
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.3;
+  shadow-radius: 6px;
 `;

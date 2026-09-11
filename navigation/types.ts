@@ -12,4 +12,12 @@ export type RootStackParamList = {
   ShapeStickerGalleryScreen: undefined;
   CategoryStickerGalleryScreen: undefined;
   SettingScreen: undefined;
+  IntegratedStickerGalleryScreen:
+    | { initialTab?: "color" | "shape" | "category" }
+    | undefined;
+  StickerDetailScreen: {
+    gameType: "color" | "shape" | "category";
+    stickerId: string;
+    stickerName: string;
+  };
 };

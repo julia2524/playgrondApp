@@ -5,7 +5,9 @@ import StageMapScreen from "../features/StageMap/StageMapScreen";
 import StickerGalleryScreen from "../features/sticker/StickerGalleryScreen";
 import ShapeStickerGalleryScreen from "../features/sticker/ShapeStickerGalleryScreen";
 import SettingScreen from "../features/setting/SettingScreen";
-import CategoryStickerGalleryScreen from "../features/sticker/CategoryStickerGalleyScreen";
+import CategoryStickerGalleyScreen from "../features/sticker/CategoryStickerGalleyScreen";
+import IntegratedStickerGalleryScreen from "../features/sticker/IntegratedStickerGalleryScreen";
+import StickerDetailScreen from "../features/sticker/StickerDetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +41,14 @@ export default function AppNavigator() {
           animation: "fade",
         }}
       />
+      {/* 📖 통합 스티커북 등록 */}
+      <Stack.Screen
+        name="IntegratedStickerGalleryScreen"
+        component={IntegratedStickerGalleryScreen}
+        options={{
+          animation: "fade",
+        }}
+      />
       <Stack.Screen
         name="StickerGalleryScreen"
         component={StickerGalleryScreen}
@@ -48,8 +58,15 @@ export default function AppNavigator() {
         component={ShapeStickerGalleryScreen}
       />
       <Stack.Screen
-        name="CategoryStickerGalleryScreen"
-        component={CategoryStickerGalleryScreen}
+        name="CategoryStickerGalleyScreen"
+        component={CategoryStickerGalleyScreen}
+      />
+      <Stack.Screen
+        name="StickerDetailScreen"
+        component={StickerDetailScreen}
+        options={{
+          animation: "fade",
+        }}
       />
     </Stack.Navigator>
   );

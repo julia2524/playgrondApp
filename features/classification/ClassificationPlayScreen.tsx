@@ -252,18 +252,6 @@ export default function ClassificationPlayScreen() {
       return null;
     }
   }
-  // if (
-  //   !currentRound ||
-  //   !currentRound.targets ||
-  //   currentRound.targets.length === 0
-  // ) {
-  //   console.log("⚠️ currentRound 없음", {
-  //     roundsLength: rounds.length,
-  //     roundIndex,
-  //     rounds,
-  //   });
-  //   return null; // 또는 로딩 화면
-  // }
 
   const displayTargets = toDisplayTargets(currentRound);
   const target = displayTargets[0]; // shape는 항상 1개만 나옴
@@ -415,7 +403,40 @@ export default function ClassificationPlayScreen() {
     setActiveStickerId(null);
     isProcessingRef.current = false;
   };
+  // ==================================================
+  // 🎁 정답 스티커 해금
+  // ==================================================
+  const unlockCorrectSticker = async (objectId: string) => {
+    try {
+      // ⭐ 실제로 맞힌 object 찾기
+      const correctObject = displayObjects.find(
+        (object) => object.id === objectId,
+      );
 
+      if (!correctObject) {
+        console.warn("⚠️ 정답 object를 찾을 수 없습니다:", objectId);
+        return;
+      }
+
+      // ⭐ object.id가 아니라 실제 스티커 ID(renderId)를 저장
+      const stickerId = correctObject.renderId;
+
+      if (!stickerId) {
+        console.warn("⚠️ 실제 스티커 ID가 없습니다:", correctObject);
+        return;
+      }
+
+      const isNew = await unlockSticker(gameType, stickerId);
+
+      if (isNew) {
+        console.log(`🎉 새로운 스티커 해금!: ${stickerId}`);
+      } else {
+        console.log(`🔓 이미 해금된 스티커: ${stickerId}`);
+      }
+    } catch (error) {
+      console.error("❌ 정답 스티커 해금 실패:", error);
+    }
+  };
   // ==================================================
   // ⭐ Correct
   // ==================================================
@@ -433,19 +454,6 @@ export default function ClassificationPlayScreen() {
     setIsTargetFront(true);
     setFeedback("참 잘했어요! 👏");
 
-    // ----------------------------------------------------
-    // 🏆 [스티커 도장깨기 해금 로직 추가]
-    // 정답으로 맞춰진 objectId (예: "sparrow", "apple" 등)를 스티커로 저장!
-    // ----------------------------------------------------
-    if (objectId) {
-      unlockSticker(objectId).then((isNew) => {
-        if (isNew) {
-          console.log(`🎉 새로운 스티커 획득!: ${objectId}`);
-          // 필요하다면 여기서 토스트 메시지나 효과음 추가 가능!
-        }
-      });
-    }
-
     // ⭐ 성공 횟수 증가
     const nextCorrectRoundCount = correctRoundCount + 1;
     setCorrectRoundCount(nextCorrectRoundCount);
@@ -453,6 +461,9 @@ export default function ClassificationPlayScreen() {
     // ⭐ 성공 횟수로 별 계산
     const newStars = calculateStars(nextCorrectRoundCount);
     setEarnedStars(newStars);
+
+    // 🎁 정답 스티커 해금
+    unlockCorrectSticker(objectId);
 
     // ⭐ 정답 Object 처리
     setMatchedObjectIds((prev) => {

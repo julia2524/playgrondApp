@@ -78,7 +78,7 @@ export type ShapeDefinition = {
   id: string; // ItemSvg 컴포넌트 키와 매칭
   label: string; // 화면에 표시할 한글 이름
 };
-export const SHAPE_POOL: ShapeDefinition[] = [
+export const COLOR_ITEM_POOL: ShapeDefinition[] = [
   { id: "apple", label: "사과" },
   { id: "strawberry", label: "딸기" },
   { id: "balloon", label: "풍선" },
@@ -127,7 +127,7 @@ export const SHAPE_POOL: ShapeDefinition[] = [
 ];
 
 // 2. 색상별 사물 이름 풀 (색상 키와 매칭)
-export const COLOR_ITEM_POOL: Record<string, string[]> = {
+export const COLOR_ITEM_POOLS: Record<string, string[]> = {
   red: ["빨간 사과", "딸기", "빨간 풍선", "소방차", "체리", "무당벌레", "수박"],
   pink: ["분홍 토끼", "복숭아", "발레복", "분홍 튤립", "솜사탕"],
   coral: ["코랄 조개", "자몽", "홍학", "연어 초밥", "장미꽃", "시계"],

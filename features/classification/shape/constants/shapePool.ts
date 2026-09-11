@@ -146,6 +146,14 @@ export const BABY_SHAPES: ShapeDefinition[] = [
  * 실제 SVG renderer에서 사용하는 itemId와 반드시 동일하게 맞춰야 한다.
  * 자연스러운 기본 색상은 여기서 관리하지 않는다.natural일 경우 SVG가 자기 기본 색상을 사용한다.
  */
+
+export const BASIC_SHAPE_LIST = [
+  { id: "circle", name: "동그라미" },
+  { id: "square", name: "네모" },
+  { id: "triangle", name: "세모" },
+  { id: "heart", name: "하트" },
+  { id: "star", name: "별" },
+];
 export const SHAPE_ITEM_POOL: ShapeItem[] = [
   // ==================================================
   // CIRCLE

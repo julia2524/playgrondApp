@@ -1,230 +1,22 @@
-// import React, { useState } from "react";
-// import { ScrollView, TouchableOpacity } from "react-native";
-// import styled from "styled-components/native";
-// import { useNavigation } from "@react-navigation/native";
-
-// import AppHeader from "../../components/common/AppHeader";
-// import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
-// import { CategoryGameObjects1 } from "../classification/category/constants/categoryPool";
-// import { CategoryGameObject } from "../classification/category/type/types";
-
-// // ---------- 색상 거리 유틸 (generator와 동일 로직) ----------
-// function hexToRgb(hex: string) {
-//   const h = hex.replace("#", "");
-//   const full =
-//     h.length === 3
-//       ? h
-//           .split("")
-//           .map((c) => c + c)
-//           .join("")
-//       : h;
-//   return {
-//     r: parseInt(full.slice(0, 2), 16),
-//     g: parseInt(full.slice(2, 4), 16),
-//     b: parseInt(full.slice(4, 6), 16),
-//   };
-// }
-
-// function colorDistance(hexA: string, hexB: string): number {
-//   const a = hexToRgb(hexA);
-//   const b = hexToRgb(hexB);
-//   const rmean = (a.r + b.r) / 2;
-//   const dr = a.r - b.r;
-//   const dg = a.g - b.g;
-//   const db = a.b - b.b;
-//   return Math.sqrt(
-//     (2 + rmean / 256) * dr * dr +
-//       4 * dg * dg +
-//       (2 + (255 - rmean) / 256) * db * db,
-//   );
-// }
-
-// // ---------- 실제 데이터 기반 색상 계열 ----------
-// // 데이터에 자주 등장하는 variant id들 (필요하면 자유롭게 추가/삭제)
-// const COLOR_FAMILIES = [
-//   "natural",
-//   "red",
-//   "orange",
-//   "yellow",
-//   "green",
-//   "blue",
-//   "purple",
-//   "pink",
-//   "brown",
-//   "gray",
-//   "white",
-//   "black",
-// ] as const;
-
-// type ColorFamily = (typeof COLOR_FAMILIES)[number];
-
-// // 해당 계열 id를 가진 variant를 데이터 전체에서 찾아 대표 hex로 사용 (버튼 스와치용)
-// function getRepresentativeHex(familyId: string): string {
-//   for (const obj of CategoryGameObjects1) {
-//     const match = obj.variants.find((v) => v.id === familyId);
-//     if (match) return match.primary;
-//   }
-//   return "#CCCCCC"; // 데이터에 아예 없는 계열이면 회색으로 폴백
-// }
-
-// // 오브젝트별로 "이 계열에 가장 알맞은 variant"를 찾아 실제 hex 반환
-// function resolveVariantHex(
-//   obj: CategoryGameObject,
-//   familyId: ColorFamily,
-// ): string | undefined {
-//   if (familyId === "natural") return undefined; // 컴포넌트 기본색 사용
-
-//   // 1순위: id가 정확히 일치하는 variant
-//   const exact = obj.variants.find((v) => v.id === familyId);
-//   if (exact) return exact.primary;
-
-//   // 2순위: 대표색과 가장 색이 비슷한 variant
-//   const representative = getRepresentativeHex(familyId);
-//   let closest = obj.variants[0];
-//   let closestDist = colorDistance(closest.primary, representative);
-//   for (const v of obj.variants) {
-//     const d = colorDistance(v.primary, representative);
-//     if (d < closestDist) {
-//       closest = v;
-//       closestDist = d;
-//     }
-//   }
-//   return closest.primary;
-// }
-
-// // 버튼에 쓸 {id, 대표hex} 목록 (컴포넌트 바깥에서 한 번만 계산)
-// const sampleColors: { id: ColorFamily; hex: string }[] = COLOR_FAMILIES.map(
-//   (id) => ({
-//     id,
-//     hex: id === "natural" ? "natural" : getRepresentativeHex(id),
-//   }),
-// );
-
-// export default function CategoryStickerGalleryScreen() {
-//   const navigation = useNavigation<any>();
-//   const [selectedFamily, setSelectedFamily] = useState<ColorFamily>("natural");
-
-//   const categoryStickerKeys1 = [
-//     "sparrow",
-//     "corn",
-//     "broccoli",
-//     "mushroom",
-//     "stingray",
-//     "dog",
-//     "cat",
-//     "rabbit",
-//     "chicken",
-//     "duck",
-//     "penguin",
-//     "whale",
-//     "shark",
-//     "octopus",
-//     "squid",
-//     "apple",
-//     "banana",
-//     "strawberry",
-//     "watermelon",
-//     "carrot",
-//     "cucumber",
-//     "tomato",
-//     "rice",
-//     "gimbap",
-//     "pizza",
-//     "hamburger",
-//     "cake",
-//     "cookie",
-//     "iceCream",
-//     "car",
-//     "bus",
-//     "train",
-//     "airplane",
-//     "ship",
-//     "bicycle",
-//     "helicopter",
-//     "boat",
-//     "candy",
-//     "donut",
-//     "chocolate",
-//     "pig",
-//     "bear",
-//     "cow",
-//     "owl",
-//     "parrot",
-//     "jellyfish",
-//     "crab",
-//     "grape",
-//     "tangerine",
-//     "peach",
-//     "eggplant",
-//     "chili",
-//     "pumpkin",
-//     "soup",
-//     "sandwich",
-//     "dumpling",
-//     "submarine",
-//     "rocket",
-//     "hotAirBalloon",
-//     "truck",
-//     "excavator",
-//     "subway",
-//   ];
-
-//   return (
-//     <Container>
-//       <AppHeader
-//         onBack={() => navigation.goBack()}
-//         center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
-//       />
-//       <ColorPickerBar>
-//         <ColorLabel></ColorLabel>
-
-//         {sampleColors.map(({ id, hex }) => (
-//           <ColorButton
-//             key={id}
-//             color={id === "natural" ? "#FFFFFF" : hex}
-//             isSelected={selectedFamily === id}
-//             onPress={() => setSelectedFamily(id)}
-//           />
-//         ))}
-//       </ColorPickerBar>
-//       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 300 }}>
-//         <GridContainer>
-//           {categoryStickerKeys1.map((key) => {
-//             const obj = CategoryGameObjects1.find((o) => o.id === key);
-//             const colorHex = obj
-//               ? resolveVariantHex(obj, selectedFamily)
-//               : undefined;
-
-//             return (
-//               <StickerCard key={key}>
-//                 <RenderCategoryItemSvg itemId={key} colorHex={colorHex} />
-//                 <StickerName>{key}</StickerName>
-//               </StickerCard>
-//             );
-//           })}
-//         </GridContainer>
-//       </ScrollView>
-//     </Container>
-//   );
-// }
-
 import React, { useState, useCallback } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
-import { getUnlockedStickers } from "./utils/stickerStorage";
+import { getUnlockedStickers, GameType } from "./utils/stickerStorage";
 import { CategoryGameObjects1 } from "../classification/category/constants/categoryPool";
 import { CategoryGameObject } from "../classification/category/type/types";
 import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
-// import { RenderCategoryItemSvg } from "./category/assets/categoryItemSvgs";
-// import { CategoryGameObjects1 } from "./category/constants/categoryPool";
-// import { CategoryGameObject } from "./category/type/types";
-// import { getUnlockedStickers } from "../../utils/stickerStorage"; // 저장소 함수
 
-// // ---------- 실제 데이터 기반 색상 계열 ----------
-// // 데이터에 자주 등장하는 variant id들 (필요하면 자유롭게 추가/삭제)
+// ---------- 상단 모드 탭 정의 ----------
+const GAME_TABS: { id: GameType; label: string; icon: string }[] = [
+  { id: "category", label: "친구 찾기", icon: "🥑" },
+  { id: "color", label: "색깔 찾기", icon: "🎨" },
+  { id: "shape", label: "모양 찾기", icon: "🔷" },
+];
+
+// ---------- 실제 데이터 기반 색상 계열 ----------
 const COLOR_FAMILIES = [
   "natural",
   "red",
@@ -306,7 +98,8 @@ const categoryStickerKeys1 = [
   "excavator",
   "subway",
 ];
-// // ---------- 색상 거리 유틸 (generator와 동일 로직) ----------
+
+// ---------- 색상 거리 유틸 ----------
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "");
   const full =
@@ -322,6 +115,7 @@ function hexToRgb(hex: string) {
     b: parseInt(full.slice(4, 6), 16),
   };
 }
+
 function colorDistance(hexA: string, hexB: string): number {
   const a = hexToRgb(hexA);
   const b = hexToRgb(hexB);
@@ -335,27 +129,24 @@ function colorDistance(hexA: string, hexB: string): number {
       (2 + (255 - rmean) / 256) * db * db,
   );
 }
-// // 해당 계열 id를 가진 variant를 데이터 전체에서 찾아 대표 hex로 사용 (버튼 스와치용)
+
 function getRepresentativeHex(familyId: string): string {
   for (const obj of CategoryGameObjects1) {
     const match = obj.variants.find((v) => v.id === familyId);
     if (match) return match.primary;
   }
-  return "#CCCCCC"; // 데이터에 아예 없는 계열이면 회색으로 폴백
+  return "#CCCCCC";
 }
 
-// // 오브젝트별로 "이 계열에 가장 알맞은 variant"를 찾아 실제 hex 반환
 function resolveVariantHex(
   obj: CategoryGameObject,
   familyId: ColorFamily,
 ): string | undefined {
-  if (familyId === "natural") return undefined; // 컴포넌트 기본색 사용
+  if (familyId === "natural") return undefined;
 
-  // 1순위: id가 정확히 일치하는 variant
   const exact = obj.variants.find((v) => v.id === familyId);
   if (exact) return exact.primary;
 
-  // 2순위: 대표색과 가장 색이 비슷한 variant
   const representative = getRepresentativeHex(familyId);
   let closest = obj.variants[0];
   let closestDist = colorDistance(closest.primary, representative);
@@ -369,7 +160,6 @@ function resolveVariantHex(
   return closest.primary;
 }
 
-// 버튼에 쓸 {id, 대표hex} 목록 (컴포넌트 바깥에서 한 번만 계산)
 const sampleColors: { id: ColorFamily; hex: string }[] = COLOR_FAMILIES.map(
   (id) => ({
     id,
@@ -377,22 +167,27 @@ const sampleColors: { id: ColorFamily; hex: string }[] = COLOR_FAMILIES.map(
   }),
 );
 
-export default function CategoryStickerGalleryScreen() {
+export default function CategoryStickerGalleyScreen() {
   const navigation = useNavigation<any>();
+  const [selectedTab, setSelectedTab] = useState<GameType>("category");
   const [selectedFamily, setSelectedFamily] = useState<ColorFamily>("natural");
   const [unlockedStickers, setUnlockedStickers] = useState<string[]>([]);
 
-  // 화면에 들어올 때마다 해금된 스티커 데이터 최신화
+  // 💡 선택된 탭(selectedTab)이 바뀔 때마다 해당 게임 모드의 해금 스티커 불러오기
   useFocusEffect(
     useCallback(() => {
       let isMounted = true;
-      getUnlockedStickers().then((list) => {
-        if (isMounted) setUnlockedStickers(list);
+
+      getUnlockedStickers(selectedTab).then((list) => {
+        if (isMounted) {
+          setUnlockedStickers(list);
+        }
       });
+
       return () => {
         isMounted = false;
       };
-    }, []),
+    }, [selectedTab]),
   );
 
   return (
@@ -401,12 +196,28 @@ export default function CategoryStickerGalleryScreen() {
         onBack={() => navigation.goBack()}
         center={
           <HeaderTitle>
-            스티커 도장깨기 ({unlockedStickers.length}/
+            📖 통합 스티커북 ({unlockedStickers.length}/
             {categoryStickerKeys1.length})
           </HeaderTitle>
         }
       />
 
+      {/* 1. 상단 게임 모드 선택 탭 */}
+      <TabContainer>
+        {GAME_TABS.map((tab) => (
+          <ModeTabButton
+            key={tab.id}
+            isSelected={selectedTab === tab.id}
+            onPress={() => setSelectedTab(tab.id)}
+          >
+            <ModeTabText isSelected={selectedTab === tab.id}>
+              {tab.icon} {tab.label}
+            </ModeTabText>
+          </ModeTabButton>
+        ))}
+      </TabContainer>
+
+      {/* 2. 색상 선택 바 */}
       <ColorPickerBar>
         {sampleColors.map(({ id, hex }) => (
           <ColorButton
@@ -418,11 +229,12 @@ export default function CategoryStickerGalleryScreen() {
         ))}
       </ColorPickerBar>
 
-      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 100 }}>
+      {/* 3. 스티커 그리드 목록 */}
+      <ScrollView contentContainerStyle={{}}>
         <GridContainer>
           {categoryStickerKeys1.map((key) => {
             const obj = CategoryGameObjects1.find((o) => o.id === key);
-            const isUnlocked = unlockedStickers.includes(key); // 해금 여부 판단
+            const isUnlocked = unlockedStickers.includes(key);
             const colorHex = obj
               ? resolveVariantHex(obj, selectedFamily)
               : undefined;
@@ -435,7 +247,6 @@ export default function CategoryStickerGalleryScreen() {
                     <StickerName>{obj?.name ?? key}</StickerName>
                   </>
                 ) : (
-                  // 미해금 시 실루엣/자물쇠
                   <LockedContainer>
                     <RenderCategoryItemSvg itemId={key} colorHex="#CBD5E1" />
                     <LockBadge>🔒</LockBadge>
@@ -451,38 +262,12 @@ export default function CategoryStickerGalleryScreen() {
   );
 }
 
-// ---------- 추가/수정된 Styled Components ----------
-
-const StickerCard = styled.View<{ isUnlocked: boolean }>`
-  width: 30%;
-  aspect-ratio: 1;
-  background-color: ${(props) =>
-    props.isUnlocked
-      ? "rgba(255, 255, 255, 0.95)"
-      : "rgba(241, 245, 249, 0.6)"};
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-  padding: 8px;
-  elevation: ${(props) => (props.isUnlocked ? 3 : 0)};
-  opacity: ${(props) => (props.isUnlocked ? 1 : 0.6)};
-`;
-
-const LockedContainer = styled.View`
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const LockBadge = styled.Text`
-  position: absolute;
-  font-size: 18px;
-`;
+// ---------- Styled Components ----------
 
 const Container = styled.View`
   flex: 1;
-  padding-bottom: 60px;
+  background-color: #f8fafc;
+  padding-bottom: 10px;
 `;
 
 const HeaderTitle = styled.Text`
@@ -491,31 +276,47 @@ const HeaderTitle = styled.Text`
   color: #334155;
 `;
 
-const ColorPickerBar = styled.View`
+const TabContainer = styled.View`
   flex-direction: row;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 12px 16px;
-  border-radius: 16px;
-  margin-bottom: 20px;
+  padding: 12px 16px 4px 16px;
   justify-content: space-between;
 `;
 
-const ColorLabel = styled.Text`
-  font-size: 14px;
+const ModeTabButton = styled(TouchableOpacity)<{ isSelected: boolean }>`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  margin: 0 4px;
+  border-radius: 14px;
+  background-color: ${(props) => (props.isSelected ? "#3B82F6" : "#E2E8F0")};
+`;
+
+const ModeTabText = styled.Text<{ isSelected: boolean }>`
+  font-size: 13px;
   font-weight: bold;
-  color: #475569;
+  color: ${(props) => (props.isSelected ? "#FFFFFF" : "#64748B")};
+`;
+
+const ColorPickerBar = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 16px;
+  margin: 10px 16px 0 16px;
+  border-radius: 16px;
+  justify-content: space-between;
 `;
 
 const ColorButton = styled(TouchableOpacity)<{
   color: string;
   isSelected: boolean;
 }>`
-  width: 28px;
-  height: 28px;
-  border-radius: 14px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
   background-color: ${(props) => props.color};
-  border-width: ${(props) => (props.isSelected ? "3px" : "1px")};
+  border-width: ${(props) => (props.isSelected ? "2.5px" : "1px")};
   border-color: ${(props) => (props.isSelected ? "#1E293B" : "#CBD5E1")};
 `;
 
@@ -525,9 +326,37 @@ const GridContainer = styled.View`
   justify-content: space-between;
 `;
 
+const StickerCard = styled.View<{ isUnlocked: boolean }>`
+  width: 30%;
+  aspect-ratio: 1;
+  background-color: ${(props) =>
+    props.isUnlocked ? "#FFFFFF" : "rgba(241, 245, 249, 0.7)"};
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 8px;
+  elevation: ${(props) => (props.isUnlocked ? 3 : 0)};
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: ${(props) => (props.isUnlocked ? 0.05 : 0)};
+  shadow-radius: 4px;
+`;
+
+const LockedContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+`;
+
+const LockBadge = styled.Text`
+  position: absolute;
+  font-size: 18px;
+`;
+
 const StickerName = styled.Text`
   font-size: 11px;
   color: #64748b;
-  margin-top: 4px;
+  margin-top: 6px;
   font-weight: bold;
 `;

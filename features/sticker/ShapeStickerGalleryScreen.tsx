@@ -5,126 +5,30 @@ import { useNavigation } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
 import { RenderShapeItemSvg } from "../classification/shape/assets/shapeItemSvgs";
+import { SHAPE_ITEM_POOL } from "../classification/shape/constants/shapePool";
 
 export default function ShapeStickerGalleryScreen() {
   const navigation = useNavigation<any>();
-  // 🌟 "natural"을 초기값 혹은 선택값으로 지정할 수 있게 설정
   const [selectedColor, setSelectedColor] = useState<string>("natural");
 
   const sampleColors = [
     "natural",
-    "#F03E3E", // 빨강
-    "#1971C2", // 파랑
-    "#F9C80E", // 노랑
-    "#2F9E44", // 초록
-    "#AE3EC9", // 보라
-    "#E8590C", // 주황
+    "#F03E3E",
+    "#1971C2",
+    "#F9C80E",
+    "#2F9E44",
+    "#AE3EC9",
+    "#E8590C",
     "#FFF",
   ];
 
-  const shapeStickerKeys = [
-    // 🔵 circle
-    "ball",
-    "tomato",
-    "watermelon",
-    "cookie",
-    "donut",
-    "donut1",
-    "button1",
-    "button2",
-    "circleClock",
-    "wheel",
-    "lollipop",
-    "cake",
-
-    "sunglasses",
-    "basketball",
-    "baseball",
-    "tennisBall",
-    "plate",
-    "fullMoon",
-    "orange",
-    "roundBalloon",
-    "sun",
-
-    // "drum",
-
-    // 🟦 square
-    "envelop",
-    "cheese",
-    "chocolateBar",
-
-    "box",
-    "phone",
-    "switch",
-    "remoteControl",
-    "frame",
-    "book",
-    "bread",
-    "window",
-    "window1",
-    "calendar",
-    "microwave",
-    "pillow",
-    "calculator",
-    "tv",
-    "giftBox",
-    "giftBox1",
-    "squareClock",
-    "door",
-    "bookshelf",
-    "refrigerator",
-    "laptop",
-    "squareCakeSlice",
-    "sandwich",
-    "squareSunglasses",
-
-    // triangle
-    "triangleRuller",
-    "pizzaSlice",
-    "watermelonSlice",
-    "triangleInstrument",
-    "partyHat",
-    "christmasTree",
-    "flag",
-    // "triangleCakeSlice",
-    "pyramid",
-    "triangleSandwich",
-    "triangleKimbap",
-
-    "tent",
-    "mountain",
-    "sailboat",
-    "triangleCookie",
-
-    // heart
-    "heartCookie",
-
-    "heartLollipop",
-    "heartPillow",
-    "heartCake",
-    "heartButton",
-    "heartClock",
-    "heartSunglasses",
-    "heartGem",
-    "heartNecklace",
-
-    // star
-    "starCookie",
-    "starBalloon",
-    "starBalloon1",
-
-    "starWand",
-    "starPillow",
-    "starfish",
-    "starButton",
-    "starClock",
-    "starCake",
-    "starOrnament",
-    "starSunglasses",
-    "starNecklace",
-    "medal",
-  ];
+  const handleStickerPress = (id: string, name: string) => {
+    navigation.navigate("StickerDetailScreen", {
+      gameType: "shape",
+      stickerId: id,
+      stickerName: name,
+    });
+  };
 
   return (
     <Container>
@@ -132,34 +36,39 @@ export default function ShapeStickerGalleryScreen() {
         onBack={() => navigation.goBack()}
         center={<HeaderTitle>도형 스티커 갤러리</HeaderTitle>}
       />
+
       <ColorPickerBar>
         <ColorLabel>적용할 색상:</ColorLabel>
-
         {sampleColors.map((color) => (
           <ColorButton
             key={color}
-            color={color}
+            color={color === "natural" ? "#FFFFFF" : color}
             isSelected={selectedColor === color}
             onPress={() => setSelectedColor(color)}
           />
         ))}
       </ColorPickerBar>
+
       <ScrollView
         contentContainerStyle={{
           padding: 20,
-          paddingBottom: 300,
+          paddingBottom: 30,
         }}
       >
         <GridContainer>
-          {shapeStickerKeys.map((key) => (
-            <StickerCard key={key}>
+          {SHAPE_ITEM_POOL.map((item) => (
+            <StickerCard
+              key={item.id}
+              onPress={() => handleStickerPress(item.id, item.label)}
+              activeOpacity={0.7}
+            >
               <RenderShapeItemSvg
-                itemId={key}
+                itemId={item.id}
                 colorHex={
                   selectedColor === "natural" ? undefined : selectedColor
                 }
               />
-              <StickerName>{key}</StickerName>
+              <StickerName numberOfLines={1}>{item.label}</StickerName>
             </StickerCard>
           ))}
         </GridContainer>
@@ -168,8 +77,10 @@ export default function ShapeStickerGalleryScreen() {
   );
 }
 
+// ---------- Styled ----------
 const Container = styled.View`
   flex: 1;
+  background-color: #f8fafc;
 `;
 
 const HeaderTitle = styled.Text`
@@ -181,10 +92,10 @@ const HeaderTitle = styled.Text`
 const ColorPickerBar = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 12px 16px;
+  margin: 8px 16px 0 16px;
   border-radius: 16px;
-  margin-bottom: 20px;
   justify-content: space-between;
 `;
 
@@ -212,10 +123,10 @@ const GridContainer = styled.View`
   justify-content: space-between;
 `;
 
-const StickerCard = styled.View`
+const StickerCard = styled(TouchableOpacity)`
   width: 30%;
   aspect-ratio: 1;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #ffffff;
   border-radius: 20px;
   align-items: center;
   justify-content: center;
@@ -224,13 +135,14 @@ const StickerCard = styled.View`
   elevation: 3;
   shadow-color: #000;
   shadow-offset: 0px 2px;
-  shadow-opacity: 0.1;
+  shadow-opacity: 0.08;
   shadow-radius: 4px;
 `;
 
 const StickerName = styled.Text`
   font-size: 11px;
   color: #64748b;
-  margin-top: 4px;
+  margin-top: 6px;
   font-weight: bold;
+  text-align: center;
 `;

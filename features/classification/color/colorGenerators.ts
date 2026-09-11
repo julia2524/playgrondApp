@@ -2,7 +2,7 @@ import {
   ALL_COLORS,
   PASTEL_COLORS,
   PRIMARY_COLORS,
-  SHAPE_POOL,
+  COLOR_ITEM_POOL,
 } from "./constants/colorPool";
 import { ColorLevelConfig, ColorRound } from "./type/types";
 
@@ -85,7 +85,7 @@ export function createColorRound(
   // 2️⃣ Target 안에 들어갈 도형 선택
   // ==================================================
 
-  const shuffledShapes = shuffleArray(SHAPE_POOL);
+  const shuffledShapes = shuffleArray(COLOR_ITEM_POOL);
 
   const targetBoxShapes = shuffledShapes.slice(0, 4);
 

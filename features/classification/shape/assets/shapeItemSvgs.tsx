@@ -12,6 +12,7 @@ import Svg, {
 interface ItemSvgProps {
   colorHex?: string;
 }
+
 const COLOR_HEX_MAP: Record<string, string> = {
   red: "#F44336",
   blue: "#42A5F5",

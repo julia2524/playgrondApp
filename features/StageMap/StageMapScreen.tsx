@@ -18,6 +18,9 @@ import {
   Content,
   StageMapHeaderCenter,
   StageMapTitle,
+  StickerBookFloatingButton,
+  StickerBookHeaderButton,
+  StickerButtonEmoji,
 } from "./stageMapStyles";
 import { useProgress } from "../classification/progress/useProgress";
 import { colorLevels } from "../classification/color/constants/levels";
@@ -27,6 +30,8 @@ import GradientBackground from "../../design-system/backgrounds/GradientBackgrou
 import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
 import { categoryLevels } from "../classification/category/constants/levels";
 import BannerAd from "../../services/BannerAd";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -184,6 +189,11 @@ export default function StageMapScreen() {
     });
   };
 
+  const handleGoStickerBook = () => {
+    navigation.navigate("IntegratedStickerGalleryScreen", {
+      initialTab: gameType,
+    });
+  };
   return (
     <Container>
       <GradientBackground />
@@ -272,6 +282,21 @@ export default function StageMapScreen() {
               })}
             </View>
           </ScrollView>
+          {/* 📖 스티커북 버튼 */}
+          {/* <StickerBookHeaderButton onPress={handleGoStickerBook}>
+            <Ionicons name="book-outline" size={20} color="#2563EB" />
+          </StickerBookHeaderButton> */}
+          {/* 📖 화면 하단 동동 떠 있는 플로팅 스티커북 버튼 */}
+          <StickerBookFloatingButton
+            onPress={handleGoStickerBook}
+            activeOpacity={0.8}
+          >
+            <Ionicons
+              name="book-outline"
+              size={26}
+              color={BASIC_COLORS.SECONDARY}
+            />
+          </StickerBookFloatingButton>
           {/* ⭐ 화면 하단 고정 광고 */}
           <BannerAdContainer>
             <BannerAd />
