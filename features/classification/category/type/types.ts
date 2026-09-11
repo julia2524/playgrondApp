@@ -132,6 +132,7 @@ export type CategoryGameObject = {
   svgKey: string; // "dog", "apple", "car" 등
   // 이 종류의 자연스러운 색상 변주들
   variants: CategoryVariant[];
+  description: string;
 };
 
 // category/type/types.ts (또는 공통 types)

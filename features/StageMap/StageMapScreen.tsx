@@ -199,7 +199,7 @@ export default function StageMapScreen() {
       <GradientBackground />
       <DecorativeBackground />
       <AppHeader
-        onBack={() => navigation.goBack()}
+        onBack={() => navigation.navigate("Home")}
         center={
           <StageMapHeaderCenter>
             <StageMapTitle>{headerTitle}</StageMapTitle>

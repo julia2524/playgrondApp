@@ -77,54 +77,319 @@ export const ALL_COLORS = [
 export type ShapeDefinition = {
   id: string; // ItemSvg 컴포넌트 키와 매칭
   label: string; // 화면에 표시할 한글 이름
+  description: string;
 };
 export const COLOR_ITEM_POOL: ShapeDefinition[] = [
-  { id: "apple", label: "사과" },
-  { id: "strawberry", label: "딸기" },
-  { id: "balloon", label: "풍선" },
-  { id: "fireTruck", label: "소방차" },
-  { id: "cherry", label: "체리" },
-  { id: "fish", label: "물고기" },
-  { id: "blueberry", label: "블루베리" },
-  { id: "umbrella", label: "우산" },
-  { id: "bell", label: "종" },
-  { id: "whale", label: "고래" },
-  { id: "milk", label: "우유" },
-  { id: "banana", label: "바나나" },
-  { id: "bee", label: "벌" },
-  { id: "ship", label: "돛단배" },
-  { id: "dog", label: "강아지" },
-  { id: "clock", label: "시계" },
-  { id: "car", label: "자동차" },
-  { id: "rocket", label: "로켓" },
-  { id: "owl", label: "부엉이" },
-  { id: "frog", label: "개구리" },
-  { id: "grape", label: "포도" },
-  { id: "koala", label: "코알라" },
-  { id: "ladybug", label: "무당벌레" },
-  { id: "chick", label: "병아리" },
-  { id: "sunflower", label: "해바라기" },
-  { id: "flower", label: "꽃" },
-  { id: "star", label: "별" },
-  { id: "tree", label: "나무" },
-  { id: "broccoli", label: "브로콜리" },
-  { id: "butterfly", label: "나비" },
-  { id: "cupcake", label: "컵케익" },
-  { id: "cactus", label: "선인장" },
-  { id: "crow", label: "까마귀" },
-  { id: "cat", label: "고양이" },
-  { id: "donut", label: "도넛" },
-  { id: "cloud", label: "구름" },
-  { id: "snowman", label: "눈사람" },
-  { id: "rabbit", label: "토끼" },
-  { id: "cottonCandy", label: "솜사탕" },
-  { id: "mushroom", label: "버섯" },
-  { id: "watermelon", label: "수박" },
-  { id: "fox", label: "여우" },
-  { id: "pig", label: "돼지" },
-  { id: "penguin", label: "펭귄" },
-  { id: "snail", label: "달팽이" },
+  {
+    id: "apple",
+    label: "사과",
+    description:
+      "아삭아삭 맛있는 사과가 나타났어요! 오늘의 사과는 무슨 색일까요?",
+  },
+  {
+    id: "strawberry",
+    label: "딸기",
+    description: "새콤달콤 딸기가 톡! 딸기는 무슨 색이 가장 잘 어울릴까요?",
+  },
+  {
+    id: "balloon",
+    label: "풍선",
+    description:
+      "둥실둥실 하늘로 날아가는 풍선이에요! 내가 좋아하는 색 풍선을 만들어 볼까요?",
+  },
+  {
+    id: "fireTruck",
+    label: "소방차",
+    description:
+      "씩씩한 소방차가 출동했어요! 오늘은 어떤 색 소방차가 멋질까요?",
+  },
+  {
+    id: "cherry",
+    label: "체리",
+    description:
+      "작고 동그란 체리가 두 알 콕! 오늘은 어떤 색 체리를 만들어 볼까요?",
+  },
+  {
+    id: "fish",
+    label: "물고기",
+    description:
+      "물속을 헤엄헤엄 다니는 물고기예요! 무지개 물고기를 만들어 볼까요?",
+  },
+  {
+    id: "blueberry",
+    label: "블루베리",
+    description:
+      "동글동글 블루베리예요! 이름은 블루베리인데 다른 색이면 어떨까요?",
+  },
+  {
+    id: "umbrella",
+    label: "우산",
+    description:
+      "비 오는 날 나를 지켜주는 우산이에요! 알록달록 우산을 만들어 보세요.",
+  },
+  {
+    id: "bell",
+    label: "종",
+    description:
+      "딸랑딸랑! 소리가 들리는 것 같지 않나요? 어떤 색 종을 만들어 볼까요?",
+  },
+  {
+    id: "whale",
+    label: "고래",
+    description:
+      "바다에서 아주아주 큰 고래가 나타났어요! 어떤 색 고래가 멋질까요?",
+  },
+  {
+    id: "milk",
+    label: "우유",
+    description:
+      "꼴깍꼴깍 맛있는 우유예요! 우유가 알록달록해진다면 어떤 맛일까요?",
+  },
+  {
+    id: "banana",
+    label: "바나나",
+    description: "길쭉길쭉 달콤한 바나나예요! 바나나가 다른 색으로 변신했어요!",
+  },
+  {
+    id: "bee",
+    label: "벌",
+    description: "붕붕! 꿀을 찾아 날아가는 벌이에요. 어떤 색 벌이 나타날까요?",
+  },
+  {
+    id: "ship",
+    label: "돛단배",
+    description:
+      "출렁출렁 바다를 달리는 돛단배예요! 알록달록 배를 타고 어디로 떠나볼까요?",
+  },
+  {
+    id: "dog",
+    label: "강아지",
+    description:
+      "멍멍! 꼬리를 살랑살랑 흔드는 강아지예요. 어떤 색 강아지가 귀여운가요?",
+  },
+  {
+    id: "clock",
+    label: "시계",
+    description:
+      "똑딱똑딱! 지금은 몇 시일까요? 시계 색깔도 마음대로 바꿔보세요.",
+  },
+  {
+    id: "car",
+    label: "자동차",
+    description:
+      "부릉부릉! 멋진 자동차가 출발합니다. 오늘은 어떤 색 자동차를 타고 갈까요?",
+  },
+  {
+    id: "rocket",
+    label: "로켓",
+    description:
+      "슈우웅! 로켓이 우주로 출발해요! 내가 만든 로켓을 타고 어디로 가볼까요?",
+  },
+  {
+    id: "owl",
+    label: "부엉이",
+    description:
+      "부엉! 밤하늘을 지켜보는 부엉이예요. 알록달록 부엉이를 만들어 볼까요?",
+  },
+  {
+    id: "frog",
+    label: "개구리",
+    description:
+      "개굴개굴! 연못에서 개구리가 폴짝 뛰었어요. 무슨 색 개구리가 나타날까요?",
+  },
+  {
+    id: "grape",
+    label: "포도",
+    description: "포도알이 주렁주렁! 오늘은 무슨 색 포도를 먹어볼까요?",
+  },
+  {
+    id: "koala",
+    label: "코알라",
+    description:
+      "나무 위에서 꼬옥 안고 있는 코알라예요. 알록달록 코알라를 만들어 볼까요?",
+  },
+  {
+    id: "ladybug",
+    label: "무당벌레",
+    description:
+      "꼬물꼬물 무당벌레가 산책 중이에요! 오늘은 어떤 색 옷을 입혀줄까요?",
+  },
+  {
+    id: "chick",
+    label: "병아리",
+    description:
+      "삐약삐약! 귀여운 병아리가 나타났어요. 노란 병아리 말고 다른 색도 볼까요?",
+  },
+  {
+    id: "sunflower",
+    label: "해바라기",
+    description:
+      "햇님을 바라보는 해바라기예요! 해바라기가 다른 색으로 변신하면 어떨까요?",
+  },
+  {
+    id: "flower",
+    label: "꽃",
+    description:
+      "활짝 피어난 예쁜 꽃이에요! 세상에 하나뿐인 특별한 색 꽃을 만들어 보세요.",
+  },
+  {
+    id: "star",
+    label: "별",
+    description:
+      "반짝반짝 빛나는 별이에요! 오늘은 무슨 색 별이 하늘에 떠 있을까요?",
+  },
+  {
+    id: "tree",
+    label: "나무",
+    description: "쑥쑥 자라는 나무예요! 알록달록 신기한 나무를 만들어 볼까요?",
+  },
+  {
+    id: "broccoli",
+    label: "브로콜리",
+    description:
+      "초록초록 브로콜리가 방긋! 오늘은 어떤 색 브로콜리를 먹어볼까요?",
+  },
+  {
+    id: "butterfly",
+    label: "나비",
+    description:
+      "팔랑팔랑 날아다니는 나비예요! 세상에 하나뿐인 나비를 만들어 보세요.",
+  },
+  {
+    id: "cupcake",
+    label: "컵케익",
+    description: "달콤한 컵케익이 짠! 알록달록한 컵케익을 만들어 볼까요?",
+  },
+  {
+    id: "cactus",
+    label: "선인장",
+    description:
+      "뾰족뾰족 선인장이에요! 사막에 알록달록 선인장이 있다면 어떨까요?",
+  },
+  {
+    id: "crow",
+    label: "까마귀",
+    description:
+      "까악까악! 까마귀가 날아왔어요. 오늘은 어떤 색 깃털을 입혀볼까요?",
+  },
+  {
+    id: "cat",
+    label: "고양이",
+    description:
+      "야옹! 귀여운 고양이가 꼬리를 살랑살랑 흔들어요. 내가 좋아하는 색 고양이를 만들어 보세요.",
+  },
+  {
+    id: "donut",
+    label: "도넛",
+    description:
+      "동그란 도넛 하나 먹어볼까요? 오늘은 어떤 색 도넛이 제일 맛있어 보이나요?",
+  },
+  {
+    id: "cloud",
+    label: "구름",
+    description:
+      "둥실둥실 하늘을 떠다니는 구름이에요! 오늘 구름은 무슨 색일까요?",
+  },
+  {
+    id: "snowman",
+    label: "눈사람",
+    description:
+      "꽁꽁! 눈으로 만든 귀여운 눈사람이에요. 무지개 눈사람을 만들어 볼까요?",
+  },
+  {
+    id: "rabbit",
+    label: "토끼",
+    description:
+      "깡충깡충! 귀여운 토끼가 폴짝 뛰어왔어요. 어떤 색 토끼가 마음에 드나요?",
+  },
+  {
+    id: "cottonCandy",
+    label: "솜사탕",
+    description:
+      "폭신폭신 달콤한 솜사탕이에요! 내가 좋아하는 색 솜사탕을 만들어 보세요.",
+  },
+  {
+    id: "mushroom",
+    label: "버섯",
+    description: "숲속에서 버섯이 쏙! 어떤 색 버섯이 숨어 있을까요?",
+  },
+  {
+    id: "watermelon",
+    label: "수박",
+    description:
+      "아삭아삭 시원한 수박이에요! 수박이 다른 색이라면 어떤 맛일까요?",
+  },
+  {
+    id: "fox",
+    label: "여우",
+    description:
+      "살금살금 숲속을 걷는 여우예요. 오늘은 어떤 색 여우가 나타났을까요?",
+  },
+  {
+    id: "pig",
+    label: "돼지",
+    description:
+      "꿀꿀! 귀여운 돼지가 꼬리를 빙글빙글 말았어요. 어떤 색 돼지를 만들어 볼까요?",
+  },
+  {
+    id: "penguin",
+    label: "펭귄",
+    description: "뒤뚱뒤뚱! 귀여운 펭귄이 걸어와요. 오늘은 어떤 색 펭귄일까요?",
+  },
+  {
+    id: "snail",
+    label: "달팽이",
+    description:
+      "느릿느릿 달팽이가 지나가요. 달팽이의 집을 알록달록 꾸며볼까요?",
+  },
 ];
+// export const COLOR_ITEM_POOL: ShapeDefinition[] = [
+//   { id: "apple", label: "사과" },
+//   { id: "strawberry", label: "딸기" },
+//   { id: "balloon", label: "풍선" },
+//   { id: "fireTruck", label: "소방차" },
+//   { id: "cherry", label: "체리" },
+//   { id: "fish", label: "물고기" },
+//   { id: "blueberry", label: "블루베리" },
+//   { id: "umbrella", label: "우산" },
+//   { id: "bell", label: "종" },
+//   { id: "whale", label: "고래" },
+//   { id: "milk", label: "우유" },
+//   { id: "banana", label: "바나나" },
+//   { id: "bee", label: "벌" },
+//   { id: "ship", label: "돛단배" },
+//   { id: "dog", label: "강아지" },
+//   { id: "clock", label: "시계" },
+//   { id: "car", label: "자동차" },
+//   { id: "rocket", label: "로켓" },
+//   { id: "owl", label: "부엉이" },
+//   { id: "frog", label: "개구리" },
+//   { id: "grape", label: "포도" },
+//   { id: "koala", label: "코알라" },
+//   { id: "ladybug", label: "무당벌레" },
+//   { id: "chick", label: "병아리" },
+//   { id: "sunflower", label: "해바라기" },
+//   { id: "flower", label: "꽃" },
+//   { id: "star", label: "별" },
+//   { id: "tree", label: "나무" },
+//   { id: "broccoli", label: "브로콜리" },
+//   { id: "butterfly", label: "나비" },
+//   { id: "cupcake", label: "컵케익" },
+//   { id: "cactus", label: "선인장" },
+//   { id: "crow", label: "까마귀" },
+//   { id: "cat", label: "고양이" },
+//   { id: "donut", label: "도넛" },
+//   { id: "cloud", label: "구름" },
+//   { id: "snowman", label: "눈사람" },
+//   { id: "rabbit", label: "토끼" },
+//   { id: "cottonCandy", label: "솜사탕" },
+//   { id: "mushroom", label: "버섯" },
+//   { id: "watermelon", label: "수박" },
+//   { id: "fox", label: "여우" },
+//   { id: "pig", label: "돼지" },
+//   { id: "penguin", label: "펭귄" },
+//   { id: "snail", label: "달팽이" },
+// ];
 
 // 2. 색상별 사물 이름 풀 (색상 키와 매칭)
 export const COLOR_ITEM_POOLS: Record<string, string[]> = {

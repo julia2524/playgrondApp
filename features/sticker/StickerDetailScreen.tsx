@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import AppHeader from "../../components/common/AppHeader";
 
 // 데이터 풀
-import { CategoryGameObjects1 } from "../classification/category/constants/categoryPool";
+import { CategoryGameObjects } from "../classification/category/constants/categoryPool";
 import { COLOR_ITEM_POOL } from "../classification/color/constants/colorPool";
 import { SHAPE_ITEM_POOL } from "../classification/shape/constants/shapePool";
 
@@ -39,6 +39,19 @@ const COLOR_PALETTE = [
 ];
 // BASIC_SHAPE_IDS는 prefix 없는 순수 이름으로 정의
 const BASIC_SHAPE_IDS = ["circle", "square", "triangle", "heart", "star"];
+// 기본도형 설명
+const BASIC_SHAPE_DESCRIPTIONS: Record<string, string> = {
+  circle: "동글동글 동그라미예요! 어디에도 모서리가 없는 부드러운 모양이에요.",
+
+  square: "반듯반듯 네모예요! 네 개의 변이 똑같은 모양으로 나란히 있어요.",
+
+  triangle: "뾰족뾰족 세모예요! 꼭짓점이 세 군데나 있답니다.",
+
+  heart:
+    "콩닥콩닥 하트예요! 사랑하는 마음을 담고 싶은 곳에 딱 어울리는 모양이에요.",
+
+  star: "반짝반짝 별 모양이에요! 하늘에 반짝이는 별처럼 뾰족뾰족한 모양이에요.",
+};
 
 // shape/color SVG들의 대략적인 원본 캔버스 크기 (대부분 viewBox 0 0 100 100, Svg width/height 90~100)
 const NATIVE_ICON_SIZE = 100;
@@ -89,7 +102,7 @@ export default function StickerDetailScreen() {
   // 해당 스티커 데이터 찾기
   const stickerData = useMemo(() => {
     if (gameType === "category") {
-      return CategoryGameObjects1.find((o) => o.id === stickerId) ?? null;
+      return CategoryGameObjects.find((o) => o.id === stickerId) ?? null;
     }
     if (gameType === "color") {
       return COLOR_ITEM_POOL.find((o) => o.id === stickerId) ?? null;
@@ -170,23 +183,25 @@ export default function StickerDetailScreen() {
 
   // 설명 텍스트 (나중에 데이터에 description 필드 추가하면 더 좋아짐)
   const description = useMemo(() => {
-    if (gameType === "category" && stickerData) {
-      // category 전용 속성 안전하게 접근
-      const top = "topCategory" in stickerData ? stickerData.topCategory : "";
-      const sub = "subCategory" in stickerData ? stickerData.subCategory : "";
-
-      if (top || sub) {
-        return `${stickerName}는 ${top} 카테고리의 ${sub}에 속해요.`;
-      }
-      return `${stickerName} 스티커예요!`;
-    }
-
-    if (gameType === "color") {
-      return `${stickerName}의 색깔을 자유롭게 바꿔볼 수 있어요!`;
-    }
-
+    // 기본도형
     if (gameType === "shape") {
-      return `${stickerName}의 모양을 다양한 색으로 칠해볼 수 있어요!`;
+      const normalizedShapeId = stickerId?.replace(/^basic/i, "");
+
+      if (BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
+        return BASIC_SHAPE_DESCRIPTIONS[normalizedShapeId];
+      }
+
+      // 일반 도형 스티커
+      if (stickerData) {
+        return stickerData.description;
+      }
+    }
+    if (gameType === "category" && stickerData) {
+      return stickerData.description;
+    }
+
+    if (gameType === "color" && stickerData) {
+      return stickerData.description;
     }
 
     return "";

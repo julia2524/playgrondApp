@@ -11,7 +11,7 @@ import AppHeader from "../../components/common/AppHeader";
 import { GameType, getAllUnlockedStickers } from "./utils/stickerStorage";
 
 // ===== 데이터 풀 =====
-import { CategoryGameObjects1 } from "../classification/category/constants/categoryPool";
+import { CategoryGameObjects } from "../classification/category/constants/categoryPool";
 import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
 
 import { COLOR_ITEM_POOL } from "../classification/color/constants/colorPool";
@@ -26,18 +26,20 @@ import {
 
 import BannerAd from "../../services/BannerAd";
 import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
 
 const { width } = Dimensions.get("window");
 
 // ---------- 탭 정의 ----------
-const TABS: { id: GameType; label: string; icon: string }[] = [
-  { id: "category", label: "친구 찾기", icon: "🥑" },
-  { id: "color", label: "색깔 찾기", icon: "🎨" },
-  { id: "shape", label: "모양 찾기", icon: "🔷" },
+const TABS: { id: GameType; label: string; iconName: string }[] = [
+  { id: "color", label: "색깔 찾기", iconName: "color-palette" },
+  { id: "shape", label: "모양 찾기", iconName: "diamond" },
+  { id: "category", label: "친구 찾기", iconName: "fast-food" },
 ];
 
 const STICKER_POOLS: Record<GameType, any[]> = {
-  category: CategoryGameObjects1,
+  category: CategoryGameObjects,
   color: COLOR_ITEM_POOL,
   shape: [...BASIC_SHAPE_LIST, ...SHAPE_ITEM_POOL],
 };
@@ -172,7 +174,16 @@ export default function IntegratedStickerGalleryScreen() {
     <Container>
       <AppHeader
         onBack={() => navigation.goBack()}
-        center={<HeaderTitle>📖 내 스티커북</HeaderTitle>}
+        center={
+          <HeaderTitle>
+            <Ionicons
+              name="book-outline"
+              size={18}
+              color={BASIC_COLORS.TEXT_MAIN}
+            />{" "}
+            내 스티커북
+          </HeaderTitle>
+        }
       />
 
       {/* 1. 탭 */}
@@ -183,7 +194,13 @@ export default function IntegratedStickerGalleryScreen() {
             isActive={activeTab === tab.id}
             onPress={() => setActiveTab(tab.id)}
           >
-            <TabIcon>{tab.icon}</TabIcon>
+            <TabIcon>
+              <Ionicons
+                name={tab.iconName as any}
+                size={20}
+                color={BASIC_COLORS.TEXT_SUB}
+              />
+            </TabIcon>
             <TabText isActive={activeTab === tab.id}>{tab.label}</TabText>
           </TabButton>
         ))}

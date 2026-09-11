@@ -236,7 +236,7 @@ export default function SettingScreen() {
            ========================= */}
 
         <Section>
-          <SectionTitle>게임 기록</SectionTitle>
+          <SectionTitle>게임 기록 초기화</SectionTitle>
           <SettingCard>
             <ResetProgressButton gameType="color" onPress={handleResetColor} />
             <ResetProgressButton gameType="shape" onPress={handleResetShape} />

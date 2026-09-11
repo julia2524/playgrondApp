@@ -10,31 +10,33 @@ import {
   CORRECT_ANIMATION_DURATION_MS,
   STICKER_SIZE,
 } from "../../classification/assets/dragConstants";
+
 import {
   COLORS,
   PASTEL_BG,
   SOFT_COLORS,
 } from "../../../design-system/tokens/colors";
 
-import {
-  playLastSuccessNote,
-  playSound,
-  playStreakNote,
-  preloadSounds,
-} from "../../../utils/sound";
+import { playSound, playStreakNote } from "../../../utils/sound";
+
 import { triggerHaptic } from "../../../utils/haptic";
+
 import { RenderColorItemSvg } from "../../classification/color/assets/ColorItemSvgs";
 
 import {
   ObjectSticker,
   ObjectStickerShadowWrapper,
 } from "../styles/classificationStyles";
+
 import { DropResult, Layout } from "../type/types";
+
 import {
   RenderBasicShapeSvg,
   RenderShapeItemSvg,
 } from "../shape/assets/shapeItemSvgs";
+
 import { DisplayObject } from "../type/displayTypes";
+
 import { RenderCategoryItemSvg } from "../category/assets/categoryItemSvgs";
 
 export function DraggableObjectSticker({
@@ -51,64 +53,118 @@ export function DraggableObjectSticker({
   correctStreakCount,
   soundEffect,
   soundSettingLoaded,
+  roundAnsweredRef,
 }: {
   obj: DisplayObject;
+
   color: string;
+
   itemCount: number;
+
   gameBoardLayout: React.MutableRefObject<Layout>;
+
   isActive: boolean;
+
   onGrab: (objectId: string) => void;
+
   onCorrectAnimationComplete: (objectId: string) => void;
+
   onWrong: () => void;
+
   onOutside: () => void;
+
   onRelease: (
-    obj: any,
+    obj: DisplayObject,
     stickerX: number,
     stickerY: number,
     width: number,
     height: number,
     callback: (result: DropResult) => void,
   ) => void;
-  registerRef?: (el: View | null) => void;
-  correctStreakCount: number;
-  soundEffect: boolean;
-  soundSettingLoaded: boolean;
-}) {
-  const stickerRef = useRef<View>(null);
-  const isInteractingRef = useRef(false);
 
-  // ⭐⭐⭐ 새로 추가: 이 스티커가 "이미 답변 처리됨" 상태인지 영구적으로 기억
-  // 한 번 true가 되면 다음 라운드(리마운트)까지 절대 false로 안 돌아옴
-  const hasAnsweredRef = useRef(false);
+  registerRef?: (el: View | null) => void;
+
+  correctStreakCount: number;
+
+  soundEffect: boolean;
+
+  soundSettingLoaded: boolean;
+
+  // ⭐⭐⭐ 모든 스티커가 공유하는
+  // 이번 라운드 답변 여부
+  roundAnsweredRef: React.MutableRefObject<boolean>;
+}) {
+  // ==================================================
+  // Sticker ref
+  // ==================================================
+
+  const stickerRef = useRef<View>(null);
 
   const setStickerRef = (el: View | null) => {
     stickerRef.current = el;
     registerRef?.(el);
   };
 
+  // ==================================================
+  // ⭐ 개별 스티커가 이미 답변 처리됐는지
+  // ==================================================
+
+  const hasAnsweredRef = useRef(false);
+
+  // ==================================================
+  // ⭐ 현재 실제로 이 스티커를 잡고 있는지
+  // ==================================================
+
+  const isInteractingRef = useRef(false);
+
+  // ==================================================
+  // Animated values
+  // ==================================================
+
   const position = useRef(new Animated.ValueXY()).current;
+
   const shakeX = useRef(new Animated.Value(0)).current;
+
   const scale = useRef(new Animated.Value(1)).current;
+
   const pressScale = useRef(new Animated.Value(1)).current;
+
   const opacity = useRef(new Animated.Value(1)).current;
 
-  const startPosition = useRef({ x: 0, y: 0 });
-  const startScreenPosition = useRef({ x: 0, y: 0 });
+  // ==================================================
+  // Position
+  // ==================================================
+
+  const startPosition = useRef({
+    x: 0,
+    y: 0,
+  });
+
+  const startScreenPosition = useRef({
+    x: 0,
+    y: 0,
+  });
+
   const isScreenPositionReadyRef = useRef(false);
 
-  // 1. ref 선언
+  // ==================================================
+  // Sound refs
+  // ==================================================
+
   const soundEffectRef = useRef(soundEffect);
+
   const soundSettingLoadedRef = useRef(soundSettingLoaded);
 
-  // 2. props가 바뀔 때마다 ref 갱신
   useEffect(() => {
     soundEffectRef.current = soundEffect;
+
     soundSettingLoadedRef.current = soundSettingLoaded;
   }, [soundEffect, soundSettingLoaded]);
 
-  // --------------------------------------------------
+  // ==================================================
   // Correct Animation
-  // --------------------------------------------------
+  // ==================================================
+
   const playCorrectAnimation = (onComplete: () => void) => {
     Animated.parallel([
       Animated.timing(scale, {
@@ -116,6 +172,7 @@ export function DraggableObjectSticker({
         duration: CORRECT_ANIMATION_DURATION_MS,
         useNativeDriver: true,
       }),
+
       Animated.timing(opacity, {
         toValue: 0,
         duration: CORRECT_ANIMATION_DURATION_MS,
@@ -128,9 +185,10 @@ export function DraggableObjectSticker({
     });
   };
 
-  // --------------------------------------------------
+  // ==================================================
   // Wrong Animation
-  // --------------------------------------------------
+  // ==================================================
+
   const playWrongAnimation = () => {
     shakeX.setValue(0);
 
@@ -140,21 +198,25 @@ export function DraggableObjectSticker({
         duration: 60,
         useNativeDriver: true,
       }),
+
       Animated.timing(shakeX, {
         toValue: 12,
         duration: 60,
         useNativeDriver: true,
       }),
+
       Animated.timing(shakeX, {
         toValue: -8,
         duration: 50,
         useNativeDriver: true,
       }),
+
       Animated.timing(shakeX, {
         toValue: 8,
         duration: 50,
         useNativeDriver: true,
       }),
+
       Animated.spring(shakeX, {
         toValue: 0,
         friction: 4,
@@ -164,33 +226,117 @@ export function DraggableObjectSticker({
     ]).start();
   };
 
-  // --------------------------------------------------
+  // ==================================================
   // PanResponder
-  // --------------------------------------------------
+  // ==================================================
+
   const panResponder = useRef(
     PanResponder.create({
-      // ⭐⭐⭐ 이미 답변 처리됐으면 애초에 제스처 자체를 안 잡음
-      // → onPanResponderGrant/Move/Release가 아예 호출 안 됨
-      onStartShouldSetPanResponder: () => !hasAnsweredRef.current,
-      onMoveShouldSetPanResponder: () => !hasAnsweredRef.current,
+      // ==================================================
+      // ⭐⭐⭐ 드래그 시작 가능 여부
+      // ==================================================
 
-      // ⭐⭐⭐ 잡는 순간
+      onStartShouldSetPanResponder: () => {
+        // 이 스티커가 이미 답변했으면 안 됨
+        if (hasAnsweredRef.current) {
+          return false;
+        }
+
+        // ⭐ 다른 스티커가 이미 이번 라운드에서
+        // 답변을 시작했으면 안 됨
+        if (roundAnsweredRef.current) {
+          return false;
+        }
+
+        return true;
+      },
+
+      onMoveShouldSetPanResponder: () => {
+        if (hasAnsweredRef.current) {
+          return false;
+        }
+
+        if (roundAnsweredRef.current) {
+          return false;
+        }
+
+        return true;
+      },
+
+      // ==================================================
+      // Grab
+      // ==================================================
+
       onPanResponderGrant: () => {
-        // ⭐ 방어 코드 (Should*에서 이미 막지만 이중 안전장치)
-        if (isInteractingRef.current || hasAnsweredRef.current) return;
+        // --------------------------------------------------
+        // ⭐ 이중 방어
+        // --------------------------------------------------
+
+        if (isInteractingRef.current) {
+          return;
+        }
+
+        if (hasAnsweredRef.current) {
+          return;
+        }
+
+        if (roundAnsweredRef.current) {
+          return;
+        }
+
+        // --------------------------------------------------
+        // ⭐⭐⭐⭐⭐ 핵심
+        //
+        // 이 스티커를 잡는 순간
+        // 라운드 전체를 잠근다.
+        //
+        // 따라서 다른 스티커는
+        // 이제 잡을 수 없다.
+        // --------------------------------------------------
+
+        roundAnsweredRef.current = true;
+
         isInteractingRef.current = true;
+
+        // --------------------------------------------------
+        // Sound
+        // --------------------------------------------------
+
         if (soundSettingLoadedRef.current && soundEffectRef.current) {
           playSound("grab");
         }
+
+        // --------------------------------------------------
+        // Haptic
+        // --------------------------------------------------
+
         triggerHaptic("light");
+
+        // --------------------------------------------------
+        // Parent
+        // --------------------------------------------------
+
         onGrab(obj.id);
+
+        // --------------------------------------------------
+        // Screen position
+        // --------------------------------------------------
 
         isScreenPositionReadyRef.current = false;
 
+        // --------------------------------------------------
+        // 시작 위치 저장
+        // --------------------------------------------------
+
         startPosition.current = {
           x: (position.x as any)._value,
+
           y: (position.y as any)._value,
         };
+
+        // --------------------------------------------------
+        // Press animation
+        // --------------------------------------------------
 
         Animated.parallel([
           Animated.timing(pressScale, {
@@ -198,6 +344,7 @@ export function DraggableObjectSticker({
             duration: 100,
             useNativeDriver: true,
           }),
+
           Animated.timing(opacity, {
             toValue: 0.8,
             duration: 100,
@@ -205,50 +352,92 @@ export function DraggableObjectSticker({
           }),
         ]).start();
 
+        // --------------------------------------------------
+        // 현재 화면 위치 측정
+        // --------------------------------------------------
+
         stickerRef.current?.measureInWindow((x, y) => {
-          startScreenPosition.current = { x, y };
+          startScreenPosition.current = {
+            x,
+            y,
+          };
+
           isScreenPositionReadyRef.current = true;
         });
       },
 
-      // --------------------------------------------------
+      // ==================================================
       // Move
-      // --------------------------------------------------
+      // ==================================================
+
       onPanResponderMove: (_, gesture) => {
-        if (!isScreenPositionReadyRef.current) return;
-        if (hasAnsweredRef.current) return; // ⭐ 방어 코드
+        // --------------------------------------------------
+        // ⭐⭐⭐ 중요
+        //
+        // 여기서는 roundAnsweredRef를 검사하지 않는다.
+        //
+        // 왜냐하면 내가 잡은 순간 이미
+        // roundAnsweredRef = true가 되기 때문이다.
+        //
+        // 여기서 검사하면 현재 잡은 스티커까지
+        // 움직이지 않게 된다.
+        // --------------------------------------------------
+
+        if (!isScreenPositionReadyRef.current) {
+          return;
+        }
+
+        if (hasAnsweredRef.current) {
+          return;
+        }
 
         const board = gameBoardLayout.current;
+
         const boardLeft = board.x + BOARD_HORIZONTAL_PADDING;
+
         const boardTop = board.y + BOARD_VERTICAL_PADDING;
+
         const boardRight = board.x + board.width - BOARD_HORIZONTAL_PADDING;
+
         const boardBottom = board.y + board.height - BOARD_VERTICAL_PADDING;
 
         const currentScreenX = startScreenPosition.current.x + gesture.dx;
+
         const currentScreenY = startScreenPosition.current.y + gesture.dy;
 
         const minScreenX = boardLeft;
+
         const maxScreenX = boardRight - STICKER_SIZE;
+
         const minScreenY = boardTop;
+
         const maxScreenY = boardBottom - STICKER_SIZE;
 
         const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
+
         const clampedScreenY = clamp(currentScreenY, minScreenY, maxScreenY);
 
         const deltaX = clampedScreenX - startScreenPosition.current.x;
+
         const deltaY = clampedScreenY - startScreenPosition.current.y;
 
         position.setValue({
           x: startPosition.current.x + deltaX,
+
           y: startPosition.current.y + deltaY,
         });
       },
 
-      // --------------------------------------------------
+      // ==================================================
       // Release
-      // --------------------------------------------------
+      // ==================================================
+
       onPanResponderRelease: () => {
         isScreenPositionReadyRef.current = false;
+
+        // --------------------------------------------------
+        // Press animation 복귀
+        // --------------------------------------------------
 
         Animated.parallel([
           Animated.timing(pressScale, {
@@ -256,6 +445,7 @@ export function DraggableObjectSticker({
             duration: 150,
             useNativeDriver: true,
           }),
+
           Animated.timing(opacity, {
             toValue: 1,
             duration: 150,
@@ -263,12 +453,25 @@ export function DraggableObjectSticker({
           }),
         ]).start();
 
+        // --------------------------------------------------
+        // 위치 측정 후 판정
+        // --------------------------------------------------
+
         stickerRef.current?.measureInWindow((x, y, width, height) => {
           onRelease(obj, x, y, width, height, (result) => {
-            // ⭐⭐⭐ 핵심: 이 콜백이 이미 한 번 실행됐으면 완전히 무시
-            // (result 판정 자체는 정상 처리되지만, 그 이후의 재시도는 여기서 걸러짐)
-            if (hasAnsweredRef.current) return;
-            hasAnsweredRef.current = true; // ⭐ 영구 잠금 시작
+            // --------------------------------------------------
+            // ⭐ 이미 이 스티커가 처리됐다면 무시
+            // --------------------------------------------------
+
+            if (hasAnsweredRef.current) {
+              return;
+            }
+
+            hasAnsweredRef.current = true;
+
+            // ==================================================
+            // CORRECT
+            // ==================================================
 
             if (result === "correct") {
               if (soundSettingLoadedRef.current && soundEffectRef.current) {
@@ -280,48 +483,83 @@ export function DraggableObjectSticker({
               setTimeout(() => {
                 playCorrectAnimation(() => {
                   onCorrectAnimationComplete(obj.id);
+
                   isInteractingRef.current = false;
                 });
               }, 150);
+
               return;
             }
+
+            // ==================================================
+            // WRONG
+            // ==================================================
 
             if (result === "wrong") {
               if (soundSettingLoadedRef.current && soundEffectRef.current) {
                 playSound("wrong_sound");
               }
+
               triggerHaptic("error");
 
               setTimeout(() => {
                 playWrongAnimation();
+
                 onWrong();
+
                 isInteractingRef.current = false;
               }, 150);
+
               return;
             }
+
+            // ==================================================
+            // OUTSIDE
+            // ==================================================
 
             if (result === "outside") {
               if (soundSettingLoadedRef.current && soundEffectRef.current) {
                 playSound("wrong_sound");
               }
+
               triggerHaptic("light");
 
               setTimeout(() => {
                 playWrongAnimation();
+
                 onOutside();
+
                 isInteractingRef.current = false;
               }, 150);
+
               return;
             }
           });
         });
       },
 
+      // ==================================================
+      // Terminate
+      // ==================================================
+
       onPanResponderTerminate: () => {
         isScreenPositionReadyRef.current = false;
+
         isInteractingRef.current = false;
-        // ⭐ terminate는 "답변 안 하고 제스처가 끊긴 것"이므로
-        //    hasAnsweredRef는 여기서 true로 만들지 않음 → 다시 잡을 수 있어야 정상
+
+        // --------------------------------------------------
+        // ⭐ 실제 release/답변이 발생한 게 아니므로
+        // 이번 라운드 잠금을 풀어준다.
+        //
+        // 그래야 제스처가 시스템에 의해 중단된 경우
+        // 다시 잡을 수 있다.
+        // --------------------------------------------------
+
+        roundAnsweredRef.current = false;
+
+        // --------------------------------------------------
+        // Press animation 복귀
+        // --------------------------------------------------
 
         Animated.parallel([
           Animated.timing(pressScale, {
@@ -329,6 +567,7 @@ export function DraggableObjectSticker({
             duration: 150,
             useNativeDriver: true,
           }),
+
           Animated.timing(opacity, {
             toValue: 1,
             duration: 150,
@@ -339,30 +578,33 @@ export function DraggableObjectSticker({
     }),
   ).current;
 
-  // --------------------------------------------------
-  // Render
-  // --------------------------------------------------
+  // ==================================================
+  // Render Color
+  // ==================================================
 
   const colorHex =
     obj.kind === "category"
-      ? obj.color // 이미 hex
+      ? obj.color
       : obj.color
         ? (COLORS[obj.color] ?? "#FFFFFF")
         : undefined;
+
   const softColor =
     obj.kind === "category"
-      ? PASTEL_BG.neutral // ⭐ 배경 제거
+      ? PASTEL_BG.neutral
       : obj.color
         ? SOFT_COLORS[obj.color]
         : PASTEL_BG.neutral;
-  // const softColor =
-  //   obj.kind === "category"
-  //     ? (obj.color ?? "#E2E8F0") + "55"
-  //     : obj.color
-  //       ? SOFT_COLORS[obj.color]
-  //       : PASTEL_BG.neutral;
+
+  // ==================================================
+  // Render SVG
+  // ==================================================
 
   const renderSvg = () => {
+    // --------------------------------------------------
+    // Color
+    // --------------------------------------------------
+
     if (obj.kind === "color") {
       return (
         <RenderColorItemSvg
@@ -371,10 +613,19 @@ export function DraggableObjectSticker({
         />
       );
     }
+
+    // --------------------------------------------------
+    // Shape Item
+    // --------------------------------------------------
+
     if (obj.kind === "item") {
       return <RenderShapeItemSvg itemId={obj.renderId} colorHex={colorHex} />;
     }
-    // ⭐ Category 추가
+
+    // --------------------------------------------------
+    // Category
+    // --------------------------------------------------
+
     if (obj.kind === "category") {
       return (
         <RenderCategoryItemSvg
@@ -385,15 +636,19 @@ export function DraggableObjectSticker({
           accent={obj.variant?.accent}
           pattern={obj.variant?.pattern}
         />
-        // <RenderCategoryItemSvg
-        //   itemId={obj.renderId}
-        //   colorHex={colorHex}
-        //   primary={colorHex}
-        // />
       );
     }
+
+    // --------------------------------------------------
+    // Basic Shape
+    // --------------------------------------------------
+
     return <RenderBasicShapeSvg shapeId={obj.renderId} colorHex={colorHex} />;
   };
+
+  // ==================================================
+  // Render
+  // ==================================================
 
   return (
     <ObjectStickerShadowWrapper>
@@ -401,8 +656,17 @@ export function DraggableObjectSticker({
         ref={setStickerRef}
         {...panResponder.panHandlers}
         style={{
-          transform: [{ translateX: position.x }, { translateY: position.y }],
+          transform: [
+            {
+              translateX: position.x,
+            },
+            {
+              translateY: position.y,
+            },
+          ],
+
           zIndex: isActive ? 9999 : 1,
+
           elevation: isActive ? 99 : 1,
         }}
       >
@@ -413,10 +677,17 @@ export function DraggableObjectSticker({
           needsOffscreenAlphaCompositing={true}
           style={{
             transform: [
-              { translateX: shakeX },
-              { scale },
-              { scale: pressScale },
+              {
+                translateX: shakeX,
+              },
+              {
+                scale,
+              },
+              {
+                scale: pressScale,
+              },
             ],
+
             opacity,
           }}
         >

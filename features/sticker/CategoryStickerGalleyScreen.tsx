@@ -5,7 +5,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import AppHeader from "../../components/common/AppHeader";
 import { getUnlockedStickers, GameType } from "./utils/stickerStorage";
-import { CategoryGameObjects1 } from "../classification/category/constants/categoryPool";
+import { CategoryGameObjects } from "../classification/category/constants/categoryPool";
 import { CategoryGameObject } from "../classification/category/type/types";
 import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
 
@@ -131,7 +131,7 @@ function colorDistance(hexA: string, hexB: string): number {
 }
 
 function getRepresentativeHex(familyId: string): string {
-  for (const obj of CategoryGameObjects1) {
+  for (const obj of CategoryGameObjects) {
     const match = obj.variants.find((v) => v.id === familyId);
     if (match) return match.primary;
   }
@@ -230,10 +230,10 @@ export default function CategoryStickerGalleyScreen() {
       </ColorPickerBar>
 
       {/* 3. 스티커 그리드 목록 */}
-      <ScrollView contentContainerStyle={{}}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 100 }}>
         <GridContainer>
           {categoryStickerKeys1.map((key) => {
-            const obj = CategoryGameObjects1.find((o) => o.id === key);
+            const obj = CategoryGameObjects.find((o) => o.id === key);
             const isUnlocked = unlockedStickers.includes(key);
             const colorHex = obj
               ? resolveVariantHex(obj, selectedFamily)

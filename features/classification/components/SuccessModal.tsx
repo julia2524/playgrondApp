@@ -11,11 +11,11 @@ import { STAGE_CONFIGS } from "../../StageMap/stageConfigs";
 import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
 import { useEffect } from "react";
 import { playEarnedNotes } from "../../../utils/sound";
-import CandyStar from "../../../design-system/ui/CandyStar";
 import GameRewardBadge from "./GameRewardBadge";
 import { colorLevels } from "../color/constants/levels";
 import { shapeLevels } from "../shape/constants/levels";
 import { categoryLevels } from "../category/constants/levels";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface SuccessModalProps {
   gameType: "color" | "shape" | "category";
@@ -69,6 +69,11 @@ export default function SuccessModal({
   const onGoStickerRounge = () => {
     navigation.navigate("CategoryStickerGalleryScreen");
   };
+  const onGoRoadmap = () => {
+    navigation.navigate("StageMapScreen", {
+      gameType,
+    });
+  };
 
   // ⭐ 별을 무지개처럼 배치
   const starOffsets = [18, 6, 0, 6, 18];
@@ -76,6 +81,9 @@ export default function SuccessModal({
   return (
     <SuccessModalOverlay>
       <SuccessModalContent>
+        <CloseButton onPress={onGoRoadmap} activeOpacity={0.7}>
+          <Ionicons name="close" size={26} color={BASIC_COLORS.PRIMARY} />
+        </CloseButton>
         {/* ==========================================
             ☁️ 구름만 하늘색/하얀색 박스 맨 위 중앙에 둥둥 걸쳐지도록 배치!
         ========================================== */}
@@ -125,7 +133,7 @@ export default function SuccessModal({
           ========================================== */}
 
           <SuccessMascotWrapper>
-            <Mascot size={100} />
+            <Mascot size={120} />
           </SuccessMascotWrapper>
 
           {/* ==========================================
@@ -138,7 +146,13 @@ export default function SuccessModal({
               onPress={onRestart}
               activeOpacity={0.85}
             >
-              <ButtonText>↻</ButtonText>
+              <ButtonText>
+                <Ionicons
+                  name="refresh"
+                  size={30}
+                  color={BASIC_COLORS.CARD_BG}
+                />
+              </ButtonText>
             </SuccessButton>
 
             {!isLastLevel ? (
@@ -147,7 +161,13 @@ export default function SuccessModal({
                 onPress={onNextLevel}
                 activeOpacity={0.85}
               >
-                <ButtonText>▶</ButtonText>
+                <ButtonText>
+                  <Ionicons
+                    name="arrow-forward"
+                    size={30}
+                    color={BASIC_COLORS.CARD_BG}
+                  />
+                </ButtonText>
               </SuccessButton>
             ) : (
               <SuccessButton
@@ -156,10 +176,19 @@ export default function SuccessModal({
                 // onPress={onGoStickerRounge}
                 activeOpacity={0.85}
               >
-                <ButtonText>⌂</ButtonText>
+                <ButtonText>
+                  <Ionicons
+                    name="home"
+                    size={20}
+                    color={BASIC_COLORS.CARD_BG}
+                  />
+                </ButtonText>
               </SuccessButton>
             )}
           </SuccessButtons>
+          <HomeButton onPress={onGoHome} activeOpacity={0.85}>
+            <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
+          </HomeButton>
         </SuccessModalInner>
       </SuccessModalContent>
     </SuccessModalOverlay>
@@ -272,18 +301,18 @@ export const SuccessStarWrapper = styled.View`
 
 export const SuccessTitle = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.giant}px;
+  font-size: ${(props) => props.theme.typography.title}px;
 
   color: ${BASIC_COLORS.PRIMARY};
   text-align: center;
-  margin-top: -30px;
+  margin-top: -25px;
 `;
 
 export const SuccessSubtitle = styled.Text`
   font-size: 20px;
   color: ${BASIC_COLORS.SECONDARY};
   text-align: center;
-  margin-bottom: 8px;
+  margin-top: 10px;
 `;
 
 // ==================================================
@@ -293,8 +322,7 @@ export const SuccessSubtitle = styled.Text`
 export const SuccessMascotWrapper = styled.View`
   align-items: center;
   justify-content: center;
-  margin-top: 2px;
-  margin-bottom: 10px;
+  margin-top: -10px;
 `;
 
 // ==================================================
@@ -337,4 +365,51 @@ export const ButtonText = styled.Text`
   color: #ffffff;
   text-align: center;
   line-height: 34px;
+`;
+
+export const CloseButton = styled(TouchableOpacity)`
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 18px;
+
+  background-color: #ffffff;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 30;
+
+  border-width: 1.5px;
+  border-color: #dbe4ee;
+
+  elevation: 3;
+`;
+export const HomeButton = styled(TouchableOpacity)`
+  width: 100%;
+  height: 48px;
+
+  margin-top: 10px;
+
+  border-radius: 24px;
+
+  background-color: ${BASIC_COLORS.PRIMARY};
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: row;
+
+  border-width: 2px;
+  border-color: #7b9fcf;
+
+  border-bottom-width: 4px;
+  border-bottom-color: #5277aa;
+
+  elevation: 4;
 `;

@@ -2,7 +2,7 @@
 // Category Classification Generator
 // ============================================================
 
-import { CategoryGameObjects1 } from "./constants/categoryPool";
+import { CategoryGameObjects } from "./constants/categoryPool";
 import { categoryLevels } from "./constants/levels";
 import {
   CategoryLevelConfig,
@@ -204,17 +204,17 @@ function getWrongCandidates(
 ): CategoryGameObject[] {
   switch (distance) {
     case "different_category":
-      return CategoryGameObjects1.filter(
+      return CategoryGameObjects.filter(
         (o) => o.topCategory !== target.topCategory,
       );
     case "different_subcategory":
-      return CategoryGameObjects1.filter(
+      return CategoryGameObjects.filter(
         (o) =>
           o.topCategory === target.topCategory &&
           o.subCategory !== target.subCategory,
       );
     case "different_type":
-      return CategoryGameObjects1.filter(
+      return CategoryGameObjects.filter(
         (o) => o.subCategory === target.subCategory && o.id !== target.id,
       );
     default:
@@ -304,7 +304,7 @@ function createWrongItems(
   const pool =
     candidates.length > 0
       ? candidates
-      : CategoryGameObjects1.filter((o) => o.id !== targetObj.id);
+      : CategoryGameObjects.filter((o) => o.id !== targetObj.id);
 
   const selected = pickNRandom(pool, count);
 
@@ -333,7 +333,7 @@ export function createCategoryRound(
   if (!config) throw new Error(`Invalid level: ${level}`);
 
   // 1. 타겟 종류 선택
-  const suitableObjects = CategoryGameObjects1.filter((o) => {
+  const suitableObjects = CategoryGameObjects.filter((o) => {
     if (
       config.targetColorMode === "natural" ||
       config.correctObjectMode === "unseen_variant" ||
@@ -347,7 +347,7 @@ export function createCategoryRound(
   const targetObj =
     suitableObjects.length > 0
       ? pickRandom(suitableObjects)
-      : pickRandom(CategoryGameObjects1);
+      : pickRandom(CategoryGameObjects);
 
   // 2. 예시 3개 (TargetBox에 보이는 것들)
   const exampleItems = createTargetBox(
