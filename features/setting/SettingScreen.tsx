@@ -36,6 +36,8 @@ import {
 } from "../audio/audioSettingsStorage";
 import { useBackgroundMusic } from "../audio/BackgroundMusicContext";
 import { GAME_INFO } from "../../constants/GameInfo";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -97,51 +99,6 @@ export default function SettingScreen() {
   const handleResetColor = () => handleResetGame("color");
   const handleResetShape = () => handleResetGame("shape");
   const handleResetCategory = () => handleResetGame("category");
-  // 색깔 놀이 초기화
-  // const handleResetColor = () => {
-  //   showAlert(
-  //     "처음부터 다시 시작할까요?",
-  //     `색깔 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-  //     async () => {
-  //       await clearGameProgress("color");
-  //       showAlert(
-  //         "초기화 완료",
-  //         `색깔 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-  //       );
-  //     },
-  //     { showCancel: true, confirmText: "다시 시작" },
-  //   );
-  // };
-  // // 모양 놀이 초기화
-  // const handleResetShape = () => {
-  //   showAlert(
-  //     "처음부터 다시 시작할까요?",
-  //     `모양 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-  //     async () => {
-  //       await clearGameProgress("shape");
-  //       showAlert(
-  //         "초기화 완료",
-  //         `모양 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-  //       );
-  //     },
-  //     { showCancel: true, confirmText: "다시 시작" },
-  //   );
-  // };
-  // // 모양 놀이 초기화
-  // const handleResetCategory = () => {
-  //   showAlert(
-  //     "처음부터 다시 시작할까요?",
-  //     `친구 찾기 놀이의 진행 상황이\n 모두 사라져요.`,
-  //     async () => {
-  //       await clearGameProgress("category");
-  //       showAlert(
-  //         "초기화 완료",
-  //         `친구 찾기 놀이를 처음부터\n 다시 시작할 수 있어요!`,
-  //       );
-  //     },
-  //     { showCancel: true, confirmText: "다시 시작" },
-  //   );
-  // };
 
   // =========================
   // 임시 소리 설정
@@ -207,7 +164,13 @@ export default function SettingScreen() {
           <SettingCard>
             <SettingRow>
               <SettingInfo>
-                <SettingIcon>🔊</SettingIcon>
+                <SettingIcon>
+                  <Ionicons
+                    name="volume-high"
+                    size={24}
+                    color={BASIC_COLORS.SECONDARY}
+                  />
+                </SettingIcon>
 
                 <SettingTextWrapper>
                   <SettingTitle>효과음</SettingTitle>
@@ -227,7 +190,9 @@ export default function SettingScreen() {
 
             <SettingRow>
               <SettingInfo>
-                <SettingIcon>🎵</SettingIcon>
+                <SettingIcon>
+                  <Ionicons name="musical-notes" size={24} color="#FB7185" />
+                </SettingIcon>
 
                 <SettingTextWrapper>
                   <SettingTitle>배경음악</SettingTitle>
@@ -246,7 +211,9 @@ export default function SettingScreen() {
 
             <SettingRow>
               <SettingInfo>
-                <SettingIcon>✨</SettingIcon>
+                <SettingIcon>
+                  <Ionicons name="sparkles" size={24} color="#FBBF24" />
+                </SettingIcon>
 
                 <SettingTextWrapper>
                   <SettingTitle>정답 효과</SettingTitle>

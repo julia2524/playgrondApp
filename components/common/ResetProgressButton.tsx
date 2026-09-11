@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components/native";
 import { GAME_INFO } from "../../constants/GameInfo";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { PASTEL_BG } from "../../design-system/tokens/colors";
 
 interface ResetButtonProps {
   gameType: "color" | "shape" | "category";
@@ -11,11 +13,13 @@ export default function ResetProgressButton({
   gameType,
   onPress,
 }: ResetButtonProps) {
-  const { icon, title, description } = GAME_INFO[gameType];
+  const { iconName, title, description } = GAME_INFO[gameType];
 
   return (
     <ResetButtonContainer onPress={onPress} activeOpacity={0.8}>
-      <GameIcon>{icon}</GameIcon>
+      <GameIconWrapper>
+        <Ionicons name={iconName as any} size={26} color={PASTEL_BG.neutral} />
+      </GameIconWrapper>
 
       <GameInfo>
         <GameTitle>{title}</GameTitle>
@@ -51,6 +55,19 @@ const GameIcon = styled.Text`
   font-size: 27px;
   text-align: center;
   text-align-vertical: center;
+`;
+
+const GameIconWrapper = styled.View`
+  width: 46px;
+  height: 46px;
+
+  margin-right: 13px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+  background-color: #5b4b4b;
 `;
 
 const GameInfo = styled.View`

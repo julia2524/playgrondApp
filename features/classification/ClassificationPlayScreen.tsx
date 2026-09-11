@@ -452,7 +452,7 @@ export default function ClassificationPlayScreen() {
 
     setTutorialVisible(false);
     setIsTargetFront(true);
-    setFeedback("참 잘했어요! 👏");
+    setFeedback("참 잘했어요!");
 
     // ⭐ 성공 횟수 증가
     const nextCorrectRoundCount = correctRoundCount + 1;
@@ -493,7 +493,7 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-    setFeedback("괜찮아요! 다음 문제도 해볼까요? 😊");
+    setFeedback("괜찮아요! 다음 문제도 해볼까요?");
 
     // ⭐ 실패해도 다음 라운드
     setTimeout(() => {
@@ -516,7 +516,7 @@ export default function ClassificationPlayScreen() {
 
     setTutorialVisible(false);
 
-    setFeedback("괜찮아요! 다음 문제로 넘어가 볼까요? 😊");
+    setFeedback("괜찮아요! 다음 문제로 넘어가 볼까요?");
 
     // ⭐ 밖에 놓아도 다음 라운드
     setTimeout(() => {

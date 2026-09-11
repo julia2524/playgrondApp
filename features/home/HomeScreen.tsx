@@ -16,6 +16,7 @@ import {
   GuideTextContainer,
   Header,
   SubTitle,
+  SubTitleText,
   Title,
   TitleContainer,
 } from "./homeStyles";
@@ -23,6 +24,8 @@ import CustomAlert from "../../components/common/CustomAlert";
 import { shapeLevels } from "../classification/shape/constants/levels";
 import { createShapeRound } from "../classification/shape/shapeGenerators";
 import SettingButton from "../../components/common/SettingButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -142,7 +145,14 @@ export default function HomeScreen() {
         {/* 상단 헤더 */}
         <Header>
           <TitleContainer>
-            <SubTitle>☁️ 끼리끼리 놀이터</SubTitle>
+            <SubTitle>
+              <Ionicons
+                name="cloud-outline"
+                size={24}
+                color={BASIC_COLORS.BORDER}
+              />
+              <SubTitleText>끼리끼리 놀이터</SubTitleText>
+            </SubTitle>
             <Title>어떤 놀이를 해볼까?</Title>
           </TitleContainer>
           <SettingButton
@@ -160,8 +170,14 @@ export default function HomeScreen() {
           <GameGrid>
             {/* 1. 색깔 분류 (활성화) */}
             <GameCardItem
-              bgColor="#FE9404"
-              emoji="🎨"
+              bgColor={BASIC_COLORS.ACCENT}
+              emoji={
+                <Ionicons
+                  name="color-palette"
+                  size={40}
+                  color={PASTEL_BG.neutral}
+                />
+              }
               title="알록달록 색깔"
               desc="같은 색끼리 척척!"
               onPress={() => goToStageMap("color")}
@@ -169,8 +185,10 @@ export default function HomeScreen() {
 
             {/* 2. 모양 분류 (준비중) */}
             <GameCardItem
-              bgColor="#7569E8"
-              emoji="🔷"
+              bgColor={BASIC_COLORS.SECONDARY}
+              emoji={
+                <Ionicons name="diamond" size={40} color={PASTEL_BG.neutral} />
+              }
               title="반짝반짝 모양"
               desc="같은 모양끼리 쏙쏙!"
               onPress={() => goToStageMap("shape")}
@@ -178,21 +196,33 @@ export default function HomeScreen() {
 
             {/* 3. 크기 분류 (준비중) */}
             <GameCardItem
-              bgColor="#45B48B"
-              emoji="🥑"
-              title="친구들 모여라"
-              desc="종류별로 짝을 찾아줘!"
+              bgColor={BASIC_COLORS.SUCCESS}
+              emoji={
+                <Ionicons
+                  name="fast-food"
+                  size={40}
+                  color={PASTEL_BG.neutral}
+                />
+              }
+              title="두근두근 친구"
+              desc="같은 친구끼리 콕콕!"
               onPress={() => goToStageMap("category")}
             />
 
             {/* 4. 새로운 놀이 (준비중) */}
             <GameCardItem
-              bgColor="#67cff4"
-              emoji="✨"
+              bgColor={PASTEL_BG.blue} // 진한 파랑 대신 중립 파스텔톤
+              emoji={
+                <Ionicons
+                  name="sparkles"
+                  size={40}
+                  color={BASIC_COLORS.BORDER}
+                />
+                // 흰색 대신 연한 회색 아이콘 → 자연스럽게 "아직 아니에요" 느낌
+              }
               title="새로운 놀이"
               desc="준비 중이에요"
-              disabled={true}
-              onPress={() => handleLockedGame("크기 분류")}
+              onPress={() => handleLockedGame("새로운 놀이")}
             />
           </GameGrid>
         </GameGridWrapper>

@@ -14,7 +14,14 @@ export const Header = styled.View`
 export const TitleContainer = styled.View`
   margin-top: 10px;
 `;
-export const SubTitle = styled.Text`
+
+export const SubTitle = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 5px; /* 👈 아이콘과 텍스트 사이 간격 (원하는 만큼 조절) */
+`;
+
+export const SubTitleText = styled.Text`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: #0fa6dd;
