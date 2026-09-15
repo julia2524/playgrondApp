@@ -9,7 +9,8 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/mascot-bear.png",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true,

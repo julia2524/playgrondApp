@@ -5,11 +5,51 @@ export const COLOR_POOL = ["red", "blue", "yellow", "green", "purple"] as const;
 export type Color = (typeof COLOR_POOL)[number];
 
 export const COLOR_NAMES: Record<string, string> = {
+  // 기본 색상
   red: "빨강",
   blue: "파랑",
   yellow: "노랑",
   green: "초록",
   purple: "보라",
+
+  // 기본 추가 색상
+  black: "검정",
+  white: "하양",
+
+  // 보조 색상
+  orange: "주황",
+  pink: "분홍",
+  brown: "갈", // '갈' 오타 수정
+
+  // 붉은 / 핑크 계열
+  crimson: "진빨강",
+  coral: "산호",
+  lightPink: "연분홍",
+
+  // 파랑 계열
+  navy: "남색",
+  skyblue: "하늘",
+  lightBlue: "연한 파랑",
+
+  // 초록 계열
+  lime: "연두",
+  lightGreen: "연초록",
+  mint: "민트",
+  teal: "청록",
+
+  // 보라 계열
+  violet: "청보라",
+  lavender: "연보라",
+  plum: "자두색",
+
+  // 노랑 / 주황 계열
+  lightYellow: "연노랑",
+  peach: "살구",
+
+  // 갈색 계열
+  chocolateBrown: "초콜릿",
+  lightBrown: "밝은 갈",
+  tan: "황토",
 };
 
 // 비슷한 계열(유사 색상)끼리 더 촘촘하게 묶은 색상 그룹 정의
