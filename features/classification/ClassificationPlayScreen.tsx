@@ -681,6 +681,7 @@ export default function ClassificationPlayScreen() {
           shapeId={correctObject.renderId}
           colorKey={correctObject.color}
           kind={correctObject.kind}
+          variant={correctObject.variant} // ⭐ 추가
         />
       )}
 

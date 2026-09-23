@@ -25,6 +25,11 @@ interface TutorialOverlayProps {
   shapeId?: string;
   colorKey?: string;
   kind?: DisplayItemKind; // ★ 추가
+  variant?: {
+    primary?: string;
+    secondary?: string;
+    accent?: string;
+  };
 }
 
 export default function TutorialOverlay({
@@ -35,6 +40,7 @@ export default function TutorialOverlay({
   shapeId,
   colorKey,
   kind = "color", // 기본값 color
+  variant,
 }: TutorialOverlayProps) {
   // ==================================================
   // ⭐ Animation Values
@@ -398,7 +404,11 @@ export default function TutorialOverlay({
   // ⭐ 색상
   // ==================================================
 
-  const svgColor = colorKey ? COLORS[colorKey] : "#EF4444";
+  const svgColor = colorKey?.startsWith("#")
+    ? colorKey
+    : colorKey
+      ? COLORS[colorKey]
+      : "#EF4444";
 
   // ==================================================
   // ⭐ SVG 렌더러 선택
@@ -419,7 +429,15 @@ export default function TutorialOverlay({
 
     // ⭐ 카테고리 게임 렌더링 분기 추가
     if (kind === "category") {
-      return <RenderCategoryItemSvg itemId={shapeId} colorHex={svgColor} />;
+      return (
+        <RenderCategoryItemSvg
+          itemId={shapeId}
+          colorHex={variant?.primary ?? svgColor}
+          primary={variant?.primary}
+          secondary={variant?.secondary}
+          accent={variant?.accent}
+        />
+      );
     }
 
     // kind === "shape"
@@ -518,10 +536,8 @@ export default function TutorialOverlay({
 
 const TutorialLayer = styled.View`
   position: absolute;
-
   left: 0;
   right: 0;
-
   top: 0;
   bottom: 0;
 
