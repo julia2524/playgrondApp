@@ -16,6 +16,7 @@ import { colorLevels } from "../color/constants/levels";
 import { shapeLevels } from "../shape/constants/levels";
 import { categoryLevels } from "../category/constants/levels";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { AppText } from "../../../utils/AppText";
 
 interface SuccessModalProps {
   gameType: "color" | "shape" | "category";
@@ -268,7 +269,7 @@ export const SuccessCloudBadge = styled.View`
   z-index: 10;
 `;
 
-export const SuccessLevelText = styled.Text`
+export const SuccessLevelText = styled(AppText)`
   position: absolute;
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
@@ -299,7 +300,7 @@ export const SuccessStarWrapper = styled.View`
 // 🎉 성공 메시지
 // ==================================================
 
-export const SuccessTitle = styled.Text`
+export const SuccessTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.title}px;
 
@@ -308,7 +309,7 @@ export const SuccessTitle = styled.Text`
   margin-top: -25px;
 `;
 
-export const SuccessSubtitle = styled.Text`
+export const SuccessSubtitle = styled(AppText)`
   font-size: 20px;
   color: ${BASIC_COLORS.SECONDARY};
   text-align: center;
@@ -360,7 +361,7 @@ export const SuccessButton = styled(TouchableOpacity)<{
   shadow-radius: 5px;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(AppText)`
   font-size: 30px;
   color: #ffffff;
   text-align: center;

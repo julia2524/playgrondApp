@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { AppText } from "../../utils/AppText";
 export const Container = styled.View`
   flex: 1;
   padding: 24px;
@@ -21,13 +22,13 @@ export const SubTitle = styled.View`
   gap: 5px; /* 👈 아이콘과 텍스트 사이 간격 (원하는 만큼 조절) */
 `;
 
-export const SubTitleText = styled.Text`
+export const SubTitleText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.body}px;
+  font-size: ${(props) => props.theme.typography.small}px;
   color: #0fa6dd;
 `;
 
-export const Title = styled.Text`
+export const Title = styled(AppText)`
   color: ${BASIC_COLORS.TEXT_MAIN};
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.title}px;
@@ -51,7 +52,7 @@ export const SettingButton = styled.TouchableOpacity`
   shadow-radius: 4px;
 `;
 
-export const SettingButtonText = styled.Text`
+export const SettingButtonText = styled(AppText)`
   font-size: 20px;
 `;
 
@@ -60,7 +61,7 @@ export const GuideTextContainer = styled.View`
   padding-top: 20px;
 `;
 
-export const GuideText = styled.Text`
+export const GuideText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: #94a3b8;
@@ -90,7 +91,7 @@ export const GameGridWrapper = styled.View`
   margin-top: 50px;
 `;
 
-export const Footer = styled.Text`
+export const Footer = styled(AppText)`
   text-align: center;
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.small}px;

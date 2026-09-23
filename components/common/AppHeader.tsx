@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { AppText } from "../../utils/AppText";
 
 interface AppHeaderProps {
   onBack: () => void;
@@ -50,7 +51,7 @@ const BackButton = styled.TouchableOpacity`
   z-index: 20;
 `;
 
-const BackText = styled.Text`
+const BackText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.giant}px;
   color: ${BASIC_COLORS.TEXT_MAIN};

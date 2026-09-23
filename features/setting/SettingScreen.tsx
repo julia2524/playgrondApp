@@ -38,6 +38,8 @@ import { useBackgroundMusic } from "../audio/BackgroundMusicContext";
 import { GAME_INFO } from "../../constants/GameInfo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { clearUnlockedStickers } from "../sticker/utils/stickerStorage";
+import ResetStickerButton from "../../components/common/ResetStickerButton";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -140,6 +142,38 @@ export default function SettingScreen() {
     await setCorrectEffectEnabled(value);
   };
 
+  // =========================
+  // 스티커 초기화
+  // =========================
+
+  const handleResetSticker = (mode: keyof typeof GAME_INFO) => {
+    const { title } = GAME_INFO[mode];
+
+    showAlert(
+      "스티커를 모두 지울까요?",
+      `${title}에서\n 모은 스티커가모두 사라져요.`,
+      async () => {
+        const success = await clearUnlockedStickers(mode);
+
+        if (success) {
+          showAlert(
+            "초기화 완료!",
+            `${title}에서\n 모은 스티커가 모두 지워졌어요.`,
+          );
+        }
+      },
+      {
+        showCancel: true,
+        confirmText: "초기화",
+      },
+    );
+  };
+
+  const handleResetColorStickers = () => handleResetSticker("color");
+
+  const handleResetShapeStickers = () => handleResetSticker("shape");
+
+  const handleResetCategoryStickers = () => handleResetSticker("category");
   return (
     <Container>
       <GradientBackground />
@@ -254,6 +288,30 @@ export default function SettingScreen() {
             onCancel={handleAlertCancel}
             confirmText={alertConfirmText}
           />
+        </Section>
+        {/* =========================
+    스티커 초기화
+   ========================= */}
+
+        <Section>
+          <SectionTitle>스티커 초기화</SectionTitle>
+
+          <SettingCard>
+            <ResetStickerButton
+              gameType="color"
+              onPress={handleResetColorStickers}
+            />
+
+            <ResetStickerButton
+              gameType="shape"
+              onPress={handleResetShapeStickers}
+            />
+
+            <ResetStickerButton
+              gameType="category"
+              onPress={handleResetCategoryStickers}
+            />
+          </SettingCard>
         </Section>
       </Content>
     </Container>

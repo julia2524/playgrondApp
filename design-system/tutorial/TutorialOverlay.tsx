@@ -10,6 +10,7 @@ import {
   RenderBasicShapeSvg,
   RenderShapeItemSvg,
 } from "../../features/classification/shape/assets/shapeItemSvgs";
+import { RenderCategoryItemSvg } from "../../features/classification/category/assets/categoryItemSvgs";
 
 interface TutorialOverlayProps {
   visible: boolean;
@@ -402,6 +403,9 @@ export default function TutorialOverlay({
   // ==================================================
   // ⭐ SVG 렌더러 선택
   // ==================================================
+  // ==================================================
+  // ⭐ SVG 렌더러 선택
+  // ==================================================
   const renderTutorialSvg = () => {
     if (!shapeId) return null;
 
@@ -413,9 +417,28 @@ export default function TutorialOverlay({
       return <RenderShapeItemSvg itemId={shapeId} colorHex={svgColor} />;
     }
 
+    // ⭐ 카테고리 게임 렌더링 분기 추가
+    if (kind === "category") {
+      return <RenderCategoryItemSvg itemId={shapeId} colorHex={svgColor} />;
+    }
+
     // kind === "shape"
     return <RenderBasicShapeSvg shapeId={shapeId} colorHex={svgColor} />;
   };
+  // const renderTutorialSvg = () => {
+  //   if (!shapeId) return null;
+
+  //   if (kind === "color") {
+  //     return <RenderColorItemSvg shapeId={shapeId} colorHex={svgColor} />;
+  //   }
+
+  //   if (kind === "item") {
+  //     return <RenderShapeItemSvg itemId={shapeId} colorHex={svgColor} />;
+  //   }
+
+  //   // kind === "shape"
+  //   return <RenderBasicShapeSvg shapeId={shapeId} colorHex={svgColor} />;
+  // };
 
   // ==================================================
   // ⭐ Render

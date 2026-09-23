@@ -8,6 +8,7 @@ import { getUnlockedStickers, GameType } from "./utils/stickerStorage";
 import { CategoryGameObjects } from "../classification/category/constants/categoryPool";
 import { CategoryGameObject } from "../classification/category/type/types";
 import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
+import { AppText } from "../../utils/AppText";
 
 // ---------- 상단 모드 탭 정의 ----------
 const GAME_TABS: { id: GameType; label: string; icon: string }[] = [
@@ -270,7 +271,7 @@ const Container = styled.View`
   padding-bottom: 10px;
 `;
 
-const HeaderTitle = styled.Text`
+const HeaderTitle = styled(AppText)`
   font-size: 18px;
   font-weight: bold;
   color: #334155;
@@ -292,7 +293,7 @@ const ModeTabButton = styled(TouchableOpacity)<{ isSelected: boolean }>`
   background-color: ${(props) => (props.isSelected ? "#3B82F6" : "#E2E8F0")};
 `;
 
-const ModeTabText = styled.Text<{ isSelected: boolean }>`
+const ModeTabText = styled(AppText)<{ isSelected: boolean }>`
   font-size: 13px;
   font-weight: bold;
   color: ${(props) => (props.isSelected ? "#FFFFFF" : "#64748B")};
@@ -349,12 +350,12 @@ const LockedContainer = styled.View`
   opacity: 0.5;
 `;
 
-const LockBadge = styled.Text`
+const LockBadge = styled(AppText)`
   position: absolute;
   font-size: 18px;
 `;
 
-const StickerName = styled.Text`
+const StickerName = styled(AppText)`
   font-size: 11px;
   color: #64748b;
   margin-top: 6px;

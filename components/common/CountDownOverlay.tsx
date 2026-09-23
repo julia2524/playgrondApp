@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
+import { AppText } from "../../utils/AppText";
 
 interface CountdownOverlayProps {
   onFinish: () => void;
@@ -103,19 +104,19 @@ const AnimatedContent = styled(Animated.View)`
   align-items: center;
 `;
 
-const CountText = styled.Text`
+const CountText = styled(AppText)`
   font-size: 100px;
   font-family: "Jua";
   color: #0fa6dd;
 `;
 
-const StartText = styled.Text`
+const StartText = styled(AppText)`
   font-size: 56px;
   font-family: "Jua";
   color: #fe9404;
 `;
 
-const SubText = styled.Text`
+const SubText = styled(AppText)`
   margin-top: 8px;
 
   font-size: 24px;
@@ -123,7 +124,7 @@ const SubText = styled.Text`
   color: #7569e8;
 `;
 
-const Cloud = styled.Text`
+const Cloud = styled(AppText)`
   position: absolute;
   top: 130px;
   left: 45px;
@@ -131,7 +132,7 @@ const Cloud = styled.Text`
   font-size: 45px;
 `;
 
-const Star = styled.Text`
+const Star = styled(AppText)`
   position: absolute;
   right: 55px;
   top: 200px;
@@ -139,7 +140,7 @@ const Star = styled.Text`
   font-size: 35px;
 `;
 
-const Heart = styled.Text`
+const Heart = styled(AppText)`
   position: absolute;
   bottom: 220px;
   left: 60px;

@@ -1,38 +1,3 @@
-// utils/stickerStorage.ts
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// const UNLOCKED_STICKERS_KEY = "@unlocked_stickers";
-
-// // 1. 해금된 스티커 목록 가져오기
-// export const getUnlockedStickers = async (): Promise<string[]> => {
-//   try {
-//     const jsonValue = await AsyncStorage.getItem(UNLOCKED_STICKERS_KEY);
-//     return jsonValue != null ? JSON.parse(jsonValue) : [];
-//   } catch (e) {
-//     console.error("스티커 데이터 불러오기 실패", e);
-//     return [];
-//   }
-// };
-
-// // 2. 새 스티커 획득하기 (게임 클리어 시 호출)
-// export const unlockSticker = async (stickerId: string): Promise<boolean> => {
-//   try {
-//     const currentList = await getUnlockedStickers();
-//     if (!currentList.includes(stickerId)) {
-//       const newList = [...currentList, stickerId];
-//       await AsyncStorage.setItem(
-//         UNLOCKED_STICKERS_KEY,
-//         JSON.stringify(newList),
-//       );
-//       return true; // 새로 해금됨 (축하 팝업용)
-//     }
-//     return false; // 이미 있던 스티커
-//   } catch (e) {
-//     console.error("스티커 저장 실패", e);
-//     return false;
-//   }
-// };
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type GameType = "color" | "shape" | "category";
@@ -95,5 +60,25 @@ export const getAllUnlockedStickers = async (): Promise<
   } catch (e) {
     console.error("전체 스티커 데이터 불러오기 실패", e);
     return { color: [], shape: [], category: [] };
+  }
+};
+
+/**
+ * 3. 특정 게임 모드의 스티커 전체 초기화
+ */
+export const clearUnlockedStickers = async (
+  gameType: GameType,
+): Promise<boolean> => {
+  try {
+    const key = getStickerKey(gameType);
+
+    await AsyncStorage.removeItem(key);
+
+    console.log(`🗑️ [${gameType}] 스티커 전체 초기화 완료`);
+
+    return true;
+  } catch (e) {
+    console.error(`[${gameType}] 스티커 초기화 실패`, e);
+    return false;
   }
 };

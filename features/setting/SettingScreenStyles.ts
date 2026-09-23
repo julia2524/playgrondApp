@@ -5,6 +5,7 @@
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { Switch } from "react-native";
+import { AppText } from "../../utils/AppText";
 
 export const Container = styled.View`
   flex: 1;
@@ -19,7 +20,7 @@ export const HeaderCenter = styled.View`
   justify-content: center;
 `;
 
-export const Title = styled.Text`
+export const Title = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
 
   font-size: ${(props) => props.theme.typography.heading}px;
@@ -52,7 +53,7 @@ export const Section = styled.View`
   margin-bottom: 28px;
 `;
 
-export const SectionTitle = styled.Text`
+export const SectionTitle = styled(AppText)`
   margin-bottom: 8px;
   padding-left: 20px;
   font-family: ${(props) => props.theme.fontFamily};
@@ -98,7 +99,7 @@ export const SettingInfo = styled.View`
   align-items: center;
 `;
 
-export const SettingIcon = styled.Text`
+export const SettingIcon = styled(AppText)`
   width: 38px;
 
   margin-right: 10px;
@@ -112,7 +113,7 @@ export const SettingTextWrapper = styled.View`
   flex: 1;
 `;
 
-export const SettingTitle = styled.Text`
+export const SettingTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   font-weight: 700;
@@ -120,7 +121,7 @@ export const SettingTitle = styled.Text`
   color: ${BASIC_COLORS.TEXT_MAIN};
 `;
 
-export const SettingDescription = styled.Text`
+export const SettingDescription = styled(AppText)`
   margin-top: 3px;
 
   font-family: ${(props) => props.theme.fontFamily};

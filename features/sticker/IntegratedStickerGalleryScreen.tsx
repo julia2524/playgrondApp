@@ -28,6 +28,7 @@ import BannerAd from "../../services/BannerAd";
 import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { AppText } from "../../utils/AppText";
 
 const { width } = Dimensions.get("window");
 
@@ -284,7 +285,7 @@ const Container = styled.View`
   background-color: #f8fafc;
 `;
 
-const HeaderTitle = styled.Text`
+const HeaderTitle = styled(AppText)`
   font-size: 18px;
   font-weight: bold;
   color: #1e293b;
@@ -312,12 +313,12 @@ const TabButton = styled(TouchableOpacity)<{ isActive: boolean }>`
   shadow-radius: 4px;
 `;
 
-const TabIcon = styled.Text`
+const TabIcon = styled(AppText)`
   font-size: 16px;
   margin-right: 6px;
 `;
 
-const TabText = styled.Text<{ isActive: boolean }>`
+const TabText = styled(AppText)<{ isActive: boolean }>`
   font-size: 14px;
   font-weight: bold;
   color: ${(props) => (props.isActive ? "#0F172A" : "#64748B")};
@@ -342,13 +343,13 @@ const ProgressInfoRow = styled.View`
   margin-bottom: 8px;
 `;
 
-const ProgressTitle = styled.Text`
+const ProgressTitle = styled(AppText)`
   font-size: 13px;
   font-weight: bold;
   color: #475569;
 `;
 
-const ProgressCount = styled.Text`
+const ProgressCount = styled(AppText)`
   font-size: 13px;
   font-weight: bold;
   color: #2563eb;
@@ -400,12 +401,12 @@ const StickerImageArea = styled.View`
   justify-content: center;
 `;
 
-const QuestionMark = styled.Text`
+const QuestionMark = styled(AppText)`
   font-size: 32px;
   opacity: 0.6;
 `;
 
-const StickerName = styled.Text`
+const StickerName = styled(AppText)`
   font-size: 11px;
   color: #334155;
   margin-top: 6px;
@@ -413,7 +414,7 @@ const StickerName = styled.Text`
   text-align: center;
 `;
 
-const LockedName = styled.Text`
+const LockedName = styled(AppText)`
   font-size: 11px;
   color: #94a3b8;
   margin-top: 6px;

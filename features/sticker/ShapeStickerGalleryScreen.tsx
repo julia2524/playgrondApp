@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import AppHeader from "../../components/common/AppHeader";
 import { RenderShapeItemSvg } from "../classification/shape/assets/shapeItemSvgs";
 import { SHAPE_ITEM_POOL } from "../classification/shape/constants/shapePool";
+import { AppText } from "../../utils/AppText";
 
 export default function ShapeStickerGalleryScreen() {
   const navigation = useNavigation<any>();
@@ -83,7 +84,7 @@ const Container = styled.View`
   background-color: #f8fafc;
 `;
 
-const HeaderTitle = styled.Text`
+const HeaderTitle = styled(AppText)`
   font-size: 18px;
   font-weight: bold;
   color: #334155;
@@ -99,7 +100,7 @@ const ColorPickerBar = styled.View`
   justify-content: space-between;
 `;
 
-const ColorLabel = styled.Text`
+const ColorLabel = styled(AppText)`
   font-size: 14px;
   font-weight: bold;
   color: #475569;
@@ -139,7 +140,7 @@ const StickerCard = styled(TouchableOpacity)`
   shadow-radius: 4px;
 `;
 
-const StickerName = styled.Text`
+const StickerName = styled(AppText)`
   font-size: 11px;
   color: #64748b;
   margin-top: 6px;

@@ -6,6 +6,7 @@ import { Animated, Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../../design-system/tokens/colors";
 import { RADIUS } from "../../../design-system/tokens/radius";
+import { AppText } from "../../../utils/AppText";
 
 // ==================================================
 // Game Header
@@ -20,7 +21,7 @@ export const GameHeaderCenter = styled.View`
   gap: 2px;
 `;
 
-export const TitleText = styled.Text`
+export const TitleText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
@@ -60,11 +61,11 @@ export const Content = styled.View`
   flex: 1;
 `;
 
-export const MascotEmoji = styled.Text`
+export const MascotEmoji = styled(AppText)`
   font-size: 48px;
 `;
 
-export const RoundIndicator = styled.Text`
+export const RoundIndicator = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
 
@@ -81,7 +82,7 @@ export const MissionBubble = styled.View`
   margin-vertical: 16px;
 `;
 
-export const MissionText = styled.Text`
+export const MissionText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
@@ -159,7 +160,7 @@ export const TargetItemCircle = styled(Animated.View)<{
   shadow-radius: 4px;
 `;
 
-export const TargetItemText = styled.Text<{
+export const TargetItemText = styled(AppText)<{
   color?: string;
 }>`
   font-family: ${(props) => props.theme.fontFamily};
@@ -174,7 +175,7 @@ export const ObjectSection = styled.View`
   z-index: 100;
 `;
 
-export const SectionLabel = styled.Text`
+export const SectionLabel = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: #8a94a6;
@@ -221,7 +222,7 @@ export const ObjectSticker = styled(Animated.View)<{
   shadow-radius: 6px;
 `;
 
-export const StickerText = styled.Text<{ itemCount: number }>`
+export const StickerText = styled(AppText)<{ itemCount: number }>`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) =>
     props.itemCount === 2
@@ -275,13 +276,13 @@ export const SuccessEmojiRow = styled.View`
   justify-content: center;
   gap: 2px;
 `;
-export const SuccessEmoji = styled.Text`
+export const SuccessEmoji = styled(AppText)`
   font-size: 40px;
   margin-bottom: 10px;
   text-align: center;
 `;
 
-export const SuccessTitle = styled.Text`
+export const SuccessTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.PRIMARY};
@@ -289,7 +290,7 @@ export const SuccessTitle = styled.Text`
   margin-bottom: 6px;
 `;
 
-export const SuccessSubtitle = styled.Text`
+export const SuccessSubtitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
@@ -324,7 +325,7 @@ export const SuccessButton = styled(TouchableOpacity)<{
     props.variant === "primary" ? "#34986b" : "#d97c00"};
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   color: #ffffff;

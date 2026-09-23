@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal } from "react-native";
 import styled from "styled-components/native";
+import { AppText } from "../../utils/AppText";
 
 interface CustomAlertProps {
   visible: boolean;
@@ -70,7 +71,7 @@ const AlertBox = styled.View`
   border-color: #dce4ec;
 `;
 
-const AlertTitle = styled.Text`
+const AlertTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
   color: #333333;
@@ -78,7 +79,7 @@ const AlertTitle = styled.Text`
   text-align: center;
 `;
 
-const AlertMessage = styled.Text`
+const AlertMessage = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.button}px;
   color: #64748b;
@@ -101,7 +102,7 @@ const ConfirmButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const ConfirmButtonText = styled.Text`
+const ConfirmButtonText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.button}px;
   color: #ffffff;
@@ -115,7 +116,7 @@ const CancelButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-const CancelButtonText = styled.Text`
+const CancelButtonText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.button}px;
   color: #64748b;

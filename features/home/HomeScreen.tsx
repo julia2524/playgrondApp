@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { ImageBackground, Text, TouchableOpacity } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -26,6 +31,7 @@ import { createShapeRound } from "../classification/shape/shapeGenerators";
 import SettingButton from "../../components/common/SettingButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
+import ResponsiveScreen from "../../utils/ResponsiveScreen";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -179,7 +185,7 @@ export default function HomeScreen() {
                 />
               }
               title="알록달록 색깔"
-              desc="같은 색끼리 척척!"
+              desc="같은 색 척척!"
               onPress={() => goToStageMap("color")}
             />
 
@@ -190,7 +196,7 @@ export default function HomeScreen() {
                 <Ionicons name="diamond" size={40} color={PASTEL_BG.neutral} />
               }
               title="반짝반짝 모양"
-              desc="같은 모양끼리 쏙쏙!"
+              desc="같은 모양 쏙쏙!"
               onPress={() => goToStageMap("shape")}
             />
 
@@ -205,7 +211,7 @@ export default function HomeScreen() {
                 />
               }
               title="두근두근 친구"
-              desc="같은 친구끼리 콕콕!"
+              desc="같은 친구 콕콕!"
               onPress={() => goToStageMap("category")}
             />
 

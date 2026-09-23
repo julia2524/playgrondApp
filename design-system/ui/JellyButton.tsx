@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import { COLORS } from "../tokens/colors"; // 경로 확인!
 import { RADIUS } from "../tokens/radius";
+import { AppText } from "../../utils/AppText";
 
 interface JellyButtonProps {
   title: string;
@@ -36,12 +37,12 @@ const StyledButton = styled.TouchableOpacity<{ bgColor: string }>`
   justify-content: center;
 `;
 
-const ButtonIcon = styled.Text`
+const ButtonIcon = styled(AppText)`
   font-size: 20px;
   margin-right: 8px;
 `;
 
-const ButtonText = styled.Text<{ color: string }>`
+const ButtonText = styled(AppText)<{ color: string }>`
   /* //font-size: 18px; */
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.button}px;

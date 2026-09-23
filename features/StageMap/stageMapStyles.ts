@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import { Animated, TouchableOpacity } from "react-native";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
+import { AppText } from "../../utils/AppText";
 
 export const Container = styled.View`
   flex: 1;
@@ -24,14 +25,14 @@ export const StageMapHeaderCenter = styled.View`
   justify-content: center;
 `;
 
-export const StageMapTitle = styled.Text`
+export const StageMapTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
 
-export const MapBackText = styled.Text`
+export const MapBackText = styled(AppText)`
   font-family: "Jua";
 
   font-size: 32px;
@@ -81,17 +82,17 @@ export const StageButton = styled.TouchableOpacity<{
   shadow-radius: 6px;
 `;
 
-export const StageNumber = styled.Text`
+export const StageNumber = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.giant}px;
   color: #ffffff;
 `;
 
-export const LockIcon = styled.Text`
+export const LockIcon = styled(AppText)`
   font-size: 28px;
 `;
 
-export const StageName = styled.Text`
+export const StageName = styled(AppText)`
   margin-top: 10px;
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.small}px;
@@ -110,7 +111,7 @@ export const StageStarsRow = styled.View`
 
   margin-top: 4px;
 `;
-export const StageStar = styled.Text<{ filled: boolean }>`
+export const StageStar = styled(AppText)<{ filled: boolean }>`
   font-size: 13px;
 
   margin-horizontal: 1px;
@@ -153,7 +154,7 @@ export const StickerBookHeaderButton = styled(TouchableOpacity)`
   elevation: 3;
 `;
 
-export const StickerButtonEmoji = styled.Text`
+export const StickerButtonEmoji = styled(AppText)`
   font-size: 20px;
 `;
 

@@ -19,6 +19,7 @@ import {
 } from "../classification/shape/assets/shapeItemSvgs";
 import BannerAd from "../../services/BannerAd";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { AppText } from "../../utils/AppText";
 
 const { width } = Dimensions.get("window");
 
@@ -267,7 +268,7 @@ const Container = styled.View`
   background-color: #f8fafc;
 `;
 
-const HeaderTitle = styled.Text`
+const HeaderTitle = styled(AppText)`
   font-size: 18px;
   font-weight: bold;
   color: #1e293b;
@@ -300,7 +301,7 @@ const SvgWrapper = styled.View`
   margin-bottom: 12px;
 `;
 
-const PreviewName = styled.Text`
+const PreviewName = styled(AppText)`
   font-size: 20px;
   font-weight: bold;
   color: #0f172a;
@@ -318,14 +319,14 @@ const DescriptionCard = styled.View`
   shadow-radius: 4px;
 `;
 
-const DescriptionTitle = styled.Text`
+const DescriptionTitle = styled(AppText)`
   font-size: 14px;
   font-weight: bold;
   color: #475569;
   margin-bottom: 6px;
 `;
 
-const DescriptionText = styled.Text`
+const DescriptionText = styled(AppText)`
   font-size: 15px;
   color: #334155;
   line-height: 22px;
@@ -343,7 +344,7 @@ const ColorSection = styled.View`
   shadow-radius: 4px;
 `;
 
-const SectionTitle = styled.Text`
+const SectionTitle = styled(AppText)`
   font-size: 14px;
   font-weight: bold;
   color: #475569;
@@ -365,7 +366,7 @@ const ColorButton = styled(TouchableOpacity)<{ isSelected: boolean }>`
   justify-content: center;
 `;
 
-const NaturalLabel = styled.Text`
+const NaturalLabel = styled(AppText)`
   font-size: 10px;
   font-weight: bold;
   color: #64748b;

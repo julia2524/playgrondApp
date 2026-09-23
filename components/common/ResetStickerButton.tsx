@@ -5,16 +5,16 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { PASTEL_BG } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
 
-interface ResetButtonProps {
+interface ResetStickerButtonProps {
   gameType: "color" | "shape" | "category";
   onPress: () => void;
 }
 
-export default function ResetProgressButton({
+export default function ResetStickerButton({
   gameType,
   onPress,
-}: ResetButtonProps) {
-  const { iconName, title, description } = GAME_INFO[gameType];
+}: ResetStickerButtonProps) {
+  const { iconName, title, stickerDescription } = GAME_INFO[gameType];
 
   return (
     <ResetButtonContainer onPress={onPress} activeOpacity={0.8}>
@@ -24,7 +24,7 @@ export default function ResetProgressButton({
 
       <GameInfo>
         <GameTitle>{title}</GameTitle>
-        <GameDescription>{description}</GameDescription>
+        <GameDescription>{stickerDescription}</GameDescription>
       </GameInfo>
 
       <Arrow>›</Arrow>
@@ -45,17 +45,6 @@ const ResetButtonContainer = styled.TouchableOpacity`
   border-radius: 18px;
   border-width: 1px;
   border-color: rgba(91, 75, 75, 0.08);
-`;
-
-const GameIcon = styled(AppText)`
-  width: 46px;
-  height: 46px;
-
-  margin-right: 13px;
-
-  font-size: 27px;
-  text-align: center;
-  text-align-vertical: center;
 `;
 
 const GameIconWrapper = styled.View`
