@@ -217,6 +217,12 @@ export default function ClassificationPlayScreen() {
     width: 0,
     height: 0,
   });
+  const targetBoxLayout = useRef<Layout>({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  });
 
   // ==================================================
   // Rounds
@@ -632,6 +638,9 @@ export default function ClassificationPlayScreen() {
           matchedObjectIds={matchedObjectIds}
           missingItemRef={missingItemRef}
           correctObject={correctObject}
+          onTargetBoxLayout={(layout) => {
+            targetBoxLayout.current = layout;
+          }}
         />
 
         {/* Objects */}
@@ -652,6 +661,7 @@ export default function ClassificationPlayScreen() {
           }}
           correctObjectId={correctObjectId}
           correctStreakCount={correctRoundCount + 1} // ⭐ 추가: "이번에 맞히면 몇 번째인지"
+          targetBoxLayout={targetBoxLayout}
         />
       </GameBoard>
 

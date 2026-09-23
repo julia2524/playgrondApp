@@ -50,6 +50,7 @@ interface ObjectAreaProps {
   soundEffect: boolean;
 
   soundSettingLoaded: boolean;
+  targetBoxLayout: React.MutableRefObject<Layout>;
 }
 
 export default function ObjectArea({
@@ -67,6 +68,7 @@ export default function ObjectArea({
   correctStreakCount,
   soundEffect,
   soundSettingLoaded,
+  targetBoxLayout,
 }: ObjectAreaProps) {
   // ==================================================
   // ⭐⭐⭐ 이번 라운드 전체의 드래그/답변 여부
@@ -118,6 +120,7 @@ export default function ObjectArea({
             // ⭐⭐⭐ 핵심
             // 모든 스티커가 같은 ref를 공유한다.
             roundAnsweredRef={roundAnsweredRef}
+            targetBoxLayout={targetBoxLayout}
           />
         ))}
       </ObjectsContainer>

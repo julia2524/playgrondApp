@@ -19,6 +19,8 @@ import {
   DisplayObject,
   DisplayTarget,
 } from "../type/displayTypes";
+import { Layout } from "../type/types";
+import { useRef } from "react";
 
 interface TargetAreaProps {
   isFront: boolean;
@@ -30,6 +32,7 @@ interface TargetAreaProps {
   matchedObjectIds: string[];
   missingItemRef: React.RefObject<View | null>;
   correctObject?: DisplayObject; // ★ 추가
+  onTargetBoxLayout?: (layout: Layout) => void;
 }
 
 // 정답을 넣는 상자(바구니/타겟) UI 컴포넌트.
@@ -43,10 +46,24 @@ export default function TargetArea({
   matchedObjectIds,
   missingItemRef,
   correctObject,
+  onTargetBoxLayout,
 }: TargetAreaProps) {
+  const targetBoxRef = useRef<View>(null);
   return (
     <TargetSection isFront={isFront}>
-      <TargetBox>
+      <TargetBox
+        ref={targetBoxRef}
+        onLayout={() => {
+          targetBoxRef.current?.measureInWindow((x, y, width, height) => {
+            onTargetBoxLayout?.({
+              x,
+              y,
+              width,
+              height,
+            });
+          });
+        }}
+      >
         <TargetItemsGrid>
           {target.items?.map((shapeId: string, idx: number) => {
             const isMissingItem =

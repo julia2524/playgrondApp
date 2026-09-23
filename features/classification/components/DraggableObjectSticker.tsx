@@ -43,6 +43,7 @@ export function DraggableObjectSticker({
   obj,
   itemCount,
   gameBoardLayout,
+  targetBoxLayout,
   isActive,
   onGrab,
   onRelease,
@@ -62,6 +63,7 @@ export function DraggableObjectSticker({
   itemCount: number;
 
   gameBoardLayout: React.MutableRefObject<Layout>;
+  targetBoxLayout: React.MutableRefObject<Layout>;
 
   isActive: boolean;
 
@@ -122,6 +124,10 @@ export function DraggableObjectSticker({
   // ==================================================
 
   const position = useRef(new Animated.ValueXY()).current;
+  const stickerSize = useRef({
+    width: STICKER_SIZE,
+    height: STICKER_SIZE,
+  });
 
   const shakeX = useRef(new Animated.Value(0)).current;
 
@@ -356,12 +362,15 @@ export function DraggableObjectSticker({
         // 현재 화면 위치 측정
         // --------------------------------------------------
 
-        stickerRef.current?.measureInWindow((x, y) => {
+        stickerRef.current?.measureInWindow((x, y, width, height) => {
           startScreenPosition.current = {
             x,
             y,
           };
-
+          stickerSize.current = {
+            width,
+            height,
+          };
           isScreenPositionReadyRef.current = true;
         });
       },
@@ -404,14 +413,35 @@ export function DraggableObjectSticker({
         const currentScreenX = startScreenPosition.current.x + gesture.dx;
 
         const currentScreenY = startScreenPosition.current.y + gesture.dy;
+        const target = targetBoxLayout.current;
 
-        const minScreenX = boardLeft;
+        const stickerWidth = stickerSize.current.width;
 
-        const maxScreenX = boardRight - STICKER_SIZE;
+        const stickerHeight = stickerSize.current.height;
+
+        // TargetBox 중심
+        const targetCenterX = target.x + target.width / 2;
+
+        // 스티커 중심이 폰/보드 밖으로 나가지 않는 범위
+        const leftCenterLimit = boardLeft + stickerWidth / 2;
+
+        const rightCenterLimit = boardRight - stickerWidth / 2;
+
+        // TargetBox 중심 기준으로
+        // 좌우 중 더 짧은 쪽에 맞춰 대칭
+        const symmetricDistance = Math.min(
+          targetCenterX - leftCenterLimit,
+          rightCenterLimit - targetCenterX,
+        );
+
+        // 스티커의 왼쪽 좌표로 변환
+        const minScreenX = targetCenterX - symmetricDistance - stickerWidth / 2;
+
+        const maxScreenX = targetCenterX + symmetricDistance - stickerWidth / 2;
 
         const minScreenY = boardTop;
 
-        const maxScreenY = boardBottom - STICKER_SIZE;
+        const maxScreenY = boardBottom - stickerHeight;
 
         const clampedScreenX = clamp(currentScreenX, minScreenX, maxScreenX);
 
