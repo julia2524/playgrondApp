@@ -1,8 +1,11 @@
 import React from "react";
+
 import { useWindowDimensions } from "react-native";
+
 import styled from "styled-components/native";
 
 const DESIGN_WIDTH = 360;
+
 const DESIGN_HEIGHT = 800;
 
 export default function ResponsiveScreen({
@@ -11,8 +14,11 @@ export default function ResponsiveScreen({
   children: React.ReactNode;
 }) {
   const { width, height } = useWindowDimensions();
+
   const scale = Math.min(width / DESIGN_WIDTH, height / DESIGN_HEIGHT);
+
   const scaledWidth = DESIGN_WIDTH * scale;
+
   const scaledHeight = DESIGN_HEIGHT * scale;
 
   return (
@@ -21,10 +27,14 @@ export default function ResponsiveScreen({
         <ScaledContent
           style={{
             width: DESIGN_WIDTH,
+
             height: DESIGN_HEIGHT,
+
             transform: [
               { translateX: (scaledWidth - DESIGN_WIDTH) / 2 },
+
               { translateY: (scaledHeight - DESIGN_HEIGHT) / 2 },
+
               { scale },
             ],
           }}
@@ -38,8 +48,11 @@ export default function ResponsiveScreen({
 
 const Screen = styled.View`
   flex: 1;
+
   align-items: center;
+
   justify-content: center;
+
   overflow: hidden;
 `;
 

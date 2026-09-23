@@ -147,102 +147,108 @@ export default function HomeScreen() {
       resizeMode="cover"
       style={{ flex: 1 }}
     >
-      <Container>
-        {/* 상단 헤더 */}
-        <Header>
-          <TitleContainer>
-            <SubTitle>
-              <Ionicons
-                name="cloud-outline"
-                size={24}
-                color={BASIC_COLORS.BORDER}
-              />
-              <SubTitleText>끼리끼리 놀이터</SubTitleText>
-            </SubTitle>
-            <Title>어떤 놀이를 해볼까?</Title>
-          </TitleContainer>
-          <SettingButton
-            onPress={() => navigation.navigate("SettingScreen" as never)}
-          />
-        </Header>
-
-        {/* 안내 문구 */}
-        <GuideTextContainer>
-          <GuideText>하고 싶은 놀이를 하나 골라봐!</GuideText>
-        </GuideTextContainer>
-
-        {/* 게임 카드 그리드 */}
-        <GameGridWrapper>
-          <GameGrid>
-            {/* 1. 색깔 분류 (활성화) */}
-            <GameCardItem
-              bgColor={BASIC_COLORS.ACCENT}
-              emoji={
+      <ResponsiveScreen>
+        <Container>
+          {/* 상단 헤더 */}
+          <Header>
+            <TitleContainer>
+              <SubTitle>
                 <Ionicons
-                  name="color-palette"
-                  size={40}
-                  color={PASTEL_BG.neutral}
-                />
-              }
-              title="알록달록 색깔"
-              desc="같은 색 척척!"
-              onPress={() => goToStageMap("color")}
-            />
-
-            {/* 2. 모양 분류 (준비중) */}
-            <GameCardItem
-              bgColor={BASIC_COLORS.SECONDARY}
-              emoji={
-                <Ionicons name="diamond" size={40} color={PASTEL_BG.neutral} />
-              }
-              title="반짝반짝 모양"
-              desc="같은 모양 쏙쏙!"
-              onPress={() => goToStageMap("shape")}
-            />
-
-            {/* 3. 크기 분류 (준비중) */}
-            <GameCardItem
-              bgColor={BASIC_COLORS.SUCCESS}
-              emoji={
-                <Ionicons
-                  name="fast-food"
-                  size={40}
-                  color={PASTEL_BG.neutral}
-                />
-              }
-              title="두근두근 친구"
-              desc="같은 친구 콕콕!"
-              onPress={() => goToStageMap("category")}
-            />
-
-            {/* 4. 새로운 놀이 (준비중) */}
-            <GameCardItem
-              bgColor={PASTEL_BG.blue} // 진한 파랑 대신 중립 파스텔톤
-              emoji={
-                <Ionicons
-                  name="sparkles"
-                  size={40}
+                  name="cloud-outline"
+                  size={24}
                   color={BASIC_COLORS.BORDER}
                 />
-                // 흰색 대신 연한 회색 아이콘 → 자연스럽게 "아직 아니에요" 느낌
-              }
-              title="새로운 놀이"
-              desc="준비 중이에요"
-              onPress={() => handleLockedGame("새로운 놀이")}
+                <SubTitleText>끼리끼리 놀이터</SubTitleText>
+              </SubTitle>
+              <Title>어떤 놀이를 해볼까?</Title>
+            </TitleContainer>
+            <SettingButton
+              onPress={() => navigation.navigate("SettingScreen" as never)}
             />
-          </GameGrid>
-        </GameGridWrapper>
+          </Header>
 
-        {/* 하단 푸터 */}
-        <Footer>Made with Mommy Bear for little explorers 💛</Footer>
-      </Container>
-      {/* ⭐ 2. ImageBackground 바로 아래에 CustomAlert를 넣어주기! */}
-      <CustomAlert
-        visible={alertVisible}
-        title={alertTitle}
-        message={alertMessage}
-        onClose={() => setAlertVisible(false)}
-      />
+          {/* 안내 문구 */}
+          <GuideTextContainer>
+            <GuideText>하고 싶은 놀이를 하나 골라봐!</GuideText>
+          </GuideTextContainer>
+
+          {/* 게임 카드 그리드 */}
+          <GameGridWrapper>
+            <GameGrid>
+              {/* 1. 색깔 분류 (활성화) */}
+              <GameCardItem
+                bgColor={BASIC_COLORS.ACCENT}
+                emoji={
+                  <Ionicons
+                    name="color-palette"
+                    size={40}
+                    color={PASTEL_BG.neutral}
+                  />
+                }
+                title="알록달록 색깔"
+                desc="같은 색 척척!"
+                onPress={() => goToStageMap("color")}
+              />
+
+              {/* 2. 모양 분류 (준비중) */}
+              <GameCardItem
+                bgColor={BASIC_COLORS.SECONDARY}
+                emoji={
+                  <Ionicons
+                    name="diamond"
+                    size={40}
+                    color={PASTEL_BG.neutral}
+                  />
+                }
+                title="반짝반짝 모양"
+                desc="같은 모양 쏙쏙!"
+                onPress={() => goToStageMap("shape")}
+              />
+
+              {/* 3. 크기 분류 (준비중) */}
+              <GameCardItem
+                bgColor={BASIC_COLORS.SUCCESS}
+                emoji={
+                  <Ionicons
+                    name="fast-food"
+                    size={40}
+                    color={PASTEL_BG.neutral}
+                  />
+                }
+                title="두근두근 친구"
+                desc="같은 친구 콕콕!"
+                onPress={() => goToStageMap("category")}
+              />
+
+              {/* 4. 새로운 놀이 (준비중) */}
+              <GameCardItem
+                bgColor={PASTEL_BG.blue} // 진한 파랑 대신 중립 파스텔톤
+                emoji={
+                  <Ionicons
+                    name="sparkles"
+                    size={40}
+                    color={BASIC_COLORS.BORDER}
+                  />
+                  // 흰색 대신 연한 회색 아이콘 → 자연스럽게 "아직 아니에요" 느낌
+                }
+                title="새로운 놀이"
+                desc="준비 중이에요"
+                onPress={() => handleLockedGame("새로운 놀이")}
+              />
+            </GameGrid>
+          </GameGridWrapper>
+
+          {/* 하단 푸터 */}
+          <Footer>Made with Mommy Bear for little explorers 💛</Footer>
+        </Container>
+        {/* ⭐ 2. ImageBackground 바로 아래에 CustomAlert를 넣어주기! */}
+        <CustomAlert
+          visible={alertVisible}
+          title={alertTitle}
+          message={alertMessage}
+          onClose={() => setAlertVisible(false)}
+        />
+      </ResponsiveScreen>
     </ImageBackground>
   );
 }
