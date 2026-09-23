@@ -6,7 +6,7 @@ export default function CustomSplash() {
       <Image
         source={require("../assets/splash-icon.png")}
         style={styles.image}
-        resizeMode="cover"
+        resizeMode="contain" /* 👈 cover에서 contain으로 변경 */
       />
     </View>
   );
@@ -15,11 +15,13 @@ export default function CustomSplash() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8F9FE",
+    backgroundColor: "#FFFFFF",
+    alignItems: "center", // 중앙 정렬
+    justifyContent: "center", // 중앙 정렬
   },
 
   image: {
-    width: "100%",
-    height: "100%",
+    width: "70%", // 화면 너비의 70% 크기로 유지 (정사각형 폰에서도 절대 안 잘림)
+    height: "70%", // 비율에 맞춰 축소/확대
   },
 });

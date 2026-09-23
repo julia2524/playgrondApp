@@ -1,3 +1,4 @@
+////////////////////새롭게!!!
 // ==================================================
 // styled-components
 // ==================================================
@@ -7,6 +8,7 @@ import styled from "styled-components/native";
 import { BASIC_COLORS } from "../../../design-system/tokens/colors";
 import { RADIUS } from "../../../design-system/tokens/radius";
 import { AppText } from "../../../utils/AppText";
+import { s, vs } from "../../../utils/scale";
 
 // ==================================================
 // Game Header
@@ -79,7 +81,7 @@ export const RoundIndicator = styled(AppText)`
 
 export const MissionBubble = styled.View`
   align-items: center;
-  margin-vertical: 16px;
+  margin-vertical: ${vs(16)}px;
 `;
 
 export const MissionText = styled(AppText)`
@@ -87,8 +89,8 @@ export const MissionText = styled(AppText)`
   font-size: ${(props) => props.theme.typography.body}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   background-color: ${BASIC_COLORS.CARD_BG};
-  padding-horizontal: 22px;
-  padding-vertical: 12px;
+  padding-horizontal: ${s(22)}px;
+  padding-vertical: ${vs(12)}px;
   border-radius: ${RADIUS.md}px;
   overflow: hidden;
   elevation: 3;
@@ -105,7 +107,7 @@ export const GameBoard = styled.View`
   align-items: center;
   justify-content: space-around;
   padding-horizontal: 20px;
-  padding-vertical: 20px;
+  padding-vertical: ${vs(20)}px;
   z-index: 1;
 `;
 
@@ -117,15 +119,15 @@ export const TargetSection = styled.View<{ isFront?: boolean }>`
 `;
 
 export const TargetBox = styled.View`
-  width: 320px;
-  height: 320px;
+  width: ${s(320)}px;
+  height: ${s(320)}px;
   align-items: center;
   justify-content: center;
 `;
 
 export const TargetItemsGrid = styled.View`
-  width: 280px;
-  height: 280px;
+  width: ${s(280)}px;
+  height: ${s(280)}px;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -136,9 +138,9 @@ export const TargetItemCircle = styled(Animated.View)<{
   color: string;
   isMissing?: boolean;
 }>`
-  width: 125px;
-  height: 125px;
-  border-radius: ${RADIUS.full}px;
+  width: ${s(125)}px;
+  height: ${s(125)}px;
+  border-radius: ${s(125)}px;
   align-items: center;
   justify-content: center;
 
@@ -147,7 +149,7 @@ export const TargetItemCircle = styled(Animated.View)<{
     props.isMissing ? "rgba(255, 255, 255, 0.01)" : props.color};
 
   /* 🌟 빈칸(isMissing)일 때 점선 테두리, 채워지면 투명 테두리 */
-  border-width: 3px;
+  border-width: ${s(3)}px;
   border-style: ${(props) => (props.isMissing ? "dashed" : "solid")};
   border-color: ${(props) => (props.isMissing ? "#94A3B8" : "transparent")};
 
@@ -155,9 +157,9 @@ export const TargetItemCircle = styled(Animated.View)<{
   elevation: ${(props) => (props.isMissing ? 0 : 3)};
   shadow-color: ${(props) => (props.isMissing ? "transparent" : "#64748b")};
 
-  shadow-offset: 0px 2px;
+  shadow-offset: 0px ${vs(2)}px;
   shadow-opacity: ${(props) => (props.isMissing ? 0 : 0.08)};
-  shadow-radius: 4px;
+  shadow-radius: ${s(4)}px;
 `;
 
 export const TargetItemText = styled(AppText)<{
@@ -171,7 +173,7 @@ export const TargetItemText = styled(AppText)<{
 
 export const ObjectSection = styled.View`
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: ${vs(10)}px;
   z-index: 100;
 `;
 
@@ -187,7 +189,7 @@ export const ObjectsContainer = styled.View`
   justify-content: center;
 
   align-items: center;
-  gap: 16px; /* 아이템 간격 */
+  gap: 16px;
 `;
 
 export const ObjectStickerShadowWrapper = styled.View`
@@ -199,15 +201,30 @@ export const ObjectSticker = styled(Animated.View)<{
   itemCount: number;
 }>`
   width: ${(props) =>
-    props.itemCount <= 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+    props.itemCount <= 2
+      ? `${s(120)}px`
+      : props.itemCount === 3
+        ? `${s(100)}px`
+        : `${s(80)}px`};
+
   height: ${(props) =>
-    props.itemCount <= 2 ? "120px" : props.itemCount === 3 ? "100px" : "80px"};
+    props.itemCount <= 2
+      ? `${s(120)}px`
+      : props.itemCount === 3
+        ? `${s(100)}px`
+        : `${s(80)}px`};
+
   border-radius: ${(props) =>
-    props.itemCount <= 2 ? "60px" : props.itemCount === 3 ? "50px" : "40px"};
+    props.itemCount <= 2
+      ? `${s(60)}px`
+      : props.itemCount === 3
+        ? `${s(50)}px`
+        : `${s(40)}px`};
+
   background-color: ${(props) => props.color};
 
   /* 🎨 물건의 색상은 테두리 */
-  border-width: 5px;
+  border-width: ${s(5)}px;
   border-color: ${(props) => props.color};
 
   align-items: center;
@@ -217,9 +234,9 @@ export const ObjectSticker = styled(Animated.View)<{
   elevation: 1;
   /* iOS 전용 — 안드로이드는 무시되지만 iOS에서는 이 값들이 실제로 적용됨 */
   shadow-color: #64748b;
-  shadow-offset: 0px 3px;
+  shadow-offset: 0px ${vs(3)}px;
   shadow-opacity: 0.18;
-  shadow-radius: 6px;
+  shadow-radius: ${s(6)}px;
 `;
 
 export const StickerText = styled(AppText)<{ itemCount: number }>`
