@@ -3,6 +3,7 @@ import { SHAPE_NAMES } from "../shape/constants/shapePool";
 import { COLOR_NAMES } from "../color/constants/colorPool";
 import { CategoryGameObjects } from "../category/constants/categoryPool";
 import { appendJosa } from "../../../utils/appendJosa";
+import i18n from "../../../i18n";
 
 interface MissionBubbleProps {
   feedback: string | null;
@@ -15,55 +16,140 @@ export default function MissionBubbleArea({
   target,
   gameType,
 }: MissionBubbleProps) {
+  // 📌 1. 진입점 확인용 콘솔 로그 (터미널/디버거에서 바로 확인 가능)
+  // console.log("📌 [MissionBubbleArea Check]", { gameType, target, feedback });
   const getMessage = () => {
     // ==========================================
     // 정답 / 오답 피드백이 있으면 최우선
     // ==========================================
     if (feedback) return feedback;
 
+    const currentLanguage = i18n.locale || "ko";
+
     // ==========================================
     // 색깔 찾기
     // ==========================================
     if (gameType === "color") {
-      const colorName =
-        target?.color && COLOR_NAMES[target.color]
-          ? COLOR_NAMES[target.color]
-          : "색";
+      const colorKey = target?.color ? `color_name_${target.color}` : "";
+      const translatedColor = colorKey
+        ? i18n.t(colorKey, { defaultValue: "" })
+        : "";
+      const colorName = translatedColor || i18n.t("color_name_red");
 
-      return `${colorName}색이야! 같은 색을 찾아봐!`;
+      return i18n.t("mission_color", { color: colorName });
     }
 
     // ==========================================
     // 종류 분류
     // ==========================================
+
     if (gameType === "category") {
-      // target.items[0]이 svgKey (또는 id)이므로 그걸로 원본 찾기
+      // 1. target.items[0]으로 원본 객체 검색
       const rawKey = target?.items?.[0];
       const originalTarget = CategoryGameObjects.find(
         (object) => object.id === rawKey || object.svgKey === rawKey,
       );
 
-      const categoryName = originalTarget?.name || "종류";
-      // 받침 있음 -> "과일이야!", 받침 없음 -> "채소야!"
-      const categoryWithJosa = appendJosa(categoryName, ["이야", "야"]);
+      const itemId = originalTarget?.id || rawKey;
+      const top = originalTarget?.topCategory;
+      const sub = originalTarget?.subCategory;
 
-      return `${categoryWithJosa}! 같은 종류를 쏙 넣어보자!`;
+      // 2. 실제 번역 JSON 키 포맷과 정확히 일치하는 후보 키 작성
+      const keyCandidates = [
+        // 1) Full Key: 예) sticker_category_vehicle_rail_train_name
+        top && sub ? `sticker_category_${top}_${sub}_${itemId}_name` : null,
+
+        // 2) Top Category + ID: 예) sticker_category_animal_pig_name / category_item_animal_pig
+        top ? `sticker_category_${top}_${itemId}_name` : null,
+        top ? `category_item_${top}_${itemId}` : null,
+
+        // 3) ID 단독 Key: 예) category_item_pig / sticker_category_pig_name
+        `category_item_${itemId}`,
+        `sticker_category_${itemId}_name`,
+        `sticker_${itemId}_name`,
+      ].filter(Boolean) as string[];
+
+      // 3. 현재 설정된 언어에서 번역어 찾기
+      let categoryName = "";
+      for (const key of keyCandidates) {
+        const translated = i18n.t(key, { defaultValue: "" });
+        // 번역이 존재하고 missing 문구가 없을 때 채택
+        if (translated && !translated.includes("missing")) {
+          categoryName = translated;
+          break;
+        }
+      }
+
+      // 4. 번역을 찾지 못했울 때만 fallback (i18n.t("category_default_name")도 언어 반영)
+      if (!categoryName) {
+        categoryName = i18n.t("category_default_name", {
+          defaultValue: originalTarget?.name || "종류",
+        });
+      }
+
+      // 5. 한국어일 경우에만 조사(이야/야) 처리
+      const currentLanguage = i18n.locale || "ko";
+      if (currentLanguage.startsWith("ko")) {
+        categoryName = appendJosa(categoryName, ["이야", "야"]);
+      }
+
+      // 6. 다국어 미션 템플릿 반환
+      return i18n.t("mission_category", { name: categoryName });
     }
-
     // ==========================================
     // 모양 찾기
     // ==========================================
-    const rawShapeKey =
-      target?.items?.[0] || target?.shapeId || target?.shape || target?.kind;
+    // const rawShapeKey =
+    //   target?.items?.[0] || target?.shapeId || target?.shape || target?.kind;
 
-    const shapeName =
-      rawShapeKey && SHAPE_NAMES[rawShapeKey]
-        ? SHAPE_NAMES[rawShapeKey]
-        : "모양";
+    // const shapeName =
+    //   rawShapeKey && SHAPE_NAMES[rawShapeKey]
+    //     ? SHAPE_NAMES[rawShapeKey]
+    //     : "모양";
 
-    return `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`;
+    // return `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`;
+    if (gameType === "shape") {
+      const rawShapeKey = target?.items?.[target?.missingIndex ?? 0];
+
+      const shapeKeyMap: Record<string, string> = {
+        circle: "shape_name_circle",
+        square: "shape_name_square",
+        triangle: "shape_name_triangle",
+        heart: "shape_name_heart",
+        star: "shape_name_star",
+      };
+
+      const translationKey = shapeKeyMap[rawShapeKey] ?? "shape_default_name";
+      const currentLanguage = i18n.locale || "ko";
+
+      // 1. i18n 번역 조회
+      let shapeName = i18n.t(translationKey, { defaultValue: "" });
+
+      // 2. 한국어인데 영어("Heart", "Circle" 등)가 반환되었거나 번역에 실패한 경우 방어!
+      const isEnglishResult = /^[A-Za-z]+$/.test(shapeName); // 영문 단어인지 체크
+
+      if (currentLanguage.startsWith("ko") && (isEnglishResult || !shapeName)) {
+        // SHAPE_NAMES 객체("heart" -> "하트")에서 강제로 한글 이름을 가져옵니다.
+        shapeName = SHAPE_NAMES[rawShapeKey] || "모양";
+      }
+
+      // 3. 만약 다른 언어에서도 번역을 못 찾은 경우 기본값
+      if (!shapeName) {
+        shapeName = rawShapeKey || "모양";
+      }
+
+      // console.log("📌 [Shape i18n Fixed]", {
+      //   locale: currentLanguage,
+      //   rawShapeKey,
+      //   shapeName,
+      // });
+
+      return i18n.t("mission_shape", {
+        shape: shapeName,
+        defaultValue: `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`,
+      });
+    }
   };
-
   return (
     <MissionBubble>
       <MissionText>{getMessage()}</MissionText>

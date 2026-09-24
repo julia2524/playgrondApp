@@ -96,11 +96,11 @@ export const CategoryGameObjects: CategoryGameObject[] = [
   },
   {
     id: "helicopter",
-    name: "보트",
+    name: "헬리콥터",
     topCategory: "vehicle",
-    subCategory: "water_vehicle",
-    svgKey: "boat",
-    description: "찰랑찰랑! 작은 배가 물 위에 둥실 떠 있어요.",
+    subCategory: "air_vehicle",
+    svgKey: "helicopter",
+    description: "위잉위잉! 헬리콥터가 하늘을 날아가요.",
     variants: [
       {
         id: "red",

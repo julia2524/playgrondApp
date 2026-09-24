@@ -16,6 +16,7 @@ import {
 } from "../styles/classificationStyles";
 import GameRewardBadge from "./GameRewardBadge";
 import SettingButton from "../../../components/common/SettingButton";
+import i18n from "../../../i18n";
 
 interface GameHeaderProps {
   gameType: "color" | "shape" | "category"; // 🌟 추가
@@ -31,13 +32,7 @@ export default function GameHeader({
   const totalStars = 5;
 
   const navigation = useNavigation<GameHeaderNavigationProp>();
-  const headerTitle =
-    gameType === "shape"
-      ? "모양 찾기"
-      : gameType === "category"
-        ? "친구들 찾기"
-        : "색깔 찾기";
-
+  const headerTitle = i18n.t(`game_title_${gameType}`);
   return (
     <GameHeaders>
       <GradientBackground />

@@ -12,6 +12,7 @@ import {
 
 import { Layout } from "../type/types";
 import { DisplayObject } from "../type/displayTypes";
+import i18n from "../../../i18n";
 
 interface ObjectAreaProps {
   objects: DisplayObject[];
@@ -92,7 +93,7 @@ export default function ObjectArea({
 
   return (
     <ObjectSection>
-      <SectionLabel>아래 스티커를 골라봐요!</SectionLabel>
+      <SectionLabel>{i18n.t("select_sticker_instruction")}</SectionLabel>
 
       <ObjectsContainer>
         {objects.map((obj) => (

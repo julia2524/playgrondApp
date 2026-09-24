@@ -46,6 +46,7 @@ import {
 import { categoryLevels } from "./category/constants/levels";
 import { unlockSticker } from "../sticker/utils/stickerStorage";
 import ResponsiveScreen from "../../utils/ResponsiveScreen";
+import i18n from "../../i18n";
 
 // ==================================================
 // Navigation 타입
@@ -238,10 +239,10 @@ export default function ClassificationPlayScreen() {
   const currentRound = rounds[roundIndex];
   // ⭐ 안전하게 처리
   if (!currentRound) {
-    console.log("⚠️ currentRound 없음", {
-      roundsLength: rounds.length,
-      roundIndex,
-    });
+    // console.log("⚠️ currentRound 없음", {
+    //   roundsLength: rounds.length,
+    //   roundIndex,
+    // });
     return null;
   }
 
@@ -255,7 +256,7 @@ export default function ClassificationPlayScreen() {
       !currentRound.targets ||
       currentRound.targets.length === 0
     ) {
-      console.log("⚠️ targets 없음", currentRound);
+      // console.log("⚠️ targets 없음", currentRound);
       return null;
     }
   }
@@ -264,7 +265,7 @@ export default function ClassificationPlayScreen() {
   const target = displayTargets[0]; // shape는 항상 1개만 나옴
   // const target = currentRound.targets[0];
   if (!target) {
-    console.log("⚠️ target 없음", currentRound);
+    // console.log("⚠️ target 없음", currentRound);
     return null;
   }
 
@@ -280,7 +281,7 @@ export default function ClassificationPlayScreen() {
     (object) => object.id === correctObjectId,
   );
 
-  console.log("🎮 SHAPE GENERATOR TEST", JSON.stringify(currentRound, null, 2));
+  // console.log("🎮 SHAPE GENERATOR TEST", JSON.stringify(currentRound, null, 2));
 
   // ==================================================
   // ⭐ Drop Judge
@@ -376,7 +377,7 @@ export default function ClassificationPlayScreen() {
 
       await saveGameProgress(gameType, nextProgress);
 
-      console.log("🌟 Level Progress 저장 완료", nextProgress);
+      // console.log("🌟 Level Progress 저장 완료", nextProgress);
     } catch (error) {
       console.error("❌ Level Progress 저장 실패", error);
     }
@@ -436,9 +437,9 @@ export default function ClassificationPlayScreen() {
       const isNew = await unlockSticker(gameType, stickerId);
 
       if (isNew) {
-        console.log(`🎉 새로운 스티커 해금!: ${stickerId}`);
+        // console.log(`🎉 새로운 스티커 해금!: ${stickerId}`);
       } else {
-        console.log(`🔓 이미 해금된 스티커: ${stickerId}`);
+        // console.log(`🔓 이미 해금된 스티커: ${stickerId}`);
       }
     } catch (error) {
       console.error("❌ 정답 스티커 해금 실패:", error);
@@ -459,7 +460,7 @@ export default function ClassificationPlayScreen() {
 
     setTutorialVisible(false);
     setIsTargetFront(true);
-    setFeedback("참 잘했어요!");
+    setFeedback(i18n.t("feedback_great_job"));
 
     // ⭐ 성공 횟수 증가
     const nextCorrectRoundCount = correctRoundCount + 1;
@@ -500,7 +501,7 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-    setFeedback("괜찮아요! 다음 문제도 해볼까요?");
+    setFeedback(i18n.t("feedback_try_again"));
 
     // ⭐ 실패해도 다음 라운드
     setTimeout(() => {
@@ -522,8 +523,7 @@ export default function ClassificationPlayScreen() {
     clearIdleTimer();
 
     setTutorialVisible(false);
-
-    setFeedback("괜찮아요! 다음 문제로 넘어가 볼까요?");
+    setFeedback(i18n.t("feedback_try_next"));
 
     // ⭐ 밖에 놓아도 다음 라운드
     setTimeout(() => {
@@ -585,11 +585,11 @@ export default function ClassificationPlayScreen() {
 
     isProcessingRef.current = false;
   };
-  console.log(
-    "🎯 displayTargets",
-    JSON.stringify(toDisplayTargets(currentRound), null, 2),
-  );
-  console.log("🕳️ missingItem", toMissingItem(currentRound));
+  // console.log(
+  //   "🎯 displayTargets",
+  //   JSON.stringify(toDisplayTargets(currentRound), null, 2),
+  // );
+  // console.log("🕳️ missingItem", toMissingItem(currentRound));
 
   // ==================================================
   // Render

@@ -17,6 +17,7 @@ import { shapeLevels } from "../shape/constants/levels";
 import { categoryLevels } from "../category/constants/levels";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppText } from "../../../utils/AppText";
+import i18n from "../../../i18n";
 
 interface SuccessModalProps {
   gameType: "color" | "shape" | "category";
@@ -127,7 +128,7 @@ export default function SuccessModal({
               🎉 성공 메시지
           ========================================== */}
 
-          <SuccessTitle>최고야!</SuccessTitle>
+          <SuccessTitle>{i18n.t("success_title")}</SuccessTitle>
 
           {/* ==========================================
               🐻 마스코트
