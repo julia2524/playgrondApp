@@ -19,6 +19,8 @@ export default function App() {
   // 1. 주아체 폰트 불러오기 (경로가 다를 경우 수정해 줘!)
   const [fontsLoaded] = useFonts({
     Jua: require("./assets/fonts/Jua-Regular.ttf"),
+    Fredoka: require("./assets/fonts/Fredoka-Medium.ttf"),
+    ZCOOLKuaiLe: require("./assets/fonts/ZCOOLKuaiLe-Regular.ttf"),
   });
 
   // ⭐ CustomSplash 보여줄지

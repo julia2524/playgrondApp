@@ -1,22 +1,42 @@
+import i18n from "../i18n";
+
 export const GAME_INFO = {
   color: {
     iconName: "color-palette",
-    title: "알록달록 색깔 모으기",
-    description: "첫 단계부터 다시 시작해요!",
-    stickerDescription: "모은 색깔 스티커를 모두 지워요.",
+    get title() {
+      return i18n.t("game_color_full_title");
+    },
+    get description() {
+      return i18n.t("game_color_reset_desc");
+    },
+    get stickerDescription() {
+      return i18n.t("game_color_sticker_desc");
+    },
   },
 
   shape: {
     iconName: "diamond",
-    title: "요리조리 모양 맞추기",
-    description: "처음부터 다시 맞춰볼까요?",
-    stickerDescription: "모은 모양 스티커를 모두 지워요.",
+    get title() {
+      return i18n.t("game_shape_full_title");
+    },
+    get description() {
+      return i18n.t("game_shape_reset_desc");
+    },
+    get stickerDescription() {
+      return i18n.t("game_shape_sticker_desc");
+    },
   },
 
   category: {
     iconName: "fast-food",
-    title: "끼리끼리 친구 찾기",
-    description: "1단계부터 다시 모아봐요!",
-    stickerDescription: "모은 친구 스티커를 모두 지워요.",
+    get title() {
+      return i18n.t("game_category_full_title");
+    },
+    get description() {
+      return i18n.t("game_category_reset_desc");
+    },
+    get stickerDescription() {
+      return i18n.t("game_category_sticker_desc");
+    },
   },
 };

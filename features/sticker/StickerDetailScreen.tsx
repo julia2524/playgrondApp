@@ -20,24 +20,10 @@ import {
 import BannerAd from "../../services/BannerAd";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
+import i18n from "../../i18n";
 
 const { width } = Dimensions.get("window");
 
-// 색상 팔레트 (공통으로 쓸 기본 색들)
-const COLOR_PALETTE = [
-  { id: "natural", hex: undefined, label: "기본" },
-  { id: "red", hex: "#EF5350", label: "빨강" },
-  { id: "orange", hex: "#FFA726", label: "주황" },
-  { id: "yellow", hex: "#FFEE58", label: "노랑" },
-  { id: "green", hex: "#66BB6A", label: "초록" },
-  { id: "blue", hex: "#42A5F5", label: "파랑" },
-  { id: "purple", hex: "#AB47BC", label: "보라" },
-  { id: "pink", hex: "#EC407A", label: "분홍" },
-  { id: "brown", hex: "#8D6E63", label: "갈색" },
-  { id: "gray", hex: "#90A4AE", label: "회색" },
-  { id: "white", hex: "#FAFAFA", label: "흰색" },
-  { id: "black", hex: "#424242", label: "검정" },
-];
 // BASIC_SHAPE_IDS는 prefix 없는 순수 이름으로 정의
 const BASIC_SHAPE_IDS = ["circle", "square", "triangle", "heart", "star"];
 // 기본도형 설명
@@ -94,6 +80,73 @@ export default function StickerDetailScreen() {
   const route = useRoute<any>();
 
   const { gameType, stickerId, stickerName } = route.params;
+
+  // 색상 팔레트 다국어화
+  const COLOR_PALETTE = useMemo(
+    () => [
+      {
+        id: "natural",
+        hex: undefined,
+        label: i18n.t("color_natural", { defaultValue: "기본" }),
+      },
+      {
+        id: "red",
+        hex: "#EF5350",
+        label: i18n.t("color_red", { defaultValue: "빨강" }),
+      },
+      {
+        id: "orange",
+        hex: "#FFA726",
+        label: i18n.t("color_orange", { defaultValue: "주황" }),
+      },
+      {
+        id: "yellow",
+        hex: "#FFEE58",
+        label: i18n.t("color_yellow", { defaultValue: "노랑" }),
+      },
+      {
+        id: "green",
+        hex: "#66BB6A",
+        label: i18n.t("color_green", { defaultValue: "초록" }),
+      },
+      {
+        id: "blue",
+        hex: "#42A5F5",
+        label: i18n.t("color_blue", { defaultValue: "파랑" }),
+      },
+      {
+        id: "purple",
+        hex: "#AB47BC",
+        label: i18n.t("color_purple", { defaultValue: "보라" }),
+      },
+      {
+        id: "pink",
+        hex: "#EC407A",
+        label: i18n.t("color_pink", { defaultValue: "분홍" }),
+      },
+      {
+        id: "brown",
+        hex: "#8D6E63",
+        label: i18n.t("color_brown", { defaultValue: "갈색" }),
+      },
+      {
+        id: "gray",
+        hex: "#90A4AE",
+        label: i18n.t("color_gray", { defaultValue: "회색" }),
+      },
+      {
+        id: "white",
+        hex: "#FAFAFA",
+        label: i18n.t("color_white", { defaultValue: "흰색" }),
+      },
+      {
+        id: "black",
+        hex: "#424242",
+        label: i18n.t("color_black", { defaultValue: "검정" }),
+      },
+    ],
+    [],
+  );
 
   // 현재 선택된 색상 (hex 또는 undefined)
   const [selectedColorHex, setSelectedColorHex] = useState<string | undefined>(
@@ -183,54 +236,156 @@ export default function StickerDetailScreen() {
   };
 
   // 설명 텍스트 (나중에 데이터에 description 필드 추가하면 더 좋아짐)
+  // const description = useMemo(() => {
+  //   // 기본도형
+  //   if (gameType === "shape") {
+  //     const normalizedShapeId = stickerId?.replace(/^basic/i, "");
+
+  //     if (BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
+  //       return BASIC_SHAPE_DESCRIPTIONS[normalizedShapeId];
+  //     }
+
+  //     // 일반 도형 스티커
+  //     if (stickerData) {
+  //       return stickerData.description;
+  //     }
+  //   }
+  //   if (gameType === "category" && stickerData) {
+  //     return stickerData.description;
+  //   }
+
+  //   if (gameType === "color" && stickerData) {
+  //     return stickerData.description;
+  //   }
+
+  //   return "";
+  // }, [gameType, stickerData, stickerName]);
+
+  // 스티커 이름 다국어화 (JSON에 작성된 대문자 이름 가져오기)
+  const localizedStickerName = useMemo(() => {
+    const normalizedShapeId = stickerId?.replace(/^basic/i, "");
+
+    // 1. 기본 도형 이름
+    if (gameType === "shape" && BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
+      const basicKey = `basic_shape_${normalizedShapeId}_name`;
+      const translated = i18n.t(basicKey, { defaultValue: "" });
+      if (translated && !translated.includes("missing")) return translated;
+    }
+
+    // 2. 카테고리 정보 추출
+    const topCat =
+      stickerData && "topCategory" in stickerData
+        ? stickerData.topCategory
+        : undefined;
+    const subCat =
+      stickerData && "subCategory" in stickerData
+        ? stickerData.subCategory
+        : undefined;
+
+    // 이름 키 후보 목록
+    const keyCandidates = [
+      topCat && subCat
+        ? `sticker_${gameType}_${topCat}_${subCat}_${stickerId}_name`
+        : null,
+      topCat && subCat ? `sticker_${topCat}_${subCat}_${stickerId}_name` : null,
+      topCat ? `sticker_${gameType}_${topCat}_${stickerId}_name` : null,
+      topCat ? `sticker_${topCat}_${stickerId}_name` : null,
+      `sticker_${gameType}_${stickerId}_name`,
+      `sticker_${stickerId}_name`,
+    ].filter(Boolean) as string[];
+
+    // JSON 탐색
+    for (const key of keyCandidates) {
+      const translated = i18n.t(key, { defaultValue: "" });
+      if (translated && !translated.includes("missing")) {
+        return translated;
+      }
+    }
+
+    // fallback: JSON에 없으면 route.params에서 넘어온 stickerName 사용
+    return stickerName;
+  }, [gameType, stickerId, stickerData, stickerName, i18n.locale]);
+  // 설명 텍스트 다국어화
   const description = useMemo(() => {
-    // 기본도형
-    if (gameType === "shape") {
-      const normalizedShapeId = stickerId?.replace(/^basic/i, "");
+    const normalizedShapeId = stickerId?.replace(/^basic/i, "");
 
-      if (BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
-        return BASIC_SHAPE_DESCRIPTIONS[normalizedShapeId];
+    // 1. 기본 도형 설명
+    if (gameType === "shape" && BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
+      const basicKey = `basic_shape_${normalizedShapeId}_desc`;
+      const translated = i18n.t(basicKey, { defaultValue: "" });
+      return translated || (stickerData?.description ?? "");
+    }
+
+    // 2. 카테고리 정보 추출
+    const topCat =
+      stickerData && "topCategory" in stickerData
+        ? stickerData.topCategory
+        : undefined;
+    const subCat =
+      stickerData && "subCategory" in stickerData
+        ? stickerData.subCategory
+        : undefined;
+
+    // 💡 탐색할 키 후보 목록 (상세한 키 -> 넓은 범주의 키 순서대로 탐색)
+    const keyCandidates = [
+      // 1) topCategory + subCategory 포함 (예: sticker_category_vehicle_rail_special_train_desc)
+      topCat && subCat
+        ? `sticker_${gameType}_${topCat}_${subCat}_${stickerId}_desc`
+        : null,
+      topCat && subCat ? `sticker_${topCat}_${subCat}_${stickerId}_desc` : null,
+
+      // 2) topCategory만 포함 (💡 train처럼 subCategory가 JSON 키에서 빠진 경우를 캐치!)
+      topCat ? `sticker_${gameType}_${topCat}_${stickerId}_desc` : null,
+      topCat ? `sticker_${topCat}_${stickerId}_desc` : null,
+
+      // 3) ID 기본 형태 (예: sticker_category_train_desc / sticker_train_desc)
+      `sticker_${gameType}_${stickerId}_desc`,
+      `sticker_${stickerId}_desc`,
+    ].filter(Boolean) as string[];
+
+    // 순차적으로 존재하는 번역 키 조회
+    for (const key of keyCandidates) {
+      const translated = i18n.t(key, { defaultValue: "" });
+
+      if (translated && !translated.includes("missing")) {
+        return translated;
       }
-
-      // 일반 도형 스티커
-      if (stickerData) {
-        return stickerData.description;
-      }
-    }
-    if (gameType === "category" && stickerData) {
-      return stickerData.description;
     }
 
-    if (gameType === "color" && stickerData) {
-      return stickerData.description;
-    }
-
-    return "";
-  }, [gameType, stickerData, stickerName]);
-
+    // 모든 키 탐색 실패 시 기본 설명 사용
+    return stickerData?.description ?? "";
+  }, [gameType, stickerId, stickerData, i18n.locale]);
   return (
     <Container>
       <AppHeader
         onBack={() => navigation.goBack()}
-        center={<HeaderTitle>{stickerName}</HeaderTitle>}
+        center={<HeaderTitle>{localizedStickerName}</HeaderTitle>}
       />
 
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         {/* 큰 스티커 미리보기 */}
         <PreviewCard>
           <SvgWrapper>{renderBigSvg()}</SvgWrapper>
-          <PreviewName>{stickerName}</PreviewName>
+          <PreviewName>{localizedStickerName}</PreviewName>
         </PreviewCard>
 
         {/* 설명 */}
         <DescriptionCard>
-          <DescriptionTitle>어떤 스티커인가요?</DescriptionTitle>
+          <DescriptionTitle>
+            {i18n.t("sticker_detail_about_title", {
+              defaultValue: "어떤 스티커인가요?",
+            })}
+          </DescriptionTitle>
           <DescriptionText>{description}</DescriptionText>
         </DescriptionCard>
 
         {/* 색상 선택 */}
         <ColorSection>
-          <SectionTitle>색상 바꾸기</SectionTitle>
+          <SectionTitle>
+            {i18n.t("sticker_detail_change_color", {
+              defaultValue: "색상 바꾸기",
+            })}
+          </SectionTitle>
           <ColorGrid>
             {availableColors.map((color) => {
               const isSelected =
@@ -247,7 +402,11 @@ export default function StickerDetailScreen() {
                     borderColor: isSelected ? "#1E293B" : "#CBD5E1",
                   }}
                 >
-                  {color.hex === undefined && <NaturalLabel>기본</NaturalLabel>}
+                  {color.hex === undefined && (
+                    <NaturalLabel>
+                      {i18n.t("color_natural", { defaultValue: "기본" })}
+                    </NaturalLabel>
+                  )}
                 </ColorButton>
               );
             })}

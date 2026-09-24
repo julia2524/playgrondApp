@@ -40,6 +40,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { clearUnlockedStickers } from "../sticker/utils/stickerStorage";
 import ResetStickerButton from "../../components/common/ResetStickerButton";
+import i18n from "../../i18n";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -59,7 +60,7 @@ export default function SettingScreen() {
     (() => void) | undefined
   >();
   const [alertShowCancel, setAlertShowCancel] = useState(false);
-  const [alertConfirmText, setAlertConfirmText] = useState("확인"); // 알럿 띄우는 헬퍼 함수
+  const [alertConfirmText, setAlertConfirmText] = useState(i18n.t("confirm")); // 알럿 띄우는 헬퍼 함수
   const showAlert = (
     title: string,
     message: string,
@@ -70,7 +71,7 @@ export default function SettingScreen() {
     setAlertMessage(message);
     setAlertConfirmAction(() => onConfirm);
     setAlertShowCancel(options?.showCancel ?? false);
-    setAlertConfirmText(options?.confirmText ?? "확인");
+    setAlertConfirmText(options?.confirmText ?? i18n.t("confirm"));
     setAlertVisible(true);
   };
   // 알럿 확인 버튼
@@ -87,13 +88,16 @@ export default function SettingScreen() {
     const { title } = GAME_INFO[mode];
 
     showAlert(
-      "처음부터 다시 시작할까요?",
-      `${title}의 진행 기록이\n모두 처음으로 돌아가요.`,
+      i18n.t("reset_progress_alert_title"),
+      i18n.t("reset_progress_alert_msg", { gameTitle: title }),
       async () => {
         await clearGameProgress(mode);
-        showAlert("초기화 완료!", `${title}를\n처음부터 신나게 시작해 보세요!`);
+        showAlert(
+          i18n.t("reset_complete_title"),
+          i18n.t("reset_progress_done_msg", { gameTitle: title }),
+        );
       },
-      { showCancel: true, confirmText: "다시 시작" },
+      { showCancel: true, confirmText: i18n.t("restart") },
     );
   };
 
@@ -150,21 +154,21 @@ export default function SettingScreen() {
     const { title } = GAME_INFO[mode];
 
     showAlert(
-      "스티커를 모두 지울까요?",
-      `${title}에서\n 모은 스티커가모두 사라져요.`,
+      i18n.t("reset_sticker_alert_title"),
+      i18n.t("reset_sticker_alert_msg", { gameTitle: title }),
       async () => {
         const success = await clearUnlockedStickers(mode);
 
         if (success) {
           showAlert(
-            "초기화 완료!",
-            `${title}에서\n 모은 스티커가 모두 지워졌어요.`,
+            i18n.t("reset_complete_title"),
+            i18n.t("reset_sticker_done_msg", { gameTitle: title }),
           );
         }
       },
       {
         showCancel: true,
-        confirmText: "초기화",
+        confirmText: i18n.t("reset"),
       },
     );
   };
@@ -182,7 +186,7 @@ export default function SettingScreen() {
         onBack={() => navigation.goBack()}
         center={
           <HeaderCenter>
-            <Title>설정</Title>
+            <Title>{i18n.t("setting_title")}</Title>
           </HeaderCenter>
         }
       />
@@ -193,7 +197,7 @@ export default function SettingScreen() {
            ========================= */}
 
         <Section>
-          <SectionTitle>소리 설정</SectionTitle>
+          <SectionTitle>{i18n.t("sound_section")}</SectionTitle>
 
           <SettingCard>
             <SettingRow>
@@ -207,10 +211,8 @@ export default function SettingScreen() {
                 </SettingIcon>
 
                 <SettingTextWrapper>
-                  <SettingTitle>효과음</SettingTitle>
-                  <SettingDescription>
-                    버튼을 누르거나 게임할 때 나는 소리
-                  </SettingDescription>
+                  <SettingTitle>{i18n.t("sfx_title")}</SettingTitle>
+                  <SettingDescription>{i18n.t("sfx_desc")}</SettingDescription>
                 </SettingTextWrapper>
               </SettingInfo>
 
@@ -229,10 +231,8 @@ export default function SettingScreen() {
                 </SettingIcon>
 
                 <SettingTextWrapper>
-                  <SettingTitle>배경음악</SettingTitle>
-                  <SettingDescription>
-                    게임을 하는 동안 음악을 재생해요
-                  </SettingDescription>
+                  <SettingTitle>{i18n.t("bgm_title")}</SettingTitle>
+                  <SettingDescription>{i18n.t("bgm_desc")}</SettingDescription>
                 </SettingTextWrapper>
               </SettingInfo>
               <StyledSwitch
@@ -250,9 +250,9 @@ export default function SettingScreen() {
                 </SettingIcon>
 
                 <SettingTextWrapper>
-                  <SettingTitle>정답 효과</SettingTitle>
+                  <SettingTitle>{i18n.t("correct_sfx_title")}</SettingTitle>
                   <SettingDescription>
-                    정답을 맞혔을 때 효과음을 재생해요
+                    {i18n.t("correct_sfx_desc")}
                   </SettingDescription>
                 </SettingTextWrapper>
               </SettingInfo>
@@ -270,7 +270,7 @@ export default function SettingScreen() {
            ========================= */}
 
         <Section>
-          <SectionTitle>게임 기록 초기화</SectionTitle>
+          <SectionTitle>{i18n.t("reset_progress_section")}</SectionTitle>
           <SettingCard>
             <ResetProgressButton gameType="color" onPress={handleResetColor} />
             <ResetProgressButton gameType="shape" onPress={handleResetShape} />
@@ -294,7 +294,7 @@ export default function SettingScreen() {
    ========================= */}
 
         <Section>
-          <SectionTitle>스티커 초기화</SectionTitle>
+          <SectionTitle>{i18n.t("reset_sticker_section")}</SectionTitle>
 
           <SettingCard>
             <ResetStickerButton

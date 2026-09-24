@@ -32,6 +32,7 @@ import { categoryLevels } from "../classification/category/constants/levels";
 import BannerAd from "../../services/BannerAd";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
+import i18n from "../../i18n";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -52,12 +53,7 @@ export default function StageMapScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "StageMapScreen">>();
   const { gameType } = route.params || { gameType: "color" };
 
-  const headerTitle =
-    gameType === "shape"
-      ? "모양 분류 모험"
-      : gameType === "category"
-        ? "종류 분류 모험"
-        : "색깔 분류 모험";
+  const headerTitle = i18n.t(`adventure_title_${gameType}`);
 
   const navigation = useNavigation<NavigationProp>();
   const scrollRef = useRef<ScrollView>(null);

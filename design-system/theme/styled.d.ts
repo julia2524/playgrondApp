@@ -4,6 +4,7 @@ import "styled-components/native";
 declare module "styled-components/native" {
   export interface DefaultTheme {
     fontFamily: string;
+
     typography: {
       giant: number;
       title: number;

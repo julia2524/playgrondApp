@@ -32,6 +32,7 @@ import SettingButton from "../../components/common/SettingButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 import ResponsiveScreen from "../../utils/ResponsiveScreen";
+import i18n from "../../i18n";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
@@ -52,8 +53,10 @@ export default function HomeScreen() {
   };
 
   const handleLockedGame = (gameName: string) => {
-    showAlert("잠금", `${gameName}는\n 다음 업데이트에서 만나요!`);
-    // Alert.alert("잠금", ` ${gameName}은 다음 업데이트에서 만나요!`);
+    showAlert(
+      i18n.t("alert_locked_title"),
+      i18n.t("alert_locked_message", { gameName }),
+    );
   };
   const testAllShapeLevels = () => {
     shapeLevels.forEach((config) => {
@@ -158,9 +161,9 @@ export default function HomeScreen() {
                   size={24}
                   color={BASIC_COLORS.BORDER}
                 />
-                <SubTitleText>끼리끼리 놀이터</SubTitleText>
+                <SubTitleText>{i18n.t("subtitle")}</SubTitleText>
               </SubTitle>
-              <Title>어떤 놀이를 해볼까?</Title>
+              <Title>{i18n.t("title")}</Title>
             </TitleContainer>
             <SettingButton
               onPress={() => navigation.navigate("SettingScreen" as never)}
@@ -169,7 +172,7 @@ export default function HomeScreen() {
 
           {/* 안내 문구 */}
           <GuideTextContainer>
-            <GuideText>하고 싶은 놀이를 하나 골라봐!</GuideText>
+            <GuideText>{i18n.t("guide")}</GuideText>
           </GuideTextContainer>
 
           {/* 게임 카드 그리드 */}
@@ -185,8 +188,8 @@ export default function HomeScreen() {
                     color={PASTEL_BG.neutral}
                   />
                 }
-                title="알록달록 색깔"
-                desc="같은 색 척척!"
+                title={i18n.t("game_color_title")}
+                desc={i18n.t("game_color_desc")}
                 onPress={() => goToStageMap("color")}
               />
 
@@ -200,8 +203,8 @@ export default function HomeScreen() {
                     color={PASTEL_BG.neutral}
                   />
                 }
-                title="반짝반짝 모양"
-                desc="같은 모양 쏙쏙!"
+                title={i18n.t("game_shape_title")}
+                desc={i18n.t("game_shape_desc")}
                 onPress={() => goToStageMap("shape")}
               />
 
@@ -215,8 +218,8 @@ export default function HomeScreen() {
                     color={PASTEL_BG.neutral}
                   />
                 }
-                title="두근두근 친구"
-                desc="같은 친구 콕콕!"
+                title={i18n.t("game_category_title")}
+                desc={i18n.t("game_category_desc")}
                 onPress={() => goToStageMap("category")}
               />
 
@@ -231,9 +234,9 @@ export default function HomeScreen() {
                   />
                   // 흰색 대신 연한 회색 아이콘 → 자연스럽게 "아직 아니에요" 느낌
                 }
-                title="새로운 놀이"
-                desc="준비 중이에요"
-                onPress={() => handleLockedGame("새로운 놀이")}
+                title={i18n.t("game_new_title")}
+                desc={i18n.t("game_new_desc")}
+                onPress={() => handleLockedGame(i18n.t("game_new_title"))}
               />
             </GameGrid>
           </GameGridWrapper>

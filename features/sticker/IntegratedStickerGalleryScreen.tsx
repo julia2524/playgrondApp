@@ -29,14 +29,27 @@ import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
+import i18n from "../../i18n";
 
 const { width } = Dimensions.get("window");
 
 // ---------- 탭 정의 ----------
-const TABS: { id: GameType; label: string; iconName: string }[] = [
-  { id: "color", label: "색깔 찾기", iconName: "color-palette" },
-  { id: "shape", label: "모양 찾기", iconName: "diamond" },
-  { id: "category", label: "친구 찾기", iconName: "fast-food" },
+const getTabs = () => [
+  {
+    id: "color" as GameType,
+    label: i18n.t("tab_find_color"),
+    iconName: "color-palette",
+  },
+  {
+    id: "shape" as GameType,
+    label: i18n.t("tab_find_shape"),
+    iconName: "diamond",
+  },
+  {
+    id: "category" as GameType,
+    label: i18n.t("tab_find_friend"),
+    iconName: "fast-food",
+  },
 ];
 
 const STICKER_POOLS: Record<GameType, any[]> = {
@@ -87,6 +100,8 @@ export default function IntegratedStickerGalleryScreen() {
 
   const initialTab = route.params?.initialTab ?? "category";
   const [activeTab, setActiveTab] = useState<GameType>(initialTab);
+
+  const TABS = getTabs(); // 💡 다국어가 적용된 탭 생성
 
   const [unlockedMap, setUnlockedMap] = useState<Record<GameType, string[]>>({
     color: [],
@@ -182,7 +197,7 @@ export default function IntegratedStickerGalleryScreen() {
               size={18}
               color={BASIC_COLORS.TEXT_MAIN}
             />{" "}
-            내 스티커북
+            {i18n.t("my_sticker_book")}
           </HeaderTitle>
         }
       />
@@ -210,9 +225,9 @@ export default function IntegratedStickerGalleryScreen() {
       {/* 2. 진행률 */}
       <ProgressCard>
         <ProgressInfoRow>
-          <ProgressTitle>스티커 수집율</ProgressTitle>
+          <ProgressTitle>{i18n.t("sticker_collection_rate")}</ProgressTitle>
           <ProgressCount>
-            {unlockedCount} / {totalCount}개 ({progressPercent}%)
+            {unlockedCount} / {totalCount} ({progressPercent}%)
           </ProgressCount>
         </ProgressInfoRow>
         <ProgressBarBackground>
@@ -234,7 +249,23 @@ export default function IntegratedStickerGalleryScreen() {
         <GridContainer>
           {currentList.map((item) => {
             const id = item.id;
-            const name = item.name ?? item.label ?? item.id;
+            const primaryKey =
+              item.topCategory && item.subCategory
+                ? `sticker_category_${item.topCategory}_${item.subCategory}_${id}_name`
+                : `sticker_category_${id}_name`;
+
+            const secondaryKey =
+              item.topCategory && item.subCategory
+                ? `sticker_${item.topCategory}_${item.subCategory}_${id}_name`
+                : `sticker_${id}_name`;
+
+            const fallbackKey = `sticker_${id}_name`;
+
+            // 💡 defaultValue에서 한글(item.name)을 빼고 id만 전달합니다!
+            const localizedName = i18n.t(
+              [primaryKey, secondaryKey, fallbackKey],
+              { defaultValue: item.label ?? id },
+            );
             const isUnlocked = currentUnlockedList.includes(id);
 
             return (
@@ -242,7 +273,7 @@ export default function IntegratedStickerGalleryScreen() {
                 key={id}
                 isUnlocked={isUnlocked}
                 activeOpacity={isUnlocked ? 0.7 : 1}
-                onPress={() => handleStickerPress({ id, name })}
+                onPress={() => handleStickerPress({ id, name: localizedName })}
                 disabled={!isUnlocked}
               >
                 {isUnlocked ? (
@@ -251,7 +282,7 @@ export default function IntegratedStickerGalleryScreen() {
                     <StickerImageArea>
                       {renderStickerSvg(id, 60)}
                     </StickerImageArea>
-                    <StickerName numberOfLines={1}>{name}</StickerName>
+                    <StickerName numberOfLines={1}>{localizedName}</StickerName>
                   </>
                 ) : (
                   <>

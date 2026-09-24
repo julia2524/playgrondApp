@@ -96,11 +96,11 @@ export const CategoryGameObjects: CategoryGameObject[] = [
   },
   {
     id: "helicopter",
-    name: "헬리콥터",
+    name: "보트",
     topCategory: "vehicle",
-    subCategory: "air_vehicle",
-    svgKey: "helicopter",
-    description: "위잉위잉! 헬리콥터가 하늘 위로 슝 날아올라요.",
+    subCategory: "water_vehicle",
+    svgKey: "boat",
+    description: "찰랑찰랑! 작은 배가 물 위에 둥실 떠 있어요.",
     variants: [
       {
         id: "red",
@@ -2627,7 +2627,7 @@ export const CategoryGameObjects: CategoryGameObject[] = [
   // ========== 음식 ==========
   {
     id: "soup",
-    name: "국/수프",
+    name: "국/스프",
     topCategory: "food",
     subCategory: "meal",
     svgKey: "soup",

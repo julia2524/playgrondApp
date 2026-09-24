@@ -2,6 +2,7 @@ import React from "react";
 import { Modal } from "react-native";
 import styled from "styled-components/native";
 import { AppText } from "../../utils/AppText";
+import i18n from "../../i18n";
 
 interface CustomAlertProps {
   visible: boolean;
@@ -39,7 +40,7 @@ export default function CustomAlert({
           <ButtonContainer>
             {showCancel && (
               <CancelButton onPress={onCancel} activeOpacity={0.8}>
-                <CancelButtonText>취소</CancelButtonText>
+                <CancelButtonText>{i18n.t("cancel")}</CancelButtonText>
               </CancelButton>
             )}
 
