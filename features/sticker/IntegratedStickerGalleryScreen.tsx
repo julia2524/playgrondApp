@@ -250,41 +250,40 @@ export default function IntegratedStickerGalleryScreen() {
           {currentList.map((item) => {
             const id = item.id;
 
-            // 💡 탭 종류(activeTab) 및 카테고리를 모두 고려한 키 후보 목록 작성
+            // 💡 1. 각 아이템에 맞는 모든 다국어 키 후보군 구성
             const keyCandidates = [
-              // 1) category 전용 Full Key (예: sticker_category_vehicle_rail_train_name)
+              // Category 전용 full key (예: sticker_category_vehicle_rail_train_name)
               item.topCategory && item.subCategory
                 ? `sticker_category_${item.topCategory}_${item.subCategory}_${id}_name`
                 : null,
-              item.topCategory && item.subCategory
-                ? `sticker_${item.topCategory}_${item.subCategory}_${id}_name`
-                : null,
-
-              // 2) topCategory 전용 (예: sticker_category_vehicle_train_name)
               item.topCategory
                 ? `sticker_category_${item.topCategory}_${id}_name`
                 : null,
 
-              // 3) activeTab 반영 (💡 핵심! sticker_color_apple_name / sticker_shape_star_name)
+              // activeTab 반영 키 (예: sticker_color_apple_name, sticker_shape_star_name, sticker_category_train_name)
               `sticker_${activeTab}_${id}_name`,
 
-              // 4) 기본 fallback 키 (예: sticker_apple_name)
+              // 개별 스티커 전용 키
               `sticker_${id}_name`,
+              `category_item_${id}`,
+              `shape_name_${id}`,
+              `color_name_${id}`,
             ].filter(Boolean) as string[];
 
-            // 💡 i18n-js 호환: 존재하는 키를 순차적으로 조회
+            // 💡 2. 다국어 번역 키 순차 검색
             let localizedName = "";
             for (const key of keyCandidates) {
               const translated = i18n.t(key, { defaultValue: "" });
+              // missing이 아니고 반환값의 존재 여부 체크
               if (translated && !translated.includes("missing")) {
                 localizedName = translated;
                 break;
               }
             }
 
-            // 번역 파일에서 하나도 못 찾은 경우에만 기본 label/id 출력
+            // 💡 3. 번역 키를 못 찾았을 때는 스티커 객체 자체의 한글 이름(item.name/item.label) 활용!
             if (!localizedName) {
-              localizedName = item.label ?? id;
+              localizedName = item.name || item.label || id;
             }
 
             const isUnlocked = currentUnlockedList.includes(id);
