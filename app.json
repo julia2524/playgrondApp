@@ -43,7 +43,8 @@
         {
           "androidAppId": "ca-app-pub-5145202325745375~4363210355"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "eas": {

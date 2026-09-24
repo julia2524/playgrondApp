@@ -10,6 +10,7 @@ import { theme } from "./design-system/theme/theme";
 import AppNavigator from "./navigation/AppNavigator";
 import CustomSplash from "./components/CustomSplash";
 import { BackgroundMusicProvider } from "./features/audio/BackgroundMusicContext";
+import { getLocales } from "expo-localization";
 
 // 폰트가 로딩되는 동안 스플래시 화면이 유지되도록 설정
 SplashScreen.preventAutoHideAsync();
@@ -21,7 +22,21 @@ export default function App() {
   });
 
   // ⭐ CustomSplash 보여줄지
-  const [showCustomSplash, setShowCustomSplash] = useState(true);
+  const [showCustomSplash, setShowCustomSplash] = useState<boolean>(true);
+
+  // ==================================================
+  // ⭐ 기기 언어 확인 및 이미지 분기 (ko / zh / 그 외 영어)
+  // ==================================================
+  const deviceLanguage = getLocales()[0]?.languageCode;
+
+  let splashImage;
+  if (deviceLanguage === "ko") {
+    splashImage = require("./assets/splash-icon.png"); // 한국어
+  } else if (deviceLanguage === "zh") {
+    splashImage = require("./assets/splash-china.png"); // 중국어
+  } else {
+    splashImage = require("./assets/splash-en.png"); // 그 외 모든 국가 (영어)
+  }
   // ==================================================
   // 1. 네이티브 스플래시 최대한 빨리 숨기기
   // ==================================================
@@ -55,7 +70,7 @@ export default function App() {
   // 3. CustomSplash 보여주는 중
   // ==================================================
   if (showCustomSplash) {
-    return <CustomSplash />;
+    return <CustomSplash imageSource={splashImage} />;
   }
 
   return (

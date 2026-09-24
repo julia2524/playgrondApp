@@ -1,10 +1,13 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+interface CustomSplashProps {
+  imageSource: ImageSourcePropType;
+}
 
-export default function CustomSplash() {
+export default function CustomSplash({ imageSource }: CustomSplashProps) {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/splash-icon.png")}
+        source={imageSource}
         style={styles.image}
         resizeMode="contain" /* 👈 cover에서 contain으로 변경 */
       />
