@@ -249,23 +249,44 @@ export default function IntegratedStickerGalleryScreen() {
         <GridContainer>
           {currentList.map((item) => {
             const id = item.id;
-            const primaryKey =
+
+            // 💡 탭 종류(activeTab) 및 카테고리를 모두 고려한 키 후보 목록 작성
+            const keyCandidates = [
+              // 1) category 전용 Full Key (예: sticker_category_vehicle_rail_train_name)
               item.topCategory && item.subCategory
                 ? `sticker_category_${item.topCategory}_${item.subCategory}_${id}_name`
-                : `sticker_category_${id}_name`;
-
-            const secondaryKey =
+                : null,
               item.topCategory && item.subCategory
                 ? `sticker_${item.topCategory}_${item.subCategory}_${id}_name`
-                : `sticker_${id}_name`;
+                : null,
 
-            const fallbackKey = `sticker_${id}_name`;
+              // 2) topCategory 전용 (예: sticker_category_vehicle_train_name)
+              item.topCategory
+                ? `sticker_category_${item.topCategory}_${id}_name`
+                : null,
 
-            // 💡 defaultValue에서 한글(item.name)을 빼고 id만 전달합니다!
-            const localizedName = i18n.t(
-              [primaryKey, secondaryKey, fallbackKey],
-              { defaultValue: item.label ?? id },
-            );
+              // 3) activeTab 반영 (💡 핵심! sticker_color_apple_name / sticker_shape_star_name)
+              `sticker_${activeTab}_${id}_name`,
+
+              // 4) 기본 fallback 키 (예: sticker_apple_name)
+              `sticker_${id}_name`,
+            ].filter(Boolean) as string[];
+
+            // 💡 i18n-js 호환: 존재하는 키를 순차적으로 조회
+            let localizedName = "";
+            for (const key of keyCandidates) {
+              const translated = i18n.t(key, { defaultValue: "" });
+              if (translated && !translated.includes("missing")) {
+                localizedName = translated;
+                break;
+              }
+            }
+
+            // 번역 파일에서 하나도 못 찾은 경우에만 기본 label/id 출력
+            if (!localizedName) {
+              localizedName = item.label ?? id;
+            }
+
             const isUnlocked = currentUnlockedList.includes(id);
 
             return (

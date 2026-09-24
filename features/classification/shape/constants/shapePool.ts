@@ -90,7 +90,7 @@ export const BABY_SHAPES: ShapeDefinition[] = [
     id: "triangle",
     label: "세모",
     matchItemIds: [
-      "ruller",
+      "triangleRuller",
       "triangleInstrument",
       "partyHat",
       "christmasTree",
@@ -509,7 +509,7 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   // ==================================================
 
   {
-    id: "ruller",
+    id: "triangleRuller",
     label: "삼각자",
     shapeId: "triangle",
     description: "삐죽삐죽 세모 모양 삼각자예요! 어떤 그림을 그려볼까요?",
