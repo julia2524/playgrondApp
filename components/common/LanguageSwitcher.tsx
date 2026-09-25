@@ -22,13 +22,12 @@ export default function LanguageSwitcher({
   return (
     <Container>
       <LangButton
-        isActive={currentLang.startsWith("ko")}
-        onPress={() => handleSelectLanguage("ko")}
+        isActive={currentLang.startsWith("zh")}
+        onPress={() => handleSelectLanguage("zh")}
         activeOpacity={0.8}
       >
-        <LangText isActive={currentLang.startsWith("ko")}>🇰🇷 한국어</LangText>
+        <LangText isActive={currentLang.startsWith("zh")}>🇨🇳 中文</LangText>
       </LangButton>
-
       <LangButton
         isActive={currentLang.startsWith("en")}
         onPress={() => handleSelectLanguage("en")}
@@ -36,13 +35,12 @@ export default function LanguageSwitcher({
       >
         <LangText isActive={currentLang.startsWith("en")}>🇺🇸 English</LangText>
       </LangButton>
-
       <LangButton
-        isActive={currentLang.startsWith("zh")}
-        onPress={() => handleSelectLanguage("zh")}
+        isActive={currentLang.startsWith("ko")}
+        onPress={() => handleSelectLanguage("ko")}
         activeOpacity={0.8}
       >
-        <LangText isActive={currentLang.startsWith("zh")}>🇨🇳 中文</LangText>
+        <LangText isActive={currentLang.startsWith("ko")}>🇰🇷 한국어</LangText>
       </LangButton>
     </Container>
   );
