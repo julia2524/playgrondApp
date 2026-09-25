@@ -779,6 +779,12 @@ export const SHAPE_ITEM_POOL: ShapeItem[] = [
   },
 ];
 
+export const getShapeIdFromPool = (itemId: string): string => {
+  if (!itemId) return "";
+  const foundItem = SHAPE_ITEM_POOL.find((item) => item.id === itemId);
+  return foundItem ? foundItem.shapeId : itemId;
+};
+
 export type ShapeId = "circle" | "square" | "triangle" | "heart" | "star";
 export const getShapeDefinition = (shapeId: ShapeId): ShapeDefinition => {
   const shape = BABY_SHAPES.find((item) => item.id === shapeId);

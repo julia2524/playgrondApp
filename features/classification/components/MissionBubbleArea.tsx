@@ -1,5 +1,5 @@
 import { MissionBubble, MissionText } from "../styles/classificationStyles";
-import { SHAPE_NAMES } from "../shape/constants/shapePool";
+import { getShapeIdFromPool, SHAPE_NAMES } from "../shape/constants/shapePool";
 import { COLOR_NAMES } from "../color/constants/colorPool";
 import { CategoryGameObjects } from "../category/constants/categoryPool";
 import { appendJosa } from "../../../utils/appendJosa";
@@ -99,18 +99,62 @@ export default function MissionBubbleArea({
     // ==========================================
     // 모양 찾기
     // ==========================================
-    // const rawShapeKey =
-    //   target?.items?.[0] || target?.shapeId || target?.shape || target?.kind;
 
-    // const shapeName =
-    //   rawShapeKey && SHAPE_NAMES[rawShapeKey]
-    //     ? SHAPE_NAMES[rawShapeKey]
-    //     : "모양";
+    // if (gameType === "shape") {
+    //   const rawShapeKey = target?.items?.[target?.missingIndex ?? 0];
 
-    // return `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`;
+    //   const shapeKeyMap: Record<string, string> = {
+    //     circle: "shape_name_circle",
+    //     square: "shape_name_square",
+    //     triangle: "shape_name_triangle",
+    //     heart: "shape_name_heart",
+    //     star: "shape_name_star",
+    //   };
+
+    //   const translationKey = shapeKeyMap[rawShapeKey] ?? "shape_default_name";
+    //   const currentLanguage = i18n.locale || "ko";
+
+    //   // 1. i18n 번역 조회
+    //   let shapeName = i18n.t(translationKey, { defaultValue: "" });
+
+    //   // 2. 한국어인데 영어("Heart", "Circle" 등)가 반환되었거나 번역에 실패한 경우 방어!
+    //   const isEnglishResult = /^[A-Za-z]+$/.test(shapeName); // 영문 단어인지 체크
+
+    //   if (currentLanguage.startsWith("ko") && (isEnglishResult || !shapeName)) {
+    //     // SHAPE_NAMES 객체("heart" -> "하트")에서 강제로 한글 이름을 가져옵니다.
+    //     shapeName = SHAPE_NAMES[rawShapeKey] || "모양";
+    //   }
+
+    //   // 3. 만약 다른 언어에서도 번역을 못 찾은 경우 기본값
+    //   if (!shapeName) {
+    //     shapeName = rawShapeKey || "모양";
+    //   }
+
+    //   // console.log("📌 [Shape i18n Fixed]", {
+    //   //   locale: currentLanguage,
+    //   //   rawShapeKey,
+    //   //   shapeName,
+    //   // });
+
+    //   return i18n.t("mission_shape", {
+    //     shape: shapeName,
+    //     defaultValue: `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`,
+    //   });
+    // }
     if (gameType === "shape") {
-      const rawShapeKey = target?.items?.[target?.missingIndex ?? 0];
+      // 💡 1. target 객체에서 원본 아이템 ID 추출 ("window", "pyramid", "window1" 등)
+      const rawItemKey =
+        target?.items?.[target?.missingIndex ?? 0] ||
+        target?.items?.[0] ||
+        target?.shapeId ||
+        target?.shape ||
+        target?.id;
 
+      // 💡 2. SHAPE_ITEM_POOL에서 rawItemKey로 shapeId("square", "triangle" 등)를 자동 탐색!
+      // 만약 target에 이미 shapeId가 들어있다면 그걸 우선 쓰고, 없으면 Pool에서 룩업!
+      const baseShapeKey = target?.shapeId || getShapeIdFromPool(rawItemKey);
+
+      // 💡 3. 기본 5대 도형 번역 키 매핑
       const shapeKeyMap: Record<string, string> = {
         circle: "shape_name_circle",
         square: "shape_name_square",
@@ -119,35 +163,45 @@ export default function MissionBubbleArea({
         star: "shape_name_star",
       };
 
-      const translationKey = shapeKeyMap[rawShapeKey] ?? "shape_default_name";
-      const currentLanguage = i18n.locale || "ko";
+      const translationKey =
+        shapeKeyMap[baseShapeKey] ?? `shape_name_${baseShapeKey}`;
 
-      // 1. i18n 번역 조회
-      let shapeName = i18n.t(translationKey, { defaultValue: "" });
+      // 💡 4. i18n 번역 조회
+      let shapeName = translationKey
+        ? i18n.t(translationKey, { defaultValue: "" })
+        : "";
 
-      // 2. 한국어인데 영어("Heart", "Circle" 등)가 반환되었거나 번역에 실패한 경우 방어!
-      const isEnglishResult = /^[A-Za-z]+$/.test(shapeName); // 영문 단어인지 체크
-
-      if (currentLanguage.startsWith("ko") && (isEnglishResult || !shapeName)) {
-        // SHAPE_NAMES 객체("heart" -> "하트")에서 강제로 한글 이름을 가져옵니다.
-        shapeName = SHAPE_NAMES[rawShapeKey] || "모양";
+      // 💡 5. 한국어 fallback (SHAPE_NAMES에서 "square" -> "네모" 가져오기)
+      const isEnglishResult = /^[A-Za-z]+$/.test(shapeName);
+      if (
+        currentLanguage.startsWith("ko") &&
+        (isEnglishResult || !shapeName || shapeName.includes("missing"))
+      ) {
+        shapeName = SHAPE_NAMES[baseShapeKey] || "";
       }
 
-      // 3. 만약 다른 언어에서도 번역을 못 찾은 경우 기본값
+      // 📌 [디버그 로그] Pool 기반 자동 매핑 결과 확인
+      console.log("🔍 [Shape Debug Pool Auto-Lookup]", {
+        rawItemKey,
+        mappedShapeId: baseShapeKey,
+        resolvedShapeName: shapeName,
+        locale: currentLanguage,
+      });
+
+      // 💡 6. 최종 메시지 구성
       if (!shapeName) {
-        shapeName = rawShapeKey || "모양";
+        return i18n.t("mission_shape_default", {
+          defaultValue: "같은 모양을 쏙 넣어보자!",
+        });
       }
 
-      // console.log("📌 [Shape i18n Fixed]", {
-      //   locale: currentLanguage,
-      //   rawShapeKey,
-      //   shapeName,
-      // });
-
-      return i18n.t("mission_shape", {
+      let finalMessage = i18n.t("mission_shape", {
         shape: shapeName,
         defaultValue: `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`,
       });
+
+      // "네모 모양 모양이야" 같은 중복 발음 방어
+      return finalMessage.replace(/모양\s*모양/g, "모양");
     }
   };
   return (
