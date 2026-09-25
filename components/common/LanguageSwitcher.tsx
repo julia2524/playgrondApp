@@ -1,7 +1,8 @@
 // components/common/LanguageSwitcher.tsx
-import React, { useState } from "react";
+// components/common/LanguageSwitcher.tsx
+import React from "react";
 import styled from "styled-components/native";
-import i18n, { changeLanguage } from "../../i18n";
+import { useLanguage } from "../../context/LanguageContext"; // 👈 추가
 import { AppText } from "../../utils/AppText";
 
 interface LanguageSwitcherProps {
@@ -11,36 +12,35 @@ interface LanguageSwitcherProps {
 export default function LanguageSwitcher({
   onLanguageChange,
 }: LanguageSwitcherProps) {
-  const [currentLang, setCurrentLang] = useState(i18n.locale || "en");
+  const { locale, setLanguage } = useLanguage(); // 👈 Context 활용
 
   const handleSelectLanguage = async (lang: "ko" | "en" | "zh") => {
-    await changeLanguage(lang);
-    setCurrentLang(lang);
+    await setLanguage(lang);
     if (onLanguageChange) onLanguageChange();
   };
 
   return (
     <Container>
       <LangButton
-        isActive={currentLang.startsWith("zh")}
+        isActive={locale.startsWith("zh")}
         onPress={() => handleSelectLanguage("zh")}
         activeOpacity={0.8}
       >
-        <LangText isActive={currentLang.startsWith("zh")}>🇨🇳 中文</LangText>
+        <LangText isActive={locale.startsWith("zh")}>🇨🇳 中文</LangText>
       </LangButton>
       <LangButton
-        isActive={currentLang.startsWith("en")}
+        isActive={locale.startsWith("en")}
         onPress={() => handleSelectLanguage("en")}
         activeOpacity={0.8}
       >
-        <LangText isActive={currentLang.startsWith("en")}>🇺🇸 English</LangText>
+        <LangText isActive={locale.startsWith("en")}>🇺🇸 English</LangText>
       </LangButton>
       <LangButton
-        isActive={currentLang.startsWith("ko")}
+        isActive={locale.startsWith("ko")}
         onPress={() => handleSelectLanguage("ko")}
         activeOpacity={0.8}
       >
-        <LangText isActive={currentLang.startsWith("ko")}>🇰🇷 한국어</LangText>
+        <LangText isActive={locale.startsWith("ko")}>🇰🇷 한국어</LangText>
       </LangButton>
     </Container>
   );

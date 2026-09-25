@@ -33,10 +33,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 import ResponsiveScreen from "../../utils/ResponsiveScreen";
 import i18n from "../../i18n";
+import { useLanguage } from "../../context/LanguageContext";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavigationProp>();
+
+  useLanguage(); // 💡 이 선언 하나만 넣어두면, 언어가 바뀔 때 HomeScreen이 자동으로 다시 그려집니다!
   // 색깔 분류 게임으로 이동하는 함수
   const goToStageMap = (gameType: "color" | "shape" | "category") => {
     navigation.navigate("StageMapScreen", { gameType });

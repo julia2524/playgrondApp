@@ -11,6 +11,7 @@ import AppNavigator from "./navigation/AppNavigator";
 import CustomSplash from "./components/CustomSplash";
 import { BackgroundMusicProvider } from "./features/audio/BackgroundMusicContext";
 import i18n, { loadSavedLanguage } from "./i18n"; // 👈 loadSavedLanguage 및 i18n 임포트
+import { LanguageProvider } from "./context/LanguageContext";
 
 // 폰트가 로딩되는 동안 스플래시 화면이 유지되도록 설정
 SplashScreen.preventAutoHideAsync();
@@ -85,16 +86,18 @@ export default function App() {
   }
 
   return (
-    <BackgroundMusicProvider>
-      <ThemeProvider theme={theme}>
-        <View style={styles.container}>
-          <NavigationContainer>
-            <StatusBar hidden={true} translucent={true} />
-            <AppNavigator />
-          </NavigationContainer>
-        </View>
-      </ThemeProvider>
-    </BackgroundMusicProvider>
+    <LanguageProvider>
+      <BackgroundMusicProvider>
+        <ThemeProvider theme={theme}>
+          <View style={styles.container}>
+            <NavigationContainer>
+              <StatusBar hidden={true} translucent={true} />
+              <AppNavigator />
+            </NavigationContainer>
+          </View>
+        </ThemeProvider>
+      </BackgroundMusicProvider>
+    </LanguageProvider>
   );
 }
 
