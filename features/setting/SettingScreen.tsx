@@ -41,6 +41,7 @@ import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { clearUnlockedStickers } from "../sticker/utils/stickerStorage";
 import ResetStickerButton from "../../components/common/ResetStickerButton";
 import i18n from "../../i18n";
+import LanguageSwitcher from "../../components/common/LanguageSwitcher";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -49,6 +50,12 @@ type NavigationProp = NativeStackNavigationProp<
 
 export default function SettingScreen() {
   const navigation = useNavigation<NavigationProp>();
+  // 💡 언어 변경 시 SettingScreen 전체를 리렌더링하기 위한 State
+  const [, setLangState] = useState(i18n.locale);
+
+  const handleLanguageChange = () => {
+    setLangState(i18n.locale); // State 변경으로 화면 갱신
+  };
 
   // =========================
   // 게임 진행 상황 초기화
@@ -192,6 +199,17 @@ export default function SettingScreen() {
       />
 
       <Content>
+        {/* =========================
+            💡 언어 설정 (새로 추가)
+           ========================= */}
+        <Section>
+          <SectionTitle>
+            {i18n.t("language_section") || "언어 설정"}
+          </SectionTitle>
+          <SettingCard>
+            <LanguageSwitcher onLanguageChange={handleLanguageChange} />
+          </SettingCard>
+        </Section>
         {/* =========================
             소리 설정
            ========================= */}

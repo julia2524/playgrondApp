@@ -606,5 +606,7 @@
   "feedback_great_job": "참 잘했어요!",
   "feedback_try_again": "괜찮아요! 다음 문제도 해볼까요?",
 
-  "success_title": "최고야!"
+  "success_title": "최고야!",
+
+  "language_section": "언어 설정"
 }

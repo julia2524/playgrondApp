@@ -606,5 +606,7 @@
   "feedback_great_job": "Great job!",
   "feedback_try_again": "It's okay! Shall we try the next question?",
 
-  "success_title": "Awesome!"
+  "success_title": "Awesome!",
+
+  "language_section": "Language"
 }
