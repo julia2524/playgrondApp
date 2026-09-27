@@ -43,104 +43,115 @@ export default function MissionBubbleArea({
     // 종류 분류
     // ==========================================
 
+    // if (gameType === "category") {
+    //   // 1. target.items[0]으로 원본 객체 검색
+    //   const rawKey = target?.items?.[0];
+    //   const originalTarget = CategoryGameObjects.find(
+    //     (object) => object.id === rawKey || object.svgKey === rawKey,
+    //   );
+
+    //   const itemId = originalTarget?.id || rawKey;
+    //   const top = originalTarget?.topCategory;
+    //   const sub = originalTarget?.subCategory;
+
+    //   // 2. 실제 번역 JSON 키 포맷과 정확히 일치하는 후보 키 작성
+    //   const keyCandidates = [
+    //     // 1) Full Key: 예) sticker_category_vehicle_rail_train_name
+    //     top && sub ? `sticker_category_${top}_${sub}_${itemId}_name` : null,
+
+    //     // 2) Top Category + ID: 예) sticker_category_animal_pig_name / category_item_animal_pig
+    //     top ? `sticker_category_${top}_${itemId}_name` : null,
+    //     top ? `category_item_${top}_${itemId}` : null,
+
+    //     // 3) ID 단독 Key: 예) category_item_pig / sticker_category_pig_name
+    //     `category_item_${itemId}`,
+    //     `sticker_category_${itemId}_name`,
+    //     `sticker_${itemId}_name`,
+    //   ].filter(Boolean) as string[];
+
+    //   // 3. 현재 설정된 언어에서 번역어 찾기
+    //   let categoryName = "";
+    //   for (const key of keyCandidates) {
+    //     const translated = i18n.t(key, { defaultValue: "" });
+    //     // 번역이 존재하고 missing 문구가 없을 때 채택
+    //     if (translated && !translated.includes("missing")) {
+    //       categoryName = translated;
+    //       break;
+    //     }
+    //   }
+
+    //   // 4. 번역을 찾지 못했울 때만 fallback (i18n.t("category_default_name")도 언어 반영)
+    //   if (!categoryName) {
+    //     categoryName = i18n.t("category_default_name", {
+    //       defaultValue: originalTarget?.name || "종류",
+    //     });
+    //   }
+
+    //   // 5. 한국어일 경우에만 조사(이야/야) 처리
+    //   const currentLanguage = i18n.locale || "ko";
+    //   if (currentLanguage.startsWith("ko")) {
+    //     categoryName = appendJosa(categoryName, ["이야", "야"]);
+    //   }
+
+    //   // 6. 다국어 미션 템플릿 반환
+    //   return i18n.t("mission_category", { name: categoryName });
+    // }
     if (gameType === "category") {
-      // 1. target.items[0]으로 원본 객체 검색
       const rawKey = target?.items?.[0];
       const originalTarget = CategoryGameObjects.find(
         (object) => object.id === rawKey || object.svgKey === rawKey,
       );
 
       const itemId = originalTarget?.id || rawKey;
-      const top = originalTarget?.topCategory;
+      const top = originalTarget?.topCategory; // "animal" | "vehicle" | "food"
       const sub = originalTarget?.subCategory;
 
-      // 2. 실제 번역 JSON 키 포맷과 정확히 일치하는 후보 키 작성
-      const keyCandidates = [
-        // 1) Full Key: 예) sticker_category_vehicle_rail_train_name
-        top && sub ? `sticker_category_${top}_${sub}_${itemId}_name` : null,
+      // food 카테고리만 서브카테고리가 키에 포함되고, vegetable은 "veg"로 축약되어 있음
+      // 인덱스 시그니처를 추가해서 어떤 subCategory 문자열이 와도 타입 에러 없이 조회 가능하게 함
+      const subKeyAlias: Record<string, string | undefined> = {
+        vegetable: "veg",
+        fruit: "fruit",
+        snack: "snack",
+        meal: "meal",
+        // land_animal / bird / sea_animal 등은 매핑이 없으므로 undefined 반환 → 무시됨
+      };
+      const subKeyPart = sub ? subKeyAlias[sub] : undefined;
 
-        // 2) Top Category + ID: 예) sticker_category_animal_pig_name / category_item_animal_pig
-        top ? `sticker_category_${top}_${itemId}_name` : null,
+      const keyCandidates: string[] = [
+        // 1) food: category_item_food_fruit_apple / category_item_food_veg_carrot
+        top && subKeyPart
+          ? `category_item_${top}_${subKeyPart}_${itemId}`
+          : null,
+        // 2) animal/vehicle: category_item_animal_pig / category_item_vehicle_car
         top ? `category_item_${top}_${itemId}` : null,
-
-        // 3) ID 단독 Key: 예) category_item_pig / sticker_category_pig_name
+        // 3) sparrow 같은 예외: category_item_sparrow
         `category_item_${itemId}`,
-        `sticker_category_${itemId}_name`,
-        `sticker_${itemId}_name`,
-      ].filter(Boolean) as string[];
+      ].filter((key): key is string => Boolean(key)); // 타입 가드로 string[]로 좁혀줌
 
-      // 3. 현재 설정된 언어에서 번역어 찾기
       let categoryName = "";
       for (const key of keyCandidates) {
         const translated = i18n.t(key, { defaultValue: "" });
-        // 번역이 존재하고 missing 문구가 없을 때 채택
         if (translated && !translated.includes("missing")) {
           categoryName = translated;
           break;
         }
       }
 
-      // 4. 번역을 찾지 못했울 때만 fallback (i18n.t("category_default_name")도 언어 반영)
+      // 번역 키를 못 찾은 진짜 예외 상황에서만 데이터 자체 name → 그래도 없으면 "종류"
       if (!categoryName) {
-        categoryName = i18n.t("category_default_name", {
-          defaultValue: originalTarget?.name || "종류",
-        });
+        categoryName =
+          originalTarget?.name ||
+          i18n.t("category_group_default", { defaultValue: "종류" });
       }
 
-      // 5. 한국어일 경우에만 조사(이야/야) 처리
       const currentLanguage = i18n.locale || "ko";
       if (currentLanguage.startsWith("ko")) {
         categoryName = appendJosa(categoryName, ["이야", "야"]);
       }
 
-      // 6. 다국어 미션 템플릿 반환
       return i18n.t("mission_category", { name: categoryName });
     }
-    // ==========================================
-    // 모양 찾기
-    // ==========================================
 
-    // if (gameType === "shape") {
-    //   const rawShapeKey = target?.items?.[target?.missingIndex ?? 0];
-
-    //   const shapeKeyMap: Record<string, string> = {
-    //     circle: "shape_name_circle",
-    //     square: "shape_name_square",
-    //     triangle: "shape_name_triangle",
-    //     heart: "shape_name_heart",
-    //     star: "shape_name_star",
-    //   };
-
-    //   const translationKey = shapeKeyMap[rawShapeKey] ?? "shape_default_name";
-    //   const currentLanguage = i18n.locale || "ko";
-
-    //   // 1. i18n 번역 조회
-    //   let shapeName = i18n.t(translationKey, { defaultValue: "" });
-
-    //   // 2. 한국어인데 영어("Heart", "Circle" 등)가 반환되었거나 번역에 실패한 경우 방어!
-    //   const isEnglishResult = /^[A-Za-z]+$/.test(shapeName); // 영문 단어인지 체크
-
-    //   if (currentLanguage.startsWith("ko") && (isEnglishResult || !shapeName)) {
-    //     // SHAPE_NAMES 객체("heart" -> "하트")에서 강제로 한글 이름을 가져옵니다.
-    //     shapeName = SHAPE_NAMES[rawShapeKey] || "모양";
-    //   }
-
-    //   // 3. 만약 다른 언어에서도 번역을 못 찾은 경우 기본값
-    //   if (!shapeName) {
-    //     shapeName = rawShapeKey || "모양";
-    //   }
-
-    //   // console.log("📌 [Shape i18n Fixed]", {
-    //   //   locale: currentLanguage,
-    //   //   rawShapeKey,
-    //   //   shapeName,
-    //   // });
-
-    //   return i18n.t("mission_shape", {
-    //     shape: shapeName,
-    //     defaultValue: `${shapeName} 모양이야! 같은 모양을 쏙 넣어보자!`,
-    //   });
-    // }
     if (gameType === "shape") {
       // 💡 1. target 객체에서 원본 아이템 ID 추출 ("window", "pyramid", "window1" 등)
       const rawItemKey =
