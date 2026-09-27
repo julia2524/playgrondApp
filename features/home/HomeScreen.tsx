@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -34,11 +34,49 @@ import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 import ResponsiveScreen from "../../utils/ResponsiveScreen";
 import i18n from "../../i18n";
 import { useLanguage } from "../../context/LanguageContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import GuardianNoticeModal from "../../components/GuardianNoticeModal";
+import { getGuardianNoticeEnabled } from "../../components/GuardianNotice/guardianNoticeStorage";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
-export default function HomeScreen() {
-  const navigation = useNavigation<HomeNavigationProp>();
+// ✅ 앱이 완전히 종료되기 전까지 한 번만 보여주기 위한 세션 플래그
+let hasShownGuardianNoticeThisSession = false;
 
+export default function HomeScreen() {
+  const [guardianNoticeVisible, setGuardianNoticeVisible] = useState(false);
+  const [guardianNoticeLoaded, setGuardianNoticeLoaded] = useState(false);
+
+  // ==========================================
+  // 보호자 안내 팝업 설정 확인
+  // ==========================================
+
+  useEffect(() => {
+    // 이미 이번 세션에서 한 번 보여줬으면 더 이상 안 띄움
+    if (hasShownGuardianNoticeThisSession) {
+      setGuardianNoticeLoaded(true);
+      return;
+    }
+    const loadGuardianNoticeSetting = async () => {
+      const enabled = await getGuardianNoticeEnabled();
+
+      if (enabled) {
+        setGuardianNoticeVisible(true);
+      }
+      hasShownGuardianNoticeThisSession = true; // 이번 앱 실행에서는 더 이상 안 보여줌
+      setGuardianNoticeLoaded(true);
+    };
+
+    loadGuardianNoticeSetting();
+  }, []);
+
+  // ==========================================
+  // 팝업 닫기
+  // ==========================================
+
+  const handleGuardianNoticeClose = () => {
+    setGuardianNoticeVisible(false);
+  };
+  const navigation = useNavigation<HomeNavigationProp>();
   useLanguage(); // 💡 이 선언 하나만 넣어두면, 언어가 바뀔 때 HomeScreen이 자동으로 다시 그려집니다!
   // 색깔 분류 게임으로 이동하는 함수
   const goToStageMap = (gameType: "color" | "shape" | "category") => {
@@ -246,6 +284,12 @@ export default function HomeScreen() {
 
           {/* 하단 푸터 */}
           <Footer>Made with Mommy Bear for little explorers 💛</Footer>
+          {guardianNoticeLoaded && (
+            <GuardianNoticeModal
+              visible={guardianNoticeVisible}
+              onClose={handleGuardianNoticeClose}
+            />
+          )}
         </Container>
         {/* ⭐ 2. ImageBackground 바로 아래에 CustomAlert를 넣어주기! */}
         <CustomAlert

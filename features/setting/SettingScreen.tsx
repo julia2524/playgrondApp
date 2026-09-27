@@ -42,6 +42,10 @@ import { clearUnlockedStickers } from "../sticker/utils/stickerStorage";
 import ResetStickerButton from "../../components/common/ResetStickerButton";
 import i18n from "../../i18n";
 import LanguageSwitcher from "../../components/common/LanguageSwitcher";
+import {
+  getGuardianNoticeEnabled,
+  setGuardianNoticeEnabled,
+} from "../../components/GuardianNotice/guardianNoticeStorage";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -51,10 +55,10 @@ type NavigationProp = NativeStackNavigationProp<
 export default function SettingScreen() {
   const navigation = useNavigation<NavigationProp>();
   // 💡 언어 변경 시 SettingScreen 전체를 리렌더링하기 위한 State
-  const [, setLangState] = useState(i18n.locale);
+  //const [, setLangState] = useState(i18n.locale);
 
   const handleLanguageChange = () => {
-    setLangState(i18n.locale); // State 변경으로 화면 갱신
+    //  setLangState(i18n.locale); // State 변경으로 화면 갱신
   };
 
   // =========================
@@ -120,23 +124,26 @@ export default function SettingScreen() {
   const [soundEffect, setSoundEffect] = useState(true);
   // const [backgroundMusic, setBackgroundMusic] = useState(true);
   const [correctEffect, setCorrectEffect] = useState(true);
+  const [guardianNoticeEnabled, setGuardianNoticeEnabledState] = useState(true);
   const { backgroundMusic, setBackgroundMusic } = useBackgroundMusic();
 
   useFocusEffect(
     React.useCallback(() => {
       let isMounted = true;
 
-      const loadSoundSetting = async () => {
+      const loadSettings = async () => {
         const enabled = await getSoundEnabled();
         const correctEnabled = await getCorrectEffectEnabled();
+        const guardianEnabled = await getGuardianNoticeEnabled();
 
         if (!isMounted) return;
 
         setSoundEffect(enabled);
         setCorrectEffect(correctEnabled);
+        setGuardianNoticeEnabledState(guardianEnabled);
       };
 
-      loadSoundSetting();
+      loadSettings();
 
       return () => {
         isMounted = false;
@@ -151,6 +158,10 @@ export default function SettingScreen() {
   const handleCorrectToggle = async (value: boolean) => {
     setCorrectEffect(value);
     await setCorrectEffectEnabled(value);
+  };
+  const handleGuardianNoticeToggle = async (value: boolean) => {
+    setGuardianNoticeEnabledState(value);
+    await setGuardianNoticeEnabled(value);
   };
 
   // =========================
@@ -208,6 +219,42 @@ export default function SettingScreen() {
           </SectionTitle>
           <SettingCard>
             <LanguageSwitcher onLanguageChange={handleLanguageChange} />
+          </SettingCard>
+        </Section>
+        {/* =========================
+    보호자 안내 설정
+   ========================= */}
+
+        <Section>
+          <SectionTitle>{i18n.t("guardian_notice_section")}</SectionTitle>
+
+          <SettingCard>
+            <SettingRow>
+              <SettingInfo>
+                <SettingIcon>
+                  <Ionicons
+                    name="information-circle"
+                    size={24}
+                    color={BASIC_COLORS.SECONDARY}
+                  />
+                </SettingIcon>
+
+                <SettingTextWrapper>
+                  <SettingTitle>
+                    {i18n.t("guardian_notice_setting_title")}
+                  </SettingTitle>
+
+                  <SettingDescription>
+                    {i18n.t("guardian_notice_setting_desc")}
+                  </SettingDescription>
+                </SettingTextWrapper>
+              </SettingInfo>
+
+              <StyledSwitch
+                value={guardianNoticeEnabled}
+                onValueChange={handleGuardianNoticeToggle}
+              />
+            </SettingRow>
           </SettingCard>
         </Section>
         {/* =========================
