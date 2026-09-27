@@ -46,6 +46,7 @@ import {
   getGuardianNoticeEnabled,
   setGuardianNoticeEnabled,
 } from "../../components/GuardianNotice/guardianNoticeStorage";
+import { useLanguage } from "../../context/LanguageContext";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -56,10 +57,10 @@ export default function SettingScreen() {
   const navigation = useNavigation<NavigationProp>();
   // 💡 언어 변경 시 SettingScreen 전체를 리렌더링하기 위한 State
   //const [, setLangState] = useState(i18n.locale);
-
-  const handleLanguageChange = () => {
-    //  setLangState(i18n.locale); // State 변경으로 화면 갱신
-  };
+  useLanguage();
+  // const handleLanguageChange = () => {
+  //   //  setLangState(i18n.locale); // State 변경으로 화면 갱신
+  // };
 
   // =========================
   // 게임 진행 상황 초기화
@@ -218,7 +219,7 @@ export default function SettingScreen() {
             {i18n.t("language_section") || "언어 설정"}
           </SectionTitle>
           <SettingCard>
-            <LanguageSwitcher onLanguageChange={handleLanguageChange} />
+            <LanguageSwitcher />
           </SettingCard>
         </Section>
         {/* =========================

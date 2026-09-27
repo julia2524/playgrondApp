@@ -1,9 +1,11 @@
 import React from "react";
 import { Modal, Pressable } from "react-native";
 import styled from "styled-components/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 import { useLanguage } from "../context/LanguageContext";
 import i18n from "../i18n";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { AppText } from "../utils/AppText";
 
 interface GuardianNoticeModalProps {
   visible: boolean;
@@ -15,6 +17,7 @@ export default function GuardianNoticeModal({
   onClose,
 }: GuardianNoticeModalProps) {
   useLanguage();
+
   return (
     <Modal
       visible={visible}
@@ -24,9 +27,10 @@ export default function GuardianNoticeModal({
     >
       <Overlay>
         <NoticeCard>
-          {/* ==============================
+          {/* ==========================================
               Header
-          ============================== */}
+          ========================================== */}
+
           <Header>
             <Title>{i18n.t("guardian_notice_title")}</Title>
 
@@ -35,13 +39,14 @@ export default function GuardianNoticeModal({
               accessibilityRole="button"
               accessibilityLabel="닫기"
             >
-              <Ionicons name="close" size={28} color="#90A4AE" />
+              <Ionicons name="close" size={26} color="#90A4AE" />
             </CloseButton>
           </Header>
 
-          {/* ==============================
+          {/* ==========================================
               Content
-          ============================== */}
+          ========================================== */}
+
           <Content>
             <NoticeText>{i18n.t("guardian_notice_p1")}</NoticeText>
 
@@ -51,18 +56,32 @@ export default function GuardianNoticeModal({
 
             <GuideText>{i18n.t("guardian_notice_guide")}</GuideText>
 
-            <SettingGuide>
-              {i18n.t("guardian_notice_setting_1")}
-              <SettingGuideBold>
-                {i18n.t("guardian_notice_setting_2")}
-              </SettingGuideBold>
-            </SettingGuide>
+            {/* ========================================
+                설정 안내
+            ======================================== */}
+
+            <SettingGuideBox>
+              <SettingIcon>
+                <Ionicons name="settings-outline" size={18} color="#5C6BC0" />
+              </SettingIcon>
+
+              <SettingGuideText>
+                <SettingGuideNormal>
+                  {i18n.t("guardian_notice_setting_1")}
+                </SettingGuideNormal>
+
+                <SettingGuideBold>
+                  {i18n.t("guardian_notice_setting_2")}
+                </SettingGuideBold>
+              </SettingGuideText>
+            </SettingGuideBox>
           </Content>
 
-          {/* ==============================
+          {/* ==========================================
               Confirm
-          ============================== */}
-          <ConfirmButton onPress={onClose}>
+          ========================================== */}
+
+          <ConfirmButton onPress={onClose} accessibilityRole="button">
             <ConfirmText>{i18n.t("confirm")}</ConfirmText>
           </ConfirmButton>
         </NoticeCard>
@@ -72,7 +91,7 @@ export default function GuardianNoticeModal({
 }
 
 /* ==================================================
-   Styles
+   Overlay
 ================================================== */
 
 const Overlay = styled.View`
@@ -85,6 +104,10 @@ const Overlay = styled.View`
 
   padding: 24px;
 `;
+
+/* ==================================================
+   Notice Card
+================================================== */
 
 const NoticeCard = styled.View`
   width: 100%;
@@ -104,16 +127,22 @@ const NoticeCard = styled.View`
   shadow-offset: 0px 6px;
 `;
 
+/* ==================================================
+   Header
+================================================== */
+
 const Header = styled.View`
   flex-direction: row;
 
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 `;
 
-const Title = styled.Text`
+const Title = styled(AppText)`
+  flex: 1;
+
   font-size: 22px;
   font-weight: 700;
 
@@ -124,15 +153,21 @@ const CloseButton = styled(Pressable)`
   width: 36px;
   height: 36px;
 
+  margin-left: 8px;
+
   align-items: center;
   justify-content: center;
 `;
+
+/* ==================================================
+   Content
+================================================== */
 
 const Content = styled.View`
   margin-bottom: 20px;
 `;
 
-const NoticeText = styled.Text`
+const NoticeText = styled(AppText)`
   font-size: 15px;
   line-height: 23px;
 
@@ -141,33 +176,65 @@ const NoticeText = styled.Text`
   margin-bottom: 14px;
 `;
 
-const GuideText = styled.Text`
+const GuideText = styled(AppText)`
   font-size: 13px;
   line-height: 20px;
 
   color: #78909c;
 
+  margin-top: 2px;
   margin-bottom: 16px;
 `;
 
-const SettingGuide = styled.Text`
+/* ==================================================
+   Setting Guide
+================================================== */
+
+const SettingGuideBox = styled.View`
+  flex-direction: row;
+
+  align-items: flex-start;
+
+  background-color: #f7f8fa;
+
+  border-radius: 14px;
+
+  padding: 13px 14px;
+`;
+
+const SettingIcon = styled.View`
+  width: 26px;
+
+  align-items: center;
+
+  margin-right: 7px;
+
+  padding-top: 1px;
+`;
+
+const SettingGuideText = styled.View`
+  flex: 1;
+`;
+
+const SettingGuideNormal = styled(AppText)`
   font-size: 13px;
   line-height: 20px;
 
   color: #78909c;
-
-  background-color: #f7f8fa;
-
-  border-radius: 12px;
-
-  padding: 12px;
 `;
 
-const SettingGuideBold = styled.Text`
+const SettingGuideBold = styled(AppText)`
+  font-size: 13px;
+  line-height: 20px;
+
   font-weight: 700;
 
   color: #5c6bc0;
 `;
+
+/* ==================================================
+   Confirm Button
+================================================== */
 
 const ConfirmButton = styled(Pressable)`
   height: 50px;
@@ -180,7 +247,7 @@ const ConfirmButton = styled(Pressable)`
   background-color: #5c6bc0;
 `;
 
-const ConfirmText = styled.Text`
+const ConfirmText = styled(AppText)`
   font-size: 16px;
   font-weight: 700;
 
