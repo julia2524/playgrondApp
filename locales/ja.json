@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "くまママが小さな探検家たちのために作りました 💛",
+
   "welcome": "こんにちは！",
   "button_text": "OK",
   "subtitle": "なかまわけひろば",
@@ -627,5 +629,7 @@
 
   "haptic_section": "振動の設定",
   "haptic_title": "タッチ時の振動",
-  "haptic_desc": "ボタンを押すと、やさしく振動します。"
+  "haptic_desc": "ボタンを押すと、やさしく振動します。",
+
+  "select_language": "言語を選択"
 }

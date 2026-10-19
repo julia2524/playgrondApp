@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Được tạo bởi Mẹ Gấu dành cho các nhà khám phá nhí 💛",
+
   "welcome": "Xin chào bé!",
   "button_text": "Đồng ý",
   "subtitle": "Sân chơi tìm bạn cùng nhóm",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Cài đặt rung",
   "haptic_title": "Rung khi chạm",
-  "haptic_desc": "Cảm nhận rung nhẹ khi chạm vào nút."
+  "haptic_desc": "Cảm nhận rung nhẹ khi chạm vào nút.",
+
+  "select_language": "Chọn ngôn ngữ"
 }

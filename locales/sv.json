@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Gjord av Mamma Björn för små utforskare 💛",
+
   "welcome": "Hej!",
   "button_text": "OK",
   "subtitle": "Vår matchningslekplats",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Vibrationsinställningar",
   "haptic_title": "Vibration vid tryck",
-  "haptic_desc": "Känn en svag vibration när du trycker på knapparna."
+  "haptic_desc": "Känn en svag vibration när du trycker på knapparna.",
+
+  "select_language": "Välj språk"
 }

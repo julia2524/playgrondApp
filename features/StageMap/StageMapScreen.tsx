@@ -230,7 +230,7 @@ export default function StageMapScreen() {
               // paddingBottom: 70, // ⭐ 광고 영역 확보
             }}
           >
-            <View style={{ height: contentHeight }}>
+            <View style={{ height: contentHeight, direction: "ltr" }}>
               {/* ==========================================
                   ⭐ MapTrail
                  ========================================== */}

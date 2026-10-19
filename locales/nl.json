@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Gemaakt door Mama Beer voor kleine ontdekkingsreizigers 💛",
+
   "welcome": "Hallo!",
   "button_text": "OK",
   "subtitle": "Onze sorteerspeeltuin",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Trilinstellingen",
   "haptic_title": "Trillen bij aanraken",
-  "haptic_desc": "Voel een zachte trilling wanneer je op knoppen tikt."
+  "haptic_desc": "Voel een zachte trilling wanneer je op knoppen tikt.",
+
+  "select_language": "Taal selecteren"
 }

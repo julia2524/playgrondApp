@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "熊妈妈为小探险家倾情打造 💛",
+
   "welcome": "侬好呀！",
   "button_text": "确定",
   "subtitle": "好朋友配对乐园",
@@ -627,5 +629,7 @@
 
   "haptic_section": "振动设置",
   "haptic_title": "揿按钮振动",
-  "haptic_desc": "揿按钮个辰光，会感觉到轻轻个振动。"
+  "haptic_desc": "揿按钮个辰光，会感觉到轻轻个振动。",
+
+  "select_language": "选择语言"
 }

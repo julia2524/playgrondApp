@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "熊媽媽為小探險家精心製作 💛",
+
   "welcome": "你好呀！",
   "button_text": "確定",
   "subtitle": "好朋友配對樂園",
@@ -627,5 +629,7 @@
 
   "haptic_section": "震動設定",
   "haptic_title": "觸控震動",
-  "haptic_desc": "撳掣嗰陣會有輕輕嘅震動。"
+  "haptic_desc": "撳掣嗰陣會有輕輕嘅震動。",
+
+  "select_language": "選擇語言"
 }

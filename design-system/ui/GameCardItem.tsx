@@ -6,7 +6,6 @@ import { AppText } from "../../utils/AppText";
 
 interface GameCardItemProps {
   bgColor: string;
-  // 💡 기존 string(이모지)도 되고, <Ionicons .../> 컴포넌트도 그대로 들어갈 수 있게 타입 설정!
   emoji: React.ReactNode;
   title: string;
   desc: string;
@@ -32,13 +31,20 @@ export default function GameCardItem({
       {/* 💧 우측 상단 몽글몽글 물방울 효과 */}
       <CardBubble />
 
-      {/* 💡 이모지든 expo-vector-icons든 깨지지 않고 예쁘게 나오도록 감싸줌 */}
+      {/* 💡 아이콘 Wrapper */}
       <GameIconWrapper>
         {typeof emoji === "string" ? <EmojiText>{emoji}</EmojiText> : emoji}
       </GameIconWrapper>
 
-      <GameTitle>{title}</GameTitle>
-      <GameDesc>{desc}</GameDesc>
+      {/* 💡 제목: 길어지면 폰트 크기를 자동으로 조정하여 전체 출력 */}
+      <GameTitle numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.75}>
+        {title}
+      </GameTitle>
+
+      {/* 💡 설명: 말줄임표(...) 없이 글자 크기를 자동으로 줄여 문장 전체 표시 */}
+      <GameDesc numberOfLines={3} adjustsFontSizeToFit minimumFontScale={0.7}>
+        {desc}
+      </GameDesc>
     </GameCard>
   );
 }
@@ -49,12 +55,11 @@ interface GameCardProps {
 }
 
 const GameCard = styled.TouchableOpacity<GameCardProps>`
-  width: 47%;
-  aspect-ratio: 1;
+  width: 46%;
+  min-height: 155px;
   background-color: ${(props) => props.bgColor};
   border-radius: 24px;
-  padding: 16px;
-  padding-top: 24px;
+  padding: 16px 10px 14px 10px;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -77,15 +82,14 @@ const CardBubble = styled.View`
   top: -25px;
 `;
 
-/* 💡 기존 GameEmoji 위치를 대체할 Icon Wrapper */
 const GameIconWrapper = styled.View`
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   align-items: center;
   justify-content: center;
 `;
 
 const EmojiText = styled(AppText)`
-  font-size: 40px;
+  font-size: 34px;
   text-align: center;
 `;
 
@@ -95,6 +99,7 @@ const GameTitle = styled(AppText)`
   color: ${BASIC_COLORS.BORDER};
   margin-bottom: 4px;
   text-align: center;
+  width: 100%;
 `;
 
 const GameDesc = styled(AppText)`
@@ -102,4 +107,7 @@ const GameDesc = styled(AppText)`
   font-size: ${(props) => props.theme.typography.small}px;
   color: ${BASIC_COLORS.BORDER};
   text-align: center;
+  width: 100%;
+  opacity: 0.9;
+  line-height: 16px;
 `;

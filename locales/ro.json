@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Creat de Mama Urs pentru mici exploratori 💛",
+
   "welcome": "Bună!",
   "button_text": "OK",
   "subtitle": "Locul de joacă al potrivirilor",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Setări vibrații",
   "haptic_title": "Vibrație la atingere",
-  "haptic_desc": "Simți o vibrație ușoară când atingi butoanele."
+  "haptic_desc": "Simți o vibrație ușoară când atingi butoanele.",
+
+  "select_language": "Selectează limba"
 }

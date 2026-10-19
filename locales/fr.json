@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Fait par Maman Ours pour les petits explorateurs 💛",
+
   "welcome": "Bonjour !",
   "button_text": "OK",
   "subtitle": "Le terrain des petits jeux",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Réglages des vibrations",
   "haptic_title": "Vibrations au toucher",
-  "haptic_desc": "Une légère vibration accompagne l'appui sur les boutons."
+  "haptic_desc": "Une légère vibration accompagne l'appui sur les boutons.",
+
+  "select_language": "انتخاب زبان"
 }

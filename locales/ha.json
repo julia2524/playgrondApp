@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "An yi shi tare da Mama Bear don ƙananan masu bincike 💛",
+
   "welcome": "Sannu!",
   "button_text": "To",
   "subtitle": "Filin Wasan Haɗa Iri Ɗaya",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Saitunan Jijjiga",
   "haptic_title": "Jijjiga Yayin Taɓawa",
-  "haptic_desc": "Ana jin ɗan jijjiga a hankali idan an taɓa maɓalli."
+  "haptic_desc": "Ana jin ɗan jijjiga a hankali idan an taɓa maɓalli.",
+
+  "select_language": "Zaɓi Harshe"
 }

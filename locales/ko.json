@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Made with Mommy Bear for little explorers 💛",
+
   "welcome": "안녕하세요!",
   "button_text": "확인",
   "subtitle": "끼리끼리 놀이터",
@@ -627,5 +629,7 @@
 
   "haptic_section": "진동 설정",
   "haptic_title": "터치 진동",
-  "haptic_desc": "버튼을 누를 때 은은한 햅틱 진동을 느껴요."
+  "haptic_desc": "버튼을 누를 때 은은한 햅틱 진동을 느껴요.",
+
+  "select_language": "언어 선택"
 }

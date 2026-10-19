@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Hecho por Mamá Oso para pequeños exploradores 💛",
+
   "welcome": "¡Hola!",
   "button_text": "Aceptar",
   "subtitle": "El patio de las parejas",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Ajustes de vibración",
   "haptic_title": "Vibración táctil",
-  "haptic_desc": "Siente una vibración suave al tocar los botones."
+  "haptic_desc": "Siente una vibración suave al tocar los botones.",
+
+  "select_language": "Seleccionar idioma"
 }

@@ -304,7 +304,7 @@ export default function HomeScreen() {
           </GameGridWrapper>
 
           {/* 하단 푸터 */}
-          <Footer>Made with Mommy Bear for little explorers 💛</Footer>
+          <Footer>{i18n.t("footer_made_with")}</Footer>
           {guardianNoticeLoaded && (
             <GuardianNoticeModal
               visible={guardianNoticeVisible}

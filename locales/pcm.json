@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Mamy Bear make am for little explorers 💛",
+
   "welcome": "Hello!",
   "button_text": "OK",
   "subtitle": "Match and Play Ground",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Vibration Settings",
   "haptic_title": "Vibration When You Tap",
-  "haptic_desc": "You go feel small gentle vibration when you tap button."
+  "haptic_desc": "You go feel small gentle vibration when you tap button.",
+
+  "select_language": "Select Language"
 }

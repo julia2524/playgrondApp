@@ -1,58 +1,9 @@
-// import { getLocales } from "expo-localization";
-// import { I18n } from "i18n-js";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// // 💡 JSON 파일들 불러오기
-// import ko from "./locales/ko.json";
-// import en from "./locales/en.json";
-// import zh from "./locales/zh.json";
-
-// // 1. 번역 문구 등록
-// const translations = { ko, en, zh };
-
-// // 2. i18n 객체 생성
-// const i18n = new I18n(translations);
-
-// // 3. 기기 언어 감지
-// const deviceLanguage = getLocales()[0]?.languageCode;
-
-// // 4. 기본 언어 설정 (기기 언어 우선 적용)
-// i18n.locale = deviceLanguage ?? "en";
-// i18n.enableFallback = true;
-// i18n.defaultLocale = "en";
-
-// // ==========================================
-// // 💡 [추가 1] 저장된 언어 불러오기 (앱 시작 시 호출)
-// // ==========================================
-// export const loadSavedLanguage = async () => {
-//   try {
-//     const savedLanguage = await AsyncStorage.getItem("user_language");
-//     if (savedLanguage) {
-//       i18n.locale = savedLanguage; // 저장된 언어가 있으면 해당 언어로 교체
-//     }
-//   } catch (e) {
-//     console.error("Failed to load saved language", e);
-//   }
-// };
-
-// // ==========================================
-// // 💡 [추가 2] 사용자가 수동으로 언어를 변경할 때 호출
-// // ==========================================
-// export const changeLanguage = async (lang: "ko" | "en" | "zh") => {
-//   try {
-//     i18n.locale = lang;
-//     await AsyncStorage.setItem("user_language", lang); // 선택한 언어 기기에 저장
-//   } catch (e) {
-//     console.error("Failed to save language", e);
-//   }
-// };
-
-// export default i18n;
-
 import { getLocales } from "expo-localization";
 import { I18n } from "i18n-js";
 import { I18nManager } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import RNRestart from "react-native-restart"; // 👈 추가
 
 // 1. 지원하는 38개 언어 태그 타입 정의
 export type SupportedLanguage =
@@ -196,50 +147,81 @@ const deviceLocale =
   getLocales()[0]?.languageTag || getLocales()[0]?.languageCode || "en";
 i18n.locale = deviceLocale;
 
-// ==========================================
-// 💡 [핵심] RTL (오른쪽 시작 레이아웃) 설정 함수
-// ==========================================
+// export const applyRTLIfNeeded = async (lang: string) => {
+//   const isRTL = RTL_LANGUAGES.has(lang);
+
+//   if (I18nManager.isRTL !== isRTL) {
+//     I18nManager.allowRTL(isRTL);
+//     I18nManager.forceRTL(isRTL);
+
+//     try {
+//       await Updates.reloadAsync(); // 언어 변경 시 자동 새로고침
+//     } catch (e) {
+//       console.log("App reload failed or running on dev client");
+//     }
+//   }
+// };
+
+// // ==========================================
+// // 💡 [추가 2] 사용자가 수동으로 언어를 변경할 때 호출
+// // ==========================================
+// export const changeLanguage = async (lang: SupportedLanguage) => {
+//   try {
+//     i18n.locale = lang;
+//     await AsyncStorage.setItem("user_language", lang); // 선택한 언어 저장
+//     await applyRTLIfNeeded(lang); // 👈 여기서 호출
+//     // applyRTLIfNeeded(lang); // 선택한 언어의 RTL 여부 적용
+//   } catch (e) {
+//     console.error("Failed to save language", e);
+//   }
+// };
+
+// // 💡 3. 앱 시작 시 저장된 언어 불러올 때도 RTL 확인
+// export const loadSavedLanguage = async () => {
+//   try {
+//     const savedLanguage = await AsyncStorage.getItem("user_language");
+//     if (savedLanguage) {
+//       i18n.locale = savedLanguage;
+//       await applyRTLIfNeeded(savedLanguage); // 👈 여기서 호출
+//     }
+//   } catch (e) {
+//     console.error("Failed to load saved language", e);
+//   }
+// };
+
 export const applyRTLIfNeeded = (lang: string) => {
   const isRTL = RTL_LANGUAGES.has(lang);
 
-  // 현재 앱의 RTL 상태와 설정하려는 언어의 RTL 요구사항이 다를 경우 변경
   if (I18nManager.isRTL !== isRTL) {
     I18nManager.allowRTL(isRTL);
     I18nManager.forceRTL(isRTL);
 
-    // ⚠️ 참고: React Native의 I18nManager 변경사항은
-    // 네이티브 레이아웃 재배치를 위해 앱 재부팅(Reload)이 필요할 수 있습니다.
+    // 💡 네이티브 브릿지 상태가 변경된 직후 즉시 앱을 재부팅합니다!
+    setTimeout(() => {
+      RNRestart.restart();
+    }, 100);
   }
 };
 
-// ==========================================
-// 💡 [추가 1] 저장된 언어 불러오기 (앱 시작 시 호출)
-// ==========================================
-export const loadSavedLanguage = async () => {
-  try {
-    const savedLanguage = await AsyncStorage.getItem("user_language");
-    if (savedLanguage) {
-      i18n.locale = savedLanguage;
-      applyRTLIfNeeded(savedLanguage); // 저장된 언어의 RTL 여부 적용
-    } else {
-      applyRTLIfNeeded(i18n.locale);
-    }
-  } catch (e) {
-    console.error("Failed to load saved language", e);
-  }
-};
-
-// ==========================================
-// 💡 [추가 2] 사용자가 수동으로 언어를 변경할 때 호출
-// ==========================================
 export const changeLanguage = async (lang: SupportedLanguage) => {
   try {
     i18n.locale = lang;
-    await AsyncStorage.setItem("user_language", lang); // 선택한 언어 저장
-    applyRTLIfNeeded(lang); // 선택한 언어의 RTL 여부 적용
+    await AsyncStorage.setItem("user_language", lang);
+    applyRTLIfNeeded(lang); // 👈 비동기 대기 없이 호출
   } catch (e) {
     console.error("Failed to save language", e);
   }
 };
 
+export const loadSavedLanguage = async () => {
+  try {
+    const savedLanguage = await AsyncStorage.getItem("user_language");
+    if (savedLanguage) {
+      i18n.locale = savedLanguage;
+      applyRTLIfNeeded(savedLanguage);
+    }
+  } catch (e) {
+    console.error("Failed to load saved language", e);
+  }
+};
 export default i18n;

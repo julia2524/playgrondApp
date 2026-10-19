@@ -157,7 +157,13 @@
 // `;
 
 import React, { useState } from "react";
-import { ScrollView, Modal, FlatList, TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  Modal,
+  FlatList,
+  TouchableOpacity,
+  I18nManager,
+} from "react-native";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -409,4 +415,5 @@ const ValueText = styled.Text`
   font-size: 16px;
   font-weight: 600;
   color: #0f172a;
+  text-align: ${I18nManager.isRTL ? "right" : "left"};
 `;

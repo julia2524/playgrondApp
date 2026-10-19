@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Küçük kaşifler için Anne Ayı tarafından yapıldı 💛",
+
   "welcome": "Merhaba!",
   "button_text": "Tamam",
   "subtitle": "Eşleştir ve Oyna Bahçesi",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Titreşim Ayarları",
   "haptic_title": "Dokunma Titreşimi",
-  "haptic_desc": "Düğmelere dokunduğunda hafif bir titreşim hissedersin."
+  "haptic_desc": "Düğmelere dokunduğunda hafif bir titreşim hissedersin.",
+
+  "select_language": "Dil Seçin"
 }

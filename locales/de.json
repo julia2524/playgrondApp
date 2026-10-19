@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Mit Mama Bär für kleine Entdecker gemacht 💛",
+
   "welcome": "Hallo!",
   "button_text": "OK",
   "subtitle": "Unser Zuordnungsspielplatz",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Vibrationseinstellungen",
   "haptic_title": "Vibration bei Berührung",
-  "haptic_desc": "Beim Tippen auf Tasten spürst du eine sanfte Vibration."
+  "haptic_desc": "Beim Tippen auf Tasten spürst du eine sanfte Vibration.",
+
+  "select_language": "Sprache auswählen"
 }

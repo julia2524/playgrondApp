@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Imetengenezwa na Mama Dudu kwa ajili ya wavumbuzi wadogo 💛",
+
   "welcome": "Habari!",
   "button_text": "Sawa",
   "subtitle": "Uwanja wa Kulinganisha na Kucheza",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Mipangilio ya Mtetemo",
   "haptic_title": "Mtetemo wa Mguso",
-  "haptic_desc": "Mtetemo hafifu unapogusa vitufe."
+  "haptic_desc": "Mtetemo hafifu unapogusa vitufe.",
+
+  "select_language": "Chagua Lugha"
 }

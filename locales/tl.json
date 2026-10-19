@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Gawa ni Mommy Bear para sa mga batang explorer 💛",
+
   "welcome": "Kumusta!",
   "button_text": "Sige",
   "subtitle": "Palaruang Pagtugmain",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Mga Setting ng Vibration",
   "haptic_title": "Vibration sa Pagpindot",
-  "haptic_desc": "Makakaramdam ng banayad na vibration kapag pinindot ang mga button."
+  "haptic_desc": "Makakaramdam ng banayad na vibration kapag pinindot ang mga button.",
+
+  "select_language": "Pumili ng Wika"
 }

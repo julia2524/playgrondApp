@@ -89,7 +89,7 @@ import styled from "styled-components/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { useLanguage } from "../../context/LanguageContext";
-import { SupportedLanguage } from "../../i18n";
+import i18n, { SupportedLanguage } from "../../i18n";
 import { LANGUAGE_OPTIONS, LanguageOption } from "../../constants/languages";
 import { AppText } from "../../utils/AppText";
 import { triggerHaptic } from "../../utils/haptic";
@@ -141,7 +141,7 @@ export default function LanguageSwitcher({
         <ModalOverlay onPress={() => setModalVisible(false)}>
           <ModalCard onPress={(e) => e.stopPropagation()}>
             <ModalHeader>
-              <ModalTitle>Language / 언어 선택</ModalTitle>
+              <ModalTitle>{i18n.t("select_language")}</ModalTitle>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Ionicons name="close" size={24} color="#64748B" />
               </TouchableOpacity>

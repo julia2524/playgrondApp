@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Made with Mommy Bear for little explorers 💛",
+
   "welcome": "Hello!",
   "button_text": "OK",
   "subtitle": "Match & Play Playground",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Vibration Settings",
   "haptic_title": "Touch Vibration",
-  "haptic_desc": "Feel a gentle vibration when tapping buttons."
+  "haptic_desc": "Feel a gentle vibration when tapping buttons.",
+
+  "select_language": "Select Language"
 }

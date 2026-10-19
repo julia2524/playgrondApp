@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Fatto da Mamma Orsa per i piccoli esploratori 💛",
+
   "welcome": "Ciao!",
   "button_text": "OK",
   "subtitle": "Il parco degli abbinamenti",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Impostazioni vibrazione",
   "haptic_title": "Vibrazione al tocco",
-  "haptic_desc": "Senti una leggera vibrazione quando tocchi i pulsanti."
+  "haptic_desc": "Senti una leggera vibrazione quando tocchi i pulsanti.",
+
+  "select_language": "Seleziona lingua"
 }

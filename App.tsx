@@ -72,7 +72,11 @@ export default function App() {
   let splashImage;
   if (currentLang.startsWith("ko")) {
     splashImage = require("./assets/splash-icon.png"); // 한국어
-  } else if (currentLang.startsWith("zh")) {
+  } else if (
+    currentLang.startsWith("zh") ||
+    currentLang === "wuu" ||
+    currentLang === "yue"
+  ) {
     splashImage = require("./assets/splash-china.png"); // 중국어
   } else {
     splashImage = require("./assets/splash-en.png"); // 영어 및 기타

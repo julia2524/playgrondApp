@@ -139,6 +139,7 @@ export default function StageNode({
           <StageNumber
             style={{
               position: "absolute",
+              direction: "ltr", // 💡 숫자 표기 방향 LTR 고정
             }}
           >
             {level}

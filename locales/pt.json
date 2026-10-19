@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Feito pela Mamãe Urso para pequenos exploradores 💛",
+
   "welcome": "Olá!",
   "button_text": "OK",
   "subtitle": "O parque das combinações",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Configurações de vibração",
   "haptic_title": "Vibração ao toque",
-  "haptic_desc": "Sente uma vibração suave ao tocar nos botões."
+  "haptic_desc": "Sente uma vibração suave ao tocar nos botões.",
+
+  "select_language": "Selecionar idioma"
 }

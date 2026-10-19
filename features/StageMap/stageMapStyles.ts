@@ -50,6 +50,7 @@ export const NodeContainer = styled.View`
   position: absolute;
   width: 120px;
   align-items: center;
+  direction: ltr;
 `;
 
 // ⭐ 현재 도전 중인 스테이지에 은은하게 퍼지는 펄스 링

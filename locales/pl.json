@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Stworzone przez Mamę Niedźwiedzicę dla małych odkrywców 💛",
+
   "welcome": "Cześć!",
   "button_text": "OK",
   "subtitle": "Plac zabaw w dopasowywanie",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Ustawienia wibracji",
   "haptic_title": "Wibracje przy dotyku",
-  "haptic_desc": "Delikatne wibracje przy dotykaniu przycisków."
+  "haptic_desc": "Delikatne wibracje przy dotykaniu przycisków.",
+
+  "select_language": "Wybierz język"
 }

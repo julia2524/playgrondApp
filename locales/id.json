@@ -1,4 +1,6 @@
 {
+  "footer_made_with": "Dibuat bersama Beruang Mama untuk penjelajah cilik 💛",
+
   "welcome": "Halo!",
   "button_text": "Oke",
   "subtitle": "Taman Bermain Teman Sejenis",
@@ -627,5 +629,7 @@
 
   "haptic_section": "Pengaturan getaran",
   "haptic_title": "Getaran sentuh",
-  "haptic_desc": "Rasakan getaran lembut saat menekan tombol."
+  "haptic_desc": "Rasakan getaran lembut saat menekan tombol.",
+
+  "select_language": "Pilih Bahasa"
 }
