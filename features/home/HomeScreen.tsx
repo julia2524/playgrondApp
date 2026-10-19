@@ -37,6 +37,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GuardianNoticeModal from "../../components/GuardianNoticeModal";
 import { getGuardianNoticeEnabled } from "../../components/GuardianNotice/guardianNoticeStorage";
+import { triggerHaptic } from "../../utils/haptic";
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 // ✅ 앱이 완전히 종료되기 전까지 한 번만 보여주기 위한 세션 플래그
@@ -94,6 +95,7 @@ export default function HomeScreen() {
   };
 
   const handleLockedGame = (gameName: string) => {
+    triggerHaptic("light");
     showAlert(
       i18n.t("alert_locked_title"),
       i18n.t("alert_locked_message", { gameName }),
@@ -207,7 +209,10 @@ export default function HomeScreen() {
               <Title>{i18n.t("title")}</Title>
             </TitleContainer>
             <SettingButton
-              onPress={() => navigation.navigate("SettingScreen" as never)}
+              onPress={() => {
+                triggerHaptic("light");
+                navigation.navigate("SettingScreen" as never);
+              }}
             />
           </Header>
 
@@ -231,7 +236,10 @@ export default function HomeScreen() {
                 }
                 title={i18n.t("game_color_title")}
                 desc={i18n.t("game_color_desc")}
-                onPress={() => goToStageMap("color")}
+                onPress={() => {
+                  triggerHaptic("light");
+                  goToStageMap("color");
+                }}
               />
 
               {/* 2. 모양 분류 (준비중) */}
@@ -246,7 +254,10 @@ export default function HomeScreen() {
                 }
                 title={i18n.t("game_shape_title")}
                 desc={i18n.t("game_shape_desc")}
-                onPress={() => goToStageMap("shape")}
+                onPress={() => {
+                  triggerHaptic("light");
+                  goToStageMap("shape");
+                }}
               />
 
               {/* 3. 크기 분류 (준비중) */}
@@ -261,7 +272,10 @@ export default function HomeScreen() {
                 }
                 title={i18n.t("game_category_title")}
                 desc={i18n.t("game_category_desc")}
-                onPress={() => goToStageMap("category")}
+                onPress={() => {
+                  triggerHaptic("light");
+                  goToStageMap("category");
+                }}
               />
 
               {/* 4. 새로운 놀이 (준비중) */}
@@ -280,6 +294,13 @@ export default function HomeScreen() {
                 onPress={() => handleLockedGame(i18n.t("game_new_title"))}
               />
             </GameGrid>
+            {/* <TouchableOpacity
+              onPress={() => navigation.navigate("LanguageScreen")}
+            >
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                🌐 번역 검증하기
+              </Text>
+            </TouchableOpacity> */}
           </GameGridWrapper>
 
           {/* 하단 푸터 */}

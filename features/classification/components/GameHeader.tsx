@@ -17,6 +17,7 @@ import {
 import GameRewardBadge from "./GameRewardBadge";
 import SettingButton from "../../../components/common/SettingButton";
 import i18n from "../../../i18n";
+import { triggerHaptic } from "../../../utils/haptic";
 
 interface GameHeaderProps {
   gameType: "color" | "shape" | "category"; // 🌟 추가
@@ -46,7 +47,10 @@ export default function GameHeader({
         }
         right={
           <SettingButton
-            onPress={() => navigation.navigate("SettingScreen" as never)}
+            onPress={() => {
+              triggerHaptic("light");
+              navigation.navigate("SettingScreen" as never);
+            }}
           />
         }
       />

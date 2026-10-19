@@ -3,6 +3,7 @@ import { Modal } from "react-native";
 import styled from "styled-components/native";
 import { AppText } from "../../utils/AppText";
 import i18n from "../../i18n";
+import { triggerHaptic } from "../../utils/haptic";
 
 interface CustomAlertProps {
   visible: boolean;
@@ -29,6 +30,16 @@ export default function CustomAlert({
   onCancel,
   confirmText = "확인",
 }: CustomAlertProps) {
+  const handleCanclePress = () => {
+    triggerHaptic("light");
+    // playSound("grab");
+    onCancel?.();
+  };
+  const handleClosePress = () => {
+    triggerHaptic("light");
+    // playSound("grab");
+    onClose?.();
+  };
   return (
     <Modal transparent visible={visible} animationType="fade">
       <Overlay>
@@ -39,12 +50,12 @@ export default function CustomAlert({
 
           <ButtonContainer>
             {showCancel && (
-              <CancelButton onPress={onCancel} activeOpacity={0.8}>
+              <CancelButton onPress={handleCanclePress} activeOpacity={0.8}>
                 <CancelButtonText>{i18n.t("cancel")}</CancelButtonText>
               </CancelButton>
             )}
 
-            <ConfirmButton onPress={onClose} activeOpacity={0.8}>
+            <ConfirmButton onPress={handleClosePress} activeOpacity={0.8}>
               <ConfirmButtonText>{confirmText}</ConfirmButtonText>
             </ConfirmButton>
           </ButtonContainer>

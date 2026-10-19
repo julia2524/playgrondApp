@@ -20,4 +20,5 @@ export type RootStackParamList = {
     stickerId: string;
     stickerName: string;
   };
+  LanguageScreen: undefined;
 };

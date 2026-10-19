@@ -33,6 +33,7 @@ import BannerAd from "../../services/BannerAd";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
 import i18n from "../../i18n";
+import { triggerHaptic } from "../../utils/haptic";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -186,6 +187,7 @@ export default function StageMapScreen() {
   };
 
   const handleGoStickerBook = () => {
+    triggerHaptic("light");
     navigation.navigate("IntegratedStickerGalleryScreen", {
       initialTab: gameType,
     });
@@ -203,7 +205,10 @@ export default function StageMapScreen() {
         }
         right={
           <SettingButton
-            onPress={() => navigation.navigate("SettingScreen" as never)}
+            onPress={() => {
+              triggerHaptic("light");
+              navigation.navigate("SettingScreen" as never);
+            }}
           />
         }
       />
@@ -268,7 +273,10 @@ export default function StageMapScreen() {
                     stars={stars}
                     maxStars={levelProgress?.maxStars ?? 5}
                     isCurrent={stage.level === currentLevel}
-                    onPress={() => handleStagePress(stage.level)}
+                    onPress={() => {
+                      triggerHaptic("light");
+                      handleStagePress(stage.level);
+                    }}
                     style={{
                       left: pos.x - NODE_CONTAINER_WIDTH / 2,
                       top: pos.y - NODE_RADIUS,

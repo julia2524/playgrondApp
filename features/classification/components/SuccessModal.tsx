@@ -18,6 +18,7 @@ import { categoryLevels } from "../category/constants/levels";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppText } from "../../../utils/AppText";
 import i18n from "../../../i18n";
+import { triggerHaptic } from "../../../utils/haptic";
 
 interface SuccessModalProps {
   gameType: "color" | "shape" | "category";
@@ -41,6 +42,18 @@ export default function SuccessModal({
   correctStreakCount,
 }: SuccessModalProps) {
   const navigation = useNavigation<GameOverNavigationProp>();
+
+  const handleRestartPress = () => {
+    triggerHaptic("light");
+    // playSound("grab");
+    onRestart?.();
+  };
+
+  const handleNextLevelPress = () => {
+    triggerHaptic("light");
+    // playSound("grab");
+    onRestart?.();
+  };
 
   // ⭐ 2. 모달이 열릴 때(show가 true가 될 때) earnedStars 개수만큼 음계 연주!
   //console.log(correctStreakCount);
@@ -66,12 +79,12 @@ export default function SuccessModal({
   // const isLastLevel = currentStageIndex === STAGE_CONFIGS.length - 1;
 
   const onGoHome = () => {
+    triggerHaptic("light");
     navigation.navigate("Home");
   };
-  const onGoStickerRounge = () => {
-    navigation.navigate("CategoryStickerGalleryScreen");
-  };
+
   const onGoRoadmap = () => {
+    triggerHaptic("light");
     navigation.navigate("StageMapScreen", {
       gameType,
     });
@@ -145,7 +158,7 @@ export default function SuccessModal({
           <SuccessButtons>
             <SuccessButton
               variant="secondary"
-              onPress={onRestart}
+              onPress={handleRestartPress}
               activeOpacity={0.85}
             >
               <ButtonText>
@@ -160,7 +173,7 @@ export default function SuccessModal({
             {!isLastLevel ? (
               <SuccessButton
                 variant="primary"
-                onPress={onNextLevel}
+                onPress={handleNextLevelPress}
                 activeOpacity={0.85}
               >
                 <ButtonText>

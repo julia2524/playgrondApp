@@ -6,6 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLanguage } from "../context/LanguageContext";
 import i18n from "../i18n";
 import { AppText } from "../utils/AppText";
+import { triggerHaptic } from "../utils/haptic";
 
 interface GuardianNoticeModalProps {
   visible: boolean;
@@ -17,13 +18,17 @@ export default function GuardianNoticeModal({
   onClose,
 }: GuardianNoticeModalProps) {
   useLanguage();
-
+  const handleClosePress = () => {
+    triggerHaptic("light");
+    // playSound("grab");
+    onClose?.();
+  };
   return (
     <Modal
       visible={visible}
       transparent
       animationType="fade"
-      onRequestClose={onClose}
+      onRequestClose={handleClosePress}
     >
       <Overlay>
         <NoticeCard>
@@ -35,7 +40,7 @@ export default function GuardianNoticeModal({
             <Title>{i18n.t("guardian_notice_title")}</Title>
 
             <CloseButton
-              onPress={onClose}
+              onPress={handleClosePress}
               accessibilityRole="button"
               accessibilityLabel="닫기"
             >
@@ -64,8 +69,16 @@ export default function GuardianNoticeModal({
               <SettingIcon>
                 <Ionicons name="settings-outline" size={18} color="#5C6BC0" />
               </SettingIcon>
-
               <SettingGuideText>
+                <SettingGuideNormal>
+                  {i18n.t("guardian_notice_setting_1")}
+
+                  <SettingGuideBold>
+                    {i18n.t("guardian_notice_setting_2")}
+                  </SettingGuideBold>
+                </SettingGuideNormal>
+              </SettingGuideText>
+              {/* <SettingGuideText>
                 <SettingGuideNormal>
                   {i18n.t("guardian_notice_setting_1")}
                 </SettingGuideNormal>
@@ -73,7 +86,7 @@ export default function GuardianNoticeModal({
                 <SettingGuideBold>
                   {i18n.t("guardian_notice_setting_2")}
                 </SettingGuideBold>
-              </SettingGuideText>
+              </SettingGuideText> */}
             </SettingGuideBox>
           </Content>
 
@@ -81,7 +94,7 @@ export default function GuardianNoticeModal({
               Confirm
           ========================================== */}
 
-          <ConfirmButton onPress={onClose} accessibilityRole="button">
+          <ConfirmButton onPress={handleClosePress} accessibilityRole="button">
             <ConfirmText>{i18n.t("confirm")}</ConfirmText>
           </ConfirmButton>
         </NoticeCard>
@@ -209,7 +222,7 @@ const SettingIcon = styled.View`
 
   margin-right: 7px;
 
-  padding-top: 1px;
+  padding-top: 3px;
 `;
 
 const SettingGuideText = styled.View`

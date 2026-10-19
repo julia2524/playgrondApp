@@ -30,6 +30,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
 import i18n from "../../i18n";
+import SettingButton from "../../components/common/SettingButton";
+import { triggerHaptic } from "../../utils/haptic";
 
 const { width } = Dimensions.get("window");
 
@@ -135,6 +137,7 @@ export default function IntegratedStickerGalleryScreen() {
     const isUnlocked = currentUnlockedList.includes(obj.id);
     if (!isUnlocked) return;
 
+    triggerHaptic("light");
     navigation.navigate("StickerDetailScreen", {
       gameType: activeTab,
       stickerId: obj.id,
@@ -200,6 +203,14 @@ export default function IntegratedStickerGalleryScreen() {
             {i18n.t("my_sticker_book")}
           </HeaderTitle>
         }
+        right={
+          <SettingButton
+            onPress={() => {
+              triggerHaptic("light");
+              navigation.navigate("SettingScreen" as never);
+            }}
+          />
+        }
       />
 
       {/* 1. 탭 */}
@@ -208,7 +219,10 @@ export default function IntegratedStickerGalleryScreen() {
           <TabButton
             key={tab.id}
             isActive={activeTab === tab.id}
-            onPress={() => setActiveTab(tab.id)}
+            onPress={() => {
+              triggerHaptic("light");
+              setActiveTab(tab.id);
+            }}
           >
             <TabIcon>
               <Ionicons

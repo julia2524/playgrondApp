@@ -247,6 +247,6 @@ export async function playEarnedNotes(earnedStars: number) {
       if (player) {
         await playPlayerSafely(player);
       }
-    }, i * 150);
+    }, i * 220);
   }
 }

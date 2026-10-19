@@ -9,7 +9,7 @@ import { RootStackParamList } from "../../navigation/types";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 
 import { clearGameProgress } from "../classification/progress/progressStorage";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Content,
@@ -47,6 +47,11 @@ import {
   setGuardianNoticeEnabled,
 } from "../../components/GuardianNotice/guardianNoticeStorage";
 import { useLanguage } from "../../context/LanguageContext";
+import { syncHapticGlobalState, triggerHaptic } from "../../utils/haptic";
+import {
+  getHapticEnabled,
+  setHapticEnabled,
+} from "../sticker/utils/hapticSettingsStorage";
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -114,9 +119,18 @@ export default function SettingScreen() {
   };
 
   // 기존 핸들러
-  const handleResetColor = () => handleResetGame("color");
-  const handleResetShape = () => handleResetGame("shape");
-  const handleResetCategory = () => handleResetGame("category");
+  const handleResetColor = () => {
+    triggerHaptic("light");
+    handleResetGame("color");
+  };
+  const handleResetShape = () => {
+    triggerHaptic("light");
+    handleResetGame("shape");
+  };
+  const handleResetCategory = () => {
+    triggerHaptic("light");
+    handleResetGame("category");
+  };
 
   // =========================
   // 임시 소리 설정
@@ -127,6 +141,11 @@ export default function SettingScreen() {
   const [correctEffect, setCorrectEffect] = useState(true);
   const [guardianNoticeEnabled, setGuardianNoticeEnabledState] = useState(true);
   const { backgroundMusic, setBackgroundMusic } = useBackgroundMusic();
+  // 💡 BGM 스위치 토글 핸들러
+  const handleBgmToggle = async (value: boolean) => {
+    triggerHaptic("light"); // 터치 햅틱 피드백 실행
+    await setBackgroundMusic(value);
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -153,14 +172,17 @@ export default function SettingScreen() {
   );
 
   const handleSoundToggle = async (value: boolean) => {
+    triggerHaptic("light");
     setSoundEffect(value);
     await setSoundEnabled(value);
   };
   const handleCorrectToggle = async (value: boolean) => {
+    triggerHaptic("light");
     setCorrectEffect(value);
     await setCorrectEffectEnabled(value);
   };
   const handleGuardianNoticeToggle = async (value: boolean) => {
+    triggerHaptic("light");
     setGuardianNoticeEnabledState(value);
     await setGuardianNoticeEnabled(value);
   };
@@ -192,17 +214,46 @@ export default function SettingScreen() {
     );
   };
 
-  const handleResetColorStickers = () => handleResetSticker("color");
+  const handleResetColorStickers = () => {
+    triggerHaptic("light");
+    handleResetSticker("color");
+  };
 
-  const handleResetShapeStickers = () => handleResetSticker("shape");
+  const handleResetShapeStickers = () => {
+    triggerHaptic("light");
+    handleResetSticker("shape");
+  };
 
-  const handleResetCategoryStickers = () => handleResetSticker("category");
+  const handleResetCategoryStickers = () => {
+    triggerHaptic("light");
+    handleResetSticker("category");
+  };
+
+  const [hapticEnabled, setHapticEnabledState] = useState(true);
+
+  // 설정 불러오기 (useEffect 내부)
+  useEffect(() => {
+    getHapticEnabled().then(setHapticEnabledState);
+  }, []);
+
+  // 토글 핸들러
+  const handleHapticToggle = async (value: boolean) => {
+    setHapticEnabledState(value);
+    await setHapticEnabled(value);
+    await syncHapticGlobalState(); // 전역 캐시 동기화
+
+    if (value) {
+      triggerHaptic("light"); // 켜질 때 가볍게 테스트 진동 울려주기!
+    }
+  };
   return (
     <Container>
       <GradientBackground />
 
       <AppHeader
-        onBack={() => navigation.goBack()}
+        onBack={() => {
+          navigation.goBack();
+        }}
         center={
           <HeaderCenter>
             <Title>{i18n.t("setting_title")}</Title>
@@ -303,7 +354,7 @@ export default function SettingScreen() {
               </SettingInfo>
               <StyledSwitch
                 value={backgroundMusic}
-                onValueChange={setBackgroundMusic}
+                onValueChange={handleBgmToggle}
               />
             </SettingRow>
 
@@ -326,6 +377,33 @@ export default function SettingScreen() {
               <StyledSwitch
                 value={correctEffect}
                 onValueChange={handleCorrectToggle}
+              />
+            </SettingRow>
+          </SettingCard>
+        </Section>
+
+        <Section>
+          <SectionTitle>{i18n.t("haptic_section")}</SectionTitle>
+          <SettingCard>
+            <SettingRow>
+              <SettingInfo>
+                <SettingIcon>
+                  <Ionicons
+                    name="finger-print"
+                    size={22}
+                    color={BASIC_COLORS.ACCENT}
+                  />
+                </SettingIcon>
+                <SettingTextWrapper>
+                  <SettingTitle>{i18n.t("haptic_title")}</SettingTitle>
+                  <SettingDescription>
+                    {i18n.t("haptic_desc")}
+                  </SettingDescription>
+                </SettingTextWrapper>
+              </SettingInfo>
+              <StyledSwitch
+                value={hapticEnabled}
+                onValueChange={handleHapticToggle} // 👈 변경 핸들러 연결
               />
             </SettingRow>
           </SettingCard>

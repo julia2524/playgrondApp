@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components/native";
-import { BASIC_COLORS } from "../../design-system/tokens/colors";
+import { BASIC_COLORS, COLORS } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
+import { triggerHaptic } from "../../utils/haptic";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface AppHeaderProps {
   onBack: () => void;
@@ -10,11 +12,15 @@ interface AppHeaderProps {
 }
 
 export default function AppHeader({ onBack, center, right }: AppHeaderProps) {
+  const handleOnBackPress = () => {
+    triggerHaptic("light");
+    onBack?.();
+  };
   return (
     <Header>
       {/* 왼쪽 : 백버튼 */}
-      <BackButton onPress={onBack} activeOpacity={0.7}>
-        <BackText>‹</BackText>
+      <BackButton onPress={handleOnBackPress} activeOpacity={0.7}>
+        <Ionicons name="chevron-back" size={16} color={COLORS.TEXT_SUB} />
       </BackButton>
 
       {/* 가운데 */}

@@ -109,7 +109,7 @@ export default function MissionBubbleArea({
       // food 카테고리만 서브카테고리가 키에 포함되고, vegetable은 "veg"로 축약되어 있음
       // 인덱스 시그니처를 추가해서 어떤 subCategory 문자열이 와도 타입 에러 없이 조회 가능하게 함
       const subKeyAlias: Record<string, string | undefined> = {
-        vegetable: "veg",
+        vegetable: "vegetable",
         fruit: "fruit",
         snack: "snack",
         meal: "meal",
