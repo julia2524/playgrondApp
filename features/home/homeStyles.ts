@@ -36,20 +36,35 @@ export const Title = styled(AppText)`
   margin-top: 4px;
 `;
 
+// export const SettingButton = styled.TouchableOpacity`
+//   width: 44px;
+//   height: 44px;
+//   border-radius: 22px;
+//   background-color: #ffffff;
+//   border-width: 1px;
+//   border-color: #dce4ec;
+//   align-items: center;
+//   justify-content: center;
+//   elevation: 2;
+//   shadow-color: #64748b;
+//   shadow-offset: 0px 2px;
+//   shadow-opacity: 0.1;
+//   shadow-radius: 4px;
+// `;
 export const SettingButton = styled.TouchableOpacity`
-  width: 44px;
-  height: 44px;
-  border-radius: 22px;
+  width: 48px; /* 기존 44px에서 살짝 키움 */
+  height: 48px;
+  border-radius: 24px;
   background-color: #ffffff;
-  border-width: 1px;
-  border-color: #dce4ec;
+  border-width: 1.5px; /* 테두리를 조금 더 선명하게 */
+  border-color: #cbd5e1;
   align-items: center;
   justify-content: center;
-  elevation: 2;
-  shadow-color: #64748b;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.1;
-  shadow-radius: 4px;
+  elevation: 4; /* 그림자를 더 진하게 주어 입체감 강조 */
+  shadow-color: #0f172a;
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.15;
+  shadow-radius: 6px;
 `;
 
 export const SettingButtonText = styled(AppText)`
@@ -97,4 +112,32 @@ export const Footer = styled(AppText)`
   font-size: ${(props) => props.theme.typography.small}px;
   color: #94a3b8;
   margin-top: auto;
+`;
+
+// 🌟 새롭게 추가할 하단 설정 버튼 스타일
+export const BottomSettingButton = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-width: 1px;
+  border-color: #dce4ec;
+  padding-vertical: 12px;
+  padding-horizontal: 24px;
+  border-radius: 25px;
+  margin-top: 20px;
+  align-self: center;
+  gap: 8px;
+  elevation: 2;
+  shadow-color: #64748b;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.1;
+  shadow-radius: 4px;
+`;
+
+export const BottomSettingButtonText = styled(AppText)`
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
+  color: ${BASIC_COLORS.TEXT_MAIN};
+  font-weight: 600;
 `;

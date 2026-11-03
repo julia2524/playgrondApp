@@ -10,4 +10,6 @@ export const ASSETS = {
   iconSize: require("../assets/images/icon-size.png"),
 
   homeBackground: require("../assets/images/home-background.png"),
+
+  parentPause: require("../assets/images/parentPause.png"),
 } as const;

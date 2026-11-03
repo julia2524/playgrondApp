@@ -13,6 +13,8 @@ import { ASSETS } from "../../assets/assets";
 import GameCardItem from "../../design-system/ui/GameCardItem";
 
 import {
+  BottomSettingButton,
+  BottomSettingButtonText,
   Container,
   Footer,
   GameGrid,
@@ -208,12 +210,12 @@ export default function HomeScreen() {
               </SubTitle>
               <Title>{i18n.t("title")}</Title>
             </TitleContainer>
-            <SettingButton
+            {/* <SettingButton
               onPress={() => {
                 triggerHaptic("light");
                 navigation.navigate("SettingScreen" as never);
               }}
-            />
+            /> */}
           </Header>
 
           {/* 안내 문구 */}
@@ -279,7 +281,7 @@ export default function HomeScreen() {
               />
 
               {/* 4. 새로운 놀이 (준비중) */}
-              <GameCardItem
+              {/* <GameCardItem
                 bgColor={PASTEL_BG.blue} // 진한 파랑 대신 중립 파스텔톤
                 emoji={
                   <Ionicons
@@ -292,6 +294,23 @@ export default function HomeScreen() {
                 title={i18n.t("game_new_title")}
                 desc={i18n.t("game_new_desc")}
                 onPress={() => handleLockedGame(i18n.t("game_new_title"))}
+              /> */}
+              <GameCardItem
+                bgColor={PASTEL_BG.neutral} // 진한 파랑 대신 중립 파스텔톤
+                emoji={
+                  <Ionicons
+                    name="settings-outline"
+                    size={40}
+                    color={BASIC_COLORS.TEXT_SUB}
+                  />
+                  // 흰색 대신 연한 회색 아이콘 → 자연스럽게 "아직 아니에요" 느낌
+                }
+                title={i18n.t("setting_title")}
+                desc=""
+                onPress={() => {
+                  triggerHaptic("light");
+                  navigation.navigate("SettingScreen" as never);
+                }}
               />
             </GameGrid>
             {/* <TouchableOpacity
@@ -303,6 +322,23 @@ export default function HomeScreen() {
             </TouchableOpacity> */}
           </GameGridWrapper>
 
+          {/* ⭐ 게임 카드 그리드 바로 밑에 추가할 설정 버튼 */}
+          {/* <BottomSettingButton
+            onPress={() => {
+              triggerHaptic("light");
+              navigation.navigate("SettingScreen" as never);
+            }}
+            activeOpacity={0.8}
+          >
+            <Ionicons
+              name="settings-outline"
+              size={20}
+              color={BASIC_COLORS.TEXT_MAIN}
+            />
+            <BottomSettingButtonText>
+              {i18n.t("setting_title") || "setting"}
+            </BottomSettingButtonText>
+          </BottomSettingButton> */}
           {/* 하단 푸터 */}
           <Footer>{i18n.t("footer_made_with")}</Footer>
           {guardianNoticeLoaded && (

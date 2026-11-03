@@ -618,7 +618,7 @@
   "guardian_notice_title": "For Parents and Caregivers",
   "guardian_notice_p1": "This app offers simple sorting and recognition play\nfor children aged 2–3.",
   "guardian_notice_p2": "Please stay with your child\nand supervise while they use the app.",
-  "guardian_notice_p3": "To support your child's healthy development,\navoid excessive screen time and set appropriate limits\non how long and how often they use the app.",
+  "guardian_notice_p3": "For the healthy growth of your child,\na rest break (cool-down) feature activates\nautomatically after 15 minutes of play.",
   "guardian_notice_guide": "This app is not intended for educational or medical assessment, diagnosis, or treatment.",
   "guardian_notice_setting_1": "The caregiver notice\n",
   "guardian_notice_setting_2": "can be turned off at any time in Settings.",
@@ -631,5 +631,12 @@
   "haptic_title": "Touch Vibration",
   "haptic_desc": "Feel a gentle vibration when tapping buttons.",
 
-  "select_language": "Select Language"
+  "select_language": "Select Language",
+
+  "rest_modal_adult_title": "Hold on!\nLet's play with a grown-up!",
+  "rest_modal_adult_desc": "Let's play together\nwith a trusted grown-up!",
+  "rest_modal_wait_title": "Please wait a moment!",
+  "rest_modal_wait_desc": "You can play again after a short break!",
+  "rest_modal_ad_button": "Watch an ad and play now",
+  "rest_modal_rest_button": "Take a 3-minute break"
 }

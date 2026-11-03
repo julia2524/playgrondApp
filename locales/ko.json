@@ -618,7 +618,7 @@
   "guardian_notice_title": "보호자 안내",
   "guardian_notice_p1": "이 앱은 만 2~3세 유아를 위한\n간단한 분류·인지 놀이입니다.",
   "guardian_notice_p2": "아이가 이용할 때에는\n보호자가 함께 지켜봐 주세요.",
-  "guardian_notice_p3": "유아의 건강한 성장을 위해\n과도한 미디어 노출은 삼가고,\n이용 시간과 빈도를 적절히 조절해 주세요.",
+  "guardian_notice_p3": "유아의 건강한 성장을 위해\n15분 플레이 후 쉬어가기(쿨타임) 기능이\n자동으로 작동합니다.",
   "guardian_notice_guide": "이 앱은 교육적·의학적 진단이나 치료를 목적으로 하지 않습니다.",
   "guardian_notice_setting_1": "보호자 안내 팝업은\n",
   "guardian_notice_setting_2": "설정에서 언제든지 끌 수 있어요.",
@@ -631,5 +631,12 @@
   "haptic_title": "터치 진동",
   "haptic_desc": "버튼을 누를 때 은은한 햅틱 진동을 느껴요.",
 
-  "select_language": "언어 선택"
+  "select_language": "언어 선택",
+
+  "rest_modal_adult_title": "잠깐! 어른과 함께할게요!!",
+  "rest_modal_adult_desc": "소중한 어른과 같이 놀아요!",
+  "rest_modal_wait_title": "잠깐 기다려요!",
+  "rest_modal_wait_desc": "조금만 기다리면 다시 놀 수 있어요!",
+  "rest_modal_ad_button": "광고 보고 바로 놀기",
+  "rest_modal_rest_button": "3분 동안 쉬기"
 }

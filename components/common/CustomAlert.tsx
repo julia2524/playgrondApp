@@ -28,7 +28,9 @@ export default function CustomAlert({
   onClose,
   showCancel = false,
   onCancel,
-  confirmText = "확인",
+  confirmText = i18n.t("confirm", {
+    defaultValue: "OK",
+  }),
 }: CustomAlertProps) {
   const handleCanclePress = () => {
     triggerHaptic("light");

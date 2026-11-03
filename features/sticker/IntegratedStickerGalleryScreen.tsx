@@ -193,16 +193,7 @@ export default function IntegratedStickerGalleryScreen() {
     <Container>
       <AppHeader
         onBack={() => navigation.goBack()}
-        center={
-          <HeaderTitle>
-            <Ionicons
-              name="book-outline"
-              size={18}
-              color={BASIC_COLORS.TEXT_MAIN}
-            />{" "}
-            {i18n.t("my_sticker_book")}
-          </HeaderTitle>
-        }
+        center={<HeaderTitle>{i18n.t("my_sticker_book")}</HeaderTitle>}
         right={
           <SettingButton
             onPress={() => {
@@ -418,6 +409,7 @@ const ProgressCount = styled(AppText)`
   font-size: 13px;
   font-weight: bold;
   color: #2563eb;
+  direction: ltr;
 `;
 
 const ProgressBarBackground = styled.View`
