@@ -224,29 +224,99 @@ export async function playLastSuccessNote() {
 
 // ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 순차 연주!
 // ⭐ earnedStars 개수만큼 도 → 레 → 미 ... 깨끗하게 순차 연주
+// export async function playEarnedNotes(earnedStars: number) {
+//   // if (!successSoundEnabled) return; // ⭐ 가장 중요!
+//   const enabled = await getCorrectEffectEnabled();
+//   if (!enabled) return;
+
+//   if (!players.notes || players.notes.length === 0) {
+//     console.log("음계 플레이어가 아직 준비되지 않음");
+//     return;
+//   }
+
+//   const count = Math.min(Math.max(earnedStars, 0), players.notes.length);
+//   if (count <= 0) return;
+
+//   // 이전 연주 중인 음들을 일단 전부 정지
+//   await stopAllNotes();
+
+//   // 순차 재생 (간격을 충분히 줌)
+//   for (let i = 0; i < count; i++) {
+//     setTimeout(async () => {
+//       const player = players.notes[i];
+//       if (player) {
+//         await playPlayerSafely(player);
+//       }
+//     }, i * 220);
+//   }
+// }
+
+// ⭐ 획득 별 연주 관리
+let earnedNotesTimers: ReturnType<typeof setTimeout>[] = [];
+let earnedNotesPlaybackId = 0;
+
+// ⭐ 예약된 연주 전부 취소
+function clearEarnedNotesTimers() {
+  earnedNotesTimers.forEach((timer) => {
+    clearTimeout(timer);
+  });
+
+  earnedNotesTimers = [];
+}
+
+// ⭐ 획득 별 연주 및 현재 재생 음계 정지
+export async function stopEarnedNotes() {
+  // 진행 중인 재생 요청 무효화
+  earnedNotesPlaybackId += 1;
+
+  // 예약된 음계 전부 취소
+  clearEarnedNotesTimers();
+
+  // 현재 재생 중인 음계 정지
+  await stopAllNotes();
+}
+
+// ⭐ 획득한 별 개수만큼 음계 순차 재생
 export async function playEarnedNotes(earnedStars: number) {
-  // if (!successSoundEnabled) return; // ⭐ 가장 중요!
+  // 새로운 재생 요청 ID 발급
+  const playbackId = ++earnedNotesPlaybackId;
+
+  // 이전 예약 취소
+  clearEarnedNotesTimers();
+
+  // 이전 음계 정지
+  await stopAllNotes();
+
+  // 정지 작업 중 새로운 요청이 들어왔다면 종료
+  if (playbackId !== earnedNotesPlaybackId) return;
+
+  // 효과음 설정 확인
   const enabled = await getCorrectEffectEnabled();
+
+  if (playbackId !== earnedNotesPlaybackId) return;
   if (!enabled) return;
 
-  if (!players.notes || players.notes.length === 0) {
-    console.log("음계 플레이어가 아직 준비되지 않음");
+  if (!isNotesReady || players.notes.length === 0) {
     return;
   }
 
   const count = Math.min(Math.max(earnedStars, 0), players.notes.length);
+
   if (count <= 0) return;
 
-  // 이전 연주 중인 음들을 일단 전부 정지
-  await stopAllNotes();
-
-  // 순차 재생 (간격을 충분히 줌)
+  // 음계 순차 재생 예약
   for (let i = 0; i < count; i++) {
-    setTimeout(async () => {
+    const timer = setTimeout(async () => {
+      // 취소된 연주는 실행하지 않음
+      if (playbackId !== earnedNotesPlaybackId) return;
+
       const player = players.notes[i];
+
       if (player) {
         await playPlayerSafely(player);
       }
     }, i * 220);
+
+    earnedNotesTimers.push(timer);
   }
 }
