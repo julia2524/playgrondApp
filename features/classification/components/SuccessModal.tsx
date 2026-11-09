@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 
-import { TouchableOpacity } from "react-native";
+import { I18nManager, TouchableOpacity } from "react-native";
 import { BASIC_COLORS, PASTEL_BG } from "../../../design-system/tokens/colors";
 import { RootStackParamList } from "../../../navigation/types";
 import Mascot from "../../../design-system/ui/Mascot";
@@ -42,6 +42,8 @@ export default function SuccessModal({
   correctStreakCount,
 }: SuccessModalProps) {
   const navigation = useNavigation<GameOverNavigationProp>();
+  // 아랍권(RTL) 여부 확인
+  const isRTL = I18nManager.isRTL;
 
   const handleRestartPress = () => {
     triggerHaptic("light");
@@ -183,7 +185,7 @@ export default function SuccessModal({
               >
                 <ButtonText>
                   <Ionicons
-                    name="arrow-forward"
+                    name={isRTL ? "arrow-back" : "arrow-forward"}
                     size={30}
                     color={BASIC_COLORS.CARD_BG}
                   />
