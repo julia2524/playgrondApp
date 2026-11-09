@@ -4,6 +4,7 @@ import { BASIC_COLORS, COLORS } from "../../design-system/tokens/colors";
 import { AppText } from "../../utils/AppText";
 import { triggerHaptic } from "../../utils/haptic";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { I18nManager } from "react-native";
 
 interface AppHeaderProps {
   onBack: () => void;
@@ -16,11 +17,17 @@ export default function AppHeader({ onBack, center, right }: AppHeaderProps) {
     triggerHaptic("light");
     onBack?.();
   };
+  // 💡 RTL(아랍어) 환경인지 확인
+  const isRTL = I18nManager.isRTL;
   return (
     <Header>
       {/* 왼쪽 : 백버튼 */}
       <BackButton onPress={handleOnBackPress} activeOpacity={0.7}>
-        <Ionicons name="chevron-back" size={16} color={COLORS.TEXT_SUB} />
+        <Ionicons
+          name={isRTL ? "chevron-forward" : "chevron-back"}
+          size={16}
+          color={COLORS.TEXT_SUB}
+        />
       </BackButton>
 
       {/* 가운데 */}
