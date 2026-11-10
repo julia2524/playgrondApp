@@ -631,5 +631,20 @@
   "haptic_title": "Mtetemo wa Mguso",
   "haptic_desc": "Mtetemo hafifu unapogusa vitufe.",
 
-  "select_language": "Chagua Lugha"
+  "select_language": "Chagua Lugha",
+
+  "rest_modal_adult_title": "Subiri! Wacha tufanye hivi pamoja na mtu mzima!!",
+  "rest_modal_adult_desc": "Wacha tucheze pamoja na mtu mzima mzuri!",
+  "rest_modal_wait_title": "Subiri kidogo!",
+  "rest_modal_wait_desc": "Subiri kidogo tu kisha utaweza kucheza tena!",
+  "rest_modal_ad_button": "Tazama tangazo ucheze sasa",
+  "rest_modal_rest_button": "Pumzika kwa dakika 3",
+  "rest_modal_ad_error_title": "Imeshindwa kupakia tangazo",
+  "rest_modal_ad_load_failed": "Hatukuweza kuandaa tangazo kwa sasa. Tafadhali jaribu tena baada ya muda mfupi.",
+  "rest_modal_ad_show_failed": "Kulikuwa na tatizo wakati wa kucheza tangazo. Tafadhali jaribu tena.",
+  "rest_modal_ad_cancelled": "Unahitaji kutazama tangazo hadi mwisho ili upate zawadi yako.",
+  "rest_modal_ad_already_showing": "Tangazo linacheza tayari. Tafadhali subiri kidogo.",
+  "rest_modal_ad_retry_button": "Jaribu tena",
+  "rest_modal_ad_back_button": "Rudi nyuma",
+  "rest_modal_ad_loading": "Inaandaa tangazo..."
 }

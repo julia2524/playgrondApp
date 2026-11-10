@@ -631,5 +631,20 @@
   "haptic_title": "Δόνηση αφής",
   "haptic_desc": "Απαλή δόνηση όταν αγγίζεις τα κουμπιά.",
 
-  "select_language": "Επιλογή γλώσσας"
+  "select_language": "Επιλογή γλώσσας",
+
+  "rest_modal_adult_title": "Πعρίμενε! Ας το κάνουμε αυτό με έναν μεγάλο!!",
+  "rest_modal_adult_desc": "Έλα να παίξουμε μαζί με έναν αγαπημένο μεγάλο!",
+  "rest_modal_wait_title": "Περίμενε λίγο!",
+  "rest_modal_wait_desc": "Περίμενε μια στιγμή και θα μπορείς να παίξεις ξανά!",
+  "rest_modal_ad_button": "Δες διαφήμιση και παίξε αμέσως",
+  "rest_modal_rest_button": "Ξεκούραση για 3 λεπτά",
+  "rest_modal_ad_error_title": "Δεν ήταν δυνατή η φόρτωση της διαφήμισης",
+  "rest_modal_ad_load_failed": "Δεν μπορέσαμε να ετοιμάσουμε τη διαφήμιση τώρα. Δοκίμασε ξανά σε λίγο.",
+  "rest_modal_ad_show_failed": "Κάτι πήγε στραβά κατά την προβολή της διαφήμισης. Δοκίμασε ξανά.",
+  "rest_modal_ad_cancelled": "Πρέπει να παρακολουθήσεις ολόκληρη τη διαφήμιση για να πάρεις την επιβράβευση.",
+  "rest_modal_ad_already_showing": "Η διαφήμιση παίζει ήδη. Περίμενε μια στιγμή.",
+  "rest_modal_ad_retry_button": "Δοκίμασε ξανά",
+  "rest_modal_ad_back_button": "Πίσω",
+  "rest_modal_ad_loading": "Προετοιμασία διαφήμισης..."
 }

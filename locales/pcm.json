@@ -631,5 +631,20 @@
   "haptic_title": "Vibration When You Tap",
   "haptic_desc": "You go feel small gentle vibration when you tap button.",
 
-  "select_language": "Select Language"
+  "select_language": "Select Language",
+
+  "rest_modal_adult_title": "Wait! Make we do dis one with person wey don big!!",
+  "rest_modal_adult_desc": "Make we play together with one fine grown-up!",
+  "rest_modal_wait_title": "Wait small!",
+  "rest_modal_wait_desc": "Just wait small time and you go fit play again!",
+  "rest_modal_ad_button": "Watch ad and play now",
+  "rest_modal_rest_button": "Rest for 3 minutes",
+  "rest_modal_ad_error_title": "E no fit load the ad",
+  "rest_modal_ad_load_failed": "We no fit get the ad ready right now. Abeg try again small time.",
+  "rest_modal_ad_show_failed": "Something happen as we dey play the ad. Abeg try again.",
+  "rest_modal_ad_cancelled": "You need to watch the ad reach the end before you fit collect your gift.",
+  "rest_modal_ad_already_showing": "The ad dey play already. Abeg wait small.",
+  "rest_modal_ad_retry_button": "Try am again",
+  "rest_modal_ad_back_button": "Go back",
+  "rest_modal_ad_loading": "E dey prepare the ad..."
 }

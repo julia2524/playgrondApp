@@ -631,5 +631,20 @@
   "haptic_title": "لرزش لمسی",
   "haptic_desc": "با لمس دکمه‌ها، لرزش ملایمی احساس می‌شود.",
 
-  "select_language": "انتخاب زبان"
+  "select_language": "انتخاب زبان",
+
+  "rest_modal_adult_title": "صبر کن! بیا این کار رو با یک بزرگ‌تر انجام بدیم!!",
+  "rest_modal_adult_desc": "بیا با یک آدم بزرگ مهربان با هم بازی کنیم!",
+  "rest_modal_wait_title": "کمی صبر کن!",
+  "rest_modal_wait_desc": "فقط یک کوچولو صبر کن تا دوباره بتونی بازی کنی!",
+  "rest_modal_ad_button": "تماشای تبلیغ و بازی سریع",
+  "rest_modal_rest_button": "استراحت برای ۳ دقیقه",
+  "rest_modal_ad_error_title": "بارگیری تبلیغ انجام نشد",
+  "rest_modal_ad_load_failed": "الان نتونستیم تبلیغ رو آماده کنیم. لطفاً کمی بعد دوباره تلاش کن.",
+  "rest_modal_ad_show_failed": "هنگام پخش تبلیغ مشکلی پیش اومد. لطفاً دوباره تلاش کن.",
+  "rest_modal_ad_cancelled": "برای گرفتن جایزه باید تبلیغ رو تا آخر تماشا کنی.",
+  "rest_modal_ad_already_showing": "تبلیغ همین الان داره پخش میشه. لطفاً کمی صبر کن.",
+  "rest_modal_ad_retry_button": "تلاش مجدد",
+  "rest_modal_ad_back_button": "بازگشت",
+  "rest_modal_ad_loading": "در حال آماده‌سازی تبلیغ..."
 }

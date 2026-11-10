@@ -631,5 +631,20 @@
   "haptic_title": "Vibrazione al tocco",
   "haptic_desc": "Senti una leggera vibrazione quando tocchi i pulsanti.",
 
-  "select_language": "Seleziona lingua"
+  "select_language": "Seleziona lingua",
+
+  "rest_modal_adult_title": "Asppetta! Facciamo questo insieme a un adulto!!",
+  "rest_modal_adult_desc": "Giochiamo insieme a un adulto speciale!",
+  "rest_modal_wait_title": "Aspetta un attimo!",
+  "rest_modal_wait_desc": "Ancora un pochino e potrai giocare di nuovo!",
+  "rest_modal_ad_button": "Guarda il video e gioca subito",
+  "rest_modal_rest_button": "Riposa per 3 minuti",
+  "rest_modal_ad_error_title": "Impossibile caricare il video",
+  "rest_modal_ad_load_failed": "Non siamo riusciti a preparare il video adesso. Riprova tra poco.",
+  "rest_modal_ad_show_failed": "C'è stato un problema durante la riproduzione. Riprova.",
+  "rest_modal_ad_cancelled": "Devi guardare il video fino alla fine per ricevere il tuo premio.",
+  "rest_modal_ad_already_showing": "Il video è già in riproduzione. Attendi un momento.",
+  "rest_modal_ad_retry_button": "Riprova",
+  "rest_modal_ad_back_button": "Indietro",
+  "rest_modal_ad_loading": "Preparazione video..."
 }

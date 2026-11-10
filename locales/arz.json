@@ -631,5 +631,20 @@
   "haptic_title": "اهتزاز اللمس",
   "haptic_desc": "هتحسوا باهتزاز خفيف لما تدوسوا على الزراير.",
 
-  "select_language": "اختار اللغة"
+  "select_language": "اختار اللغة",
+
+  "rest_modal_adult_title": "استنى! هنعمل كده مع حد كبير!!",
+  "rest_modal_adult_desc": "تعال نلعب سوا مع حد كبير طيب!",
+  "rest_modal_wait_title": "استنى شوية!",
+  "rest_modal_wait_desc": "استنى لحظة وهتقدر تلعب تاني!",
+  "rest_modal_ad_button": "اتفرج على الإعلان والعب علطول",
+  "rest_modal_rest_button": "استريح لمدة 3 دقائق",
+  "rest_modal_ad_error_title": "مش قادرين نحمل الإعلان",
+  "rest_modal_ad_load_failed": "مش جاهزين بالإعلان دلوقتي. جرب تاني كمان شوية.",
+  "rest_modal_ad_show_failed": "حصلت مشكلة وإحنا بنشغل الإعلان. جرب تاني من فضلك.",
+  "rest_modal_ad_cancelled": "لازم تتفرج على الإعلان للاخر عشان تاخد الهدية.",
+  "rest_modal_ad_already_showing": "الإعلان شغال أصلاً. استنى ثواني.",
+  "rest_modal_ad_retry_button": "حاول تاني",
+  "rest_modal_ad_back_button": "رجوع",
+  "rest_modal_ad_loading": "بنجهز الإعلان..."
 }

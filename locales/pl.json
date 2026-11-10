@@ -631,5 +631,20 @@
   "haptic_title": "Wibracje przy dotyku",
   "haptic_desc": "Delikatne wibracje przy dotykaniu przycisków.",
 
-  "select_language": "Wybierz język"
+  "select_language": "Wybierz język",
+
+  "rest_modal_adult_title": "Czekaj! Zróbmy to razem z dorosłym!!",
+  "rest_modal_adult_desc": "Pobawmy się razem z miłym dorosłym!",
+  "rest_modal_wait_title": "Poczekaj chwilę!",
+  "rest_modal_wait_desc": "Jeszcze tylko secundenkę i znowu będziesz mógł/mogła grać!",
+  "rest_modal_ad_button": "Obejrzyj reklamę i graj od razu",
+  "rest_modal_rest_button": "Odpocznij przez 3 minuty",
+  "rest_modal_ad_error_title": "Nie udało się wczytać reklamy",
+  "rest_modal_ad_load_failed": "Nie udało nam się przygotować reklamy. Spróbuj ponownie za chwilę.",
+  "rest_modal_ad_show_failed": "Coś poszło nie tak podczas odtwarzania reklamy. Spróbuj ponownie.",
+  "rest_modal_ad_cancelled": "Musisz obejrzeć reklamę do samego końca, aby otrzymać nagrodę.",
+  "rest_modal_ad_already_showing": "Reklama jest już odtwarzana. Proszę chwilę poczekać.",
+  "rest_modal_ad_retry_button": "Spróbuj ponownie",
+  "rest_modal_ad_back_button": "Wróć",
+  "rest_modal_ad_loading": "Przygotowywanie reklamy..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "觸控振動",
   "haptic_desc": "點按按鈕時，可感受到輕柔的振動。",
 
-  "select_language": "選擇語言"
+  "select_language": "選擇語言",
+
+  "rest_modal_adult_title": "等一下！我們要跟大人一起唷！！",
+  "rest_modal_adult_desc": "跟親愛的大人一起玩吧！",
+  "rest_modal_wait_title": "請稍等一下！",
+  "rest_modal_wait_desc": "再等一下子就可以繼續玩囉！",
+  "rest_modal_ad_button": "看廣告馬上玩",
+  "rest_modal_rest_button": "休息3分鐘",
+  "rest_modal_ad_error_title": "無法載入廣告",
+  "rest_modal_ad_load_failed": "現在還沒準備好廣告唷，請稍後再試一次吧。",
+  "rest_modal_ad_show_failed": "播放廣告時遇到問題囉，請再試一次。",
+  "rest_modal_ad_cancelled": "要把廣告看完才能獲得獎勵唷。",
+  "rest_modal_ad_already_showing": "廣告已經在播放囉，請稍等一下下。",
+  "rest_modal_ad_retry_button": "再試一次",
+  "rest_modal_ad_back_button": "返回",
+  "rest_modal_ad_loading": "廣告準備中..."
 }

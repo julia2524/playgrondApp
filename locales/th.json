@@ -631,5 +631,20 @@
   "haptic_title": "การสั่นเมื่อแตะ",
   "haptic_desc": "รู้สึกถึงแรงสั่นเบา ๆ เมื่อแตะปุ่ม",
 
-  "select_language": "เลือกภาษา"
+  "select_language": "เลือกภาษา",
+
+  "rest_modal_adult_title": "เดี๋ยวก่อนนะ! มาทำสิ่งนี้กับผู้ใหญ่กันเถอะ!!",
+  "rest_modal_adult_desc": "มาเล่นสนุกด้วยกันกับผู้ใหญ่ใจดีกันเถอะ!",
+  "rest_modal_wait_title": "รอสักครู่นะ!",
+  "rest_modal_wait_desc": "รออีกแป๊บเดียวก็จะได้กลับมาเล่นใหม่แล้ว!",
+  "rest_modal_ad_button": "ดูโฆษณาแล้วเล่นต่อเลย",
+  "rest_modal_rest_button": "พักผ่อน 3 นาที",
+  "rest_modal_ad_error_title": "ไม่สามารถโหลดโฆษณาได้",
+  "rest_modal_ad_load_failed": "ตอนนี้เรายังเตรียมโฆษณาไม่เสร็จจ้า ลองใหม่อีกครั้งในอีกสักครู่นะ",
+  "rest_modal_ad_show_failed": "เกิดปัญหาระหว่างเล่นโฆษณา ลองใหม่อีกครั้งนะ",
+  "rest_modal_ad_cancelled": "ต้องดูโฆษณาให้จบถึงจะได้รับรางวัลนะ",
+  "rest_modal_ad_already_showing": "โฆษณากำลังเล่นอยู่จ้า กรุณารอสักครู่",
+  "rest_modal_ad_retry_button": "ลองอีกครั้ง",
+  "rest_modal_ad_back_button": "ย้อนกลับ",
+  "rest_modal_ad_loading": "กำลังเตรียมโฆษณา..."
 }

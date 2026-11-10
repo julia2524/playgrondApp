@@ -631,5 +631,20 @@
   "haptic_title": "Trillen bij aanraken",
   "haptic_desc": "Voel een zachte trilling wanneer je op knoppen tikt.",
 
-  "select_language": "Taal selecteren"
+  "select_language": "Taal selecteren",
+
+  "rest_modal_adult_title": "Wacht eens! Dit doen we samen met een volwassene!!",
+  "rest_modal_adult_desc": "Laten we samen met een lieve volwassene spelen!",
+  "rest_modal_wait_title": "Wacht even!",
+  "rest_modal_wait_desc": "Nog heel even wachten en dan kun je weer spelen!",
+  "rest_modal_ad_button": "Bekijk reclame en speel meteen",
+  "rest_modal_rest_button": "3 minuten rusten",
+  "rest_modal_ad_error_title": "Kan de reclame niet laden",
+  "rest_modal_ad_load_failed": "We kunnen de reclame nu niet klaarzetten. Probeer het over een poosje opnieuw.",
+  "rest_modal_ad_show_failed": "Er is een probleem opgetreden bij het afspelen. Probeer het nog eens.",
+  "rest_modal_ad_cancelled": "Je moet de reclame helemaal uitkijken om de beloning te krijgen.",
+  "rest_modal_ad_already_showing": "De reclame wordt al afgespeeld. Even geduld alstublieft.",
+  "rest_modal_ad_retry_button": "Opnieuw proberen",
+  "rest_modal_ad_back_button": "Terug",
+  "rest_modal_ad_loading": "Reclame voorbereiden..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "Vibração ao toque",
   "haptic_desc": "Sente uma vibração suave ao tocar nos botões.",
 
-  "select_language": "Selecionar idioma"
+  "select_language": "Selecionar idioma",
+
+  "rest_modal_adult_title": "Espera! Vamos fazer isso com um adulto!!",
+  "rest_modal_adult_desc": "Vamos brincar juntos com um adulto legal!",
+  "rest_modal_wait_title": "Espera um pouquinho!",
+  "rest_modal_wait_desc": "Espera só mais um pouquinho e você já pode brincar de novo!",
+  "rest_modal_ad_button": "Assistir anúncio e jogar agora",
+  "rest_modal_rest_button": "Descansar por 3 minutos",
+  "rest_modal_ad_error_title": "Não foi possível carregar o anúncio",
+  "rest_modal_ad_load_failed": "Não conseguimos preparar o anúncio agora. Tente novamente daqui a pouquinho.",
+  "rest_modal_ad_show_failed": "Ocorreu um problema ao reproduzir o anúncio. Tente novamente.",
+  "rest_modal_ad_cancelled": "Você precisa assistir ao anúncio até o final para ganhar sua recompensa.",
+  "rest_modal_ad_already_showing": "O anúncio já está sendo exibido. Por favor, aguarde um momento.",
+  "rest_modal_ad_retry_button": "Tentar novamente",
+  "rest_modal_ad_back_button": "Voltar",
+  "rest_modal_ad_loading": "Preparando anúncio..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "Vibration sa Pagpindot",
   "haptic_desc": "Makakaramdam ng banayad na vibration kapag pinindot ang mga button.",
 
-  "select_language": "Pumili ng Wika"
+  "select_language": "Pumili ng Wika",
+
+  "rest_modal_adult_title": "Sandali! Gawin natin ito kasama ang isang adulto!!",
+  "rest_modal_adult_desc": "Maglaro tayo kasama ang isang mabait na nakakatanda!",
+  "rest_modal_wait_title": "Maghintay sandali!",
+  "rest_modal_wait_desc": "Kaunting hintay na lang at maaari ka na umang maglaro!",
+  "rest_modal_ad_button": "Manood ng ad at maglaro na",
+  "rest_modal_rest_button": "Magpahinga ng 3 minuto",
+  "rest_modal_ad_error_title": "Hindi ma-load ang ad",
+  "rest_modal_ad_load_failed": "Hindi namin maayos ang ad ngayon. Subukan mong muli mamaya.",
+  "rest_modal_ad_show_failed": "May nangyaring problema habang pinapalabas ang ad. Subukang muli.",
+  "rest_modal_ad_cancelled": "Kailangan mong panoorin ang ad hanggang dulo para makuha ang iyong premyo.",
+  "rest_modal_ad_already_showing": "Nagpe-play na ang ad. Maghintay sandali.",
+  "rest_modal_ad_retry_button": "Subukan muli",
+  "rest_modal_ad_back_button": "Bumalik",
+  "rest_modal_ad_loading": "Inihahanda ang ad..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "తాకినప్పుడు వైబ్రేషన్",
   "haptic_desc": "బటన్లను తాకినప్పుడు మృదువైన వైబ్రేషన్‌ను అనుభవించండి.",
 
-  "select_language": "భాషను ఎంచుకోండి"
+  "select_language": "భాషను ఎంచుకోండి",
+
+  "rest_modal_adult_title": "ఆగండి! పెద్దవారితో కలిసి ఇది చేద్దాం!!",
+  "rest_modal_adult_desc": "దయగల పెద్దవారితో కలిసి ఆడుకుందాం!",
+  "rest_modal_wait_title": "కాస్త వేచి ఉండండి!",
+  "rest_modal_wait_desc": "ఇంకా కొంచెం సేపు వేచి ఉంటే మళ్లీ ఆడుకోవచ్చు!",
+  "rest_modal_ad_button": "యాడ్ చూసి వెంటనే ఆడుకోండి",
+  "rest_modal_rest_button": "3 నిమిషాలు విశ్రాంతి తీసుకోండి",
+  "rest_modal_ad_error_title": "యాడ్‌ను లోడ్ చేయలేకపోయాము",
+  "rest_modal_ad_load_failed": "ప్రస్తుతం యాడ్ సిద్ధంగా లేదు. దయచేసి కొద్దిసేపటి తర్వాత మళ్లీ ప్రయత్నించండి.",
+  "rest_modal_ad_show_failed": "యాడ్ ప్లే అవుతున్నప్పుడు సమస్య ఏర్పడింది. దయచేసి మళ్లీ ప్రయత్నించండి.",
+  "rest_modal_ad_cancelled": "బహుమతి పొందడానికి మీరు యాడ్‌ను చివరి వరకు చూడాలి.",
+  "rest_modal_ad_already_showing": "యాడ్ ఇప్పటికే ప్లే అవుతోంది. దయచేసి కొద్దిసేపు వేచి ఉండండి.",
+  "rest_modal_ad_retry_button": "మళ్లీ ప్రయత్నించండి",
+  "rest_modal_ad_back_button": "వెనక్కి",
+  "rest_modal_ad_loading": "యాడ్ సిద్ధమవుతోంది..."
 }

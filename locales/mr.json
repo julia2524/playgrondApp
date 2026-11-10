@@ -631,5 +631,20 @@
   "haptic_title": "स्पर्शाचा कंपन प्रतिसाद",
   "haptic_desc": "बटण दाबल्यावर सौम्य कंपन जाणवते.",
 
-  "select_language": "भाषा निवडा"
+  "select_language": "भाषा निवडा",
+
+  "rest_modal_adult_title": "थांबा! आपण हे एखाद्या मोठ्यांसोबत करूया!!",
+  "rest_modal_adult_desc": "चला, एका चांगल्या मोठ्या व्यक्तीसोबत खेळूया!",
+  "rest_modal_wait_title": "थोडे थांबा!",
+  "rest_modal_wait_desc": "फक्त थोडेसे थांबा, म्हणजे तुम्ही पुन्हा खेळू शकाल!",
+  "rest_modal_ad_button": "जाहिरात पहा आणि लगेच खेळा",
+  "rest_modal_rest_button": "३ मिनिटे विश्रांती घ्या",
+  "rest_modal_ad_error_title": "जाहिरात लोड होऊ शकली नाही",
+  "rest_modal_ad_load_failed": "आम्ही सध्या जाहिरात तयार करू शकलो नाही. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.",
+  "rest_modal_ad_show_failed": "जाहिरात चालवताना काहीतरी अडचण आली. कृपया पुन्हा प्रयत्न करा.",
+  "rest_modal_ad_cancelled": "बक्षीस मिळवण्यासाठी तुम्हाला जाहिरात शेवटपर्यंत पाहावी लागेल.",
+  "rest_modal_ad_already_showing": "जाहिरात आधीपासूनच चालू आहे. कृपया थोडे थांबा.",
+  "rest_modal_ad_retry_button": "पुन्हा प्रयत्न करा",
+  "rest_modal_ad_back_button": "मागे जा",
+  "rest_modal_ad_loading": "जाहिरात तयार होत आहे..."
 }

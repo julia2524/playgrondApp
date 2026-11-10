@@ -631,5 +631,20 @@
   "haptic_title": "چھوہن تے وائبریشن",
   "haptic_desc": "بٹن دباؤن تے ہولی جئی وائبریشن محسوس ہوندی اے۔",
 
-  "select_language": "زبان چنو"
+  "select_language": "زبان چنو",
+
+  "rest_modal_adult_title": "رکو! آؤ اے کم کسی وڈے نال مل کے کریے!!",
+  "rest_modal_adult_desc": "آؤ کسی پیارے وڈے بندے نال مل کے کھیڈیے!",
+  "rest_modal_wait_title": "تھوڑا انتظار کرو!",
+  "rest_modal_wait_desc": "بس تھوڑا جیا انتظار کرو تے تسی فیر توں کھیل سکوگے!",
+  "rest_modal_ad_button": "اشتہار دیکھو تے ہنہی کھیڈو",
+  "rest_modal_rest_button": "3 منٹ آرام کرو",
+  "rest_modal_ad_error_title": "اشتہار لوڈ نہیں ہو سکیا",
+  "rest_modal_ad_load_failed": "اسیں ہن اشتہار تیار نہیں کر سکے۔ مہربانی کر کے تھوڑی دیر بعد دوبارہ کوشش کرو۔",
+  "rest_modal_ad_show_failed": "اشتہار چلاندے وقت کوئی مسئلہ آ گیا اے۔ مہربانی کر کے دوبارہ کوشش کرو۔",
+  "rest_modal_ad_cancelled": "انعام لین لئی تہانوں اشتہار پورا دیکھنا پئے گا۔",
+  "rest_modal_ad_already_showing": "اشتہار پہلاں ہی چل رہیا اے۔ مہربانی کر کے تھوڑا انتظار کرو۔",
+  "rest_modal_ad_retry_button": "دوبارہ کوشش کرو",
+  "rest_modal_ad_back_button": "پوٹھھے جاؤ",
+  "rest_modal_ad_loading": "اشتہار تیار ہو رہیا اے..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "Jijjiga Yayin Taɓawa",
   "haptic_desc": "Ana jin ɗan jijjiga a hankali idan an taɓa maɓalli.",
 
-  "select_language": "Zaɓi Harshe"
+  "select_language": "Zaɓi Harshe",
+
+  "rest_modal_adult_title": "Tsaya! Bari mu yi wannan tare da babba!!",
+  "rest_modal_adult_desc": "Zo mu yi wasa tare da kyakkyawan babba!",
+  "rest_modal_wait_title": "Tsaya kadan!",
+  "rest_modal_wait_desc": "Ka dan jira kadan zaka sake yin wasa!",
+  "rest_modal_ad_button": "Kalli talla sannan ka yi wasa yanzu",
+  "rest_modal_rest_button": "Huta na minti 3",
+  "rest_modal_ad_error_title": "An kasa dauko tallar",
+  "rest_modal_ad_load_failed": "Ba mu shirya tallar ba yanzu. Don Allah ka sake gwadawa anjima.",
+  "rest_modal_ad_show_failed": "Wani abu ya faru yayin nuna tallar. Don Allah ka sake gwadawa.",
+  "rest_modal_ad_cancelled": "Dole ne ka kalli tallar har zuwa karshe don samun lada.",
+  "rest_modal_ad_already_showing": "Talla na nunawa tuni. Don Allah ka dan jira.",
+  "rest_modal_ad_retry_button": "Sake gwadawa",
+  "rest_modal_ad_back_button": "Baya",
+  "rest_modal_ad_loading": "Ana shirya talla..."
 }

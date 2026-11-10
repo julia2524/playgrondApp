@@ -631,5 +631,20 @@
   "haptic_title": "Getaran sentuhan",
   "haptic_desc": "Rasa getaran lembut apabila menekan butang.",
 
-  "select_language": "Pilih Bahasa"
+  "select_language": "Pilih Bahasa",
+
+  "rest_modal_adult_title": "Tunggu! Jom buat ni bersama orang dewasa!!",
+  "rest_modal_adult_desc": "Jom main sama-sama dengan orang dewasa yang baik!",
+  "rest_modal_wait_title": "Tunggu sekejap!",
+  "rest_modal_wait_desc": "Tunggu sikit lagi dan awak boleh main semula!",
+  "rest_modal_ad_button": "Tengok iklan dan terus main",
+  "rest_modal_rest_button": "Rehat selama 3 minit",
+  "rest_modal_ad_error_title": "Tidak dapat memuatkan iklan",
+  "rest_modal_ad_load_failed": "Kami tidak dapat sediakan iklan sekarang. Sila cuba lagi sebentar lagi.",
+  "rest_modal_ad_show_failed": "Ada masalah semasa mainkan iklan. Sila cuba lagi.",
+  "rest_modal_ad_cancelled": "Awak perlu tonton iklan sampai habis untuk dapatkan ganjaran.",
+  "rest_modal_ad_already_showing": "Iklan sedang dimainkan. Sila tunggu sebentar.",
+  "rest_modal_ad_retry_button": "Cuba lagi",
+  "rest_modal_ad_back_button": "Kembali",
+  "rest_modal_ad_loading": "Sedang sediakan iklan..."
 }

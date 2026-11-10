@@ -631,5 +631,20 @@
   "haptic_title": "Vibration bei Berührung",
   "haptic_desc": "Beim Tippen auf Tasten spürst du eine sanfte Vibration.",
 
-  "select_language": "Sprache auswählen"
+  "select_language": "Sprache auswählen",
+
+  "rest_modal_adult_title": "Warte mal! Das machen wir mit einem Erwachsenen zusammen!!",
+  "rest_modal_adult_desc": "Lass uns zusammen mit einem lieben Erwachsenen spielen!",
+  "rest_modal_wait_title": "Warte kurz!",
+  "rest_modal_wait_desc": "Warte noch ein kleines bisschen, dann kannst du wieder spielen!",
+  "rest_modal_ad_button": "Werbung ansehen und gleich spielen",
+  "rest_modal_rest_button": "3 Minuten ausruhen",
+  "rest_modal_ad_error_title": "Werbung konnte nicht geladen werden",
+  "rest_modal_ad_load_failed": "Die Werbung ist gerade noch nicht bereit. Probier es gleich noch einmal.",
+  "rest_modal_ad_show_failed": "Beim Abspielen der Werbung gab es ein Problem. Bitte versuche es noch einmal.",
+  "rest_modal_ad_cancelled": "Du musst die Werbung bis zum Ende anschauen, um deine Belohnung zu bekommen.",
+  "rest_modal_ad_already_showing": "Die Werbung wird bereits abgespielt. Bitte hab einen kleinen Moment Geduld.",
+  "rest_modal_ad_retry_button": "Nochmal versuchen",
+  "rest_modal_ad_back_button": "Zurück",
+  "rest_modal_ad_loading": "Werbung wird vorbereitet..."
 }

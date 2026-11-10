@@ -631,5 +631,20 @@
   "haptic_title": "Vibrations au toucher",
   "haptic_desc": "Une légère vibration accompagne l'appui sur les boutons.",
 
-  "select_language": "انتخاب زبان"
+  "select_language": "انتخاب زبان",
+
+  "rest_modal_adult_title": "Attends ! On fait ça avec un adulte !!",
+  "rest_modal_adult_desc": "Jouons ensemble avec un gentil adulte !",
+  "rest_modal_wait_title": "Attends un peu !",
+  "rest_modal_wait_desc": "Encore un tout petit moment et tu pourras rejouer !",
+  "rest_modal_ad_button": "Regarder la pub et jouer tout de suite",
+  "rest_modal_rest_button": "Se reposer pendant 3 minutes",
+  "rest_modal_ad_error_title": "Impossible de charger la pub",
+  "rest_modal_ad_load_failed": "La publicité n'est pas prête pour l'instant. Réessaie dans un moment.",
+  "rest_modal_ad_show_failed": "Oups, un petit problème est survenu lors de la lecture. Réessaie.",
+  "rest_modal_ad_cancelled": "Tu dois regarder la pub jusqu'à la fin pour recevoir ta récompense.",
+  "rest_modal_ad_already_showing": "La pub est déjà en train de se lancer. Patiente un instant.",
+  "rest_modal_ad_retry_button": "Réessayer",
+  "rest_modal_ad_back_button": "Retour",
+  "rest_modal_ad_loading": "Préparation de la pub..."
 }

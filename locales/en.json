@@ -633,19 +633,18 @@
 
   "select_language": "Select Language",
 
-  "rest_modal_adult_title": "Hold on!\nLet's play with a grown-up!",
-  "rest_modal_adult_desc": "Let's play together\nwith a trusted grown-up!",
-  "rest_modal_wait_title": "Please wait a moment!",
-  "rest_modal_wait_desc": "You can play again after a short break!",
-  "rest_modal_ad_button": "Watch an ad and play now",
-  "rest_modal_rest_button": "Take a 3-minute break",
-
-  "rest_modal_ad_error_title": "Unable to load ad",
-  "rest_modal_ad_load_failed": "No ad is available right now. Please try again shortly.",
+  "rest_modal_adult_title": "Wait! Let's do this with a grown-up!!",
+  "rest_modal_adult_desc": "Let's play together with a nice grown-up!",
+  "rest_modal_wait_title": "Wait a moment!",
+  "rest_modal_wait_desc": "Just wait a little bit and you can play again!",
+  "rest_modal_ad_button": "Watch ad and play now",
+  "rest_modal_rest_button": "Rest for 3 minutes",
+  "rest_modal_ad_error_title": "Couldn't load ad",
+  "rest_modal_ad_load_failed": "We couldn't get the ad ready right now. Please try again in a bit.",
   "rest_modal_ad_show_failed": "Something went wrong while playing the ad. Please try again.",
-  "rest_modal_ad_cancelled": "Please watch the entire ad to receive your reward.",
-  "rest_modal_ad_already_showing": "An ad is already in progress. Please wait.",
-  "rest_modal_ad_retry_button": "Try Again",
-  "rest_modal_ad_back_button": "Go Back",
+  "rest_modal_ad_cancelled": "You need to watch the ad all the way to the end to get your reward.",
+  "rest_modal_ad_already_showing": "The ad is already playing. Please wait a moment.",
+  "rest_modal_ad_retry_button": "Try again",
+  "rest_modal_ad_back_button": "Back",
   "rest_modal_ad_loading": "Preparing ad..."
 }

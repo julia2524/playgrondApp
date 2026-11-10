@@ -631,5 +631,20 @@
   "haptic_title": "Vibrație la atingere",
   "haptic_desc": "Simți o vibrație ușoară când atingi butoanele.",
 
-  "select_language": "Selectează limba"
+  "select_language": "Selectează limba",
+
+  "rest_modal_adult_title": "Stai! Hai să facem asta împreună cu un adult!!",
+  "rest_modal_adult_desc": "Hai să ne jucăm împreună cu un adult draguț!",
+  "rest_modal_wait_title": "Așteaptă puțin!",
+  "rest_modal_wait_desc": "Mai așteaptă un pic și te poți juca din nou!",
+  "rest_modal_ad_button": "Uită-te la reclamă și joacă-te acum",
+  "rest_modal_rest_button": "Odihnește-te 3 minute",
+  "rest_modal_ad_error_title": "Reclama nu a putut fi încărcată",
+  "rest_modal_ad_load_failed": "Nu am putut pregăti reclama acum. Te rugăm să încerci din nou puțin mai târziu.",
+  "rest_modal_ad_show_failed": "A apărut o problemă la redarea reclamei. Te rugăm să încerci din nou.",
+  "rest_modal_ad_cancelled": "Trebuie să te uiți la reclamă până la capăt pentru a primi recompensa.",
+  "rest_modal_ad_already_showing": "Reclama rulează deja. Te rugăm să aștepți un moment.",
+  "rest_modal_ad_retry_button": "Încearcă din nou",
+  "rest_modal_ad_back_button": "Înapoi",
+  "rest_modal_ad_loading": "Se pregătește reclama..."
 }

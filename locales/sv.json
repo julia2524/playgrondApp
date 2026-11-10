@@ -631,5 +631,20 @@
   "haptic_title": "Vibration vid tryck",
   "haptic_desc": "Känn en svag vibration när du trycker på knapparna.",
 
-  "select_language": "Välj språk"
+  "select_language": "Välj språk",
+
+  "rest_modal_adult_title": "Vänta! Det här gör vi tillsammans med en vuxen!!",
+  "rest_modal_adult_desc": "Låt oss leka tillsammans med en snäll vuxen!",
+  "rest_modal_wait_title": "Vänta lite!",
+  "rest_modal_wait_desc": "Vänta bara en liten stund så kan du leka igen!",
+  "rest_modal_ad_button": "Titta på reklam och spela direkt",
+  "rest_modal_rest_button": "Vila i 3 minuter",
+  "rest_modal_ad_error_title": "Kunde inte läsa in reklamen",
+  "rest_modal_ad_load_failed": "Vi kunde inte förbereda reklamen just nu. Försök igen om en liten stund.",
+  "rest_modal_ad_show_failed": "Något gick fel när reklamen spelades upp. Försök igen.",
+  "rest_modal_ad_cancelled": "Du måste titta på reklamen ända till slutet för att få din belöning.",
+  "rest_modal_ad_already_showing": "Reklamen spelas redan upp. Var vänlig vänta ett ögonblick.",
+  "rest_modal_ad_retry_button": "Försök igen",
+  "rest_modal_ad_back_button": "Tillbaka",
+  "rest_modal_ad_loading": "Förbereder reklam..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "Вибрация при касании",
   "haptic_desc": "Лёгкая вибрация при нажатии кнопок.",
 
-  "select_language": "Selectează limba"
+  "select_language": "Selectează limba",
+
+  "rest_modal_adult_title": "Подожди! Давай сделаем это со взрослым!!",
+  "rest_modal_adult_desc": "Давай поиграем вместе с добрым взрослым!",
+  "rest_modal_wait_title": "Подожди немного!",
+  "rest_modal_wait_desc": "Еще чуть-чуть, и ты снова сможешь играть!",
+  "rest_modal_ad_button": "Посмотреть рекламу и играть сразу",
+  "rest_modal_rest_button": "Отдохнуть 3 минуты",
+  "rest_modal_ad_error_title": "Не удалось загрузить рекламу",
+  "rest_modal_ad_load_failed": "Сейчас реклама не готова. Пожалуйста, попробуй снова чуть позже.",
+  "rest_modal_ad_show_failed": "Что-то пошло не так при воспроизведении рекламы. Попробуй еще раз.",
+  "rest_modal_ad_cancelled": "Нужно досмотреть рекламу до конца, чтобы получить награду.",
+  "rest_modal_ad_already_showing": "Реклама уже воспроизводится. Пожалуйста, подожди.",
+  "rest_modal_ad_retry_button": "Попробовать снова",
+  "rest_modal_ad_back_button": "Назад",
+  "rest_modal_ad_loading": "Подготовка рекламы..."
 }

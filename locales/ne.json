@@ -631,5 +631,20 @@
   "haptic_title": "छुँदा कम्पन",
   "haptic_desc": "बटन थिच्दा हल्का कम्पन महसुस हुन्छ।",
 
-  "select_language": "भाषा छान्नुहोस्"
+  "select_language": "भाषा छान्नुहोस्",
+
+  "rest_modal_adult_title": "पर्खनुहोस्! हामी यो ठूलो मान्छेको साथमा गर्नेछौँ!!",
+  "rest_modal_adult_desc": "कुनै मायालु ठու मान्छेको साथमा खेलौं!",
+  "rest_modal_wait_title": "थोरै पर्खनुहोस्!",
+  "rest_modal_wait_desc": "अलिकति मात्र पर्खनुहोस्, त्यसपछि फेरि खेल्न सक्नुहुनेछ!",
+  "rest_modal_ad_button": "विज्ञापन हेर्नुहोस् र तुरुन्तै खेल्नुहोस्",
+  "rest_modal_rest_button": "३ मिनेट आराम गर्नुहोस्",
+  "rest_modal_ad_error_title": "विज्ञापन लोड गर्न सकिएन",
+  "rest_modal_ad_load_failed": "हामीले अहिले विज्ञापन तयार गर्न सकेनौं। कृपया केही समयपछि फेरि प्रयास गर्नुहोस्।",
+  "rest_modal_ad_show_failed": "विज्ञापन देखाउने बेलामा समस्या भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+  "rest_modal_ad_cancelled": "उपहार पाउनको लागि तपाईंले विज्ञापन अन्तिमसम्म हेर्नुपर्छ।",
+  "rest_modal_ad_already_showing": "विज्ञापन पहिले नै चलिरहेको छ। कृपया केही समय पर्खनुहोस्।",
+  "rest_modal_ad_retry_button": "फेरि प्रयास गर्नुहोस्",
+  "rest_modal_ad_back_button": "पछाडि जानुहोस्",
+  "rest_modal_ad_loading": "विज्ञापन तयार हुँदैछ..."
 }

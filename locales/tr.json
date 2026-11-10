@@ -631,5 +631,20 @@
   "haptic_title": "Dokunma Titreşimi",
   "haptic_desc": "Düğmelere dokunduğunda hafif bir titreşim hissedersin.",
 
-  "select_language": "Dil Seçin"
+  "select_language": "Dil Seçin",
+
+  "rest_modal_adult_title": "Bekle! Bunu bir yetişkinle birlikte yapalım!!",
+  "rest_modal_adult_desc": "Tatlı bir yetişkinle birlikte oynayalım!",
+  "rest_modal_wait_title": "Biraz bekle!",
+  "rest_modal_wait_desc": "Çok az daha beklersen tekrar oynayabilirsin!",
+  "rest_modal_ad_button": "Reklamı izle ve hemen oyna",
+  "rest_modal_rest_button": "3 dakika dinlen",
+  "rest_modal_ad_error_title": "Reklam yüklenemedi",
+  "rest_modal_ad_load_failed": "Şu anda reklamı hazırlayamadık. Lütfen biraz sonra tekrar dene.",
+  "rest_modal_ad_show_failed": "Reklam oynatılırken bir sorun oluştu. Lütfen tekrar dene.",
+  "rest_modal_ad_cancelled": "Ödülünü alabilmek için reklamı sonuna kadar izlemelisin.",
+  "rest_modal_ad_already_showing": "Reklam zaten oynatılıyor. Lütfen biraz bekle.",
+  "rest_modal_ad_retry_button": "Tekrar dene",
+  "rest_modal_ad_back_button": "Geri",
+  "rest_modal_ad_loading": "Reklam hazırlanıyor..."
 }

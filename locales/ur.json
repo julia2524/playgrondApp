@@ -631,5 +631,20 @@
   "haptic_title": "چھونے پر وائبریشن",
   "haptic_desc": "بٹن دبانے پر ہلکی سی وائبریشن محسوس ہوتی ہے۔",
 
-  "select_language": "زبان منتخب کریں"
+  "select_language": "زبان منتخب کریں",
+
+  "rest_modal_adult_title": "رکیں! آئیے یہ کسی بڑے کے ساتھ مل کر کریں!!",
+  "rest_modal_adult_desc": "آئیے کسی پیارے بڑے کے ساتھ مل کر کھیلیں!",
+  "rest_modal_wait_title": "تھوڑا انتظار کریں!",
+  "rest_modal_wait_desc": "بس تھوڑا سا انتظار کریں اور آپ پھر سے کھیل سکیں گے!",
+  "rest_modal_ad_button": "اشتہار دیکھیں اور فوراً کھیلیں",
+  "rest_modal_rest_button": "3 منٹ کے لیے آرام کریں",
+  "rest_modal_ad_error_title": "اشتہار لوڈ نہیں ہو سکا",
+  "rest_modal_ad_load_failed": "ہم ابھی اشتہار تیار نہیں کر سکے۔ براہ کرم تھوڑی دیر بعد دوبارہ کوشش کریں۔",
+  "rest_modal_ad_show_failed": "اشتہار چلاتے وقت کوئی مسئلہ پیش آ گیا۔ براہ کرم دوبارہ کوشش کریں۔",
+  "rest_modal_ad_cancelled": "انعام حاصل کرنے کے لیے آپ کو اشتہار پورا دیکھنا ہوگا۔",
+  "rest_modal_ad_already_showing": "اشتہار پہلے ہی چل رہا ہے۔ براہ کرم تھوڑا انتظار کریں۔",
+  "rest_modal_ad_retry_button": "دوبارہ کوشش کریں",
+  "rest_modal_ad_back_button": "واپس جائیں",
+  "rest_modal_ad_loading": "اشتہار تیار ہو رہا ہے..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "छूने पर कंपन",
   "haptic_desc": "बटन दबाने पर हल्का कंपन महसूस होता है।",
 
-  "select_language": "भाषा चुनें"
+  "select_language": "भाषा चुनें",
+
+  "rest_modal_adult_title": "रुको! किसी बड़े के साथ यह करते हैं!!",
+  "rest_modal_adult_desc": "चलो किसी प्यारे बड़े के साथ मिलकर खेलें!",
+  "rest_modal_wait_title": "थोड़ा इंतज़ार करो!",
+  "rest_modal_wait_desc": "बस थोड़ा सा इंतज़ार करो और तुम फिर से खेल सकोगे!",
+  "rest_modal_ad_button": "विज्ञापन देखो और अभी खेलो",
+  "rest_modal_rest_button": "3 मिनट आराम करो",
+  "rest_modal_ad_error_title": "विज्ञापन लोड नहीं हो पाया",
+  "rest_modal_ad_load_failed": "हम अभी विज्ञापन तैयार नहीं कर पाए। कृपया थोड़ी देर बाद फिर कोशिश करें।",
+  "rest_modal_ad_show_failed": "विज्ञापन चलाने में कोई दिक्कत आ गई। कृपया फिर से कोशिश करें।",
+  "rest_modal_ad_cancelled": "इनाम पाने के लिए आपको विज्ञापन पूरा देखना होगा।",
+  "rest_modal_ad_already_showing": "विज्ञापन पहले से चल रहा है। कृपया थोड़ा इंतज़ार करें।",
+  "rest_modal_ad_retry_button": "फिर से कोशिश करो",
+  "rest_modal_ad_back_button": "वापस जाओ",
+  "rest_modal_ad_loading": "विज्ञापन तैयार हो रहा है..."
 }

@@ -631,5 +631,20 @@
   "haptic_title": "اهتزاز اللمس",
   "haptic_desc": "اهتزاز خفيف عند الضغط على الأزرار.",
 
-  "select_language": "اختر اللغة"
+  "select_language": "اختر اللغة",
+
+  "rest_modal_adult_title": "مهلاً! دعنا نفعل ذلك مع شخص بالغ!!",
+  "rest_modal_adult_desc": "هيا نلعب مع شخص بالغ لطيف!",
+  "rest_modal_wait_title": "انتظر قليلاً!",
+  "rest_modal_wait_desc": "انتظر لحظة وسيمكننا اللعب مرة أخرى!",
+  "rest_modal_ad_button": "شاهد الإعلان والعب فوراً",
+  "rest_modal_rest_button": "استرح لمدة 3 دقائق",
+  "rest_modal_ad_error_title": "تعذر تحميل الإعلان",
+  "rest_modal_ad_load_failed": "لم نتمكن من تجهيز الإعلان الآن. يرجى المحاولة مرة أخرى لاحقاً.",
+  "rest_modal_ad_show_failed": "حدث مشكلة أثناء تشغيل الإعلان. يرجى المحاولة مرة أخرى.",
+  "rest_modal_ad_cancelled": "يجب عليك مشاهدة الإعلان للنهاية لتربح المكافأة.",
+  "rest_modal_ad_already_showing": "الإعلان قيد التشغيل بالفعل. يرجى الانتظار قليلاً.",
+  "rest_modal_ad_retry_button": "إعادة المحاولة",
+  "rest_modal_ad_back_button": "رجوع",
+  "rest_modal_ad_loading": "جاري تجهيز الإعلان..."
 }

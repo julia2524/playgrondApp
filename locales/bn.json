@@ -631,5 +631,20 @@
   "haptic_title": "স্পর্শের কম্পন",
   "haptic_desc": "বোতাম টিপলে হালকা কম্পন অনুভব করুন।",
 
-  "select_language": "ভাষা নির্বাচন করুন"
+  "select_language": "ভাষা নির্বাচন করুন",
+
+  "rest_modal_adult_title": "একটু দাঁড়াও! বড়দের সাথে করবো!!",
+  "rest_modal_adult_desc": "আমাদের প্রিয় বড়দের সাথে চলো খেলি!",
+  "rest_modal_wait_title": "একটু অপেক্ষা করো!",
+  "rest_modal_wait_desc": "আরেকটু অপেক্ষা করলেই আবার খেলতে পারবে!",
+  "rest_modal_ad_button": "বিজ্ঞাপন দেখে এখনই খেলি",
+  "rest_modal_rest_button": "৩ মিনিট বিশ্রাম নিই",
+  "rest_modal_ad_error_title": "বিজ্ঞাপন লোড করা যাচ্ছে না",
+  "rest_modal_ad_load_failed": "এখন বিজ্ঞাপন প্রস্তুত করা যায়নি। কিছুক্ষণ পর আবার চেষ্টা করো।",
+  "rest_modal_ad_show_failed": "বিজ্ঞাপন চালাতে সমস্যা হয়েছে। আবার চেষ্টা করো।",
+  "rest_modal_ad_cancelled": "পুরস্কার পেতে হলে বিজ্ঞাপনটি শেষ পর্যন্ত দেখতে হবে।",
+  "rest_modal_ad_already_showing": "বিজ্ঞাপন ইতিমধ্যেই চলছে। একটু অপেক্ষা করো।",
+  "rest_modal_ad_retry_button": "আবার চেষ্টা করো",
+  "rest_modal_ad_back_button": "ফিরে যাও",
+  "rest_modal_ad_loading": "বিজ্ঞাপন প্রস্তুত হচ্ছে..."
 }
