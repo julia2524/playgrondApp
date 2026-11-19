@@ -218,23 +218,6 @@ export default function HomeScreen() {
           {/* 게임 카드 그리드 */}
           <GameGridWrapper style={{ width: "100%" }}>
             <GameGrid>
-              {/* 1. 색깔 분류 (활성화) */}
-              {/* <GameCardItem
-                bgColor={BASIC_COLORS.ACCENT}
-                emoji={
-                  <Ionicons
-                    name="color-palette"
-                    size={40}
-                    color={PASTEL_BG.neutral}
-                  />
-                }
-                title={i18n.t("game_color_title")}
-                desc={i18n.t("game_color_desc")}
-                onPress={() => {
-                  triggerHaptic("light");
-                  goToStageMap("color");
-                }}
-              /> */}
               <GameCardItem
                 bgColor={BASIC_COLORS.ACCENT}
                 emoji={<ClayColorIcon size={76} />}
@@ -246,23 +229,6 @@ export default function HomeScreen() {
                 }}
               />
 
-              {/* 2. 모양 분류 (준비중) */}
-              {/* <GameCardItem
-                bgColor={BASIC_COLORS.SECONDARY}
-                emoji={
-                  <Ionicons
-                    name="diamond"
-                    size={40}
-                    color={PASTEL_BG.neutral}
-                  />
-                }
-                title={i18n.t("game_shape_title")}
-                desc={i18n.t("game_shape_desc")}
-                onPress={() => {
-                  triggerHaptic("light");
-                  goToStageMap("shape");
-                }}
-              /> */}
               <GameCardItem
                 bgColor={BASIC_COLORS.SECONDARY}
                 emoji={<ClayShapeIcon size={76} />}
@@ -274,23 +240,6 @@ export default function HomeScreen() {
                 }}
               />
 
-              {/* 3. 크기 분류 (준비중) */}
-              {/* <GameCardItem
-                bgColor={BASIC_COLORS.SUCCESS}
-                emoji={
-                  <Ionicons
-                    name="fast-food"
-                    size={40}
-                    color={PASTEL_BG.neutral}
-                  />
-                }
-                title={i18n.t("game_category_title")}
-                desc={i18n.t("game_category_desc")}
-                onPress={() => {
-                  triggerHaptic("light");
-                  goToStageMap("category");
-                }}
-              /> */}
               <GameCardItem
                 bgColor={BASIC_COLORS.SUCCESS}
                 emoji={<ClayCategoryIcon size={76} />}
