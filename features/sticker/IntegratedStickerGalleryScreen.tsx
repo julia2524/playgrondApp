@@ -26,12 +26,16 @@ import {
 
 import BannerAd from "../../services/BannerAd";
 import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { BASIC_COLORS } from "../../design-system/tokens/colors";
+
 import { AppText } from "../../utils/AppText";
 import i18n from "../../i18n";
 import SettingButton from "../../components/common/SettingButton";
 import { triggerHaptic } from "../../utils/haptic";
+import {
+  ClayCategoryIcon,
+  ClayColorIcon,
+  ClayShapeIcon,
+} from "../../components/icons/ClayGameIcons";
 
 const { width } = Dimensions.get("window");
 
@@ -40,17 +44,20 @@ const getTabs = () => [
   {
     id: "color" as GameType,
     label: i18n.t("tab_find_color"),
-    iconName: "color-palette",
+    // iconName: "color-palette",
+    iconName: <ClayColorIcon size={30} />,
   },
   {
     id: "shape" as GameType,
     label: i18n.t("tab_find_shape"),
-    iconName: "diamond",
+    // iconName: "diamond",
+    iconName: <ClayShapeIcon size={30} />,
   },
   {
     id: "category" as GameType,
     label: i18n.t("tab_find_friend"),
-    iconName: "fast-food",
+    // iconName: "fast-food",
+    iconName: <ClayCategoryIcon size={30} />,
   },
 ];
 
@@ -216,11 +223,12 @@ export default function IntegratedStickerGalleryScreen() {
             }}
           >
             <TabIcon>
-              <Ionicons
+              {/* <Ionicons
                 name={tab.iconName as any}
                 size={20}
                 color={BASIC_COLORS.TEXT_SUB}
-              />
+              /> */}
+              {tab.iconName as any}
             </TabIcon>
             <TabText isActive={activeTab === tab.id}>{tab.label}</TabText>
           </TabButton>
