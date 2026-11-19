@@ -612,6 +612,7 @@
   "feedback_try_again": "Det gör inget! Ska vi prova nästa?",
 
   "success_title": "Du är toppen!",
+  "result_level_format": "NIVÅ {{level}}",
 
   "language_section": "Språk",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Reklamen spelas redan upp. Var vänlig vänta ett ögonblick.",
   "rest_modal_ad_retry_button": "Försök igen",
   "rest_modal_ad_back_button": "Tillbaka",
-  "rest_modal_ad_loading": "Förbereder reklam..."
+  "rest_modal_ad_loading": "Förbereder reklam...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "En ny kompis har kommit!",
+  "updateModal_description": "Uppdatera till den nya versionen\nför ännu mer skoj och roliga lekar.",
+  "updateModal_infoText": "Nya spel och roliga stunder\nväntar på dig!",
+  "updateModal_updating": "Förbereder uppdatering...",
+  "updateModal_updateButton": "Uppdatera nu",
+  "updateModal_laterButton": "Kanske senare",
+  "updateModal_footer": "Låt oss leka tillsammans igen nästa gång! ♡"
 }

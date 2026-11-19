@@ -612,6 +612,7 @@
   "feedback_try_again": "Nu-i nimic! Încercăm următorul?",
 
   "success_title": "Minunat!",
+  "result_level_format": "NIVELUL {{level}}",
 
   "language_section": "Limbă",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Reclama rulează deja. Te rugăm să aștepți un moment.",
   "rest_modal_ad_retry_button": "Încearcă din nou",
   "rest_modal_ad_back_button": "Înapoi",
-  "rest_modal_ad_loading": "Se pregătește reclama..."
+  "rest_modal_ad_loading": "Se pregătește reclama...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "A sosit un nou prieten!",
+  "updateModal_description": "Te rugăm să faci update la noua versiune\npentru și mai multă distracție și joacă.",
+  "updateModal_infoText": "Jocuri noi și momente fericite\nte așteaptă!",
+  "updateModal_updating": "Se pregătește update-ul...",
+  "updateModal_updateButton": "Actualizează acum",
+  "updateModal_laterButton": "Poate mai târziu",
+  "updateModal_footer": "Hai să ne jucăm din nou împreună data viitoare! ♡"
 }

@@ -612,6 +612,7 @@
   "feedback_try_again": "কিছু হয়নি! আরেকটা প্রশ্ন চেষ্টা করব?",
 
   "success_title": "তুমি দারুণ!",
+  "result_level_format": "লেভেল {{level}}",
 
   "language_section": "ভাষার সেটিংস",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "বিজ্ঞাপন ইতিমধ্যেই চলছে। একটু অপেক্ষা করো।",
   "rest_modal_ad_retry_button": "আবার চেষ্টা করো",
   "rest_modal_ad_back_button": "ফিরে যাও",
-  "rest_modal_ad_loading": "বিজ্ঞাপন প্রস্তুত হচ্ছে..."
+  "rest_modal_ad_loading": "বিজ্ঞাপন প্রস্তুত হচ্ছে...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "নতুন বন্ধু চলে এসেছে!",
+  "updateModal_description": "আরও সুন্দর ও মজার খেলার জন্য\nদয়া করে নতুন সংস্করণে আপডেট করে নাও।",
+  "updateModal_infoText": "নতুন খেলা আর অনেক আনন্দ\nতোমার জন্য অপেক্ষা করছে!",
+  "updateModal_updating": "আপডেট প্রস্তুত করা হচ্ছে...",
+  "updateModal_updateButton": "আপডেট করো",
+  "updateModal_laterButton": "পরে করব",
+  "updateModal_footer": "আমরা সামনে আরও অনেক মজা করব! ♡"
 }

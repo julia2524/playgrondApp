@@ -612,6 +612,7 @@
   "feedback_try_again": "பரவாயில்லை! இன்னொன்றை முயற்சி செய்யலாமா?",
 
   "success_title": "அருமை!",
+  "result_level_format": "நிலை {{level}}",
 
   "language_section": "மொழி",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "விளம்பரம் ஏற்கனவே ஓடிக்கொண்டிருக்கிறது. சிறிது நேரம் காத்திருக்கவும்.",
   "rest_modal_ad_retry_button": "மீண்டும் முயற்சிக்கவும்",
   "rest_modal_ad_back_button": "பின்செல்",
-  "rest_modal_ad_loading": "விளம்பரம் தயாராகிறது..."
+  "rest_modal_ad_loading": "விளம்பரம் தயாராகிறது...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "ஒரு புதிய நண்பர் வந்துவிட்டார்!",
+  "updateModal_description": "மேலும் பல வேடிக்கையான மற்றும் மகிழ்ச்சியான விளையாட்டுகளுக்கு\nபுதிய பதிப்பிற்குப் புதுப்பிக்கவும்.",
+  "updateModal_infoText": "புதிய விளையாட்டுகளும் மகிழ்ச்சியான நேரமும்\nஉமக்காகக் காத்திருக்கின்றன!",
+  "updateModal_updating": "புதுப்பிப்பு தயாராகிறது...",
+  "updateModal_updateButton": "இப்போது புதுப்பிக்கவும்",
+  "updateModal_laterButton": "பின்னர் செய்கிறேன்",
+  "updateModal_footer": "அடுத்த முறை நாம் மீண்டும் சேர்ந்து விளையாடலாம்! ♡"
 }

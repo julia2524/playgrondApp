@@ -612,6 +612,7 @@
   "feedback_try_again": "Không sao đâu! Mình thử câu tiếp theo nữa nhé?",
 
   "success_title": "Tuyệt lắm!",
+  "result_level_format": "MỨC {{level}}",
 
   "language_section": "Cài đặt ngôn ngữ",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Quảng cáo đang được phát rồi. Con đợi một chút nha.",
   "rest_modal_ad_retry_button": "Thử lại",
   "rest_modal_ad_back_button": "Quay lại",
-  "rest_modal_ad_loading": "Đang chuẩn bị quảng cáo..."
+  "rest_modal_ad_loading": "Đang chuẩn bị quảng cáo...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Có một người bạn mới đến nè!",
+  "updateModal_description": "Hãy cập nhật lên phiên bản mới\nđể chơi những trò chơi vui hơn và thú vị hơn nhé.",
+  "updateModal_infoText": "Những trò chơi mới và khoảng thời gian vui vẻ\nđang chờ con đó!",
+  "updateModal_updating": "Đang chuẩn bị cập nhật...",
+  "updateModal_updateButton": "Cập nhật ngay",
+  "updateModal_laterButton": "Để sau nha",
+  "updateModal_footer": "Lần sau chúng mình lại cùng chơi tiếp nhé! ♡"
 }

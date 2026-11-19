@@ -612,6 +612,7 @@
   "feedback_try_again": "لا بأس! هل نجرب سؤالًا آخر؟",
 
   "success_title": "أنت رائع!",
+  "result_level_format": "المستوى {{level}}",
 
   "language_section": "إعدادات اللغة",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "الإعلان قيد التشغيل بالفعل. يرجى الانتظار قليلاً.",
   "rest_modal_ad_retry_button": "إعادة المحاولة",
   "rest_modal_ad_back_button": "رجوع",
-  "rest_modal_ad_loading": "جاري تجهيز الإعلان..."
+  "rest_modal_ad_loading": "جاري تجهيز الإعلان...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "لقد وصل صديق جديد!",
+  "updateModal_description": "يرجى التحديث إلى الإصدار الجديد\nلنقضي أوقاتاً ممتعة ولعبة أجمل.",
+  "updateModal_infoText": "الكثير من الألعاب والأوقات السعيدة\nفي انتظارك!",
+  "updateModal_updating": "جاري تجهيز التحديث...",
+  "updateModal_updateButton": "تحديث الآن",
+  "updateModal_laterButton": "لاحقاً",
+  "updateModal_footer": "دعنا نلعب معاً مرة أخرى قريباً! ♡"
 }

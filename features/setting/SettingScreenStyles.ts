@@ -22,8 +22,7 @@ export const HeaderCenter = styled.View`
 
 export const Title = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
-
-  font-size: ${(props) => props.theme.typography.heading}px;
+  font-size: ${(props) => props.theme.typography.subheading}px;
 
   color: ${BASIC_COLORS.TEXT_MAIN};
 
@@ -57,8 +56,7 @@ export const SectionTitle = styled(AppText)`
   margin-bottom: 8px;
   padding-left: 20px;
   font-family: ${(props) => props.theme.fontFamily};
-
-  font-size: ${(props) => props.theme.typography.subheading}px;
+  font-size: ${(props) => props.theme.typography.body}px;
 
   font-weight: 700;
 
@@ -126,7 +124,7 @@ export const SettingDescription = styled(AppText)`
 
   font-family: ${(props) => props.theme.fontFamily};
 
-  font-size: ${(props) => props.theme.typography.small}px;
+  font-size: ${(props) => props.theme.typography.tiny}px;
 
   color: #8b7b7b;
 `;

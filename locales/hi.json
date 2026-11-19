@@ -612,6 +612,7 @@
   "feedback_try_again": "कोई बात नहीं! एक और सवाल आज़माएँ?",
 
   "success_title": "तुम कमाल हो!",
+  "result_level_format": "लेवल {{level}}",
 
   "language_section": "भाषा की सेटिंग",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "विज्ञापन पहले से चल रहा है। कृपया थोड़ा इंतज़ार करें।",
   "rest_modal_ad_retry_button": "फिर से कोशिश करो",
   "rest_modal_ad_back_button": "वापस जाओ",
-  "rest_modal_ad_loading": "विज्ञापन तैयार हो रहा है..."
+  "rest_modal_ad_loading": "विज्ञापन तैयार हो रहा है...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "एक नया दोस्त आ गया है!",
+  "updateModal_description": "और भी मज़ेदार और प्यारे खेलों के लिए\nकृपया नए वर्शन पर अपडेट करें।",
+  "updateModal_infoText": "नए खेल और खुशियों भरा समय\nतुम्हारा इंतज़ार कर रहा है!",
+  "updateModal_updating": "अपडेट तैयार हो रहा है...",
+  "updateModal_updateButton": "अभी अपडेट करें",
+  "updateModal_laterButton": "बाद में करूँगा",
+  "updateModal_footer": "हम अगली बार फिर से साथ मिलकर खेलेंगे! ♡"
 }

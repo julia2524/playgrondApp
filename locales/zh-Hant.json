@@ -612,6 +612,7 @@
   "feedback_try_again": "沒關係！再試試下一題吧？",
 
   "success_title": "你真棒！",
+  "result_level_format": "第 {{level}} 關",
 
   "language_section": "語言設定",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "廣告已經在播放囉，請稍等一下下。",
   "rest_modal_ad_retry_button": "再試一次",
   "rest_modal_ad_back_button": "返回",
-  "rest_modal_ad_loading": "廣告準備中..."
+  "rest_modal_ad_loading": "廣告準備中...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "新朋友來囉！",
+  "updateModal_description": "為了體驗更多好玩有趣的遊戲，\n請更新到最新版本唷。",
+  "updateModal_infoText": "更多好玩的遊戲和快樂時光\n正在等著你呢！",
+  "updateModal_updating": "更新準備中...",
+  "updateModal_updateButton": "立即更新",
+  "updateModal_laterButton": "以後再說",
+  "updateModal_footer": "我們下次還要一起開心地玩唷！ ♡"
 }

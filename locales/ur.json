@@ -612,6 +612,7 @@
   "feedback_try_again": "کوئی بات نہیں! ایک اور سوال آزمائیں؟",
 
   "success_title": "تم کمال ہو!",
+  "result_level_format": "لیول {{level}}",
 
   "language_section": "زبان کی ترتیبات",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "اشتہار پہلے ہی چل رہا ہے۔ براہ کرم تھوڑا انتظار کریں۔",
   "rest_modal_ad_retry_button": "دوبارہ کوشش کریں",
   "rest_modal_ad_back_button": "واپس جائیں",
-  "rest_modal_ad_loading": "اشتہار تیار ہو رہا ہے..."
+  "rest_modal_ad_loading": "اشتہار تیار ہو رہا ہے...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "ایک نیا دوست آ گیا ہے!",
+  "updateModal_description": "مزید مزیدار اور پیارے کھیلوں کے لیے\nبراہ کرم نئے ورژن پر اپ ڈیٹ کریں۔",
+  "updateModal_infoText": "نئے کھیل اور خوشیوں بھرا وقت\nآپ کا انتظار کر رہا ہے!",
+  "updateModal_updating": "اپ ڈیٹ تیار ہو رہی ہے...",
+  "updateModal_updateButton": "ابھی اپ ڈیٹ کریں",
+  "updateModal_laterButton": "شاید بعد میں",
+  "updateModal_footer": "اگلی بار ہم پھر سے ساتھ مل کر کھیلیں گے! ♡"
 }

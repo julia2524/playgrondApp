@@ -27,7 +27,7 @@ export const StageMapHeaderCenter = styled.View`
 
 export const StageMapTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.heading}px;
+  font-size: ${(props) => props.theme.typography.subheading}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;

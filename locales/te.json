@@ -612,6 +612,7 @@
   "feedback_try_again": "పర్వాలేదు! మరో ప్రశ్న ప్రయత్నిద్దామా?",
 
   "success_title": "నువ్వు అద్భుతం!",
+  "result_level_format": "స్థాయి {{level}}",
 
   "language_section": "భాష సెట్టింగ్‌లు",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "యాడ్ ఇప్పటికే ప్లే అవుతోంది. దయచేసి కొద్దిసేపు వేచి ఉండండి.",
   "rest_modal_ad_retry_button": "మళ్లీ ప్రయత్నించండి",
   "rest_modal_ad_back_button": "వెనక్కి",
-  "rest_modal_ad_loading": "యాడ్ సిద్ధమవుతోంది..."
+  "rest_modal_ad_loading": "యాడ్ సిద్ధమవుతోంది...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "ఒక కొత్త స్నేహితుడు వచ్చేసాడు!",
+  "updateModal_description": "మరిన్ని సరదాగా మరియు ఆనందంగా ఆడుకోవడానికి\nదయచేసి కొత్త వెర్షన్‌కు అప్‌డేట్ చేయండి.",
+  "updateModal_infoText": "కొత్త ఆటలు మరియు సంతోషకరమైన సమయం\nమీకోసం ఎదురుచూస్తున్నాయి!",
+  "updateModal_updating": "అప్‌డేట్ సిద్ధమవుతోంది...",
+  "updateModal_updateButton": "ఇప్పుడే అప్‌డేట్ చేయండి",
+  "updateModal_laterButton": "తర్వాత చేస్తాను",
+  "updateModal_footer": "మరుసటిసారి మనం మళ్లీ కలిసి ఆడుకుందాం! ♡"
 }

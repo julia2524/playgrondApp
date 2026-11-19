@@ -111,7 +111,10 @@ export default function SuccessModal({
         ========================================== */}
         <SuccessCloudBadge>
           <CloudLevelBadge size={300} />
-          <SuccessLevelText>LEVEL {level}</SuccessLevelText>
+
+          <SuccessLevelText>
+            {i18n.t("result_level_format", { level })}
+          </SuccessLevelText>
         </SuccessCloudBadge>
 
         <SuccessModalInner>

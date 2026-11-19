@@ -612,6 +612,7 @@
   "feedback_try_again": "کوئی گل نئیں! اک ہور سوال آزمائیے؟",
 
   "success_title": "تُوں کمال ایں!",
+  "result_level_format": "لیول {{level}}",
 
   "language_section": "بولی دیاں سیٹنگاں",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "اشتہار پہلاں ہی چل رہیا اے۔ مہربانی کر کے تھوڑا انتظار کرو۔",
   "rest_modal_ad_retry_button": "دوبارہ کوشش کرو",
   "rest_modal_ad_back_button": "پوٹھھے جاؤ",
-  "rest_modal_ad_loading": "اشتہار تیار ہو رہیا اے..."
+  "rest_modal_ad_loading": "اشتہار تیار ہو رہیا اے...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "کجھ نویں یار آ گیا اے!",
+  "updateModal_description": "ہور مزے دار تے پیارے کھیڈاں لئی\nمہربانی کر کے نویں ورشن تے اپ ڈیٹ کرو۔",
+  "updateModal_infoText": "نویں کھیڈاں تے خوشیاں بھریا ویلا\nتہاڈا انتظار کر رہیا اے!",
+  "updateModal_updating": "اپ ڈیٹ تیار ہو رہی اے...",
+  "updateModal_updateButton": "ہنہی اپ ڈیٹ کرو",
+  "updateModal_laterButton": "شاید بعد وچ",
+  "updateModal_footer": "اگلی واری اسیں فیر توں رل کے کھیڈاں گے! ♡"
 }

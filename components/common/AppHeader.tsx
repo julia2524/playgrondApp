@@ -66,7 +66,7 @@ const BackButton = styled.TouchableOpacity`
 
 const BackText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.giant}px;
+  font-size: ${(props) => props.theme.typography.title}px;
   color: ${BASIC_COLORS.TEXT_MAIN};
   margin-top: -3px;
 `;

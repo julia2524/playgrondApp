@@ -612,6 +612,7 @@
   "feedback_try_again": "केही छैन! अर्को प्रश्न पनि खेलौँ?",
 
   "success_title": "तिमी गज्जब छौ!",
+  "result_level_format": "लेभल {{level}}",
 
   "language_section": "भाषाको सेटिङ",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "विज्ञापन पहिले नै चलिरहेको छ। कृपया केही समय पर्खनुहोस्।",
   "rest_modal_ad_retry_button": "फेरि प्रयास गर्नुहोस्",
   "rest_modal_ad_back_button": "पछाडि जानुहोस्",
-  "rest_modal_ad_loading": "विज्ञापन तयार हुँदैछ..."
+  "rest_modal_ad_loading": "विज्ञापन तयार हुँदैछ...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "नयाँ साथी आउनुभएको छ!",
+  "updateModal_description": "अझै रमाइलो र मज्जाको खेलको लागि\nकृपया नयाँ संस्करणमा अपडेट गर्नुहोस्।",
+  "updateModal_infoText": "नयाँ खेलहरू र खुसीको समयले\nतपाईंलाई पर्खिरहेको छ!",
+  "updateModal_updating": "अपडेट तयार हुँदैछ...",
+  "updateModal_updateButton": "अहिले अपडेट गर्नुहोस्",
+  "updateModal_laterButton": "पछिल्लो समय",
+  "updateModal_footer": "हामी अर्को पटक फेरि रमाइलो गरी खेल्नेछौँ! ♡"
 }

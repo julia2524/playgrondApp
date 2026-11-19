@@ -86,7 +86,7 @@ const GameDescription = styled(AppText)`
   margin-top: 4px;
 
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
+  font-size: ${(props) => props.theme.typography.tiny}px;
   color: #9a8b84;
 `;
 

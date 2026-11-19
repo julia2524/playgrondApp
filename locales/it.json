@@ -612,6 +612,7 @@
   "feedback_try_again": "Non fa niente! Proviamo il prossimo?",
 
   "success_title": "Sei speciale!",
+  "result_level_format": "LIVELLO {{level}}",
 
   "language_section": "Lingua",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Il video è già in riproduzione. Attendi un momento.",
   "rest_modal_ad_retry_button": "Riprova",
   "rest_modal_ad_back_button": "Indietro",
-  "rest_modal_ad_loading": "Preparazione video..."
+  "rest_modal_ad_loading": "Preparazione video...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "È arrivato un nuovo amico!",
+  "updateModal_description": "Aggiorna all'ultima versione\nper giochi ancora più divertenti e speciali.",
+  "updateModal_infoText": "Nuovi giochi e tanti bei momenti\nti stanno aspettando!",
+  "updateModal_updating": "Preparazione aggiornamento...",
+  "updateModal_updateButton": "Aggiorna ora",
+  "updateModal_laterButton": "Più tardi",
+  "updateModal_footer": "Giochiamo di nuovo insieme la prossima volta! ♡"
 }

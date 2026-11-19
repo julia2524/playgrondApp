@@ -612,6 +612,7 @@
   "feedback_try_again": "Nic nie szkodzi! Spróbujemy następnego?",
 
   "success_title": "Super!",
+  "result_level_format": "POZIOM {{level}}",
 
   "language_section": "Język",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Reklama jest już odtwarzana. Proszę chwilę poczekać.",
   "rest_modal_ad_retry_button": "Spróbuj ponownie",
   "rest_modal_ad_back_button": "Wróć",
-  "rest_modal_ad_loading": "Przygotowywanie reklamy..."
+  "rest_modal_ad_loading": "Przygotowywanie reklamy...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Przybył nowy przyjaciel!",
+  "updateModal_description": "Zaktualizuj aplikację do nowej wersji,\naby przeżyć jeszcze więcej wspaniałej zabawy.",
+  "updateModal_infoText": "Nowe gry i radosne chwile\njuż na Ciebie czekają!",
+  "updateModal_updating": "Przygotowywanie aktualizacji...",
+  "updateModal_updateButton": "Aktualizuj teraz",
+  "updateModal_laterButton": "Może później",
+  "updateModal_footer": "Pobawmy się razem znowu następnym razem! ♡"
 }

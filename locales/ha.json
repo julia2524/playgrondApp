@@ -612,6 +612,7 @@
   "feedback_try_again": "Ba damuwa! Mu gwada wata kuma?",
 
   "success_title": "Madalla!",
+  "result_level_format": "MATAKI NA {{level}}",
 
   "language_section": "Harshe",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Talla na nunawa tuni. Don Allah ka dan jira.",
   "rest_modal_ad_retry_button": "Sake gwadawa",
   "rest_modal_ad_back_button": "Baya",
-  "rest_modal_ad_loading": "Ana shirya talla..."
+  "rest_modal_ad_loading": "Ana shirya talla...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Wani sabon aboki ya zo!",
+  "updateModal_description": "Don Allah ka yi sabon salo (update)\ndomin samun wasa mai daɗi da jin daɗi.",
+  "updateModal_infoText": "Sabbin wasanni da lokacin farin ciki\nna jiran ka!",
+  "updateModal_updating": "Ana shirya sabuntawa...",
+  "updateModal_updateButton": "Sabunta yanzu",
+  "updateModal_laterButton": "Daga baya",
+  "updateModal_footer": "Bari mu sake yin wasa tare nan gaba! ♡"
 }

@@ -612,6 +612,7 @@
   "feedback_try_again": "ولا يهمك! نجرّب سؤال كمان؟",
 
   "success_title": "إنت رائع!",
+  "result_level_format": "المستوى {{level}}",
 
   "language_section": "إعدادات اللغة",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "الإعلان شغال أصلاً. استنى ثواني.",
   "rest_modal_ad_retry_button": "حاول تاني",
   "rest_modal_ad_back_button": "رجوع",
-  "rest_modal_ad_loading": "بنجهز الإعلان..."
+  "rest_modal_ad_loading": "بنجهز الإعلان...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "فيه صديق جديد جه!",
+  "updateModal_description": "عشان نلعب ألعاب أحلى وممتعة أكتر،\nحدث التطبيق للنسخة الجديدة.",
+  "updateModal_infoText": "ألعاب جديدة وأوقات حلوة\nمستنياك!",
+  "updateModal_updating": "بنجهز التحديث...",
+  "updateModal_updateButton": "حدث دلوقتي",
+  "updateModal_laterButton": "كمان شوية",
+  "updateModal_footer": "تعال نلعب سوا تاني قريب! ♡"
 }

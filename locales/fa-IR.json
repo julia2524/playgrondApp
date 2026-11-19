@@ -612,6 +612,7 @@
   "feedback_try_again": "اشکالی ندارد! یک سؤال دیگر را امتحان کنیم؟",
 
   "success_title": "عالی هستی!",
+  "result_level_format": "مرحله {{level}}",
 
   "language_section": "تنظیمات زبان",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "تبلیغ همین الان داره پخش میشه. لطفاً کمی صبر کن.",
   "rest_modal_ad_retry_button": "تلاش مجدد",
   "rest_modal_ad_back_button": "بازگشت",
-  "rest_modal_ad_loading": "در حال آماده‌سازی تبلیغ..."
+  "rest_modal_ad_loading": "در حال آماده‌سازی تبلیغ...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "یک دوست جدید اومده!",
+  "updateModal_description": "برای کلی بازی‌های شاد و بامزه،\nلطفاً برنامه‌رو به نسخه جدید به‌روزرسانی کن.",
+  "updateModal_infoText": "بازی‌های جدید و لحظات شاد\nمنتظر تو هستن!",
+  "updateModal_updating": "در حال آماده‌سازی به‌روزرسانی...",
+  "updateModal_updateButton": "به‌روزرسانی الآن",
+  "updateModal_laterButton": "شاید بعداً",
+  "updateModal_footer": "دفعه بعد هم بیا با هم کلی بازی کنیم! ♡"
 }

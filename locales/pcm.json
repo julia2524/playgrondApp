@@ -612,6 +612,7 @@
   "feedback_try_again": "No wahala! Make we try another one?",
 
   "success_title": "You be star!",
+  "result_level_format": "LEVEL {{level}}",
 
   "language_section": "Language",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "The ad dey play already. Abeg wait small.",
   "rest_modal_ad_retry_button": "Try am again",
   "rest_modal_ad_back_button": "Go back",
-  "rest_modal_ad_loading": "E dey prepare the ad..."
+  "rest_modal_ad_loading": "E dey prepare the ad...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "New padi don come!",
+  "updateModal_description": "Abeg update go the new version\nmake we get more fun and better play time.",
+  "updateModal_infoText": "New games and happy times\ndey wait for you!",
+  "updateModal_updating": "E dey prepare update...",
+  "updateModal_updateButton": "Update now",
+  "updateModal_laterButton": "Maybe later",
+  "updateModal_footer": "Make we play together again next time! ♡"
 }

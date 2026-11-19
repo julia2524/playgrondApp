@@ -612,6 +612,7 @@
   "feedback_try_again": "ไม่เป็นไรนะ! มาลองข้อต่อไปด้วยกันไหม?",
 
   "success_title": "เยี่ยมไปเลย!",
+  "result_level_format": "ระดับที่ {{level}}",
 
   "language_section": "ตั้งค่าภาษา",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "โฆษณากำลังเล่นอยู่จ้า กรุณารอสักครู่",
   "rest_modal_ad_retry_button": "ลองอีกครั้ง",
   "rest_modal_ad_back_button": "ย้อนกลับ",
-  "rest_modal_ad_loading": "กำลังเตรียมโฆษณา..."
+  "rest_modal_ad_loading": "กำลังเตรียมโฆษณา...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "มีเพื่อนใหม่มาแล้วนะ!",
+  "updateModal_description": "อัปเดตเป็นเวอร์ชันใหม่กันเถอะ\nเพื่อความสนุกและเพลิดเพลินยิ่งขึ้นไปอีก!",
+  "updateModal_infoText": "เกมใหม่ๆ และช่วงเวลาแสนสนุก\nกำลังรอเธออยู่เลย!",
+  "updateModal_updating": "กำลังเตรียมอัปเดต...",
+  "updateModal_updateButton": "อัปเดตเลย",
+  "updateModal_laterButton": "ไว้ทีหลังนะ",
+  "updateModal_footer": "ครั้งหน้ามาเล่นสนุกด้วยกันอีกนะ! ♡"
 }

@@ -612,6 +612,7 @@
   "feedback_try_again": "Não faz mal! Vamos tentar o próximo?",
 
   "success_title": "És incrível!",
+  "result_level_format": "NÍVEL {{level}}",
 
   "language_section": "Idioma",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "O anúncio já está sendo exibido. Por favor, aguarde um momento.",
   "rest_modal_ad_retry_button": "Tentar novamente",
   "rest_modal_ad_back_button": "Voltar",
-  "rest_modal_ad_loading": "Preparando anúncio..."
+  "rest_modal_ad_loading": "Preparando anúncio...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Um novo amiguinho chegou!",
+  "updateModal_description": "Atualize para a nova versão\npara se divertir ainda mais e brincar muito.",
+  "updateModal_infoText": "Novos jogos e momentos felizes\nestão esperando por você!",
+  "updateModal_updating": "Preparando atualização...",
+  "updateModal_updateButton": "Atualizar agora",
+  "updateModal_laterButton": "Talvez depois",
+  "updateModal_footer": "Vamos brincar juntos de novo da próxima vez! ♡"
 }

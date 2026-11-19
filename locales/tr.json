@@ -612,6 +612,7 @@
   "feedback_try_again": "Sorun değil! Bir tane daha deneyelim mi?",
 
   "success_title": "Harikasın!",
+  "result_level_format": "SEVİYE {{level}}",
 
   "language_section": "Dil",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Reklam zaten oynatılıyor. Lütfen biraz bekle.",
   "rest_modal_ad_retry_button": "Tekrar dene",
   "rest_modal_ad_back_button": "Geri",
-  "rest_modal_ad_loading": "Reklam hazırlanıyor..."
+  "rest_modal_ad_loading": "Reklam hazırlanıyor...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Yeni bir arkadaş geldi!",
+  "updateModal_description": "Daha eğlenceli ve neşeli oyunlar için\nlütfen yeni sürüme güncelle.",
+  "updateModal_infoText": "Yeni oyunlar ve mutlu zamanlar\nseni bekliyor!",
+  "updateModal_updating": "Güncelleme hazırlanıyor...",
+  "updateModal_updateButton": "Şimdi Güncelle",
+  "updateModal_laterButton": "Belki sonra",
+  "updateModal_footer": "Bir dahaki sefere yine birlikte oynayalım! ♡"
 }

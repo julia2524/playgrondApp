@@ -612,6 +612,7 @@
   "feedback_try_again": "Geeft niets! Zullen we de volgende proberen?",
 
   "success_title": "Je bent geweldig!",
+  "result_level_format": "LEVEL {{level}}",
 
   "language_section": "Taal",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "De reclame wordt al afgespeeld. Even geduld alstublieft.",
   "rest_modal_ad_retry_button": "Opnieuw proberen",
   "rest_modal_ad_back_button": "Terug",
-  "rest_modal_ad_loading": "Reclame voorbereiden..."
+  "rest_modal_ad_loading": "Reclame voorbereiden...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Er is een nieuwe vriend gearriveerd!",
+  "updateModal_description": "Update naar de nieuwe versie\nvoor nog meer leuks en plezier!",
+  "updateModal_infoText": "Nieuwe spelletjes en een leuke tijd\nstaan op je te wachten!",
+  "updateModal_updating": "Update voorbereiden...",
+  "updateModal_updateButton": "Bijwerken",
+  "updateModal_laterButton": "Misschien later",
+  "updateModal_footer": "Laten we de volgende keer weer lekker spelen! ♡"
 }

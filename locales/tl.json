@@ -612,6 +612,7 @@
   "feedback_try_again": "Ayos lang! Subukan pa natin ang isa?",
 
   "success_title": "Napakagaling mo!",
+  "result_level_format": "ANTAS {{level}}",
 
   "language_section": "Wika",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Nagpe-play na ang ad. Maghintay sandali.",
   "rest_modal_ad_retry_button": "Subukan muli",
   "rest_modal_ad_back_button": "Bumalik",
-  "rest_modal_ad_loading": "Inihahanda ang ad..."
+  "rest_modal_ad_loading": "Inihahanda ang ad...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Dumating na ang isang bagong kaibigan!",
+  "updateModal_description": "I-update na sa bagong bersyon\npara sa mas masaya at kapana-panabik na paglalaro.",
+  "updateModal_infoText": "Mga bagong laro at masasayang sandali\nang naghihintay sa iyo!",
+  "updateModal_updating": "Inihahanda ang update...",
+  "updateModal_updateButton": "I-update na",
+  "updateModal_laterButton": "Mamaya na",
+  "updateModal_footer": "Maglaro ulit tayo nang sabay sa susunod! ♡"
 }

@@ -612,6 +612,7 @@
   "feedback_try_again": "Tak mengapa! Nak cuba soalan seterusnya juga?",
 
   "success_title": "Kamu hebat!",
+  "result_level_format": "PARAS {{level}}",
 
   "language_section": "Tetapan bahasa",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Iklan sedang dimainkan. Sila tunggu sebentar.",
   "rest_modal_ad_retry_button": "Cuba lagi",
   "rest_modal_ad_back_button": "Kembali",
-  "rest_modal_ad_loading": "Sedang sediakan iklan..."
+  "rest_modal_ad_loading": "Sedang sediakan iklan...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Kawan baru sudah tiba!",
+  "updateModal_description": "Sila kemas kini ke versi baharu\nuntuk permainan yang lebih menyeronokkan.",
+  "updateModal_infoText": "Permainan baharu dan masa yang gembira\nmenanti awak!",
+  "updateModal_updating": "Menyediakan kemas kini...",
+  "updateModal_updateButton": "Kemas kini sekarang",
+  "updateModal_laterButton": "Nanti dulu",
+  "updateModal_footer": "Jom main sama-sama lagi nanti ya! ♡"
 }

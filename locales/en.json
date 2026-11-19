@@ -612,6 +612,7 @@
   "feedback_try_again": "That's okay! Shall we try another one?",
 
   "success_title": "You're a star!",
+  "result_level_format": "LEVEL {{level}}",
 
   "language_section": "Language",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "The ad is already playing. Please wait a moment.",
   "rest_modal_ad_retry_button": "Try again",
   "rest_modal_ad_back_button": "Back",
-  "rest_modal_ad_loading": "Preparing ad..."
+  "rest_modal_ad_loading": "Preparing ad...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "A new friend has arrived!",
+  "updateModal_description": "Please update to the new version\nfor more fun and exciting playtime.",
+  "updateModal_infoText": "New games and happy times\nare waiting for you!",
+  "updateModal_updating": "Preparing update...",
+  "updateModal_updateButton": "Update now",
+  "updateModal_laterButton": "Maybe later",
+  "updateModal_footer": "Let's play together again next time! ♡"
 }

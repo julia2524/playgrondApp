@@ -612,6 +612,7 @@
   "feedback_try_again": "だいじょうぶ！つぎのもんだいも やってみようか？",
 
   "success_title": "すごいね！",
+  "result_level_format": "レベル {{level}}",
 
   "language_section": "言語の設定",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "すでに広告が流れているよ。少し待ってね。",
   "rest_modal_ad_retry_button": "もう一度試す",
   "rest_modal_ad_back_button": "もどる",
-  "rest_modal_ad_loading": "広告の準備中..."
+  "rest_modal_ad_loading": "広告の準備中...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "新しいお友達がやってきたよ！",
+  "updateModal_description": "もっと楽しくてワクワクする遊びのために、\n新しいバージョンにアップデートしてね。",
+  "updateModal_infoText": "新しい遊びと楽しい時間が\n待っているよ！",
+  "updateModal_updating": "アップデートの準備中...",
+  "updateModal_updateButton": "今すぐアップデート",
+  "updateModal_laterButton": "あとで",
+  "updateModal_footer": "また次もいっしょに楽しく遊ぼうね！ ♡"
 }

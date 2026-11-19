@@ -612,6 +612,7 @@
   "feedback_try_again": "Ni sawa! Tujaribu kingine?",
 
   "success_title": "Hongera sana!",
+  "result_level_format": "KIWANGO {{level}}",
 
   "language_section": "Lugha",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Tangazo linacheza tayari. Tafadhali subiri kidogo.",
   "rest_modal_ad_retry_button": "Jaribu tena",
   "rest_modal_ad_back_button": "Rudi nyuma",
-  "rest_modal_ad_loading": "Inaandaa tangazo..."
+  "rest_modal_ad_loading": "Inaandaa tangazo...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Rafiki mpya amewasili!",
+  "updateModal_description": "Tafadhali sasisha hadi toleo jipya\nkwa ajili ya michezo ya kupendeza zaidi.",
+  "updateModal_infoText": "Michezo mipya na wakati wa furaha\nvinakusubiri!",
+  "updateModal_updating": "Inaandaa usasishaji...",
+  "updateModal_updateButton": "Sasisha sasa",
+  "updateModal_laterButton": "Labda baadaye",
+  "updateModal_footer": "Wacha tucheze pamoja tena wakati ujao! ♡"
 }

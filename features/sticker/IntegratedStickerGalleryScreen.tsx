@@ -342,7 +342,10 @@ const Container = styled.View`
 `;
 
 const HeaderTitle = styled(AppText)`
-  font-size: 18px;
+  /* font-size: 18px; */
+
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
   font-weight: bold;
   color: #1e293b;
 `;
@@ -375,7 +378,9 @@ const TabIcon = styled(AppText)`
 `;
 
 const TabText = styled(AppText)<{ isActive: boolean }>`
-  font-size: 14px;
+  /* font-size: 14px; */
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
   font-weight: bold;
   color: ${(props) => (props.isActive ? "#0F172A" : "#64748B")};
 `;
@@ -400,13 +405,19 @@ const ProgressInfoRow = styled.View`
 `;
 
 const ProgressTitle = styled(AppText)`
-  font-size: 13px;
+  /* font-size: 13px; */
+
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
   font-weight: bold;
   color: #475569;
 `;
 
 const ProgressCount = styled(AppText)`
-  font-size: 13px;
+  /* font-size: 13px; */
+
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
   font-weight: bold;
   color: #2563eb;
   direction: ltr;
@@ -464,7 +475,10 @@ const QuestionMark = styled(AppText)`
 `;
 
 const StickerName = styled(AppText)`
-  font-size: 11px;
+  /* font-size: 11px; */
+
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
   color: #334155;
   margin-top: 6px;
   font-weight: bold;
@@ -472,7 +486,10 @@ const StickerName = styled(AppText)`
 `;
 
 const LockedName = styled(AppText)`
-  font-size: 11px;
+  /* font-size: 11px; */
+
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
   color: #94a3b8;
   margin-top: 6px;
   font-weight: bold;

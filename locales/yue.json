@@ -612,6 +612,7 @@
   "feedback_try_again": "唔緊要！再試下一題好唔好？",
 
   "success_title": "你好叻呀！",
+  "result_level_format": "第 {{{level}}} 關",
 
   "language_section": "語言設定",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "廣告已經喺度播緊喇，請稍等一下下。",
   "rest_modal_ad_retry_button": "再試一次",
   "rest_modal_ad_back_button": "返回",
-  "rest_modal_ad_loading": "廣告準備中..."
+  "rest_modal_ad_loading": "廣告準備中...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "新朋友嚟到啦！",
+  "updateModal_description": "想玩到更多好玩有趣嘅遊戲，\n請更新到最新版本呀。",
+  "updateModal_infoText": "好多新遊戲同埋開心嘅時光\n正係度等住你呢！",
+  "updateModal_updating": "更新準備中...",
+  "updateModal_updateButton": "拿拿聲更新",
+  "updateModal_laterButton": "遲啲先",
+  "updateModal_footer": "我哋下次要再一齊開心咁玩呀！ ♡"
 }

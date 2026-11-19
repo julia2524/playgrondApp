@@ -155,8 +155,10 @@ const Header = styled.View`
 
 const Title = styled(AppText)`
   flex: 1;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.subheading}px;
 
-  font-size: 22px;
+  /* font-size: 22px; */
   font-weight: 700;
 
   color: #263238;
@@ -181,22 +183,26 @@ const Content = styled.View`
 `;
 
 const NoticeText = styled(AppText)`
-  font-size: 15px;
+  /* font-size: 15px; */
   line-height: 23px;
 
   color: #455a64;
 
   margin-bottom: 14px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
 `;
 
 const GuideText = styled(AppText)`
-  font-size: 13px;
+  /* font-size: 13px; */
   line-height: 20px;
 
   color: #78909c;
 
   margin-top: 2px;
   margin-bottom: 16px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
 `;
 
 /* ==================================================
@@ -230,14 +236,18 @@ const SettingGuideText = styled.View`
 `;
 
 const SettingGuideNormal = styled(AppText)`
-  font-size: 13px;
+  /* font-size: 13px; */
   line-height: 20px;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
 
   color: #78909c;
 `;
 
 const SettingGuideBold = styled(AppText)`
-  font-size: 13px;
+  /* font-size: 13px; */
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.tiny}px;
   line-height: 20px;
 
   font-weight: 700;
@@ -261,8 +271,10 @@ const ConfirmButton = styled(Pressable)`
 `;
 
 const ConfirmText = styled(AppText)`
-  font-size: 16px;
+  /* font-size: 16px; */
   font-weight: 700;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.body}px;
 
   color: #ffffff;
 `;

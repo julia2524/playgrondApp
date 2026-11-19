@@ -612,6 +612,7 @@
   "feedback_try_again": "괜찮아요! 다음 문제도 해볼까요?",
 
   "success_title": "최고야!",
+  "result_level_format": "LEVEL {{level}}",
 
   "language_section": "언어 설정",
 
@@ -647,5 +648,14 @@
   "rest_modal_ad_already_showing": "이미 광고가 진행 중이에요. 잠시만 기다려 주세요.",
   "rest_modal_ad_retry_button": "다시 시도하기",
   "rest_modal_ad_back_button": "돌아가기",
-  "rest_modal_ad_loading": "광고 준비 중..."
+  "rest_modal_ad_loading": "광고 준비 중...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "새로운 친구가\n찾아왔어요!",
+  "updateModal_description": "더 즐겁고 재미있는 놀이를 위해\n새로운 버전으로 업데이트해 주세요.",
+  "updateModal_infoText": "새로운 놀이와 즐거운 시간이\n기다리고 있어요!",
+  "updateModal_updating": "업데이트 준비 중...",
+  "updateModal_updateButton": "업데이트하기",
+  "updateModal_laterButton": "나중에 할게요",
+  "updateModal_footer": "우리 다음에도 재미있게 놀아요! ♡"
 }

@@ -612,6 +612,7 @@
   "feedback_try_again": "Δεν πειράζει! Δοκιμάζουμε το επόμενο;",
 
   "success_title": "Είσαι αστέρι!",
+  "result_level_format": "ΕΠΙΠΕΔΟ {{level}}",
 
   "language_section": "Γλώσσα",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Η διαφήμιση παίζει ήδη. Περίμενε μια στιγμή.",
   "rest_modal_ad_retry_button": "Δοκίμασε ξανά",
   "rest_modal_ad_back_button": "Πίσω",
-  "rest_modal_ad_loading": "Προετοιμασία διαφήμισης..."
+  "rest_modal_ad_loading": "Προετοιμασία διαφήμισης...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "Ένας νέος φίλος έφτασε!",
+  "updateModal_description": "Κάνε ενημέρωση στη νέα έκδοση\nγια πιο διασκεδαστικό και χαρούμενο παιχνίδι.",
+  "updateModal_infoText": "Νέα παιχνίδια και όμορφες στιγμές\nσε περιμένουν!",
+  "updateModal_updating": "Προετοιμασία ενημέρωσης...",
+  "updateModal_updateButton": "Ενημέρωση τώρα",
+  "updateModal_laterButton": "Ίσως αργότερα",
+  "updateModal_footer": "Άντε να παίξουμε πάλι μαζί την επόμενη φορά! ♡"
 }

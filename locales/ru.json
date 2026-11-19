@@ -612,6 +612,7 @@
   "feedback_try_again": "Ничего страшного! Попробуем ещё одно задание?",
 
   "success_title": "Здорово!",
+  "result_level_format": "УРОВЕНЬ {{level}}",
 
   "language_section": "Язык",
 
@@ -646,5 +647,14 @@
   "rest_modal_ad_already_showing": "Реклама уже воспроизводится. Пожалуйста, подожди.",
   "rest_modal_ad_retry_button": "Попробовать снова",
   "rest_modal_ad_back_button": "Назад",
-  "rest_modal_ad_loading": "Подготовка рекламы..."
+  "rest_modal_ad_loading": "Подготовка рекламы...",
+
+  "updateModal_eyebrow": "HELLO, LITTLE FRIEND!",
+  "updateModal_title": "К нам пришел новый друг!",
+  "updateModal_description": "Пожалуйста, обнови приложение до новой версии\nдля еще более веселых и увлекательных игр.",
+  "updateModal_infoText": "Новые игры и счастливые моменты\nуже ждут тебя!",
+  "updateModal_updating": "Подготовка обновления...",
+  "updateModal_updateButton": "Обновить сейчас",
+  "updateModal_laterButton": "Может быть, позже",
+  "updateModal_footer": "Давай снова поиграем вместе в следующий раз! ♡"
 }
