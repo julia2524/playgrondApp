@@ -21,7 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
 import { triggerHaptic } from "../../utils/haptic";
-import i18n from "../../i18n";
+
 import {
   MascotWrapper,
   MissionBubble,
@@ -94,7 +94,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     remainingStars,
     gameStatus,
     isProcessing,
-    totalStages,
+
     lastResult,
     handleFailedAttempt,
     handleStageComplete,
@@ -131,11 +131,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     gameStatus === "result" ||
     gameStatus === "retry" ||
     gameStatus === "completed";
-
-  const stageLabel = useMemo(
-    () => `${String(currentStageIndex + 1).padStart(2, "0")} / ${totalStages}`,
-    [currentStageIndex, totalStages],
-  );
 
   return (
     <StyledSafeArea edges={["bottom"]}>
@@ -183,6 +178,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
             resetKey={canvasResetKey}
             onComplete={handleStageComplete}
             onFailedAttempt={handleFailedAttempt}
+            onProgressLabelChange={setProgressLabel}
             inputLocked={inputLocked}
             showPanda
           />
@@ -193,6 +189,8 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           visible={gameStatus === "result"}
           result={lastResult}
           onNext={handleNextStage}
+          onRestart={handleRetry}
+          onClose={handleBack}
         />
 
         {/* 재도전 모달 */}

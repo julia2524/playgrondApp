@@ -1,61 +1,297 @@
+// import React from "react";
+// import { Modal, Pressable } from "react-native";
+// import styled from "styled-components/native";
+
+// import type { TracingStageResult } from "../hooks/useTracingGame";
+// import { AppText } from "../../../utils/AppText";
+
+// interface TracingResultModalProps {
+//   visible: boolean;
+//   result: TracingStageResult | null;
+//   onNext: () => void;
+// }
+
+// /**
+//  * 스테이지 성공 결과 모달 (임시 구현)
+//  * 실제 프로젝트의 ResultModal이 있으면 이 컴포넌트를 교체하면 됩니다.
+//  */
+// export function TracingResultModal({
+//   visible,
+//   result,
+//   onNext,
+// }: TracingResultModalProps) {
+//   if (!result) return null;
+
+//   const stars = Array.from({ length: 5 }, (_, i) =>
+//     i < result.remainingStars ? "⭐" : "☆",
+//   ).join("");
+
+//   const primaryLabel = result.isLastStage ? "결과 보기" : "다음 스테이지";
+
+//   return (
+//     <Modal
+//       visible={visible}
+//       transparent
+//       animationType="fade"
+//       onRequestClose={onNext}
+//     >
+//       <Overlay>
+//         <Card>
+//           <Emoji>🎉</Emoji>
+//           <Badge>STAGE {result.stageNo}</Badge>
+//           <Title>{result.title}</Title>
+//           {result.mission ? <Mission>{result.mission}</Mission> : null}
+
+//           <StatRow>
+//             <StatLabel>남은 별</StatLabel>
+//             <StarsText>{stars}</StarsText>
+//           </StatRow>
+
+//           <StatRow>
+//             <StatLabel>획득 점수</StatLabel>
+//             <ScoreText>{result.score}</ScoreText>
+//           </StatRow>
+
+//           <PrimaryButton onPress={onNext}>
+//             <PrimaryButtonText>{primaryLabel}</PrimaryButtonText>
+//           </PrimaryButton>
+//         </Card>
+//       </Overlay>
+//     </Modal>
+//   );
+// }
+
+// const Overlay = styled.View`
+//   flex: 1;
+//   background-color: rgba(82, 103, 123, 0.4);
+//   align-items: center;
+//   justify-content: center;
+//   padding-horizontal: 28px;
+// `;
+
+// const Card = styled.View`
+//   width: 100%;
+//   max-width: 340px;
+//   background-color: #ffffff;
+//   border-radius: 28px;
+//   padding-horizontal: 24px;
+//   padding-top: 28px;
+//   padding-bottom: 22px;
+//   align-items: center;
+//   gap: 8px;
+// `;
+
+// const Emoji = styled(AppText)`
+//   font-size: 40px;
+//   margin-bottom: 2px;
+// `;
+
+// const Badge = styled(AppText)`
+//   font-size: 13px;
+//   font-weight: 800;
+//   color: #7bc9b4;
+//   letter-spacing: 1px;
+// `;
+
+// const Title = styled(AppText)`
+//   font-size: 22px;
+//   font-weight: 800;
+//   color: #52677b;
+//   text-align: center;
+// `;
+
+// const Mission = styled(AppText)`
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: #8297a8;
+//   text-align: center;
+//   margin-bottom: 6px;
+// `;
+
+// const StatRow = styled.View`
+//   width: 100%;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding-vertical: 10px;
+//   padding-horizontal: 12px;
+//   background-color: #f5fafc;
+//   border-radius: 16px;
+//   margin-top: 4px;
+// `;
+
+// const StatLabel = styled(AppText)`
+//   font-size: 14px;
+//   font-weight: 700;
+//   color: #71869a;
+// `;
+
+// const StarsText = styled(AppText)`
+//   font-size: 16px;
+//   letter-spacing: 2px;
+// `;
+
+// const ScoreText = styled(AppText)`
+//   font-size: 20px;
+//   font-weight: 800;
+//   color: #52677b;
+// `;
+
+// const PrimaryButton = styled(Pressable)`
+//   margin-top: 14px;
+//   width: 100%;
+//   background-color: #7bc9b4;
+//   border-radius: 22px;
+//   padding-vertical: 14px;
+//   align-items: center;
+// `;
+
+// const PrimaryButtonText = styled(AppText)`
+//   font-size: 16px;
+//   font-weight: 800;
+//   color: #ffffff;
+// `;
+
 import React from "react";
-import { Modal, Pressable } from "react-native";
+import { Modal, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import type { TracingStageResult } from "../hooks/useTracingGame";
+
 import { AppText } from "../../../utils/AppText";
+import { BASIC_COLORS, PASTEL_BG } from "../../../design-system/tokens/colors";
+import Mascot from "../../../design-system/ui/Mascot";
+import StarBadge from "../../../design-system/ui/StarBadge";
+import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
+import { RootStackParamList } from "../../../navigation/types";
+import { triggerHaptic } from "../../../utils/haptic";
 
 interface TracingResultModalProps {
   visible: boolean;
   result: TracingStageResult | null;
   onNext: () => void;
+  onRestart: () => void;
+  onClose: () => void;
 }
 
-/**
- * 스테이지 성공 결과 모달 (임시 구현)
- * 실제 프로젝트의 ResultModal이 있으면 이 컴포넌트를 교체하면 됩니다.
- */
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export function TracingResultModal({
   visible,
   result,
   onNext,
+  onRestart,
+  onClose,
 }: TracingResultModalProps) {
-  if (!result) return null;
+  const navigation = useNavigation<NavigationProp>();
 
-  const stars = Array.from({ length: 5 }, (_, i) =>
-    i < result.remainingStars ? "⭐" : "☆",
-  ).join("");
+  if (!visible || !result) return null;
 
-  const primaryLabel = result.isLastStage ? "결과 보기" : "다음 스테이지";
+  const isLastStage = result.isLastStage;
+
+  const handleRestart = () => {
+    triggerHaptic("light");
+    onRestart();
+  };
+
+  const handleNext = () => {
+    triggerHaptic("light");
+    onNext();
+  };
+
+  const handleClose = () => {
+    triggerHaptic("light");
+    onClose();
+  };
+
+  const handleHome = () => {
+    triggerHaptic("light");
+    navigation.navigate("Home");
+  };
+
+  const starOffsets = [18, 6, 0, 6, 18];
 
   return (
     <Modal
       visible={visible}
       transparent
       animationType="fade"
-      onRequestClose={onNext}
+      statusBarTranslucent
+      onRequestClose={handleClose}
     >
       <Overlay>
-        <Card>
-          <Emoji>🎉</Emoji>
-          <Badge>STAGE {result.stageNo}</Badge>
-          <Title>{result.title}</Title>
-          {result.mission ? <Mission>{result.mission}</Mission> : null}
+        <ModalContent>
+          {/* X 버튼 */}
+          <CloseButton onPress={handleClose} activeOpacity={0.7}>
+            <Ionicons name="close" size={26} color={BASIC_COLORS.PRIMARY} />
+          </CloseButton>
 
-          <StatRow>
-            <StatLabel>남은 별</StatLabel>
-            <StarsText>{stars}</StarsText>
-          </StatRow>
+          {/* 구름 스테이지 배지 */}
+          <CloudBadgeWrapper>
+            <CloudLevelBadge size={300} />
+            <LevelText>STAGE {result.stageNo}</LevelText>
+          </CloudBadgeWrapper>
 
-          <StatRow>
-            <StatLabel>획득 점수</StatLabel>
-            <ScoreText>{result.score}</ScoreText>
-          </StatRow>
+          <ModalInner>
+            {/* 별 */}
+            <StarRow>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <StarWrapper
+                  key={index}
+                  style={{ marginTop: starOffsets[index] }}
+                >
+                  <StarBadge
+                    type={index < result.remainingStars ? "full" : "empty"}
+                    size={33}
+                  />
+                </StarWrapper>
+              ))}
+            </StarRow>
 
-          <PrimaryButton onPress={onNext}>
-            <PrimaryButtonText>{primaryLabel}</PrimaryButtonText>
-          </PrimaryButton>
-        </Card>
+            {/* 성공 메시지 */}
+            {/* <SuccessTitle>참 잘했어요!</SuccessTitle> */}
+
+            {/* 마스코트 */}
+            <MascotWrapper>
+              <Mascot size={120} />
+            </MascotWrapper>
+
+            {/* 다시 하기 / 다음 스테이지 */}
+            <SuccessButtons>
+              <SuccessButton
+                variant="secondary"
+                onPress={handleRestart}
+                activeOpacity={0.85}
+              >
+                <Ionicons
+                  name="refresh"
+                  size={30}
+                  color={BASIC_COLORS.CARD_BG}
+                />
+              </SuccessButton>
+
+              <SuccessButton
+                variant="primary"
+                onPress={handleNext}
+                activeOpacity={0.85}
+              >
+                <Ionicons
+                  name={isLastStage ? "trophy" : "arrow-forward"}
+                  size={30}
+                  color={BASIC_COLORS.CARD_BG}
+                />
+              </SuccessButton>
+            </SuccessButtons>
+
+            {/* 홈 버튼 */}
+            <HomeButton onPress={handleHome} activeOpacity={0.85}>
+              <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
+            </HomeButton>
+          </ModalInner>
+        </ModalContent>
       </Overlay>
     </Modal>
   );
@@ -63,91 +299,144 @@ export function TracingResultModal({
 
 const Overlay = styled.View`
   flex: 1;
-  background-color: rgba(82, 103, 123, 0.4);
+  background-color: rgba(44, 62, 80, 0.45);
   align-items: center;
   justify-content: center;
   padding-horizontal: 28px;
 `;
 
-const Card = styled.View`
+const ModalContent = styled.View`
+  width: 86%;
+  max-width: 360px;
+  background-color: ${PASTEL_BG.blue};
+  border-radius: 34px;
+  padding: 6px;
+  border-width: 3px;
+  border-color: ${BASIC_COLORS.PRIMARY};
+  elevation: 14;
+  shadow-color: ${BASIC_COLORS.PRIMARY};
+  shadow-offset: 0px 6px;
+  shadow-opacity: 0.22;
+  shadow-radius: 10px;
+  position: relative;
+`;
+
+const ModalInner = styled.View`
   width: 100%;
-  max-width: 340px;
-  background-color: #ffffff;
+  background-color: ${BASIC_COLORS.CARD_BG};
   border-radius: 28px;
-  padding-horizontal: 24px;
-  padding-top: 28px;
-  padding-bottom: 22px;
+  padding: 24px 22px 22px;
   align-items: center;
-  gap: 8px;
+  border-width: 2px;
+  border-color: #ffffff;
 `;
 
-const Emoji = styled(AppText)`
-  font-size: 40px;
-  margin-bottom: 2px;
+const CloseButton = styled(TouchableOpacity)`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  border-width: 1.5px;
+  border-color: #dbe4ee;
+  elevation: 3;
 `;
 
-const Badge = styled(AppText)`
-  font-size: 13px;
-  font-weight: 800;
-  color: #7bc9b4;
-  letter-spacing: 1px;
+const CloudBadgeWrapper = styled.View`
+  position: absolute;
+  top: -90px;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 `;
 
-const Title = styled(AppText)`
-  font-size: 22px;
-  font-weight: 800;
-  color: #52677b;
+const LevelText = styled(AppText)`
+  position: absolute;
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
+  color: ${BASIC_COLORS.PRIMARY};
   text-align: center;
+  top: 50px;
 `;
 
-const Mission = styled(AppText)`
-  font-size: 14px;
-  font-weight: 600;
-  color: #8297a8;
-  text-align: center;
-  margin-bottom: 6px;
-`;
-
-const StatRow = styled.View`
-  width: 100%;
+const StarRow = styled.View`
   flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  /* margin-bottom: 18px; */
+`;
+
+const StarWrapper = styled.View`
+  margin-horizontal: 1px;
   align-items: center;
-  justify-content: space-between;
-  padding-vertical: 10px;
-  padding-horizontal: 12px;
-  background-color: #f5fafc;
-  border-radius: 16px;
+  justify-content: center;
+`;
+
+const SuccessTitle = styled(AppText)`
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.title}px;
+  color: ${BASIC_COLORS.PRIMARY};
+  text-align: center;
+  margin-top: -25px;
+`;
+
+const MascotWrapper = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-top: -10px;
+`;
+
+const SuccessButtons = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  gap: 14px;
   margin-top: 4px;
 `;
 
-const StatLabel = styled(AppText)`
-  font-size: 14px;
-  font-weight: 700;
-  color: #71869a;
-`;
-
-const StarsText = styled(AppText)`
-  font-size: 16px;
-  letter-spacing: 2px;
-`;
-
-const ScoreText = styled(AppText)`
-  font-size: 20px;
-  font-weight: 800;
-  color: #52677b;
-`;
-
-const PrimaryButton = styled(Pressable)`
-  margin-top: 14px;
-  width: 100%;
-  background-color: #7bc9b4;
-  border-radius: 22px;
-  padding-vertical: 14px;
+const SuccessButton = styled(TouchableOpacity)<{
+  variant?: "primary" | "secondary";
+}>`
+  flex: 1;
+  min-height: 58px;
   align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  background-color: ${(props) =>
+    props.variant === "primary" ? BASIC_COLORS.SUCCESS : BASIC_COLORS.ACCENT};
+  border-width: 2px;
+  border-color: ${(props) =>
+    props.variant === "primary" ? "#6AC8A3" : "#FFB54A"};
+  border-bottom-width: 5px;
+  border-bottom-color: ${(props) =>
+    props.variant === "primary" ? "#2E8F69" : "#D97900"};
+  elevation: 5;
+  shadow-color: #000;
+  shadow-offset: 0px 4px;
+  shadow-opacity: 0.16;
+  shadow-radius: 5px;
 `;
 
-const PrimaryButtonText = styled(AppText)`
-  font-size: 16px;
-  font-weight: 800;
-  color: #ffffff;
+const HomeButton = styled(TouchableOpacity)`
+  width: 100%;
+  height: 48px;
+  margin-top: 10px;
+  border-radius: 24px;
+  background-color: ${BASIC_COLORS.PRIMARY};
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  border-width: 2px;
+  border-color: #7b9fcf;
+  border-bottom-width: 4px;
+  border-bottom-color: #5277aa;
+  elevation: 4;
 `;
