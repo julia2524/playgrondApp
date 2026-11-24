@@ -435,6 +435,12 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/types";
 import { triggerHaptic } from "../../utils/haptic";
 import i18n from "../../i18n";
+import {
+  MascotWrapper,
+  MissionBubble,
+  MissionText,
+} from "../classification/styles/classificationStyles";
+import Mascot from "../../design-system/ui/Mascot";
 
 /**
  * 음계 재생 연결 지점
@@ -564,12 +570,24 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           />
 
           <StarRow remaining={remainingStars} />
+          <MascotWrapper>
+            <Mascot size={90} />
+          </MascotWrapper>
         </GameHeaderShell>
 
         {/* 미션 안내 */}
-        <MissionArea>
+        {/* <MissionArea>
           <StageLabel>{stageLabel}</StageLabel>
           <MissionText>{lineInfo.mission}</MissionText>
+          <MissionSubText>{lineInfo.hint}</MissionSubText>
+        </MissionArea> */}
+        <MissionArea>
+          <StageLabel>{stageLabel}</StageLabel>
+
+          <MissionBubble>
+            <MissionText>{lineInfo.mission}</MissionText>
+          </MissionBubble>
+
           <MissionSubText>{lineInfo.hint}</MissionSubText>
         </MissionArea>
 
@@ -662,6 +680,12 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 /* ==================================================
    Screen Layout
 ================================================== */
+const MissionArea = styled.View`
+  align-items: center;
+  justify-content: center;
+  padding-horizontal: 20px;
+  margin-top: -30px;
+`;
 
 const StyledSafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -680,7 +704,6 @@ const Container = styled.View`
 
 const GameHeaderShell = styled.View`
   position: relative;
-  z-index: 10;
 `;
 
 const HeaderTitle = styled(AppText)`
@@ -709,27 +732,6 @@ const StageLabel = styled(AppText)`
 /* ==================================================
    Mission
 ================================================== */
-
-const MissionArea = styled.View`
-  align-items: center;
-  justify-content: center;
-  padding-horizontal: 20px;
-  padding-top: 12px;
-  padding-bottom: 8px;
-`;
-
-const MissionText = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.body}px;
-  color: ${BASIC_COLORS.TEXT_MAIN};
-  background-color: ${BASIC_COLORS.CARD_BG};
-  padding-horizontal: 22px;
-  padding-vertical: 12px;
-  border-radius: 18px;
-  overflow: hidden;
-  text-align: center;
-  elevation: 3;
-`;
 
 const MissionSubText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
