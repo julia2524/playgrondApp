@@ -8,6 +8,7 @@ export type RootStackParamList = {
     gameType: "color" | "shape" | "category";
     level: number;
   };
+  TracingGameScreen: undefined;
   StickerGalleryScreen: undefined;
   ShapeStickerGalleryScreen: undefined;
   CategoryStickerGalleryScreen: undefined;

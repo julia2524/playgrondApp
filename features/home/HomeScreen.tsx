@@ -228,7 +228,6 @@ export default function HomeScreen() {
                   goToStageMap("color");
                 }}
               />
-
               <GameCardItem
                 bgColor={BASIC_COLORS.SECONDARY}
                 emoji={<ClayShapeIcon size={76} />}
@@ -239,7 +238,6 @@ export default function HomeScreen() {
                   goToStageMap("shape");
                 }}
               />
-
               <GameCardItem
                 bgColor={BASIC_COLORS.SUCCESS}
                 emoji={<ClayCategoryIcon size={76} />}
@@ -250,8 +248,24 @@ export default function HomeScreen() {
                   goToStageMap("category");
                 }}
               />
-
               <GameCardItem
+                bgColor={PASTEL_BG.neutral}
+                emoji={
+                  <Ionicons
+                    name="pencil-outline"
+                    size={40}
+                    color={BASIC_COLORS.TEXT_SUB}
+                  />
+                }
+                title="꼬불꼬불 선 따라가기"
+                desc="팬더와 함께 선을 그려봐요!"
+                onPress={() => {
+                  triggerHaptic("light");
+                  navigation.navigate("TracingGameScreen");
+                }}
+              />
+
+              {/* <GameCardItem
                 bgColor={PASTEL_BG.neutral}
                 emoji={
                   <Ionicons
@@ -266,7 +280,7 @@ export default function HomeScreen() {
                   triggerHaptic("light");
                   navigation.navigate("SettingScreen" as never);
                 }}
-              />
+              /> */}
             </GameGrid>
           </GameGridWrapper>
 
