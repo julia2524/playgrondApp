@@ -28,6 +28,8 @@ import {
   MissionText,
 } from "../classification/styles/classificationStyles";
 import Mascot from "../../design-system/ui/Mascot";
+import { ASSETS } from "../../assets/assets";
+import { Ionicons } from "@expo/vector-icons";
 
 /**
  * 음계 재생 연결 지점
@@ -194,7 +196,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
         />
 
         {/* 재도전 모달 */}
-        <Modal
+        {/* <Modal
           visible={gameStatus === "retry"}
           transparent
           animationType="fade"
@@ -210,6 +212,41 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
                 <ModalPrimaryText>다시 시작하기</ModalPrimaryText>
               </RetryPrimaryButton>
             </ModalCard>
+          </ModalOverlay>
+        </Modal> */}
+        {/* 재도전 모달 */}
+        <Modal
+          visible={gameStatus === "retry"}
+          transparent
+          animationType="fade"
+          onRequestClose={handleRetry}
+        >
+          <ModalOverlay>
+            <RetryModalCard>
+              <RetryMascotArea>
+                {/* <RetrySparkle style={{ top: 8, left: 28 }}>✦</RetrySparkle>
+                <RetrySparkle style={{ top: 28, right: 24 }}>✦</RetrySparkle> */}
+
+                <RetryMascot source={ASSETS.mascotBear} resizeMode="contain" />
+
+                {/* <RetryTrail>
+                  <RetryTrailDot />
+                  <RetryTrailDot />
+                  <RetryTrailDot />
+                </RetryTrail> */}
+              </RetryMascotArea>
+
+              <RetryTitle>한 번 더!</RetryTitle>
+
+              <RetrySubtitle>다시 출발해 볼까요?</RetrySubtitle>
+
+              <RetryPrimaryButton onPress={handleRetry}>
+                <RetryButtonContent>
+                  <Ionicons name="refresh" size={25} color="#FFFFFF" />
+                  <ModalPrimaryText>다시 시작하기</ModalPrimaryText>
+                </RetryButtonContent>
+              </RetryPrimaryButton>
+            </RetryModalCard>
           </ModalOverlay>
         </Modal>
 
@@ -429,4 +466,71 @@ const ModalSecondaryText = styled(AppText)`
   font-size: ${(props) => props.theme.typography.small}px;
   font-weight: 700;
   color: ${BASIC_COLORS.TEXT_MAIN};
+`;
+
+const RetryModalCard = styled(ModalCard)`
+  padding-top: 20px;
+  padding-bottom: 26px;
+  border-radius: 32px;
+  max-width: 350px;
+`;
+
+const RetryMascotArea = styled.View`
+  width: 190px;
+  height: 165px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
+
+const RetryMascot = styled.Image`
+  width: 150px;
+  height: 150px;
+`;
+
+const RetrySparkle = styled(AppText)`
+  position: absolute;
+  font-size: 25px;
+  color: #ffc94a;
+  font-weight: 900;
+`;
+
+const RetryTrail = styled.View`
+  position: absolute;
+  bottom: 7px;
+  right: 12px;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+`;
+
+const RetryTrailDot = styled.View`
+  width: 7px;
+  height: 7px;
+  border-radius: 4px;
+  background-color: #9bd9f5;
+`;
+
+const RetryTitle = styled(AppText)`
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.heading}px;
+  font-weight: 900;
+  color: ${BASIC_COLORS.TEXT_MAIN};
+  text-align: center;
+  /* margin-top: 2px; */
+`;
+
+const RetrySubtitle = styled(AppText)`
+  font-family: ${(props) => props.theme.fontFamily};
+  font-size: ${(props) => props.theme.typography.small}px;
+  color: ${BASIC_COLORS.TEXT_SUB};
+  text-align: center;
+  /* margin-bottom: 10px; */
+`;
+
+const RetryButtonContent = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
 `;
