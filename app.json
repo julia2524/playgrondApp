@@ -44,7 +44,16 @@
           "androidAppId": "ca-app-pub-5145202325745375~4363210355"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true
+          }
+        }
+      ],
+  "./plugins/withOptionalPortraitFeature"
     ],
     "extra": {
       "eas": {

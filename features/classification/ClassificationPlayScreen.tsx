@@ -45,7 +45,6 @@ import {
 } from "../audio/audioSettingsStorage";
 import { categoryLevels } from "./category/constants/levels";
 import { unlockSticker } from "../sticker/utils/stickerStorage";
-import ResponsiveScreen from "../../utils/ResponsiveScreen";
 import i18n from "../../i18n";
 
 // ==================================================

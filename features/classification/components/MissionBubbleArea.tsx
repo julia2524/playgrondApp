@@ -39,63 +39,6 @@ export default function MissionBubbleArea({
       return i18n.t("mission_color", { color: colorName });
     }
 
-    // ==========================================
-    // 종류 분류
-    // ==========================================
-
-    // if (gameType === "category") {
-    //   // 1. target.items[0]으로 원본 객체 검색
-    //   const rawKey = target?.items?.[0];
-    //   const originalTarget = CategoryGameObjects.find(
-    //     (object) => object.id === rawKey || object.svgKey === rawKey,
-    //   );
-
-    //   const itemId = originalTarget?.id || rawKey;
-    //   const top = originalTarget?.topCategory;
-    //   const sub = originalTarget?.subCategory;
-
-    //   // 2. 실제 번역 JSON 키 포맷과 정확히 일치하는 후보 키 작성
-    //   const keyCandidates = [
-    //     // 1) Full Key: 예) sticker_category_vehicle_rail_train_name
-    //     top && sub ? `sticker_category_${top}_${sub}_${itemId}_name` : null,
-
-    //     // 2) Top Category + ID: 예) sticker_category_animal_pig_name / category_item_animal_pig
-    //     top ? `sticker_category_${top}_${itemId}_name` : null,
-    //     top ? `category_item_${top}_${itemId}` : null,
-
-    //     // 3) ID 단독 Key: 예) category_item_pig / sticker_category_pig_name
-    //     `category_item_${itemId}`,
-    //     `sticker_category_${itemId}_name`,
-    //     `sticker_${itemId}_name`,
-    //   ].filter(Boolean) as string[];
-
-    //   // 3. 현재 설정된 언어에서 번역어 찾기
-    //   let categoryName = "";
-    //   for (const key of keyCandidates) {
-    //     const translated = i18n.t(key, { defaultValue: "" });
-    //     // 번역이 존재하고 missing 문구가 없을 때 채택
-    //     if (translated && !translated.includes("missing")) {
-    //       categoryName = translated;
-    //       break;
-    //     }
-    //   }
-
-    //   // 4. 번역을 찾지 못했울 때만 fallback (i18n.t("category_default_name")도 언어 반영)
-    //   if (!categoryName) {
-    //     categoryName = i18n.t("category_default_name", {
-    //       defaultValue: originalTarget?.name || "종류",
-    //     });
-    //   }
-
-    //   // 5. 한국어일 경우에만 조사(이야/야) 처리
-    //   const currentLanguage = i18n.locale || "ko";
-    //   if (currentLanguage.startsWith("ko")) {
-    //     categoryName = appendJosa(categoryName, ["이야", "야"]);
-    //   }
-
-    //   // 6. 다국어 미션 템플릿 반환
-    //   return i18n.t("mission_category", { name: categoryName });
-    // }
     if (gameType === "category") {
       const rawKey = target?.items?.[0];
       const originalTarget = CategoryGameObjects.find(

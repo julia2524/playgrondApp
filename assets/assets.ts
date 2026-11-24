@@ -12,4 +12,6 @@ export const ASSETS = {
   homeBackground: require("../assets/images/home-background.png"),
 
   parentPause: require("../assets/images/parentPause.png"),
+
+  updateMascot: require("../assets/images/update-mascot.png"),
 } as const;
