@@ -36,9 +36,8 @@ interface DrawingParticleEffectProps {
   width: number;
   height: number;
 }
-
-// 핑크, 라벤더, 민트, 하늘색, 크림 옐로
-const PASTEL_COLORS = ["#FFB8D1", "#CDB8FF", "#B8F0D8", "#A9DDF7", "#FFF1B0"];
+// 민트, 스카이블루, 크림 옐로, 소프트 핑크
+const PASTEL_COLORS = ["#75D6C2", "#A9DDF7", "#FFE29A", "#FFB8C8"];
 
 const POOL_SIZE = 18; // 동시에 존재할 수 있는 최대 입자 수
 const MIN_EMIT_INTERVAL_MS = 45; // 생성 최소 간격
