@@ -49,6 +49,8 @@ interface TracingCanvasProps {
   showPanda?: boolean;
   /** true면 터치 입력을 막음 (모달/성공 처리 중) */
   inputLocked?: boolean;
+
+  onProgressLabelChange?: (label: string) => void;
 }
 
 export const TracingCanvas: React.FC<TracingCanvasProps> = ({
@@ -62,6 +64,7 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
   resetKey,
   showPanda = false,
   inputLocked = false,
+  onProgressLabelChange,
 }) => {
   const particleRef = useRef<DrawingParticleEffectHandle>(null);
 
@@ -219,17 +222,27 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
 
   const progressPercent = Math.round(progress * 100);
 
+  const progressLabel = isCompleted
+    ? "참 잘했어요! 🎉"
+    : tutorialVisible
+      ? "이렇게 그려봐요!"
+      : "길을 따라가 볼까요!";
+
+  useEffect(() => {
+    onProgressLabelChange?.(progressLabel);
+  }, [progressLabel, onProgressLabelChange]);
+
   return (
     <Container style={style}>
       {/* 진행률 */}
       <ProgressContainer>
-        <ProgressLabel>
+        {/* <ProgressLabel>
           {isCompleted
             ? "참 잘했어요! 🎉"
             : tutorialVisible
               ? "이렇게 그려봐요!"
               : "길을 따라가 볼까요?"}
-        </ProgressLabel>
+        </ProgressLabel> */}
 
         <ProgressTrack>
           <ProgressFill progressPercent={progressPercent} />
