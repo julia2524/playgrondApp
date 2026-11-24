@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import styled from "styled-components/native";
+import HandPointer from "../../../design-system/ui/HandPointer";
 
 interface TracingPoint {
   x: number;
@@ -14,6 +15,10 @@ interface TracingTutorialProps {
 }
 
 const POINTER_SIZE = 70;
+
+// SVG 검지 끝의 실제 위치를 고려한 보정값
+const POINTER_TIP_X = 27;
+const POINTER_TIP_Y = 5;
 
 export default function TracingTutorial({
   visible,
@@ -59,8 +64,11 @@ export default function TracingTutorial({
 
     const firstPoint = points[0];
 
-    moveX.setValue(firstPoint.x - POINTER_SIZE / 2);
-    moveY.setValue(firstPoint.y - POINTER_SIZE / 2);
+    // moveX.setValue(firstPoint.x - POINTER_SIZE / 2);
+    // moveY.setValue(firstPoint.y - POINTER_SIZE / 2);
+
+    moveX.setValue(firstPoint.x - POINTER_TIP_X);
+    moveY.setValue(firstPoint.y - POINTER_TIP_Y);
 
     // 너무 촘촘한 좌표는 이동 구간을 합쳐 애니메이션 부담 감소
     const animationPoints: TracingPoint[] = [firstPoint];
@@ -114,17 +122,30 @@ export default function TracingTutorial({
       moveAnimations.push(
         Animated.parallel([
           Animated.timing(moveX, {
-            toValue: current.x - POINTER_SIZE / 2,
+            toValue: current.x - POINTER_TIP_X,
             duration,
             easing: Easing.linear,
             useNativeDriver: true,
           }),
+
           Animated.timing(moveY, {
-            toValue: current.y - POINTER_SIZE / 2,
+            toValue: current.y - POINTER_TIP_Y,
             duration,
             easing: Easing.linear,
             useNativeDriver: true,
           }),
+          // Animated.timing(moveX, {
+          //   toValue: current.x - POINTER_SIZE / 2,
+          //   duration,
+          //   easing: Easing.linear,
+          //   useNativeDriver: true,
+          // }),
+          // Animated.timing(moveY, {
+          //   toValue: current.y - POINTER_SIZE / 2,
+          //   duration,
+          //   easing: Easing.linear,
+          //   useNativeDriver: true,
+          // }),
         ]),
       );
     }
@@ -212,7 +233,7 @@ export default function TracingTutorial({
           ],
         }}
       >
-        <PointerEmoji>👆</PointerEmoji>
+        <HandPointer size={60} tapping={false} />
       </PointerContainer>
     </TutorialOverlay>
   );
