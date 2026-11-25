@@ -103,6 +103,10 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     handleRetry,
     handleNextStage,
     handleResetGame,
+
+    handleDevSkipStage, // 추가
+    handleDevPrevStage,
+
     canvasResetKey,
     stageKey,
   } = useTracingGame({
@@ -174,6 +178,30 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 
         {/* 게임 보드 */}
         <BoardArea>
+          {__DEV__ && (
+            <DevNavigation>
+              <DevSkipButton
+                onPress={handleDevPrevStage}
+                disabled={currentStageIndex === 0}
+                style={{ opacity: currentStageIndex === 0 ? 0.35 : 1 }}
+              >
+                <Ionicons name="play-back" size={16} color="#FFFFFF" />
+                <DevSkipText>PREV</DevSkipText>
+              </DevSkipButton>
+
+              <DevSkipButton
+                onPress={handleDevSkipStage}
+                disabled={currentStageIndex === TRACING_LINES.length - 1}
+                style={{
+                  opacity:
+                    currentStageIndex === TRACING_LINES.length - 1 ? 0.35 : 1,
+                }}
+              >
+                <DevSkipText>NEXT</DevSkipText>
+                <Ionicons name="play-forward" size={16} color="#FFFFFF" />
+              </DevSkipButton>
+            </DevNavigation>
+          )}
           <TracingCanvas
             key={`stage-${stageKey}-${lineType}`}
             createGuide={createGuide}
@@ -533,4 +561,30 @@ const RetryButtonContent = styled.View`
   align-items: center;
   justify-content: center;
   gap: 9px;
+`;
+
+const DevSkipText = styled(AppText)`
+  font-size: 11px;
+  font-weight: 900;
+  color: #ffffff;
+`;
+
+const DevNavigation = styled.View`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  flex-direction: row;
+  gap: 8px;
+`;
+
+const DevSkipButton = styled.Pressable`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 18px;
+  background-color: #7b61c9;
+  elevation: 5;
 `;

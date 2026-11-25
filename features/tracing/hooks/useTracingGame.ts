@@ -59,6 +59,10 @@ export interface UseTracingGameResult {
   handleNextStage: () => void;
   handleResetGame: () => void;
 
+  // 개발자 전용 스테이지 건너뛰기
+  handleDevPrevStage: () => void;
+  handleDevSkipStage: () => void;
+
   canvasResetKey: number;
   stageKey: number;
 }
@@ -239,6 +243,55 @@ export function useTracingGame(
     bumpCanvasReset();
   }, [initialStars, bumpCanvasReset]);
 
+  const handleDevPrevStage = useCallback(() => {
+    if (!__DEV__) return;
+
+    const prevIdx = stageIndexRef.current - 1;
+
+    if (prevIdx < 0) return;
+
+    setCurrentStageIndex(prevIdx);
+    setRemainingStars(initialStars);
+    setGameStatus("playing");
+    setLastResult(null);
+
+    processingRef.current = false;
+    setIsProcessing(false);
+
+    setStageKey((k) => k + 1);
+    bumpCanvasReset();
+  }, [initialStars, bumpCanvasReset]);
+  /**
+   * 개발자 전용: 현재 스테이지를 건너뛰고 다음 스테이지로 이동
+   * - 성공 모달이나 음계 재생을 기다리지 않음
+   * - 별 초기화
+   * - 캔버스 및 진행 상태 초기화
+   * - 마지막 스테이지에서는 처음으로 돌아가지 않고 유지
+   */
+  const handleDevSkipStage = useCallback(() => {
+    if (!__DEV__) return;
+
+    const idx = stageIndexRef.current;
+    const nextIdx = idx + 1;
+
+    // 마지막 스테이지에서는 이동하지 않음
+    if (nextIdx >= totalStages) {
+      return;
+    }
+
+    // 진행 중인 음계 재생 및 타이머가 있다면 무효화
+    setCurrentStageIndex(nextIdx);
+    setRemainingStars(initialStars);
+    setGameStatus("playing");
+    setLastResult(null);
+
+    processingRef.current = false;
+    setIsProcessing(false);
+
+    setStageKey((k) => k + 1);
+    bumpCanvasReset();
+  }, [totalStages, initialStars, bumpCanvasReset]);
+
   return {
     currentStageIndex,
     remainingStars,
@@ -251,6 +304,10 @@ export function useTracingGame(
     handleRetry,
     handleNextStage,
     handleResetGame,
+
+    handleDevSkipStage, // 추가
+    handleDevPrevStage,
+
     canvasResetKey,
     stageKey,
   };

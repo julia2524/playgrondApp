@@ -106,7 +106,7 @@ export function TracingResultModal({
             </MascotWrapper>
 
             {/* 다시 하기 / 다음 스테이지 */}
-            <SuccessButtons>
+            {/* <SuccessButtons>
               <SuccessButton
                 variant="secondary"
                 onPress={handleRestart}
@@ -130,12 +130,60 @@ export function TracingResultModal({
                   color={BASIC_COLORS.CARD_BG}
                 />
               </SuccessButton>
+            </SuccessButtons> */}
+
+            {/* 다시 하기 / 다음 스테이지 */}
+            <SuccessButtons>
+              <SuccessButton
+                variant="secondary"
+                onPress={handleRestart}
+                activeOpacity={0.85}
+              >
+                <Ionicons
+                  name="refresh"
+                  size={30}
+                  color={BASIC_COLORS.CARD_BG}
+                />
+              </SuccessButton>
+
+              {!isLastStage ? (
+                <SuccessButton
+                  variant="primary"
+                  onPress={handleNext}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons
+                    name="arrow-forward"
+                    size={30}
+                    color={BASIC_COLORS.CARD_BG}
+                  />
+                </SuccessButton>
+              ) : (
+                <SuccessButton
+                  variant="primary"
+                  onPress={handleHome}
+                  activeOpacity={0.85}
+                >
+                  <Ionicons
+                    name="home"
+                    size={22}
+                    color={BASIC_COLORS.CARD_BG}
+                  />
+                </SuccessButton>
+              )}
             </SuccessButtons>
 
+            {/* 일반 스테이지에서만 별도 홈 버튼 표시 */}
+            {!isLastStage && (
+              <HomeButton onPress={handleHome} activeOpacity={0.85}>
+                <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
+              </HomeButton>
+            )}
+
             {/* 홈 버튼 */}
-            <HomeButton onPress={handleHome} activeOpacity={0.85}>
+            {/* <HomeButton onPress={handleHome} activeOpacity={0.85}>
               <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
-            </HomeButton>
+            </HomeButton> */}
           </ModalInner>
         </ModalContent>
       </Overlay>
