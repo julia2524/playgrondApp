@@ -305,7 +305,6 @@
 //     </ImageBackground>
 //   );
 // }
-
 import React, { useEffect, useState } from "react";
 import { ImageBackground, ScrollView, View } from "react-native";
 
@@ -327,7 +326,7 @@ import { triggerHaptic } from "../../utils/haptic";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styled from "styled-components/native";
-import GameCardItem from "../../design-system/ui/GameCardItem";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // ==========================================
 // Navigation
@@ -344,7 +343,7 @@ let hasShownGuardianNoticeThisSession = false;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavigationProp>();
-
+  const insets = useSafeAreaInsets();
   useLanguage();
 
   const [guardianNoticeVisible, setGuardianNoticeVisible] = useState(false);
@@ -424,7 +423,12 @@ export default function HomeScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <ScreenContainer>
+        <ScreenContainer
+          style={{
+            paddingTop: Math.max(insets.top + 16, 32),
+            paddingBottom: Math.max(insets.bottom, 4),
+          }}
+        >
           {/* 상단 인사말 */}
           <HeaderArea>
             <TitleRow>
@@ -440,7 +444,7 @@ export default function HomeScreen() {
             <GuideText>{i18n.t("guide")}</GuideText>
           </HeaderArea>
 
-          {/* 놀이 공간 선택 카드 (2개) */}
+          {/* 놀이 공간 선택 카드 (3개) */}
           <SectionList>
             {/* 그리기 놀이터 */}
             <CardWrapper $shadowColor="#5E4AD1">
@@ -495,6 +499,7 @@ export default function HomeScreen() {
                 )}
               </SectionCard>
             </CardWrapper>
+
             {/* 셋팅창 */}
             <CardWrapper $shadowColor={PASTEL_BG.neutral}>
               <SectionCard
@@ -504,7 +509,7 @@ export default function HomeScreen() {
                   navigation.navigate("SettingScreen" as never);
                 }}
                 accessibilityRole="button"
-                accessibilityLabel={i18n.t("section_classification_title")}
+                accessibilityLabel={i18n.t("setting_title")}
               >
                 {({ pressed }) => (
                   <CardInner $pressed={pressed}>
@@ -524,22 +529,6 @@ export default function HomeScreen() {
               </SectionCard>
             </CardWrapper>
           </SectionList>
-          {/* <GameCardItem
-            bgColor={PASTEL_BG.neutral}
-            emoji={
-              <Ionicons
-                name="settings-outline"
-                size={40}
-                color={BASIC_COLORS.TEXT_SUB}
-              />
-            }
-            title={i18n.t("setting_title")}
-            desc=""
-            onPress={() => {
-              triggerHaptic("light");
-              navigation.navigate("SettingScreen" as never);
-            }}
-          /> */}
 
           {/* 하단 배경(아기 판다·흙길) 공간 + Skinny Mommy Bear 푸터 */}
           <BottomArea>
@@ -568,8 +557,6 @@ const ScreenContainer = styled.View`
   width: 100%;
   max-width: 600px;
   padding-horizontal: 24px;
-  padding-top: 32px;
-  padding-bottom: 16px;
 `;
 
 const HeaderArea = styled.View`
@@ -587,14 +574,12 @@ const TitleRow = styled.View`
 const SubTitleText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.small}px;
-  font-weight: 700;
   color: #5b7083;
 `;
 
 const MainTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.title}px;
-  font-weight: 900;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
 `;
@@ -602,7 +587,6 @@ const MainTitle = styled(AppText)`
 const GuideText = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
-  font-weight: 600;
   color: #6b7f91;
   text-align: center;
   margin-top: 6px;
@@ -655,14 +639,12 @@ const CardTextGroup = styled.View`
 const CardTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
-  font-weight: 900;
   color: #ffffff;
 `;
 
 const CardDesc = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
-  font-weight: 700;
   color: rgba(255, 255, 255, 0.94);
   margin-top: 4px;
 `;
