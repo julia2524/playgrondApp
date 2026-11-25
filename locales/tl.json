@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Ano ang iguguhit natin ngayon?",
+  "drawing_section_guide": "Tapikin ang paborito mong patak ng pintura!",
+
+  "drawing_line_title": "Pagguhit ng Kurbadong Linya",
+  "drawing_line_desc": "Sundan natin ang mga linya!",
+
+  "drawing_shape_title": "Makukulay na Hugis",
+  "drawing_shape_desc": "Bilog, tatsulok, parisukat!",
+
+  "drawing_object_title": "Masayang Pagguhit ng Bagay",
+  "drawing_object_desc": "Ano ang iguguhit natin?",
+
   "classification_select_title": "Ano ang gusto mong hanapin?",
   "classification_bubble_desc": "Tapikin ang gusto mong bula!",
 

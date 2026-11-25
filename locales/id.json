@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Hari ini mau menggambar apa?",
+  "drawing_section_guide": "Ketuk tetes cat yang kamu suka!",
+
+  "drawing_line_title": "Menggambar Garis Berkelok",
+  "drawing_line_desc": "Yuk ikuti garisnya!",
+
+  "drawing_shape_title": "Menggambar Bentuk Warna-warni",
+  "drawing_shape_desc": "Lingkaran, segitiga, persegi!",
+
+  "drawing_object_title": "Menggambar Benda Seru",
+  "drawing_object_desc": "Mau gambar apa?",
+
   "classification_select_title": "Apa yang ingin kamu cari?",
   "classification_bubble_desc": "Ketuk gelembung yang kamu suka!",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "今天要画什么呢？",
+  "drawing_section_guide": "轻点喜欢的颜料水滴！",
+
+  "drawing_line_title": "弯弯线条画画",
+  "drawing_line_desc": "跟着线条画一画吧！",
+
+  "drawing_shape_title": "彩色形状画画",
+  "drawing_shape_desc": "圆形、三角形、正方形！",
+
+  "drawing_object_title": "有趣物品画画",
+  "drawing_object_desc": "画什么好呢？",
+
   "classification_select_title": "你想找什么呢？",
   "classification_bubble_desc": "轻点你喜欢的泡泡！",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "¿Qué dibujaremos hoy?",
+  "drawing_section_guide": "¡Toca una gota de pintura que te guste!",
+
+  "drawing_line_title": "Dibujo de Líneas Divertidas",
+  "drawing_line_desc": "¿Seguimos las líneas?",
+
+  "drawing_shape_title": "Dibujo de Formas de Colores",
+  "drawing_shape_desc": "¡Círculo, triángulo y cuadrado!",
+
+  "drawing_object_title": "Dibujo de Objetos Divertidos",
+  "drawing_object_desc": "¿Qué dibujamos?",
+
   "classification_select_title": "¿Qué te gustaría encontrar?",
   "classification_bubble_desc": "¡Toca una burbuja que te guste!",
 

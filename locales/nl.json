@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Wat zullen we vandaag tekenen?",
+  "drawing_section_guide": "Tik op een verfdrup die je leuk vindt!",
+
+  "drawing_line_title": "Kronkelige lijnen tekenen",
+  "drawing_line_desc": "Zullen we de lijnen volgen?",
+
+  "drawing_shape_title": "Kleurrijke vormen tekenen",
+  "drawing_shape_desc": "Cirkel, driehoek, vierkant!",
+
+  "drawing_object_title": "Leuke dingen tekenen",
+  "drawing_object_desc": "Wat zullen we tekenen?",
+
   "classification_select_title": "Wat wil je zoeken?",
   "classification_bubble_desc": "Tik op de bellen die je leuk vindt!",
 

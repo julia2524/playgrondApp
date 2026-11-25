@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "இன்று என்ன வரைவோம்?",
+  "drawing_section_guide": "உனக்கு பிடித்த வண்ணத் துளியைத் தொடு!",
+
+  "drawing_line_title": "வளைந்த கோடுகள் வரைவோம்",
+  "drawing_line_desc": "கோட்டைத் தொடர்ந்து வரைவோமா?",
+
+  "drawing_shape_title": "வண்ண வடிவங்கள் வரைவோம்",
+  "drawing_shape_desc": "வட்டம், முக்கோணம், சதுரம்!",
+
+  "drawing_object_title": "வேடிக்கையான பொருட்கள் வரைவோம்",
+  "drawing_object_desc": "எதை வரைவோம்?",
+
   "classification_select_title": "எதைத் தேட விரும்புகிறாய்?",
   "classification_bubble_desc": "உனக்கு பிடித்த குமிழியைத் தொடு!",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "วันนี้จะวาดรูปอะไรดีนะ?",
+  "drawing_section_guide": "แตะหยดสีที่ชอบเลย!",
+
+  "drawing_line_title": "วาดเส้นคดเคี้ยว",
+  "drawing_line_desc": "ลองลากตามเส้นดูไหม?",
+
+  "drawing_shape_title": "วาดรูปทรงสีสันสดใส",
+  "drawing_shape_desc": "วงกลม สามเหลี่ยม สี่เหลี่ยม!",
+
+  "drawing_object_title": "วาดสิ่งของแสนสนุก",
+  "drawing_object_desc": "จะวาดอะไรดีนะ?",
+
   "classification_select_title": "อยากค้นหาอะไรดีนะ?",
   "classification_bubble_desc": "แตะฟองสบู่ที่ชอบเลย!",
 

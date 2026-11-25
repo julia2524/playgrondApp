@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Cosa disegniamo oggi?",
+  "drawing_section_guide": "Tocca una goccia di colore che ti piace!",
+
+  "drawing_line_title": "Disegno di linee buffe",
+  "drawing_line_desc": "Seguiamo le linee!",
+
+  "drawing_shape_title": "Disegno di forme colorate",
+  "drawing_shape_desc": "Cerchio, triangolo, quadrato!",
+
+  "drawing_object_title": "Disegno di oggetti divertenti",
+  "drawing_object_desc": "Cosa disegniamo?",
+
   "classification_select_title": "Cosa vuoi trovare?",
   "classification_bubble_desc": "Tocca la bolla che ti piace!",
 

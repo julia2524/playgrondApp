@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "What shall we draw today?",
+  "drawing_section_guide": "Tap a paint drop you like!",
+
+  "drawing_line_title": "Wiggly Line Drawing",
+  "drawing_line_desc": "Let's draw along the lines!",
+
+  "drawing_shape_title": "Colorful Shape Drawing",
+  "drawing_shape_desc": "Circle, triangle, square!",
+
+  "drawing_object_title": "Fun Object Drawing",
+  "drawing_object_desc": "What shall we draw?",
+
   "classification_select_title": "What would you like to find?",
   "classification_bubble_desc": "Tap a bubble you like!",
 

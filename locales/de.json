@@ -1,9 +1,22 @@
 {
+  "drawing_section_headline": "Was malen wir heute?",
+  "drawing_section_guide": "Tippe auf einen Farbklecks, den du magst!",
+
+  "drawing_line_title": "Kringelige Linien malen",
+  "drawing_line_desc": "Malen wir den Linien nach?",
+
+  "drawing_shape_title": "Bunte Formen malen",
+  "drawing_shape_desc": "Kreis, Dreieck, Quadrat!",
+
+  "drawing_object_title": "Lustige Dinge malen",
+  "drawing_object_desc": "Was wollen wir malen?",
+
   "classification_select_title": "Was möchtest du finden?",
   "classification_bubble_desc": "Tippe auf eine Seifenblase, die dir gefällt!",
 
   "section_drawing_title": "Zeichen-Spielplatz",
   "section_drawing_desc": "Male und lass deiner Fantasie freien Lauf!",
+
   "section_classification_title": "Sortier-Spielplatz",
   "section_classification_desc": "Finde, ordne zu und entdecke!",
   "footer_made_with": "Mit Mama Bär für kleine Entdecker gemacht 💛",

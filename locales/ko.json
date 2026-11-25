@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "오늘은 어떤 그림을 그려볼까?",
+  "drawing_section_guide": "마음에 드는 물감 방울을 톡!",
+
+  "drawing_line_title": "꼬불꼬불 선그리기",
+  "drawing_line_desc": "선을 따라 쭉쭉 그려볼까?",
+
+  "drawing_shape_title": "알록달록 모양그리기",
+  "drawing_shape_desc": "동그라미, 세모, 네모!",
+
+  "drawing_object_title": "재미있는 사물그리기",
+  "drawing_object_desc": "무엇을 그려볼까?",
+
   "classification_select_title": "무엇을 찾아볼까?",
   "classification_bubble_desc": "마음에 드는 비눗방울을 톡!",
 

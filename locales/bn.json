@@ -1,6 +1,19 @@
 {
+  "drawing_section_headline": "আজ কী আঁকবে?",
+  "drawing_section_guide": "পছন্দের রঙের ফোঁটায় টোকা দাও!",
+
+  "drawing_line_title": "আকাবাঁকা রেখা আঁকি",
+  "drawing_line_desc": "রেখা ধরে ধরে আঁকি?",
+
+  "drawing_shape_title": "রঙিন আকার আঁকি",
+  "drawing_shape_desc": "গোল, ত্রিভুজ, চৌকো!",
+
+  "drawing_object_title": "মজার জিনিস আঁকি",
+  "drawing_object_desc": "কী আঁকবে?",
+
   "classification_select_title": "কী খুঁজে দেখবে?",
   "classification_bubble_desc": "পছন্দের বুদবুদে টোকা দাও!",
+
   "section_drawing_title": "আঁকার খেলার মাঠ",
   "section_drawing_desc": "আঁকো আর কল্পনা করো!",
   "section_classification_title": "বাছাই খেলার মাঠ",

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Bugün ne çizelim?",
+  "drawing_section_guide": "Sevdiğin boya damlasına dokun!",
+
+  "drawing_line_title": "Kıvrımlı Çizgiler Çizelim",
+  "drawing_line_desc": "Çizgileri takip edelim!",
+
+  "drawing_shape_title": "Renkli Şekiller Çizelim",
+  "drawing_shape_desc": "Daire, üçgen, kare!",
+
+  "drawing_object_title": "Eğlenceli Nesneler Çizelim",
+  "drawing_object_desc": "Ne çizelim?",
+
   "classification_select_title": "Ne bulmak istersin?",
   "classification_bubble_desc": "Beğendiğin baloncuğa dokun!",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "O que vamos desenhar hoje?",
+  "drawing_section_guide": "Toque na gotinha de tinta que você gosta!",
+
+  "drawing_line_title": "Desenho de Linhas Divertidas",
+  "drawing_line_desc": "Vamos seguir as linhas?",
+
+  "drawing_shape_title": "Desenho de Formas Coloridas",
+  "drawing_shape_desc": "Círculo, triângulo, quadrado!",
+
+  "drawing_object_title": "Desenho de Objetos Divertidos",
+  "drawing_object_desc": "O que vamos desenhar?",
+
   "classification_select_title": "O que você quer encontrar?",
   "classification_bubble_desc": "Toque na bolha que você mais gosta!",
 

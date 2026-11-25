@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "आज क्या बनाएँ?",
+  "drawing_section_guide": "पसंद की रंग वाली बूंद को छुओ!",
+
+  "drawing_line_title": "टेढ़ी-मेढ़ी रेखाएँ बनाओ",
+  "drawing_line_desc": "रेखा के साथ-साथ बनाएँ?",
+
+  "drawing_shape_title": "रंग-बिरंगे आकार बनाओ",
+  "drawing_shape_desc": "गोल, त्रिकोण, चौकोर!",
+
+  "drawing_object_title": "मज़ेदार चीज़ें बनाओ",
+  "drawing_object_desc": "क्या बनाएँ?",
+
   "classification_select_title": "क्या ढूँढना चाहोगे?",
   "classification_bubble_desc": "अपना पसंदीदा बुलबुला छुओ!",
 

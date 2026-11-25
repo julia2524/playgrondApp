@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Ce desenăm azi?",
+  "drawing_section_guide": "Atinge picătura de culoare preferată!",
+
+  "drawing_line_title": "Desenează Linii Șerpuite",
+  "drawing_line_desc": "Hai să urmăm liniile!",
+
+  "drawing_shape_title": "Desenează Forme Colorate",
+  "drawing_shape_desc": "Cerc, triunghi, pătrat!",
+
+  "drawing_object_title": "Desenează Obiecte Distractive",
+  "drawing_object_desc": "Ce desenăm?",
+
   "classification_select_title": "Ce vrei să găsești?",
   "classification_bubble_desc": "Atinge bula care îți place!",
 

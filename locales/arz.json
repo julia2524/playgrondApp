@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "هنرسم إيه النهارده؟",
+  "drawing_section_guide": "دوس على نقطة اللون اللي تعجبك!",
+
+  "drawing_line_title": "رسم الخطوط المتعرجة",
+  "drawing_line_desc": "يلا نمشي مع الخط!",
+
+  "drawing_shape_title": "رسم الأشكال الملونة",
+  "drawing_shape_desc": "دايرة، مثلث، مربع!",
+
+  "drawing_object_title": "رسم أشياء ممتعة",
+  "drawing_object_desc": "هنرسم إيه؟",
+
   "classification_select_title": "هندور على إيه؟",
   "classification_bubble_desc": "دوس على الفقاعة اللي تعجبك!",
 

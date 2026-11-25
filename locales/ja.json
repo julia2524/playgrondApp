@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "きょうはなにをかこうかな？",
+  "drawing_section_guide": "すきないろのみずたまをタップしてね！",
+
+  "drawing_line_title": "くねくねせんおえかき",
+  "drawing_line_desc": "せんをたどってかいてみよう！",
+
+  "drawing_shape_title": "カラフルかたちおえかき",
+  "drawing_shape_desc": "まる、さんかく、しかく！",
+
+  "drawing_object_title": "たのしいものおえかき",
+  "drawing_object_desc": "なにをかこうかな？",
+
   "classification_select_title": "なにをさがしてみる？",
   "classification_bubble_desc": "すきなしゃぼんだまをタップしてね！",
 

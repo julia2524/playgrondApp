@@ -14,7 +14,8 @@ import LanguageScreen from "../features/LanguageScreen";
 import TracingGameScreen from "../features/tracing/TracingGameScreen";
 
 import type { RootStackParamList } from "./types";
-import ClassificationSectionScreen from "../features/classification/ClassificationSectionScreen";
+import ClassificationSectionScreen from "../features/sectionScreens/ClassificationSectionScreen";
+import DrawingSectionScreen from "../features/sectionScreens/DrawingSectionScreen";
 
 // 네비게이션 타입 연결
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -39,6 +40,10 @@ export default function AppNavigator() {
         name="ClassificationSectionScreen"
         component={ClassificationSectionScreen}
         options={{ animation: "fade" }}
+      />
+      <Stack.Screen
+        name="DrawingSectionScreen"
+        component={DrawingSectionScreen}
       />
 
       <Stack.Screen

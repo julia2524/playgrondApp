@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "ఈ రోజు ఏమి గీయాలి?",
+  "drawing_section_guide": "నీకు నచ్చిన రంగు చుక్కను తాకండి!",
+
+  "drawing_line_title": "వంకర గీతలు గీయడం",
+  "drawing_line_desc": "గీతలను అనుసరించి గీయుదాం!",
+
+  "drawing_shape_title": "రంగురంగుల ఆకారాలు",
+  "drawing_shape_desc": "వృత్తం, త్రిభుజం, చతురస్రం!",
+
+  "drawing_object_title": "సరదా వస్తువులు గీయడం",
+  "drawing_object_desc": "ఏమి గీయాలి?",
+
   "classification_select_title": "ఏమి వెతకాలని ఉంది?",
   "classification_bubble_desc": "నచ్చిన బుడగను తాకండి!",
 

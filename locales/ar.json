@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "ماذا سنرسم اليوم؟",
+  "drawing_section_guide": "اضغط على قطرة اللون التي تعجبك!",
+
+  "drawing_line_title": "رسم الخطوط المتعرجة",
+  "drawing_line_desc": "هيا نرسم على طول الخط!",
+
+  "drawing_shape_title": "رسم الأشكال الملونة",
+  "drawing_shape_desc": "دائرة، مثلث، مربع!",
+
+  "drawing_object_title": "رسم الأشياء الممتعة",
+  "drawing_object_desc": "ماذا نرسم اليوم؟",
+
   "classification_select_title": "ماذا سنبحث عنه؟",
   "classification_bubble_desc": "اضغط على الفقاعة التي تعجبك!",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "आज के चित्र बनाऔँ?",
+  "drawing_section_guide": "मन परेको रङको थोपा छुनुहोस्!",
+
+  "drawing_line_title": "बाङ्गोटिङ्गो रेखा कोर्ने",
+  "drawing_line_desc": "रेखालाई पछ्याएर कोरौँ?",
+
+  "drawing_shape_title": "रङ्गीन आकार कोर्ने",
+  "drawing_shape_desc": "गोलो, त्रिभुज, चौकोन!",
+
+  "drawing_object_title": "रमाइला वस्तु कोर्ने",
+  "drawing_object_desc": "के कोरौँ?",
+
   "classification_select_title": "के खोज्ने?",
   "classification_bubble_desc": "मन परेको बुलबुला छुनुहोस्!",
 

@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Vad ska vi rita idag?",
+  "drawing_section_guide": "Tryck på en färgdroppe du gillar!",
+
+  "drawing_line_title": "Rita Slingriga Linjer",
+  "drawing_line_desc": "Ska vi följa linjerna?",
+
+  "drawing_shape_title": "Rita Färgglada Former",
+  "drawing_shape_desc": "Cirkel, triangel, kvadrat!",
+
+  "drawing_object_title": "Rita Roliga Saker",
+  "drawing_object_desc": "Vad ska vi rita?",
+
   "classification_select_title": "Vad vill du hitta?",
   "classification_bubble_desc": "Tryck på en bubbla du gillar!",
 

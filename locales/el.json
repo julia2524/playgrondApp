@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Τι θα ζωγραφίσουμε σήμερα;",
+  "drawing_section_guide": "Πάτησε μια σταγόνα χρώματος που σου αρέσει!",
+
+  "drawing_line_title": "Ζωγραφική με γραμμές",
+  "drawing_line_desc": "Ας ακολουθήσουμε τις γραμμές!",
+
+  "drawing_shape_title": "Πολύχρωμα σχήματα",
+  "drawing_shape_desc": "Κύκλος, τρίγωνο, τετράγωνο!",
+
+  "drawing_object_title": "Αστεία αντικείμενα",
+  "drawing_object_desc": "Τι να ζωγραφίσουμε;",
+
   "classification_select_title": "Τι θέλεις να βρεις;",
   "classification_bubble_desc": "Πάτησε τη φούσκα που σου αρέσει!",
 

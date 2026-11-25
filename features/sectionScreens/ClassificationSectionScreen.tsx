@@ -133,19 +133,6 @@ export default function ClassificationSectionScreen() {
       <DecorativeBackground />
       <StatusBar barStyle="dark-content" backgroundColor="#FFF9F0" />
 
-      {/* 배경 장식 */}
-      {/* <BackgroundDecor pointerEvents="none">
-        <SoftCircleOne />
-        <SoftCircleTwo />
-        <SoftCircleThree />
-
-        <DecorBubble $size={24} $top="17%" $left="13%" />
-        <DecorBubble $size={13} $top="30%" $right="12%" />
-        <DecorBubble $size={18} $bottom="24%" $right="12%" />
-        <DecorBubble $size={10} $bottom="12%" $left="27%" />
-        <DecorBubble $size={15} $top="62%" $left="8%" />
-      </BackgroundDecor> */}
-
       {/* StageMap과 동일한 헤더 */}
       <Animated.View style={{ opacity: headerOpacity, zIndex: 5 }}>
         <AppHeader

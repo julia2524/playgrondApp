@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Que va-t-on dessiner aujourd’hui ?",
+  "drawing_section_guide": "Touche une goutte de peinture que tu aimes !",
+
+  "drawing_line_title": "Dessin de lignes rigolotes",
+  "drawing_line_desc": "Suivons les lignes pour dessiner !",
+
+  "drawing_shape_title": "Dessiner des formes colorées",
+  "drawing_shape_desc": "Cercle, triangle, carré !",
+
+  "drawing_object_title": "Dessiner des objets amusants",
+  "drawing_object_desc": "Que veux-tu dessiner ?",
+
   "classification_select_title": "Que veux-tu trouver ?",
   "classification_bubble_desc": "Touche la bulle que tu préfères !",
 

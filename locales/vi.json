@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Hôm nay mình vẽ gì nhỉ?",
+  "drawing_section_guide": "Chạm vào giọt màu bạn thích nhé!",
+
+  "drawing_line_title": "Vẽ Đường Nét Uốn Lượn",
+  "drawing_line_desc": "Cùng đi theo các đường nét nào!",
+
+  "drawing_shape_title": "Vẽ Hình Màu Sắc",
+  "drawing_shape_desc": "Hình tròn, tam giác, hình vuông!",
+
+  "drawing_object_title": "Vẽ Đồ Vật Thú Vị",
+  "drawing_object_desc": "Vẽ gì nhỉ?",
+
   "classification_select_title": "Bạn muốn tìm gì?",
   "classification_bubble_desc": "Chạm vào bong bóng bạn thích!",
 

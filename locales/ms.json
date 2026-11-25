@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Hari ini nak lukis apa?",
+  "drawing_section_guide": "Sentuh titisan warna yang kamu suka!",
+
+  "drawing_line_title": "Lukisan Garisan Berliku",
+  "drawing_line_desc": "Jom ikut garisan ini!",
+
+  "drawing_shape_title": "Lukisan Bentuk Berwarna-warni",
+  "drawing_shape_desc": "Bulat, segi tiga, segi empat!",
+
+  "drawing_object_title": "Lukisan Objek Menarik",
+  "drawing_object_desc": "Nak lukis apa?",
+
   "classification_select_title": "Apa yang mahu dicari?",
   "classification_bubble_desc": "Sentuh gelembung yang kamu suka!",
 

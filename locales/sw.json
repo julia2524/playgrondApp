@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Tutachora nini leo?",
+  "drawing_section_guide": "Gusa tone la rangi unalopenda!",
+
+  "drawing_line_title": "Michoro ya Mistari ya Kupinda",
+  "drawing_line_desc": "Twende kufuata mistari!",
+
+  "drawing_shape_title": "Michoro ya Maumbo ya Rangi",
+  "drawing_shape_desc": "Duara, pembetatu, mraba!",
+
+  "drawing_object_title": "Michoro ya Vitu vya Kufurahisha",
+  "drawing_object_desc": "Tutachora nini?",
+
   "classification_select_title": "Ungependa kutafuta nini?",
   "classification_bubble_desc": "Gusa povu unalolipenda!",
 

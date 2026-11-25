@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Co dziś narysujemy?",
+  "drawing_section_guide": "Dotknij kropli farby, która ci się podoba!",
+
+  "drawing_line_title": "Rysowanie Falowanych Linii",
+  "drawing_line_desc": "Narysujemy po liniach?",
+
+  "drawing_shape_title": "Kolorowe Kształty",
+  "drawing_shape_desc": "Koło, trójkąt, kwadrat!",
+
+  "drawing_object_title": "Rysowanie Ciekawych Rzeczy",
+  "drawing_object_desc": "Co narysujemy?",
+
   "classification_select_title": "Czego chcesz poszukać?",
   "classification_bubble_desc": "Dotknij ulubionej bańki!",
 

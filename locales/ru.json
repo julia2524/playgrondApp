@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "Что нарисуем сегодня?",
+  "drawing_section_guide": "Нажми на понравившуюся капельку краски!",
+
+  "drawing_line_title": "Рисуем Забавные Линии",
+  "drawing_line_desc": "Давай проведём по линиям!",
+
+  "drawing_shape_title": "Рисуем Цветные Фигуры",
+  "drawing_shape_desc": "Круг, треугольник, квадрат!",
+
+  "drawing_object_title": "Рисуем Интересные Предметы",
+  "drawing_object_desc": "Что нарисуем?",
+
   "classification_select_title": "Что ты хочешь найти?",
   "classification_bubble_desc": "Нажми на понравившийся пузырёк!",
 

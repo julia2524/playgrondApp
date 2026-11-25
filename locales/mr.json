@@ -1,4 +1,16 @@
 {
+  "drawing_section_headline": "आज काय काढूया?",
+  "drawing_section_guide": "आवडत्या रंगाच्या थेंबाला स्पर्श कर!",
+
+  "drawing_line_title": "वाकडी तिकडी रेषा काढूया",
+  "drawing_line_desc": "रेषेच्या मागे मागे काढूया?",
+
+  "drawing_shape_title": "रंगीत आकार काढूया",
+  "drawing_shape_desc": "गोल, त्रिकोण, चौकोन!",
+
+  "drawing_object_title": "मजेदार वस्तू काढूया",
+  "drawing_object_desc": "काय काढूया?",
+
   "classification_select_title": "काय शोधायचं?",
   "classification_bubble_desc": "आवडत्या फुग्याला स्पर्श कर!",
 
