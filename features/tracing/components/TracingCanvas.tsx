@@ -45,6 +45,8 @@ interface TracingCanvasProps {
   inputLocked?: boolean;
 
   onProgressLabelChange?: (label: string) => void;
+
+  tutorialEnabled?: boolean;
 }
 
 export const TracingCanvas: React.FC<TracingCanvasProps> = ({
@@ -58,6 +60,7 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
   resetKey,
   showPanda = false,
   inputLocked = false,
+  tutorialEnabled = true,
   onProgressLabelChange,
 }) => {
   const particleRef = useRef<DrawingParticleEffectHandle>(null);
@@ -137,44 +140,44 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
     return d;
   }, [completedSegments, guidePoints]);
 
-  // 튜토리얼 시작
-  useEffect(() => {
-    if (!tutorialStartedRef.current && guidePoints.length >= 2) {
-      tutorialStartedRef.current = true;
-      setTutorialVisible(true);
-    }
-  }, [guidePoints]);
+  // // 튜토리얼 시작
+  // useEffect(() => {
+  //   if (!tutorialStartedRef.current && guidePoints.length >= 2) {
+  //     tutorialStartedRef.current = true;
+  //     setTutorialVisible(true);
+  //   }
+  // }, [guidePoints]);
 
-  const handleTutorialComplete = useCallback(() => {
-    setTutorialVisible(false);
-  }, []);
+  // const handleTutorialComplete = useCallback(() => {
+  //   setTutorialVisible(false);
+  // }, []);
 
-  const clearTutorialTimer = useCallback(() => {
-    if (tutorialTimerRef.current) {
-      clearTimeout(tutorialTimerRef.current);
-      tutorialTimerRef.current = null;
-    }
-  }, []);
+  // const clearTutorialTimer = useCallback(() => {
+  //   if (tutorialTimerRef.current) {
+  //     clearTimeout(tutorialTimerRef.current);
+  //     tutorialTimerRef.current = null;
+  //   }
+  // }, []);
 
-  const handleTouchStart = useCallback(() => {
-    clearTutorialTimer();
-    setTutorialVisible(false);
-  }, [clearTutorialTimer]);
+  // const handleTouchStart = useCallback(() => {
+  //   clearTutorialTimer();
+  //   setTutorialVisible(false);
+  // }, [clearTutorialTimer]);
 
-  const handleTouchEnd = useCallback(() => {
-    clearTutorialTimer();
+  // const handleTouchEnd = useCallback(() => {
+  //   clearTutorialTimer();
 
-    tutorialTimerRef.current = setTimeout(() => {
-      setTutorialVisible(true);
-      tutorialTimerRef.current = null;
-    }, 3000);
-  }, [clearTutorialTimer]);
+  //   tutorialTimerRef.current = setTimeout(() => {
+  //     setTutorialVisible(true);
+  //     tutorialTimerRef.current = null;
+  //   }, 3000);
+  // }, [clearTutorialTimer]);
 
-  useEffect(() => {
-    return () => {
-      clearTutorialTimer();
-    };
-  }, [clearTutorialTimer]);
+  // useEffect(() => {
+  //   return () => {
+  //     clearTutorialTimer();
+  //   };
+  // }, [clearTutorialTimer]);
 
   // 내부 초기화 기능은 유지
   const handleReset = useCallback(() => {
@@ -187,6 +190,70 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
       handleReset();
     }
   }, [resetKey, handleReset]);
+  const tutorialEnabledRef = useRef(tutorialEnabled);
+
+  // 렌더링 시점에 최신 상태 반영
+  tutorialEnabledRef.current = tutorialEnabled;
+
+  const clearTutorialTimer = useCallback(() => {
+    if (tutorialTimerRef.current) {
+      clearTimeout(tutorialTimerRef.current);
+      tutorialTimerRef.current = null;
+    }
+  }, []);
+
+  // 튜토리얼 활성화 시 표시
+  useEffect(() => {
+    clearTutorialTimer();
+
+    if (tutorialEnabled && guidePoints.length >= 2) {
+      setTutorialVisible(true);
+    } else {
+      setTutorialVisible(false);
+    }
+
+    return clearTutorialTimer;
+  }, [tutorialEnabled, guidePoints, clearTutorialTimer]);
+  const handleTutorialComplete = useCallback(() => {
+    setTutorialVisible(false);
+
+    clearTutorialTimer();
+
+    if (!tutorialEnabledRef.current) return;
+
+    tutorialTimerRef.current = setTimeout(() => {
+      tutorialTimerRef.current = null;
+
+      if (tutorialEnabledRef.current) {
+        setTutorialVisible(true);
+      }
+    }, 3000);
+  }, [clearTutorialTimer]);
+
+  const handleTouchStart = useCallback(() => {
+    clearTutorialTimer();
+    setTutorialVisible(false);
+  }, [clearTutorialTimer]);
+
+  const handleTouchEnd = useCallback(() => {
+    clearTutorialTimer();
+
+    if (!tutorialEnabledRef.current) return;
+
+    tutorialTimerRef.current = setTimeout(() => {
+      tutorialTimerRef.current = null;
+
+      if (tutorialEnabledRef.current) {
+        setTutorialVisible(true);
+      }
+    }, 3000);
+  }, [clearTutorialTimer]);
+
+  useEffect(() => {
+    return () => {
+      clearTutorialTimer();
+    };
+  }, [clearTutorialTimer]);
 
   const progressLabel = isCompleted
     ? "참 잘했어요! 🎉"
@@ -283,8 +350,13 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
               size={Math.min(120, Math.round(width * 0.35))}
             />
 
-            <TracingTutorial
+            {/* <TracingTutorial
               visible={tutorialVisible}
+              points={guidePoints}
+              onComplete={handleTutorialComplete}
+            /> */}
+            <TracingTutorial
+              visible={tutorialEnabled && tutorialVisible}
               points={guidePoints}
               onComplete={handleTutorialComplete}
             />

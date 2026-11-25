@@ -202,6 +202,16 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
               </DevSkipButton>
             </DevNavigation>
           )}
+          {/* <TracingCanvas
+            key={`stage-${stageKey}-${lineType}`}
+            createGuide={createGuide}
+            resetKey={canvasResetKey}
+            onComplete={handleStageComplete}
+            onFailedAttempt={handleFailedAttempt}
+            onProgressLabelChange={setProgressLabel}
+            inputLocked={inputLocked}
+            showPanda
+          /> */}
           <TracingCanvas
             key={`stage-${stageKey}-${lineType}`}
             createGuide={createGuide}
@@ -210,6 +220,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
             onFailedAttempt={handleFailedAttempt}
             onProgressLabelChange={setProgressLabel}
             inputLocked={inputLocked}
+            tutorialEnabled={gameStatus === "playing" && !inputLocked}
             showPanda
           />
         </BoardArea>
