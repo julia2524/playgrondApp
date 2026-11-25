@@ -1,4 +1,7 @@
 {
+  "classification_select_title": "What would you like to find?",
+  "classification_bubble_desc": "Tap a bubble you like!",
+
   "section_drawing_title": "Drawing Playground",
   "section_drawing_desc": "Draw and imagine freely!",
   "section_classification_title": "Sorting Playground",

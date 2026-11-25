@@ -7,6 +7,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RootStackParamList } from "../../navigation/types";
 import MapTrail from "./components/MapTrail";
 import StageNode from "./components/StageNode";
@@ -19,8 +20,6 @@ import {
   StageMapHeaderCenter,
   StageMapTitle,
   StickerBookFloatingButton,
-  StickerBookHeaderButton,
-  StickerButtonEmoji,
 } from "./stageMapStyles";
 import { useProgress } from "../classification/progress/useProgress";
 import { colorLevels } from "../classification/color/constants/levels";
@@ -31,7 +30,7 @@ import DecorativeBackground from "../../design-system/backgrounds/DecorativeBack
 import { categoryLevels } from "../classification/category/constants/levels";
 import BannerAd from "../../services/BannerAd";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import i18n from "../../i18n";
 import { triggerHaptic } from "../../utils/haptic";
 
@@ -46,6 +45,7 @@ const BOTTOM_PADDING = 130;
 const NODE_RADIUS = 43;
 const NODE_CONTAINER_WIDTH = 120;
 const HORIZONTAL_SAFE_PADDING = 60;
+const BANNER_AD_HEIGHT = 60;
 
 // ⭐ Content 레이아웃이 아직 측정되기 전(0일 때) 사용할 폴백값
 const FALLBACK_VIEWPORT_HEIGHT = 560;
@@ -53,6 +53,7 @@ const FALLBACK_VIEWPORT_HEIGHT = 560;
 export default function StageMapScreen() {
   const route = useRoute<RouteProp<RootStackParamList, "StageMapScreen">>();
   const { gameType } = route.params || { gameType: "color" };
+  const insets = useSafeAreaInsets();
 
   const headerTitle = i18n.t(`adventure_title_${gameType}`);
 
@@ -192,6 +193,9 @@ export default function StageMapScreen() {
       initialTab: gameType,
     });
   };
+
+  const bottomSafeOffset = Math.max(insets.bottom, 4);
+
   return (
     <Container>
       <GradientBackground />
@@ -227,7 +231,7 @@ export default function StageMapScreen() {
             }}
             contentContainerStyle={{
               minHeight: contentHeight,
-              // paddingBottom: 70, // ⭐ 광고 영역 확보
+              paddingBottom: BANNER_AD_HEIGHT + bottomSafeOffset + 16,
             }}
           >
             <View style={{ height: contentHeight, direction: "ltr" }}>
@@ -286,14 +290,14 @@ export default function StageMapScreen() {
               })}
             </View>
           </ScrollView>
-          {/* 📖 스티커북 버튼 */}
-          {/* <StickerBookHeaderButton onPress={handleGoStickerBook}>
-            <Ionicons name="book-outline" size={20} color="#2563EB" />
-          </StickerBookHeaderButton> */}
+
           {/* 📖 화면 하단 동동 떠 있는 플로팅 스티커북 버튼 */}
           <StickerBookFloatingButton
             onPress={handleGoStickerBook}
             activeOpacity={0.8}
+            style={{
+              bottom: BANNER_AD_HEIGHT + bottomSafeOffset + 12,
+            }}
           >
             <Ionicons
               name="book-outline"
@@ -301,8 +305,14 @@ export default function StageMapScreen() {
               color={BASIC_COLORS.SECONDARY}
             />
           </StickerBookFloatingButton>
+
           {/* ⭐ 화면 하단 고정 광고 */}
-          <BannerAdContainer>
+          <BannerAdContainer
+            style={{
+              height: BANNER_AD_HEIGHT + bottomSafeOffset,
+              paddingBottom: bottomSafeOffset,
+            }}
+          >
             <BannerAd />
           </BannerAdContainer>
         </Content>
