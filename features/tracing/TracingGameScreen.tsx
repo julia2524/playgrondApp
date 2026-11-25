@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Modal, Pressable } from "react-native";
+import { Modal, Pressable, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
@@ -199,28 +199,35 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
         {/* 게임 보드 */}
         <BoardArea>
           {__DEV__ && (
-            <DevNavigation>
-              <DevSkipButton
-                onPress={handleDevPrevStage}
-                disabled={currentStageIndex === 0}
-                style={{ opacity: currentStageIndex === 0 ? 0.35 : 1 }}
-              >
-                <Ionicons name="play-back" size={16} color="#FFFFFF" />
-                <DevSkipText>PREV</DevSkipText>
-              </DevSkipButton>
+            <>
+              <StageProgress>
+                <StageProgressText>
+                  STAGE {currentStageIndex + 1} / {TRACING_LINES.length}
+                </StageProgressText>
+              </StageProgress>
+              <DevNavigation>
+                <DevSkipButton
+                  onPress={handleDevPrevStage}
+                  disabled={currentStageIndex === 0}
+                  style={{ opacity: currentStageIndex === 0 ? 0.35 : 1 }}
+                >
+                  <Ionicons name="play-back" size={16} color="#FFFFFF" />
+                  <DevSkipText>PREV</DevSkipText>
+                </DevSkipButton>
 
-              <DevSkipButton
-                onPress={handleDevSkipStage}
-                disabled={currentStageIndex === TRACING_LINES.length - 1}
-                style={{
-                  opacity:
-                    currentStageIndex === TRACING_LINES.length - 1 ? 0.35 : 1,
-                }}
-              >
-                <DevSkipText>NEXT</DevSkipText>
-                <Ionicons name="play-forward" size={16} color="#FFFFFF" />
-              </DevSkipButton>
-            </DevNavigation>
+                <DevSkipButton
+                  onPress={handleDevSkipStage}
+                  disabled={currentStageIndex === TRACING_LINES.length - 1}
+                  style={{
+                    opacity:
+                      currentStageIndex === TRACING_LINES.length - 1 ? 0.35 : 1,
+                  }}
+                >
+                  <DevSkipText>NEXT</DevSkipText>
+                  <Ionicons name="play-forward" size={16} color="#FFFFFF" />
+                </DevSkipButton>
+              </DevNavigation>
+            </>
           )}
 
           <TracingCanvas
@@ -596,4 +603,19 @@ const DevSkipButton = styled.Pressable`
   border-radius: 18px;
   background-color: #7b61c9;
   elevation: 5;
+`;
+const StageProgress = styled.View`
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 7px 12px;
+  border-radius: 16px;
+  background-color: rgba(123, 97, 201, 0.12);
+`;
+
+const StageProgressText = styled(AppText)`
+  font-size: 12px;
+  font-weight: 900;
+  color: #7b61c9;
 `;
