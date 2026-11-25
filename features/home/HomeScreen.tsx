@@ -328,6 +328,8 @@ import { triggerHaptic } from "../../utils/haptic";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LineDrawingIcon } from "../sectionScreens/DrawingSectionScreen";
+import { ClayDrawingIcon } from "../../components/icons/ClayDrawingIcon";
 
 // ==========================================
 // Navigation
@@ -448,9 +450,9 @@ export default function HomeScreen() {
           {/* 놀이 공간 선택 카드 (3개) */}
           <SectionList>
             {/* 그리기 놀이터 */}
-            <CardWrapper $shadowColor="#5E4AD1">
+            <CardWrapper $shadowColor="#D6865E">
               <SectionCard
-                $bgColor="#8370F2"
+                $bgColor="#F5A67E"
                 onPress={goToDrawingSection}
                 accessibilityRole="button"
                 accessibilityLabel={i18n.t("section_drawing_title")}
@@ -458,11 +460,7 @@ export default function HomeScreen() {
                 {({ pressed }) => (
                   <CardInner $pressed={pressed}>
                     <IconBadge>
-                      <Ionicons
-                        name="color-palette"
-                        size={44}
-                        color="#FFFFFF"
-                      />
+                      <ClayDrawingIcon size={76} />
                     </IconBadge>
 
                     <CardTextGroup>
@@ -475,9 +473,9 @@ export default function HomeScreen() {
             </CardWrapper>
 
             {/* 분류 놀이터 */}
-            <CardWrapper $shadowColor="#DC6E26">
+            <CardWrapper $shadowColor="#D16E77">
               <SectionCard
-                $bgColor="#FF944D"
+                $bgColor="#F08D96"
                 onPress={goToClassificationSection}
                 accessibilityRole="button"
                 accessibilityLabel={i18n.t("section_classification_title")}
@@ -485,7 +483,7 @@ export default function HomeScreen() {
                 {({ pressed }) => (
                   <CardInner $pressed={pressed}>
                     <IconBadge>
-                      <ClayColorIcon size={62} />
+                      <ClayColorIcon size={76} />
                     </IconBadge>
 
                     <CardTextGroup>
@@ -502,9 +500,9 @@ export default function HomeScreen() {
             </CardWrapper>
 
             {/* 셋팅창 */}
-            <CardWrapper $shadowColor={PASTEL_BG.neutral}>
+            <CardWrapper $shadowColor="#8798A8">
               <SectionCard
-                $bgColor={BASIC_COLORS.TEXT_SUB}
+                $bgColor="#A6B7C6"
                 onPress={() => {
                   triggerHaptic("light");
                   navigation.navigate("SettingScreen" as never);

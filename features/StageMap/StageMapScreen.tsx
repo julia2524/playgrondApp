@@ -193,7 +193,10 @@ export default function StageMapScreen() {
       initialTab: gameType,
     });
   };
-
+  const handleBack = () => {
+    triggerHaptic("light");
+    navigation.goBack();
+  };
   const bottomSafeOffset = Math.max(insets.bottom, 4);
 
   return (
@@ -201,7 +204,7 @@ export default function StageMapScreen() {
       <GradientBackground />
       <DecorativeBackground />
       <AppHeader
-        onBack={() => navigation.navigate("Home")}
+        onBack={handleBack}
         center={
           <StageMapHeaderCenter>
             <StageMapTitle>{headerTitle}</StageMapTitle>

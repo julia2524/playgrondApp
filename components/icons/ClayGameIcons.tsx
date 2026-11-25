@@ -14,8 +14,15 @@ interface ClayIconProps {
 }
 
 // 공통 테두리 스타일
-const OUTLINE = "#FFFFFF";
+// const OUTLINE = "#FFFFFF";
+// 기본 외곽선
+const OUTLINE = "#9B725D";
 
+// 그림자용 외곽선
+const SHADOW_OUTLINE = "#765344";
+
+// 광택
+const HIGHLIGHT = "#FFF9E9";
 export function ClayColorIcon({ size = 88 }: ClayIconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 120 120">
@@ -57,7 +64,7 @@ export function ClayColorIcon({ size = 88 }: ClayIconProps) {
            C73 53 91 57 99 46 C109 31 85 18 60 15Z"
         fill="url(#paletteBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
 
@@ -65,7 +72,7 @@ export function ClayColorIcon({ size = 88 }: ClayIconProps) {
       <Path
         d="M24 40 C30 26 45 20 58 22"
         stroke="#FFFFFF"
-        strokeWidth="5"
+        strokeWidth="3"
         strokeLinecap="round"
         opacity="0.55"
         fill="none"
@@ -174,7 +181,7 @@ export function ClayShapeIcon({ size = 88 }: ClayIconProps) {
         r="17"
         fill="url(#circleBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
       />
       <Ellipse cx="24" cy="64" rx="6" ry="3" fill="#FFFFFF" opacity="0.55" />
 
@@ -199,14 +206,14 @@ export function ClayShapeIcon({ size = 88 }: ClayIconProps) {
            Q20 33 28 31 L47 28Z"
         fill="url(#starBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
 
       <Path
         d="M54 20 Q60 12 64 18 L68 26"
         stroke="#FFFFFF"
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinecap="round"
         opacity="0.65"
         fill="none"
@@ -229,14 +236,14 @@ export function ClayShapeIcon({ size = 88 }: ClayIconProps) {
            Q52 103 58 94Z"
         fill="url(#triangleBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
 
       <Path
         d="M81 64 L65 94"
         stroke="#FFFFFF"
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinecap="round"
         opacity="0.55"
       />
@@ -284,7 +291,7 @@ export function ClayCategoryIcon({ size = 88 }: ClayIconProps) {
            C101 40 83 28 67 34 C58 38 53 38 44 32Z"
         fill="url(#appleBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
 
@@ -292,7 +299,7 @@ export function ClayCategoryIcon({ size = 88 }: ClayIconProps) {
       <Path
         d="M25 48 C27 39 34 35 42 37"
         stroke="#FFFFFF"
-        strokeWidth="5"
+        strokeWidth="3"
         strokeLinecap="round"
         opacity="0.6"
         fill="none"
@@ -348,7 +355,7 @@ export function ClayCategoryIcon({ size = 88 }: ClayIconProps) {
            C25 66 23 78 43 88Z"
         fill="url(#bananaBody)"
         stroke={OUTLINE}
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinejoin="round"
       />
 
@@ -356,7 +363,7 @@ export function ClayCategoryIcon({ size = 88 }: ClayIconProps) {
       <Path
         d="M38 76 C46 86 59 91 72 89"
         stroke="#FFFFFF"
-        strokeWidth="4"
+        strokeWidth="3"
         strokeLinecap="round"
         opacity="0.55"
         fill="none"

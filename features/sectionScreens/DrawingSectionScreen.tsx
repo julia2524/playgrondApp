@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Animated, Alert, Pressable, StatusBar, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styled from "styled-components/native";
@@ -138,6 +138,26 @@ export default function DrawingSectionScreen() {
 
   const bottomSafeOffset = Math.max(insets.bottom, 4);
 
+  useFocusEffect(
+    useCallback(() => {
+      // 화면에 다시 돌아왔을 때 선택 애니메이션 초기화
+      setSelected(null);
+
+      Object.values(animations).forEach((animation) => {
+        animation.setValue(1);
+      });
+
+      Object.values(opacities).forEach((opacity) => {
+        opacity.setValue(1);
+      });
+
+      headerOpacity.setValue(1);
+      titleOpacity.setValue(1);
+
+      return undefined;
+    }, [animations, opacities, headerOpacity, titleOpacity]),
+  );
+
   // ========================================
   // Select Animation
   // ========================================
@@ -153,15 +173,15 @@ export default function DrawingSectionScreen() {
     );
 
     const selectedAnimation = Animated.timing(animations[type], {
-      toValue: 8.5,
-      duration: 650,
+      toValue: 4.5,
+      duration: 350,
       useNativeDriver: true,
     });
 
     const otherAnimations = otherTypes.map((item) =>
       Animated.timing(opacities[item], {
         toValue: 0,
-        duration: 300,
+        duration: 180,
         useNativeDriver: true,
       }),
     );
@@ -171,16 +191,21 @@ export default function DrawingSectionScreen() {
       ...otherAnimations,
       Animated.timing(headerOpacity, {
         toValue: 0,
-        duration: 250,
+        duration: 180,
         useNativeDriver: true,
       }),
       Animated.timing(titleOpacity, {
         toValue: 0,
-        duration: 250,
+        duration: 180,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
       if (!finished) return;
+
+      if (type === "line") {
+        navigation.navigate("TracingStageMapScreen");
+        return;
+      }
 
       const activity = DRAWING_ITEMS.find((item) => item.type === type);
 
@@ -190,7 +215,7 @@ export default function DrawingSectionScreen() {
               defaultValue: activity.defaultTitle,
             })
           : "그리기 놀이터",
-        "이제 이곳에 실제 그리기 게임 화면을 연결하면 돼!",
+        "준비 중이에요!",
       );
     });
   };
@@ -478,7 +503,7 @@ function BlobHighlight() {
 // Activity Icons
 // ==========================================
 
-function LineDrawingIcon() {
+export function LineDrawingIcon() {
   return (
     <Svg width="76" height="76" viewBox="0 0 76 76">
       <Path

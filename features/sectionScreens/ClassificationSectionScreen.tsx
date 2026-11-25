@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Animated, Pressable, StatusBar } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -67,6 +67,29 @@ export default function ClassificationSectionScreen() {
   const headerOpacity = useRef(new Animated.Value(1)).current;
   const footerOpacity = useRef(new Animated.Value(1)).current;
 
+  // ========================================
+  // Focus 시 선택 애니메이션 초기화
+  // ========================================
+
+  useFocusEffect(
+    useCallback(() => {
+      setSelected(null);
+
+      Object.values(animations).forEach((animation) => {
+        animation.setValue(1);
+      });
+
+      Object.values(opacities).forEach((opacity) => {
+        opacity.setValue(1);
+      });
+
+      headerOpacity.setValue(1);
+      footerOpacity.setValue(1);
+
+      return undefined;
+    }, [animations, opacities, headerOpacity, footerOpacity]),
+  );
+
   const goToGame = (gameType: GameType) => {
     if (selected) return;
 
@@ -78,15 +101,15 @@ export default function ClassificationSectionScreen() {
     );
 
     const selectedAnimation = Animated.timing(animations[gameType], {
-      toValue: 5.5,
-      duration: 550,
+      toValue: 4.5,
+      duration: 350,
       useNativeDriver: true,
     });
 
     const otherAnimations = otherTypes.map((type) =>
       Animated.timing(opacities[type], {
         toValue: 0,
-        duration: 350,
+        duration: 180,
         useNativeDriver: true,
       }),
     );
@@ -96,12 +119,12 @@ export default function ClassificationSectionScreen() {
       ...otherAnimations,
       Animated.timing(headerOpacity, {
         toValue: 0,
-        duration: 300,
+        duration: 180,
         useNativeDriver: true,
       }),
       Animated.timing(footerOpacity, {
         toValue: 0,
-        duration: 300,
+        duration: 180,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
