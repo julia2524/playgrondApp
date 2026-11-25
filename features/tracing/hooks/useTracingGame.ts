@@ -1,21 +1,369 @@
+// import { useCallback, useRef, useState } from "react";
+
+// /**
+//  * 게임 진행 상태
+//  * - playing: 진행 중
+//  * - success: 스테이지 성공 확정 + 음계 재생 중 (ResultModal 아직 안 띄움)
+//  * - result: 음계 재생 완료 → ResultModal 표시
+//  * - retry: 별 0개 → 재도전 대기
+//  * - completed: 20스테이지 전체 완료
+//  */
+// /**
+//  * 게임 진행 상태
+//  * - playing: 진행 중
+//  * - success: 스테이지 성공 확정
+//  * - result: ResultModal 표시
+//  * - retry: 별 0개 → 재도전 대기
+//  * - completed: 전체 스테이지 완료
+//  */
+// export type TracingGameStatus =
+//   | "playing"
+//   | "success"
+//   | "result"
+//   | "retry"
+//   | "completed";
+
+// /** 스테이지 성공 결과 (ResultModal / 완료 화면용) */
+// export interface TracingStageResult {
+//   stageIndex: number;
+//   stageNo: string;
+//   title: string;
+//   mission: string;
+//   remainingStars: number;
+//   /** 간단 점수: 남은 별 × 100 */
+//   score: number;
+//   isLastStage: boolean;
+// }
+
+// export interface UseTracingGameOptions {
+//   /**
+//    * 남은 별 개수만큼 음계 재생.
+//    * Promise를 반환하면 재생이 끝난 뒤 ResultModal을 연다.
+//    */
+//   // playNotesForStars?: (remainingStars: number) => Promise<void> | void;
+//   totalStages?: number;
+//   initialStars?: number;
+//   /** 스테이지 결과 메타 정보 조회 (번호, 이름, 미션) */
+//   getStageMeta?: (stageIndex: number) => {
+//     stageNo: string;
+//     title: string;
+//     mission: string;
+//   };
+// }
+
+// export interface UseTracingGameResult {
+//   currentStageIndex: number;
+//   remainingStars: number;
+//   gameStatus: TracingGameStatus;
+//   isProcessing: boolean;
+//   totalStages: number;
+//   /** 방금 성공한 스테이지 결과 (result / completed 상태) */
+//   lastResult: TracingStageResult | null;
+
+//   handleFailedAttempt: () => void;
+//   handleStageComplete: () => void;
+//   handleRetry: () => void;
+//   /** ResultModal에서 「다음 스테이지」 */
+//   handleNextStage: () => void;
+//   handleResetGame: () => void;
+
+//   // 개발자 전용 스테이지 건너뛰기
+//   handleDevPrevStage: () => void;
+//   handleDevSkipStage: () => void;
+
+//   canvasResetKey: number;
+//   stageKey: number;
+// }
+
+// const DEFAULT_TOTAL = 20;
+// const DEFAULT_STARS = 5;
+
+// function calcScore(stars: number): number {
+//   return Math.max(0, stars) * 100;
+// }
+
+// /**
+//  * 스테이지마다 별 5개 + 20스테이지 연속 플레이
+//  * 성공 → 음계 → ResultModal → (버튼) 다음 스테이지 / 전체 완료
+//  */
+// export function useTracingGame(
+//   options: UseTracingGameOptions = {},
+// ): UseTracingGameResult {
+//   const totalStages = options.totalStages ?? DEFAULT_TOTAL;
+//   const initialStars = options.initialStars ?? DEFAULT_STARS;
+
+//   // const playNotesRef = useRef(options.playNotesForStars);
+//   // playNotesRef.current = options.playNotesForStars;
+
+//   const getStageMetaRef = useRef(options.getStageMeta);
+//   getStageMetaRef.current = options.getStageMeta;
+
+//   const [currentStageIndex, setCurrentStageIndex] = useState(0);
+//   const [remainingStars, setRemainingStars] = useState(initialStars);
+//   const [gameStatus, setGameStatus] = useState<TracingGameStatus>("playing");
+//   const [isProcessing, setIsProcessing] = useState(false);
+//   const [canvasResetKey, setCanvasResetKey] = useState(0);
+//   const [stageKey, setStageKey] = useState(0);
+//   const [lastResult, setLastResult] = useState<TracingStageResult | null>(null);
+
+//   const processingRef = useRef(false);
+//   const remainingStarsRef = useRef(remainingStars);
+//   remainingStarsRef.current = remainingStars;
+//   const gameStatusRef = useRef(gameStatus);
+//   gameStatusRef.current = gameStatus;
+//   const stageIndexRef = useRef(currentStageIndex);
+//   stageIndexRef.current = currentStageIndex;
+
+//   const bumpCanvasReset = useCallback(() => {
+//     setCanvasResetKey((k) => k + 1);
+//   }, []);
+
+//   /**
+//    * 미완성으로 손가락을 뗐을 때
+//    * - 별 1개 차감, 진행률 유지 (이어 그리기)
+//    * - 별 0 → 재도전 모달
+//    */
+//   const handleFailedAttempt = useCallback(() => {
+//     if (processingRef.current) return;
+//     if (gameStatusRef.current !== "playing") return;
+
+//     processingRef.current = true;
+//     setIsProcessing(true);
+
+//     setRemainingStars((prev) => {
+//       const next = Math.max(0, prev - 1);
+//       if (next <= 0) {
+//         setGameStatus("retry");
+//       }
+//       return next;
+//     });
+
+//     setTimeout(() => {
+//       processingRef.current = false;
+//       setIsProcessing(false);
+//     }, 120);
+//   }, []);
+
+//   /**
+//    * 경로 완성 성공
+//    * 1) 입력 잠금 + success 상태
+//    * 2) 결과 데이터 확정
+//    * 3) 음계 재생
+//    * 4) 재생 끝나면 result 상태 → ResultModal
+//    *    (마지막 스테이지도 일단 result로 두고, 버튼에서 completed로)
+//    */
+//   // const handleStageComplete = useCallback(() => {
+//   //   if (processingRef.current) return;
+//   //   if (gameStatusRef.current !== "playing") return;
+
+//   //   processingRef.current = true;
+//   //   setIsProcessing(true);
+//   //   setGameStatus("success");
+
+//   //   const starsSnapshot = remainingStarsRef.current;
+//   //   const idx = stageIndexRef.current;
+//   //   const isLast = idx >= totalStages - 1;
+
+//   //   const meta = getStageMetaRef.current?.(idx) ?? {
+//   //     stageNo: String(idx + 1).padStart(2, "0"),
+//   //     title: `스테이지 ${idx + 1}`,
+//   //     mission: "",
+//   //   };
+
+//   //   const result: TracingStageResult = {
+//   //     stageIndex: idx,
+//   //     stageNo: meta.stageNo,
+//   //     title: meta.title,
+//   //     mission: meta.mission,
+//   //     remainingStars: starsSnapshot,
+//   //     score: calcScore(starsSnapshot),
+//   //     isLastStage: isLast,
+//   //   };
+//   //   setLastResult(result);
+
+//   //   const run = async () => {
+//   //     try {
+//   //       const play = playNotesRef.current;
+//   //       if (play) {
+//   //         await Promise.resolve(play(starsSnapshot));
+//   //       } else {
+//   //         const ms = Math.max(300, starsSnapshot * 220 + 150);
+//   //         await new Promise((r) => setTimeout(r, ms));
+//   //       }
+//   //     } catch (e) {
+//   //       console.log("음계 재생 중 오류 (무시하고 진행):", e);
+//   //     }
+
+//   //     // 음계가 끝난 뒤에만 ResultModal 표시
+//   //     setGameStatus("result");
+//   //     // 버튼 누르기 전까지는 processing 유지(입력 잠금)
+//   //     // processingRef는 handleNextStage / handleResetGame 에서 해제
+//   //   };
+
+//   //   void run();
+//   // }, [totalStages]);
+
+//   const handleStageComplete = useCallback(() => {
+//     if (processingRef.current) return;
+//     if (gameStatusRef.current !== "playing") return;
+
+//     processingRef.current = true;
+//     setIsProcessing(true);
+//     setGameStatus("success");
+
+//     const starsSnapshot = remainingStarsRef.current;
+//     const idx = stageIndexRef.current;
+//     const isLast = idx >= totalStages - 1;
+
+//     const meta = getStageMetaRef.current?.(idx) ?? {
+//       stageNo: String(idx + 1).padStart(2, "0"),
+//       title: `스테이지 ${idx + 1}`,
+//       mission: "",
+//     };
+
+//     const result: TracingStageResult = {
+//       stageIndex: idx,
+//       stageNo: meta.stageNo,
+//       title: meta.title,
+//       mission: meta.mission,
+//       remainingStars: starsSnapshot,
+//       score: calcScore(starsSnapshot),
+//       isLastStage: isLast,
+//     };
+
+//     setLastResult(result);
+//     setGameStatus("result");
+//   }, [totalStages]);
+//   /**
+//    * 경로 완성 성공
+//    * 1) 입력 잠금
+//    * 2) 결과 데이터 확정
+//    * 3) 바로 ResultModal 표시
+//    */
+//   const handleRetry = useCallback(() => {
+//     setRemainingStars(initialStars);
+//     setGameStatus("playing");
+//     setLastResult(null);
+//     processingRef.current = false;
+//     setIsProcessing(false);
+//     bumpCanvasReset();
+//   }, [initialStars, bumpCanvasReset]);
+
+//   /**
+//    * ResultModal 「다음 스테이지」 / 마지막이면 전체 완료 화면으로
+//    */
+//   const handleNextStage = useCallback(() => {
+//     if (gameStatusRef.current !== "result") return;
+
+//     const idx = stageIndexRef.current;
+//     const nextIdx = idx + 1;
+
+//     if (nextIdx >= totalStages) {
+//       // 전체 게임 완료 화면
+//       setGameStatus("completed");
+//       processingRef.current = false;
+//       setIsProcessing(false);
+//       return;
+//     }
+
+//     // 다음 스테이지: 별 5개, 그리기 데이터 새로
+//     setCurrentStageIndex(nextIdx);
+//     setRemainingStars(initialStars);
+//     setGameStatus("playing");
+//     setLastResult(null);
+//     setStageKey((k) => k + 1);
+//     bumpCanvasReset();
+//     processingRef.current = false;
+//     setIsProcessing(false);
+//   }, [totalStages, initialStars, bumpCanvasReset]);
+
+//   const handleResetGame = useCallback(() => {
+//     setCurrentStageIndex(0);
+//     setRemainingStars(initialStars);
+//     setGameStatus("playing");
+//     setLastResult(null);
+//     processingRef.current = false;
+//     setIsProcessing(false);
+//     setStageKey((k) => k + 1);
+//     bumpCanvasReset();
+//   }, [initialStars, bumpCanvasReset]);
+
+//   const handleDevPrevStage = useCallback(() => {
+//     if (!__DEV__) return;
+
+//     const prevIdx = stageIndexRef.current - 1;
+
+//     if (prevIdx < 0) return;
+
+//     setCurrentStageIndex(prevIdx);
+//     setRemainingStars(initialStars);
+//     setGameStatus("playing");
+//     setLastResult(null);
+
+//     processingRef.current = false;
+//     setIsProcessing(false);
+
+//     setStageKey((k) => k + 1);
+//     bumpCanvasReset();
+//   }, [initialStars, bumpCanvasReset]);
+//   /**
+//    * 개발자 전용: 현재 스테이지를 건너뛰고 다음 스테이지로 이동
+//    * - 성공 모달이나 음계 재생을 기다리지 않음
+//    * - 별 초기화
+//    * - 캔버스 및 진행 상태 초기화
+//    * - 마지막 스테이지에서는 처음으로 돌아가지 않고 유지
+//    */
+//   const handleDevSkipStage = useCallback(() => {
+//     if (!__DEV__) return;
+
+//     const idx = stageIndexRef.current;
+//     const nextIdx = idx + 1;
+
+//     // 마지막 스테이지에서는 이동하지 않음
+//     if (nextIdx >= totalStages) {
+//       return;
+//     }
+
+//     // 진행 중인 음계 재생 및 타이머가 있다면 무효화
+//     setCurrentStageIndex(nextIdx);
+//     setRemainingStars(initialStars);
+//     setGameStatus("playing");
+//     setLastResult(null);
+
+//     processingRef.current = false;
+//     setIsProcessing(false);
+
+//     setStageKey((k) => k + 1);
+//     bumpCanvasReset();
+//   }, [totalStages, initialStars, bumpCanvasReset]);
+
+//   return {
+//     currentStageIndex,
+//     remainingStars,
+//     gameStatus,
+//     isProcessing,
+//     totalStages,
+//     lastResult,
+//     handleFailedAttempt,
+//     handleStageComplete,
+//     handleRetry,
+//     handleNextStage,
+//     handleResetGame,
+
+//     handleDevSkipStage, // 추가
+//     handleDevPrevStage,
+
+//     canvasResetKey,
+//     stageKey,
+//   };
+// }
+
 import { useCallback, useRef, useState } from "react";
 
-/**
- * 게임 진행 상태
- * - playing: 진행 중
- * - success: 스테이지 성공 확정 + 음계 재생 중 (ResultModal 아직 안 띄움)
- * - result: 음계 재생 완료 → ResultModal 표시
- * - retry: 별 0개 → 재도전 대기
- * - completed: 20스테이지 전체 완료
- */
-/**
- * 게임 진행 상태
- * - playing: 진행 중
- * - success: 스테이지 성공 확정
- * - result: ResultModal 표시
- * - retry: 별 0개 → 재도전 대기
- * - completed: 전체 스테이지 완료
- */
+// ==================================================
+// Types
+// ==================================================
+
 export type TracingGameStatus =
   | "playing"
   | "success"
@@ -23,27 +371,21 @@ export type TracingGameStatus =
   | "retry"
   | "completed";
 
-/** 스테이지 성공 결과 (ResultModal / 완료 화면용) */
 export interface TracingStageResult {
   stageIndex: number;
   stageNo: string;
   title: string;
   mission: string;
   remainingStars: number;
-  /** 간단 점수: 남은 별 × 100 */
   score: number;
   isLastStage: boolean;
 }
 
 export interface UseTracingGameOptions {
-  /**
-   * 남은 별 개수만큼 음계 재생.
-   * Promise를 반환하면 재생이 끝난 뒤 ResultModal을 연다.
-   */
-  // playNotesForStars?: (remainingStars: number) => Promise<void> | void;
   totalStages?: number;
   initialStars?: number;
-  /** 스테이지 결과 메타 정보 조회 (번호, 이름, 미션) */
+  initialStage?: number;
+
   getStageMeta?: (stageIndex: number) => {
     stageNo: string;
     title: string;
@@ -57,17 +399,14 @@ export interface UseTracingGameResult {
   gameStatus: TracingGameStatus;
   isProcessing: boolean;
   totalStages: number;
-  /** 방금 성공한 스테이지 결과 (result / completed 상태) */
   lastResult: TracingStageResult | null;
 
   handleFailedAttempt: () => void;
   handleStageComplete: () => void;
   handleRetry: () => void;
-  /** ResultModal에서 「다음 스테이지」 */
   handleNextStage: () => void;
   handleResetGame: () => void;
 
-  // 개발자 전용 스테이지 건너뛰기
   handleDevPrevStage: () => void;
   handleDevSkipStage: () => void;
 
@@ -75,66 +414,117 @@ export interface UseTracingGameResult {
   stageKey: number;
 }
 
+// ==================================================
+// Constants
+// ==================================================
+
 const DEFAULT_TOTAL = 20;
 const DEFAULT_STARS = 5;
+
+// ==================================================
+// Helpers
+// ==================================================
 
 function calcScore(stars: number): number {
   return Math.max(0, stars) * 100;
 }
 
-/**
- * 스테이지마다 별 5개 + 20스테이지 연속 플레이
- * 성공 → 음계 → ResultModal → (버튼) 다음 스테이지 / 전체 완료
- */
+function normalizeStage(
+  stage: number | undefined,
+  totalStages: number,
+): number {
+  const parsedStage = Math.floor(Number(stage) || 1);
+
+  return Math.max(0, Math.min(totalStages - 1, parsedStage - 1));
+}
+
+// ==================================================
+// Hook
+// ==================================================
+
 export function useTracingGame(
   options: UseTracingGameOptions = {},
 ): UseTracingGameResult {
-  const totalStages = options.totalStages ?? DEFAULT_TOTAL;
+  const totalStages = Math.max(1, options.totalStages ?? DEFAULT_TOTAL);
+
   const initialStars = options.initialStars ?? DEFAULT_STARS;
 
-  // const playNotesRef = useRef(options.playNotesForStars);
-  // playNotesRef.current = options.playNotesForStars;
+  const initialStage = options.initialStage ?? 1;
+
+  // ==================================================
+  // Stage Meta
+  // ==================================================
 
   const getStageMetaRef = useRef(options.getStageMeta);
+
   getStageMetaRef.current = options.getStageMeta;
 
-  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+  // ==================================================
+  // State
+  // ==================================================
+
+  const [currentStageIndex, setCurrentStageIndex] = useState(() =>
+    normalizeStage(initialStage, totalStages),
+  );
+
   const [remainingStars, setRemainingStars] = useState(initialStars);
+
   const [gameStatus, setGameStatus] = useState<TracingGameStatus>("playing");
+
   const [isProcessing, setIsProcessing] = useState(false);
+
   const [canvasResetKey, setCanvasResetKey] = useState(0);
+
   const [stageKey, setStageKey] = useState(0);
+
   const [lastResult, setLastResult] = useState<TracingStageResult | null>(null);
 
+  // ==================================================
+  // Refs
+  // ==================================================
+
   const processingRef = useRef(false);
+
   const remainingStarsRef = useRef(remainingStars);
+
   remainingStarsRef.current = remainingStars;
+
   const gameStatusRef = useRef(gameStatus);
+
   gameStatusRef.current = gameStatus;
+
   const stageIndexRef = useRef(currentStageIndex);
+
   stageIndexRef.current = currentStageIndex;
 
+  // ==================================================
+  // Canvas Reset
+  // ==================================================
+
   const bumpCanvasReset = useCallback(() => {
-    setCanvasResetKey((k) => k + 1);
+    setCanvasResetKey((key) => key + 1);
   }, []);
 
-  /**
-   * 미완성으로 손가락을 뗐을 때
-   * - 별 1개 차감, 진행률 유지 (이어 그리기)
-   * - 별 0 → 재도전 모달
-   */
+  // ==================================================
+  // Failed Attempt
+  // ==================================================
+
   const handleFailedAttempt = useCallback(() => {
     if (processingRef.current) return;
+
     if (gameStatusRef.current !== "playing") return;
 
     processingRef.current = true;
+
     setIsProcessing(true);
 
     setRemainingStars((prev) => {
       const next = Math.max(0, prev - 1);
+
       if (next <= 0) {
         setGameStatus("retry");
       }
+
       return next;
     });
 
@@ -144,75 +534,25 @@ export function useTracingGame(
     }, 120);
   }, []);
 
-  /**
-   * 경로 완성 성공
-   * 1) 입력 잠금 + success 상태
-   * 2) 결과 데이터 확정
-   * 3) 음계 재생
-   * 4) 재생 끝나면 result 상태 → ResultModal
-   *    (마지막 스테이지도 일단 result로 두고, 버튼에서 completed로)
-   */
-  // const handleStageComplete = useCallback(() => {
-  //   if (processingRef.current) return;
-  //   if (gameStatusRef.current !== "playing") return;
-
-  //   processingRef.current = true;
-  //   setIsProcessing(true);
-  //   setGameStatus("success");
-
-  //   const starsSnapshot = remainingStarsRef.current;
-  //   const idx = stageIndexRef.current;
-  //   const isLast = idx >= totalStages - 1;
-
-  //   const meta = getStageMetaRef.current?.(idx) ?? {
-  //     stageNo: String(idx + 1).padStart(2, "0"),
-  //     title: `스테이지 ${idx + 1}`,
-  //     mission: "",
-  //   };
-
-  //   const result: TracingStageResult = {
-  //     stageIndex: idx,
-  //     stageNo: meta.stageNo,
-  //     title: meta.title,
-  //     mission: meta.mission,
-  //     remainingStars: starsSnapshot,
-  //     score: calcScore(starsSnapshot),
-  //     isLastStage: isLast,
-  //   };
-  //   setLastResult(result);
-
-  //   const run = async () => {
-  //     try {
-  //       const play = playNotesRef.current;
-  //       if (play) {
-  //         await Promise.resolve(play(starsSnapshot));
-  //       } else {
-  //         const ms = Math.max(300, starsSnapshot * 220 + 150);
-  //         await new Promise((r) => setTimeout(r, ms));
-  //       }
-  //     } catch (e) {
-  //       console.log("음계 재생 중 오류 (무시하고 진행):", e);
-  //     }
-
-  //     // 음계가 끝난 뒤에만 ResultModal 표시
-  //     setGameStatus("result");
-  //     // 버튼 누르기 전까지는 processing 유지(입력 잠금)
-  //     // processingRef는 handleNextStage / handleResetGame 에서 해제
-  //   };
-
-  //   void run();
-  // }, [totalStages]);
+  // ==================================================
+  // Stage Complete
+  // ==================================================
 
   const handleStageComplete = useCallback(() => {
     if (processingRef.current) return;
+
     if (gameStatusRef.current !== "playing") return;
 
     processingRef.current = true;
+
     setIsProcessing(true);
+
     setGameStatus("success");
 
     const starsSnapshot = remainingStarsRef.current;
+
     const idx = stageIndexRef.current;
+
     const isLast = idx >= totalStages - 1;
 
     const meta = getStageMetaRef.current?.(idx) ?? {
@@ -232,61 +572,94 @@ export function useTracingGame(
     };
 
     setLastResult(result);
+
+    // 현재 버전은 별도 음계 재생 없이 바로 결과 표시
     setGameStatus("result");
   }, [totalStages]);
-  /**
-   * 경로 완성 성공
-   * 1) 입력 잠금
-   * 2) 결과 데이터 확정
-   * 3) 바로 ResultModal 표시
-   */
+
+  // ==================================================
+  // Retry
+  // ==================================================
+
   const handleRetry = useCallback(() => {
     setRemainingStars(initialStars);
+
     setGameStatus("playing");
+
     setLastResult(null);
+
     processingRef.current = false;
+
     setIsProcessing(false);
+
     bumpCanvasReset();
   }, [initialStars, bumpCanvasReset]);
 
-  /**
-   * ResultModal 「다음 스테이지」 / 마지막이면 전체 완료 화면으로
-   */
+  // ==================================================
+  // Next Stage
+  // ==================================================
+
   const handleNextStage = useCallback(() => {
     if (gameStatusRef.current !== "result") return;
 
     const idx = stageIndexRef.current;
+
     const nextIdx = idx + 1;
 
+    // 마지막 스테이지 완료
     if (nextIdx >= totalStages) {
-      // 전체 게임 완료 화면
       setGameStatus("completed");
+
       processingRef.current = false;
+
       setIsProcessing(false);
+
       return;
     }
 
-    // 다음 스테이지: 별 5개, 그리기 데이터 새로
     setCurrentStageIndex(nextIdx);
+
     setRemainingStars(initialStars);
+
     setGameStatus("playing");
+
     setLastResult(null);
-    setStageKey((k) => k + 1);
+
+    setStageKey((key) => key + 1);
+
     bumpCanvasReset();
+
     processingRef.current = false;
+
     setIsProcessing(false);
   }, [totalStages, initialStars, bumpCanvasReset]);
 
+  // ==================================================
+  // Reset Game
+  // ==================================================
+
   const handleResetGame = useCallback(() => {
+    // 전체 게임을 처음부터 다시 시작
     setCurrentStageIndex(0);
+
     setRemainingStars(initialStars);
+
     setGameStatus("playing");
+
     setLastResult(null);
+
     processingRef.current = false;
+
     setIsProcessing(false);
-    setStageKey((k) => k + 1);
+
+    setStageKey((key) => key + 1);
+
     bumpCanvasReset();
   }, [initialStars, bumpCanvasReset]);
+
+  // ==================================================
+  // Developer: Previous Stage
+  // ==================================================
 
   const handleDevPrevStage = useCallback(() => {
     if (!__DEV__) return;
@@ -296,46 +669,55 @@ export function useTracingGame(
     if (prevIdx < 0) return;
 
     setCurrentStageIndex(prevIdx);
+
     setRemainingStars(initialStars);
+
     setGameStatus("playing");
+
     setLastResult(null);
 
     processingRef.current = false;
+
     setIsProcessing(false);
 
-    setStageKey((k) => k + 1);
+    setStageKey((key) => key + 1);
+
     bumpCanvasReset();
   }, [initialStars, bumpCanvasReset]);
-  /**
-   * 개발자 전용: 현재 스테이지를 건너뛰고 다음 스테이지로 이동
-   * - 성공 모달이나 음계 재생을 기다리지 않음
-   * - 별 초기화
-   * - 캔버스 및 진행 상태 초기화
-   * - 마지막 스테이지에서는 처음으로 돌아가지 않고 유지
-   */
+
+  // ==================================================
+  // Developer: Skip Stage
+  // ==================================================
+
   const handleDevSkipStage = useCallback(() => {
     if (!__DEV__) return;
 
     const idx = stageIndexRef.current;
+
     const nextIdx = idx + 1;
 
-    // 마지막 스테이지에서는 이동하지 않음
-    if (nextIdx >= totalStages) {
-      return;
-    }
+    if (nextIdx >= totalStages) return;
 
-    // 진행 중인 음계 재생 및 타이머가 있다면 무효화
     setCurrentStageIndex(nextIdx);
+
     setRemainingStars(initialStars);
+
     setGameStatus("playing");
+
     setLastResult(null);
 
     processingRef.current = false;
+
     setIsProcessing(false);
 
-    setStageKey((k) => k + 1);
+    setStageKey((key) => key + 1);
+
     bumpCanvasReset();
   }, [totalStages, initialStars, bumpCanvasReset]);
+
+  // ==================================================
+  // Return
+  // ==================================================
 
   return {
     currentStageIndex,
@@ -344,14 +726,15 @@ export function useTracingGame(
     isProcessing,
     totalStages,
     lastResult,
+
     handleFailedAttempt,
     handleStageComplete,
     handleRetry,
     handleNextStage,
     handleResetGame,
 
-    handleDevSkipStage, // 추가
     handleDevPrevStage,
+    handleDevSkipStage,
 
     canvasResetKey,
     stageKey,
