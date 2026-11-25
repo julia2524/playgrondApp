@@ -495,6 +495,34 @@ export default function HomeScreen() {
                 )}
               </SectionCard>
             </CardWrapper>
+            {/* 셋팅창 */}
+            <CardWrapper $shadowColor={PASTEL_BG.neutral}>
+              <SectionCard
+                $bgColor={BASIC_COLORS.TEXT_SUB}
+                onPress={() => {
+                  triggerHaptic("light");
+                  navigation.navigate("SettingScreen" as never);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={i18n.t("section_classification_title")}
+              >
+                {({ pressed }) => (
+                  <CardInner $pressed={pressed}>
+                    <IconBadge>
+                      <Ionicons
+                        name="settings-outline"
+                        size={44}
+                        color="#FFFFFF"
+                      />
+                    </IconBadge>
+
+                    <CardTextGroup>
+                      <CardTitle>{i18n.t("setting_title")}</CardTitle>
+                    </CardTextGroup>
+                  </CardInner>
+                )}
+              </SectionCard>
+            </CardWrapper>
           </SectionList>
           {/* <GameCardItem
             bgColor={PASTEL_BG.neutral}
