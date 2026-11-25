@@ -8,6 +8,14 @@ import { useCallback, useRef, useState } from "react";
  * - retry: 별 0개 → 재도전 대기
  * - completed: 20스테이지 전체 완료
  */
+/**
+ * 게임 진행 상태
+ * - playing: 진행 중
+ * - success: 스테이지 성공 확정
+ * - result: ResultModal 표시
+ * - retry: 별 0개 → 재도전 대기
+ * - completed: 전체 스테이지 완료
+ */
 export type TracingGameStatus =
   | "playing"
   | "success"
@@ -32,7 +40,7 @@ export interface UseTracingGameOptions {
    * 남은 별 개수만큼 음계 재생.
    * Promise를 반환하면 재생이 끝난 뒤 ResultModal을 연다.
    */
-  playNotesForStars?: (remainingStars: number) => Promise<void> | void;
+  // playNotesForStars?: (remainingStars: number) => Promise<void> | void;
   totalStages?: number;
   initialStars?: number;
   /** 스테이지 결과 메타 정보 조회 (번호, 이름, 미션) */
@@ -84,8 +92,8 @@ export function useTracingGame(
   const totalStages = options.totalStages ?? DEFAULT_TOTAL;
   const initialStars = options.initialStars ?? DEFAULT_STARS;
 
-  const playNotesRef = useRef(options.playNotesForStars);
-  playNotesRef.current = options.playNotesForStars;
+  // const playNotesRef = useRef(options.playNotesForStars);
+  // playNotesRef.current = options.playNotesForStars;
 
   const getStageMetaRef = useRef(options.getStageMeta);
   getStageMetaRef.current = options.getStageMeta;
@@ -144,6 +152,57 @@ export function useTracingGame(
    * 4) 재생 끝나면 result 상태 → ResultModal
    *    (마지막 스테이지도 일단 result로 두고, 버튼에서 completed로)
    */
+  // const handleStageComplete = useCallback(() => {
+  //   if (processingRef.current) return;
+  //   if (gameStatusRef.current !== "playing") return;
+
+  //   processingRef.current = true;
+  //   setIsProcessing(true);
+  //   setGameStatus("success");
+
+  //   const starsSnapshot = remainingStarsRef.current;
+  //   const idx = stageIndexRef.current;
+  //   const isLast = idx >= totalStages - 1;
+
+  //   const meta = getStageMetaRef.current?.(idx) ?? {
+  //     stageNo: String(idx + 1).padStart(2, "0"),
+  //     title: `스테이지 ${idx + 1}`,
+  //     mission: "",
+  //   };
+
+  //   const result: TracingStageResult = {
+  //     stageIndex: idx,
+  //     stageNo: meta.stageNo,
+  //     title: meta.title,
+  //     mission: meta.mission,
+  //     remainingStars: starsSnapshot,
+  //     score: calcScore(starsSnapshot),
+  //     isLastStage: isLast,
+  //   };
+  //   setLastResult(result);
+
+  //   const run = async () => {
+  //     try {
+  //       const play = playNotesRef.current;
+  //       if (play) {
+  //         await Promise.resolve(play(starsSnapshot));
+  //       } else {
+  //         const ms = Math.max(300, starsSnapshot * 220 + 150);
+  //         await new Promise((r) => setTimeout(r, ms));
+  //       }
+  //     } catch (e) {
+  //       console.log("음계 재생 중 오류 (무시하고 진행):", e);
+  //     }
+
+  //     // 음계가 끝난 뒤에만 ResultModal 표시
+  //     setGameStatus("result");
+  //     // 버튼 누르기 전까지는 processing 유지(입력 잠금)
+  //     // processingRef는 handleNextStage / handleResetGame 에서 해제
+  //   };
+
+  //   void run();
+  // }, [totalStages]);
+
   const handleStageComplete = useCallback(() => {
     if (processingRef.current) return;
     if (gameStatusRef.current !== "playing") return;
@@ -171,30 +230,16 @@ export function useTracingGame(
       score: calcScore(starsSnapshot),
       isLastStage: isLast,
     };
+
     setLastResult(result);
-
-    const run = async () => {
-      try {
-        const play = playNotesRef.current;
-        if (play) {
-          await Promise.resolve(play(starsSnapshot));
-        } else {
-          const ms = Math.max(300, starsSnapshot * 220 + 150);
-          await new Promise((r) => setTimeout(r, ms));
-        }
-      } catch (e) {
-        console.log("음계 재생 중 오류 (무시하고 진행):", e);
-      }
-
-      // 음계가 끝난 뒤에만 ResultModal 표시
-      setGameStatus("result");
-      // 버튼 누르기 전까지는 processing 유지(입력 잠금)
-      // processingRef는 handleNextStage / handleResetGame 에서 해제
-    };
-
-    void run();
+    setGameStatus("result");
   }, [totalStages]);
-
+  /**
+   * 경로 완성 성공
+   * 1) 입력 잠금
+   * 2) 결과 데이터 확정
+   * 3) 바로 ResultModal 표시
+   */
   const handleRetry = useCallback(() => {
     setRemainingStars(initialStars);
     setGameStatus("playing");

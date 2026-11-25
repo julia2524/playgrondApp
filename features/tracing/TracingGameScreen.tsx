@@ -30,6 +30,7 @@ import {
 import Mascot from "../../design-system/ui/Mascot";
 import { ASSETS } from "../../assets/assets";
 import { Ionicons } from "@expo/vector-icons";
+import { playEarnedNotes, playSound } from "../../utils/sound";
 
 /**
  * 음계 재생 연결 지점
@@ -40,15 +41,13 @@ import { Ionicons } from "@expo/vector-icons";
  * 남은 별 2 → 도레
  * 남은 별 1 → 도
  */
-async function playNotesForRemainingStars(
-  remainingStars: number,
-): Promise<void> {
-  // TODO: 실제 playEarnedNotes 연결
-  const count = Math.min(Math.max(remainingStars, 0), 5);
-  const ms = Math.max(280, count * 220 + 120);
+// async function playNotesForRemainingStars(
+//   remainingStars: number,
+// ): Promise<void> {
+//   const count = Math.min(Math.max(remainingStars, 0), 5);
 
-  await new Promise((resolve) => setTimeout(resolve, ms));
-}
+//   await playEarnedNotes(count);
+// }
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -111,7 +110,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     stageKey,
   } = useTracingGame({
     totalStages: TRACING_LINES.length,
-    playNotesForStars: playNotesForRemainingStars,
+    // playNotesForStars: playNotesForRemainingStars,
     getStageMeta: (index) => {
       const line = TRACING_LINES[index] ?? TRACING_LINES[0];
 
@@ -131,6 +130,27 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     [lineType],
   );
 
+  // 그리기 시작
+  const handleDrawingStart = useCallback(() => {
+    void playSound("grab");
+    triggerHaptic("light");
+  }, []);
+
+  // 그리기 실패
+  const handleTracingFailed = useCallback(() => {
+    void playSound("wrong_sound");
+    triggerHaptic("error");
+
+    handleFailedAttempt();
+  }, [handleFailedAttempt]);
+
+  // 그리기 성공
+  const handleTracingComplete = useCallback(() => {
+    void playSound("correct_sound");
+    triggerHaptic("success");
+
+    handleStageComplete();
+  }, [handleStageComplete]);
   const inputLocked =
     isProcessing ||
     gameStatus === "success" ||
@@ -202,22 +222,14 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
               </DevSkipButton>
             </DevNavigation>
           )}
-          {/* <TracingCanvas
-            key={`stage-${stageKey}-${lineType}`}
-            createGuide={createGuide}
-            resetKey={canvasResetKey}
-            onComplete={handleStageComplete}
-            onFailedAttempt={handleFailedAttempt}
-            onProgressLabelChange={setProgressLabel}
-            inputLocked={inputLocked}
-            showPanda
-          /> */}
+
           <TracingCanvas
             key={`stage-${stageKey}-${lineType}`}
             createGuide={createGuide}
             resetKey={canvasResetKey}
-            onComplete={handleStageComplete}
-            onFailedAttempt={handleFailedAttempt}
+            onComplete={handleTracingComplete}
+            onFailedAttempt={handleTracingFailed}
+            onDrawingStart={handleDrawingStart}
             onProgressLabelChange={setProgressLabel}
             inputLocked={inputLocked}
             tutorialEnabled={gameStatus === "playing" && !inputLocked}
@@ -234,25 +246,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           onClose={handleBack}
         />
 
-        {/* 재도전 모달 */}
-        {/* <Modal
-          visible={gameStatus === "retry"}
-          transparent
-          animationType="fade"
-          onRequestClose={handleRetry}
-        >
-          <ModalOverlay>
-            <ModalCard>
-              <ModalEmoji>🐼</ModalEmoji>
-              <ModalTitle>한 번 더 해 볼까?</ModalTitle>
-              <ModalSubtitle>별을 다시 모아서 출발하자!</ModalSubtitle>
-
-              <RetryPrimaryButton onPress={handleRetry}>
-                <ModalPrimaryText>다시 시작하기</ModalPrimaryText>
-              </RetryPrimaryButton>
-            </ModalCard>
-          </ModalOverlay>
-        </Modal> */}
         {/* 재도전 모달 */}
         <Modal
           visible={gameStatus === "retry"}
@@ -279,7 +272,12 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 
               <RetrySubtitle>다시 출발해 볼까요?</RetrySubtitle>
 
-              <RetryPrimaryButton onPress={handleRetry}>
+              <RetryPrimaryButton
+                onPress={() => {
+                  triggerHaptic("light");
+                  handleRetry();
+                }}
+              >
                 <RetryButtonContent>
                   <Ionicons name="refresh" size={25} color="#FFFFFF" />
                   <ModalPrimaryText>다시 시작하기</ModalPrimaryText>

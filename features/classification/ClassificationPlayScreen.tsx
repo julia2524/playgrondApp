@@ -19,7 +19,6 @@ import { Container, GameBoard } from "./styles/classificationStyles";
 import { loadGameProgress, saveGameProgress } from "./progress/progressStorage";
 import { completeLevel, createInitialProgress } from "./progress/gameProgress";
 import {
-  preloadSounds,
   resetLastSuccessNote,
   setGeneralSoundEnabled,
   setSuccessSoundEnabled,
@@ -69,9 +68,9 @@ export default function ClassificationPlayScreen() {
   const [soundEffect, setSoundEffect] = useState(true);
   const [soundSettingLoaded, setSoundSettingLoaded] = useState(false);
 
-  useEffect(() => {
-    preloadSounds(); // 한 번만 호출
-  }, []);
+  // useEffect(() => {
+  //   preloadSounds(); // 한 번만 호출
+  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {

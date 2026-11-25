@@ -29,6 +29,7 @@ import { useAppPlayTimer } from "./utils/useAppPlayTimer";
 import RestModal from "./components/common/RestModal";
 import { useInAppUpdates } from "./hooks/useInAppUpdates";
 import UpdateModal from "./components/common/UpdateModal";
+import { preloadSounds } from "./utils/sound";
 
 // 네이티브 스플래시 유지
 SplashScreen.preventAutoHideAsync();
@@ -82,6 +83,11 @@ export default function App() {
 
     return () => clearTimeout(timer);
   }, [fontsLoaded, isLangLoaded]);
+
+  // 앱 전체 공통 사운드 초기화
+  useEffect(() => {
+    void preloadSounds();
+  }, []);
 
   // 현재 언어에 따른 스플래시 이미지
   const currentLang = i18n.locale || "en";

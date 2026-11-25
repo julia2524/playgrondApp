@@ -47,6 +47,7 @@ interface TracingCanvasProps {
   onProgressLabelChange?: (label: string) => void;
 
   tutorialEnabled?: boolean;
+  onDrawingStart?: () => void;
 }
 
 export const TracingCanvas: React.FC<TracingCanvasProps> = ({
@@ -62,6 +63,7 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
   inputLocked = false,
   tutorialEnabled = true,
   onProgressLabelChange,
+  onDrawingStart,
 }) => {
   const particleRef = useRef<DrawingParticleEffectHandle>(null);
   const tutorialTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -233,7 +235,8 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
   const handleTouchStart = useCallback(() => {
     clearTutorialTimer();
     setTutorialVisible(false);
-  }, [clearTutorialTimer]);
+    onDrawingStart?.();
+  }, [clearTutorialTimer, onDrawingStart]);
 
   const handleTouchEnd = useCallback(() => {
     clearTutorialTimer();
