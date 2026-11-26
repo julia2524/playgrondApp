@@ -252,9 +252,16 @@ export default function DrawingSectionScreen() {
       }),
     ]).start();
     // 선 그리기만 이동 (나머지는 아직 준비 중 안내)
+    // if (type === "line") {
+    //   navTimerRef.current = setTimeout(() => {
+    //     navigation.navigate("TracingStageMapScreen");
+    //   }, NAVIGATE_DELAY);
+    // }
     if (type === "line") {
       navTimerRef.current = setTimeout(() => {
-        navigation.navigate("TracingStageMapScreen");
+        navigation.navigate("TracingStageMapScreen", {
+          gameType: "line",
+        });
       }, NAVIGATE_DELAY);
     }
   };
@@ -263,7 +270,7 @@ export default function DrawingSectionScreen() {
     if (selected) return;
 
     triggerHaptic("light");
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   const handleOpenSettings = () => {
@@ -307,17 +314,9 @@ export default function DrawingSectionScreen() {
         <TitleArea>
           {/* <EyebrowText>MY LITTLE ART STUDIO</EyebrowText> */}
 
-          <MainTitle>
-            {i18n.t("drawing_section_headline", {
-              defaultValue: "오늘은 어떤 그림을 그려볼까?",
-            })}
-          </MainTitle>
+          <MainTitle>{i18n.t("drawing_section_headline")}</MainTitle>
 
-          <GuideText>
-            {i18n.t("drawing_section_guide", {
-              defaultValue: "마음에 드는 물감 방울을 톡!",
-            })}
-          </GuideText>
+          <GuideText>{i18n.t("drawing_section_guide")}</GuideText>
         </TitleArea>
       </Animated.View>
 

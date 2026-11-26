@@ -194,7 +194,7 @@ export default function ClassificationSectionScreen() {
     if (selected) return;
 
     triggerHaptic("light");
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   const handleOpenSettings = () => {

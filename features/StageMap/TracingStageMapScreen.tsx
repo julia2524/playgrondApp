@@ -273,7 +273,7 @@ export default function TracingStageMapScreen() {
 
   const handleBack = () => {
     triggerHaptic("light");
-    navigation.goBack();
+    navigation.navigate("DrawingSectionScreen");
   };
 
   const bottomSafeOffset = Math.max(insets.bottom, 4);

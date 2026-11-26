@@ -58,13 +58,9 @@ export default function SuccessModal({
   };
 
   // ⭐ 2. 모달이 열릴 때(show가 true가 될 때) earnedStars 개수만큼 음계 연주!
-  //console.log(correctStreakCount);
   useEffect(() => {
     if (!show) return;
     void playEarnedNotes(correctStreakCount);
-    if (show) {
-      playEarnedNotes(correctStreakCount);
-    }
   }, [show, correctStreakCount]);
 
   if (!show) return null;
@@ -80,8 +76,6 @@ export default function SuccessModal({
         : categoryLevels;
 
   const isLastLevel = level === levels[levels.length - 1].level;
-
-  // const isLastLevel = currentStageIndex === STAGE_CONFIGS.length - 1;
 
   const onGoHome = () => {
     triggerHaptic("light");
@@ -198,22 +192,25 @@ export default function SuccessModal({
               <SuccessButton
                 variant="primary"
                 onPress={onGoHome}
-                // onPress={onGoStickerRounge}
                 activeOpacity={0.85}
               >
                 <ButtonText>
                   <Ionicons
                     name="home"
-                    size={20}
+                    size={22}
                     color={BASIC_COLORS.CARD_BG}
                   />
                 </ButtonText>
               </SuccessButton>
             )}
           </SuccessButtons>
-          <HomeButton onPress={onGoHome} activeOpacity={0.85}>
-            <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
-          </HomeButton>
+
+          {/* 마지막 라운드가 아닐 때만 하단 홈 버튼 표시 */}
+          {!isLastLevel && (
+            <HomeButton onPress={onGoHome} activeOpacity={0.85}>
+              <Ionicons name="home" size={22} color={BASIC_COLORS.CARD_BG} />
+            </HomeButton>
+          )}
         </SuccessModalInner>
       </SuccessModalContent>
     </SuccessModalOverlay>

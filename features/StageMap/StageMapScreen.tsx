@@ -232,7 +232,7 @@ export default function StageMapScreen() {
 
   const handleBack = () => {
     triggerHaptic("light");
-    navigation.goBack();
+    navigation.navigate("ClassificationSectionScreen");
   };
 
   const bottomSafeOffset = Math.max(insets.bottom, 4);

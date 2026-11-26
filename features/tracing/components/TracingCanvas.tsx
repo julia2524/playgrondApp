@@ -12,7 +12,7 @@ import styled from "styled-components/native";
 
 import Svg, { Circle, Path } from "react-native-svg";
 
-import { useTracingProgress } from "../hooks/useTracingProgress";
+import { useTracingProgress } from "../engine/useTracingProgress";
 import type { TracingBoardSize, TracingGuide } from "../types/tracing.types";
 
 import PandaTransition from "./PandaTransition";

@@ -9,9 +9,9 @@ import { TracingGuide } from "../types/tracing.types";
 import {
   createInitialTracingProgress,
   updateTracingProgress,
-} from "../utils/tracingProgress";
+} from "./tracingProgress";
 
-import type { TracingProgressState } from "../utils/tracingProgress";
+import type { TracingProgressState } from "./tracingProgress";
 import { useDrawingGesture } from "./useDrawingGesture";
 
 /**
