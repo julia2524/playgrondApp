@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "مرة كمان!",
+  "drawing_retry_subtitle": "يلا نبدأ من الأول؟",
+  "drawing_retry_button": "ابدأ من جديد",
+
+  "drawing_progress_complete": "شاطر جدًا!",
+  "drawing_progress_tutorial": "ارسم كده!",
+  "drawing_progress_follow_path": "يلا نمشي مع الطريق!",
+
   "drawing_section_headline": "هنرسم إيه النهارده؟",
   "drawing_section_guide": "دوس على نقطة اللون اللي تعجبك!",
 

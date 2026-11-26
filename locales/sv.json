@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "En gång till!",
+  "drawing_retry_subtitle": "Ska vi börja om?",
+  "drawing_retry_button": "Börja om",
+
+  "drawing_progress_complete": "Jättebra jobbat!",
+  "drawing_progress_tutorial": "Rita så här!",
+  "drawing_progress_follow_path": "Följ stigen!",
+
   "drawing_section_headline": "Vad ska vi rita idag?",
   "drawing_section_guide": "Tryck på en färgdroppe du gillar!",
 

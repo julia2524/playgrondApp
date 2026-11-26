@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "再來一次！",
+  "drawing_retry_subtitle": "我們重新開始吧！",
+  "drawing_retry_button": "重新開始",
+
+  "drawing_progress_complete": "你做得真棒！",
+  "drawing_progress_tutorial": "試著這樣畫吧！",
+  "drawing_progress_follow_path": "沿著路線畫一畫吧！",
+
   "drawing_section_headline": "今天要畫什麼呢？",
   "drawing_section_guide": "輕點喜歡的顏料水滴！",
 

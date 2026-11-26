@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Nog een keer!",
+  "drawing_retry_subtitle": "Zullen we opnieuw beginnen?",
+  "drawing_retry_button": "Opnieuw beginnen",
+
+  "drawing_progress_complete": "Super gedaan!",
+  "drawing_progress_tutorial": "Teken zo!",
+  "drawing_progress_follow_path": "Zullen we het pad volgen?",
+
   "drawing_section_headline": "Wat zullen we vandaag tekenen?",
   "drawing_section_guide": "Tik op een verfdrup die je leuk vindt!",
 

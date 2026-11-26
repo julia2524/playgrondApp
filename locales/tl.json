@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Isa Pang Beses!",
+  "drawing_retry_subtitle": "Magsimula tayo ulit?",
+  "drawing_retry_button": "Magsimula Muli",
+
+  "drawing_progress_complete": "Ang galing mo!",
+  "drawing_progress_tutorial": "Gumuhit nang ganito!",
+  "drawing_progress_follow_path": "Sundan natin ang daan!",
+
   "drawing_section_headline": "Ano ang iguguhit natin ngayon?",
   "drawing_section_guide": "Tapikin ang paborito mong patak ng pintura!",
 

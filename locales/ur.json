@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "ایک بار پھر!",
+  "drawing_retry_subtitle": "دوبارہ شروع کریں؟",
+  "drawing_retry_button": "دوبارہ شروع کریں",
+
+  "drawing_progress_complete": "بہت خوب!",
+  "drawing_progress_tutorial": "ایسے بناؤ!",
+  "drawing_progress_follow_path": "آؤ راستے پر چلیں!",
+
   "drawing_section_headline": "آج کیا تصویر بنائیں؟",
   "drawing_section_guide": "اپنی پسند کے رنگ کے قطرے کو چھوؤ!",
 

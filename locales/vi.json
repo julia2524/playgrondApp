@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Thêm Một Lần Nữa!",
+  "drawing_retry_subtitle": "Mình bắt đầu lại nhé?",
+  "drawing_retry_button": "Bắt Đầu Lại",
+
+  "drawing_progress_complete": "Giỏi lắm!",
+  "drawing_progress_tutorial": "Hãy vẽ như thế này nhé!",
+  "drawing_progress_follow_path": "Cùng đi theo đường nào!",
+
   "drawing_section_headline": "Hôm nay mình vẽ gì nhỉ?",
   "drawing_section_guide": "Chạm vào giọt màu bạn thích nhé!",
 

@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Try Again!",
+  "drawing_retry_subtitle": "Let's give it another try!",
+  "drawing_retry_button": "Start Again",
+
+  "drawing_progress_complete": "Awesome!",
+  "drawing_progress_tutorial": "Draw like this!",
+  "drawing_progress_follow_path": "Let's follow the path!",
+
   "drawing_section_headline": "What shall we draw today?",
   "drawing_section_guide": "Tap a paint drop you like!",
 

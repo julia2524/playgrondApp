@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "एक बार और!",
+  "drawing_retry_subtitle": "फिर से शुरू करें?",
+  "drawing_retry_button": "फिर से शुरू करें",
+
+  "drawing_progress_complete": "बहुत बढ़िया!",
+  "drawing_progress_tutorial": "ऐसे बनाओ!",
+  "drawing_progress_follow_path": "चलो रास्ते पर चलते हैं!",
+
   "drawing_section_headline": "आज क्या बनाएँ?",
   "drawing_section_guide": "पसंद की रंग वाली बूंद को छुओ!",
 

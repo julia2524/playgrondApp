@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Tena!",
+  "drawing_retry_subtitle": "Tuanze tena?",
+  "drawing_retry_button": "Anza Tena",
+
+  "drawing_progress_complete": "Umefanya vizuri sana!",
+  "drawing_progress_tutorial": "Chora hivi!",
+  "drawing_progress_follow_path": "Twende kufuata njia!",
+
   "drawing_section_headline": "Tutachora nini leo?",
   "drawing_section_guide": "Gusa tone la rangi unalopenda!",
 

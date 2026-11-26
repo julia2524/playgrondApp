@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "مرة أخرى!",
+  "drawing_retry_subtitle": "هل نبدأ من جديد؟",
+  "drawing_retry_button": "ابدأ من جديد",
+
+  "drawing_progress_complete": "أحسنت!",
+  "drawing_progress_tutorial": "ارسم هكذا!",
+  "drawing_progress_follow_path": "هيا نتبع الطريق!",
+
   "drawing_section_headline": "ماذا سنرسم اليوم؟",
   "drawing_section_guide": "اضغط على قطرة اللون التي تعجبك!",
 

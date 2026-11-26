@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Bir Daha!",
+  "drawing_retry_subtitle": "Yeniden başlayalım mı?",
+  "drawing_retry_button": "Yeniden Başla",
+
+  "drawing_progress_complete": "Harika iş çıkardın!",
+  "drawing_progress_tutorial": "Böyle çiz!",
+  "drawing_progress_follow_path": "Yolu takip edelim!",
+
   "drawing_section_headline": "Bugün ne çizelim?",
   "drawing_section_guide": "Sevdiğin boya damlasına dokun!",
 

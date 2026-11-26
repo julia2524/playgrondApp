@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Jeszcze raz!",
+  "drawing_retry_subtitle": "Zaczniemy od nowa?",
+  "drawing_retry_button": "Zacznij od nowa",
+
+  "drawing_progress_complete": "Świetnie!",
+  "drawing_progress_tutorial": "Rysuj tak!",
+  "drawing_progress_follow_path": "Podążajmy ścieżką!",
+
   "drawing_section_headline": "Co dziś narysujemy?",
   "drawing_section_guide": "Dotknij kropli farby, która ci się podoba!",
 

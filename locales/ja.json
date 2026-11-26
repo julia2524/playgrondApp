@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "もういちど！",
+  "drawing_retry_subtitle": "もういちど はじめよう！",
+  "drawing_retry_button": "もういちど はじめる",
+
+  "drawing_progress_complete": "とってもじょうず！",
+  "drawing_progress_tutorial": "こんなふうにかいてみよう！",
+  "drawing_progress_follow_path": "みちをたどってみよう！",
+
   "drawing_section_headline": "きょうはなにをかこうかな？",
   "drawing_section_guide": "すきないろのみずたまをタップしてね！",
 

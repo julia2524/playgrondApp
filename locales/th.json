@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "อีกครั้ง!",
+  "drawing_retry_subtitle": "มาเริ่มใหม่กันไหม?",
+  "drawing_retry_button": "เริ่มใหม่",
+
+  "drawing_progress_complete": "เก่งมากเลย!",
+  "drawing_progress_tutorial": "ลองวาดแบบนี้นะ!",
+  "drawing_progress_follow_path": "มาลองตามเส้นทางกัน!",
+
   "drawing_section_headline": "วันนี้จะวาดรูปอะไรดีนะ?",
   "drawing_section_guide": "แตะหยดสีที่ชอบเลย!",
 

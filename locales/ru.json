@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Ещё раз!",
+  "drawing_retry_subtitle": "Начнём сначала?",
+  "drawing_retry_button": "Начать заново",
+
+  "drawing_progress_complete": "Отлично получилось!",
+  "drawing_progress_tutorial": "Рисуй вот так!",
+  "drawing_progress_follow_path": "Давай следовать по дорожке!",
+
   "drawing_section_headline": "Что нарисуем сегодня?",
   "drawing_section_guide": "Нажми на понравившуюся капельку краски!",
 

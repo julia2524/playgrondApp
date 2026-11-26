@@ -24,6 +24,8 @@ import type { DrawingParticleEffectHandle } from "./DrawingParticleEffect";
 
 import { PANDA_SOURCE, PANDA_WINK_SOURCE } from "../constants/pandaAssets";
 import DrawingStroke from "./DrawingStroke";
+import { useLanguage } from "../../../context/LanguageContext";
+import i18n from "../../../i18n";
 
 /** 그림 영역 크기가 정해지기 전에 쓰는 빈 가이드 */
 const EMPTY_GUIDE: TracingGuide = { id: "empty", points: [] };
@@ -142,45 +144,6 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
     return d;
   }, [completedSegments, guidePoints]);
 
-  // // 튜토리얼 시작
-  // useEffect(() => {
-  //   if (!tutorialStartedRef.current && guidePoints.length >= 2) {
-  //     tutorialStartedRef.current = true;
-  //     setTutorialVisible(true);
-  //   }
-  // }, [guidePoints]);
-
-  // const handleTutorialComplete = useCallback(() => {
-  //   setTutorialVisible(false);
-  // }, []);
-
-  // const clearTutorialTimer = useCallback(() => {
-  //   if (tutorialTimerRef.current) {
-  //     clearTimeout(tutorialTimerRef.current);
-  //     tutorialTimerRef.current = null;
-  //   }
-  // }, []);
-
-  // const handleTouchStart = useCallback(() => {
-  //   clearTutorialTimer();
-  //   setTutorialVisible(false);
-  // }, [clearTutorialTimer]);
-
-  // const handleTouchEnd = useCallback(() => {
-  //   clearTutorialTimer();
-
-  //   tutorialTimerRef.current = setTimeout(() => {
-  //     setTutorialVisible(true);
-  //     tutorialTimerRef.current = null;
-  //   }, 3000);
-  // }, [clearTutorialTimer]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     clearTutorialTimer();
-  //   };
-  // }, [clearTutorialTimer]);
-
   // 내부 초기화 기능은 유지
   const handleReset = useCallback(() => {
     particleRef.current?.clear();
@@ -258,11 +221,19 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
     };
   }, [clearTutorialTimer]);
 
+  // const progressLabel = isCompleted
+  //   ? "참 잘했어요! 🎉"
+  //   : tutorialVisible
+  //     ? "이렇게 그려봐요!"
+  //     : "길을 따라가 볼까요!";
+
+  const { locale } = useLanguage(); // 반환값 안 써도 되지만 명시하면 가독성이 더 좋아요
+
   const progressLabel = isCompleted
-    ? "참 잘했어요! 🎉"
+    ? i18n.t("drawing_progress_complete")
     : tutorialVisible
-      ? "이렇게 그려봐요!"
-      : "길을 따라가 볼까요!";
+      ? i18n.t("drawing_progress_tutorial")
+      : i18n.t("drawing_progress_follow_path");
 
   useEffect(() => {
     onProgressLabelChange?.(progressLabel);

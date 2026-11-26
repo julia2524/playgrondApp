@@ -1,4 +1,11 @@
 {
+  "drawing_retry_title": "اک واری ہور!",
+  "drawing_retry_subtitle": "دوبارہ شروع کریے؟",
+  "drawing_retry_button": "دوبارہ شروع کرو",
+
+  "drawing_progress_complete": "بہت ودھیا!",
+  "drawing_progress_tutorial": "ایہو جیہا بنا کے ویکھ!",
+  "drawing_progress_follow_path": "آؤ رستے دے نال نال چلئیے!",
   "drawing_section_headline": "اج کیہ تصویر بنائیے؟",
   "drawing_section_guide": "اپنی پسند دے رنگ والے قطرے نوں چھوو!",
 

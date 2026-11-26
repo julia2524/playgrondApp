@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "आणखी एकदा!",
+  "drawing_retry_subtitle": "पुन्हा सुरू करूया?",
+  "drawing_retry_button": "पुन्हा सुरू करा",
+
+  "drawing_progress_complete": "खूप छान केलंस!",
+  "drawing_progress_tutorial": "असं काढून बघ!",
+  "drawing_progress_follow_path": "चला वाटेने जाऊया!",
+
   "drawing_section_headline": "आज काय काढूया?",
   "drawing_section_guide": "आवडत्या रंगाच्या थेंबाला स्पर्श कर!",
 

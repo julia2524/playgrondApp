@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "One More Time!",
+  "drawing_retry_subtitle": "Make we start again?",
+  "drawing_retry_button": "Start Again",
+
+  "drawing_progress_complete": "You do well well!",
+  "drawing_progress_tutorial": "Draw am like dis!",
+  "drawing_progress_follow_path": "Make we follow di road!",
+
   "drawing_section_headline": "Wetin we go draw today?",
   "drawing_section_guide": "Touch di paint drop wey you like!",
 

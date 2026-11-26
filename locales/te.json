@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "మరోసారి!",
+  "drawing_retry_subtitle": "మళ్లీ మొదలుపెడదామా?",
+  "drawing_retry_button": "మళ్లీ ప్రారంభించు",
+
+  "drawing_progress_complete": "చాలా బాగా చేశావు!",
+  "drawing_progress_tutorial": "ఇలా గీయండి!",
+  "drawing_progress_follow_path": "దారిని అనుసరిద్దాం!",
+
   "drawing_section_headline": "ఈ రోజు ఏమి గీయాలి?",
   "drawing_section_guide": "నీకు నచ్చిన రంగు చుక్కను తాకండి!",
 

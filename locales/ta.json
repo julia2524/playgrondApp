@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "மீண்டும் ஒரு முறை!",
+  "drawing_retry_subtitle": "மீண்டும் தொடங்கலாமா?",
+  "drawing_retry_button": "மீண்டும் தொடங்கு",
+
+  "drawing_progress_complete": "அருமையாக செய்தாய்!",
+  "drawing_progress_tutorial": "இப்படி வரைந்து பார்!",
+  "drawing_progress_follow_path": "பாதையைப் பின்தொடர்வோமா!",
+
   "drawing_section_headline": "இன்று என்ன வரைவோம்?",
   "drawing_section_guide": "உனக்கு பிடித்த வண்ணத் துளியைத் தொடு!",
 

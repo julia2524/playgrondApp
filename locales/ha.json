@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Sau ɗaya kuma!",
+  "drawing_retry_subtitle": "Mu sake farawa?",
+  "drawing_retry_button": "Sake Farawa",
+
+  "drawing_progress_complete": "Ka yi kyau sosai!",
+  "drawing_progress_tutorial": "Yi zane haka!",
+  "drawing_progress_follow_path": "Mu bi hanyar!",
+
   "drawing_section_headline": "Me za mu zana yau?",
   "drawing_section_guide": "Danna digo na launi da kake so!",
 

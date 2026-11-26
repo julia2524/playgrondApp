@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "یک بار دیگر!",
+  "drawing_retry_subtitle": "دوباره شروع کنیم؟",
+  "drawing_retry_button": "شروع دوباره",
+
+  "drawing_progress_complete": "آفرین!",
+  "drawing_progress_tutorial": "اینطوری نقاشی کن!",
+  "drawing_progress_follow_path": "بیایید مسیر را دنبال کنیم!",
+
   "drawing_section_headline": "امروز چی نقاشی کنیم؟",
   "drawing_section_guide": "روی قطره رنگی که دوست داری بزن!",
 

@@ -191,25 +191,6 @@ export function preloadTracingGameProgress(
 // Progress 저장
 // ==================================================
 
-// export async function saveTracingGameProgress(
-//   progress: TracingGameProgress,
-// ): Promise<void> {
-//   try {
-//     await AsyncStorage.setItem(
-//       TRACING_PROGRESS_STORAGE_KEY,
-//       JSON.stringify(progress),
-//     );
-
-//     cacheVersion += 1;
-
-//     cachedProgress = {
-//       totalStages: progress.levels.length,
-//       progress,
-//     };
-//   } catch (error) {
-//     console.error("선 그리기 진행 상황 저장 실패", error);
-//   }
-// }
 export async function saveTracingGameProgress(
   progress: TracingGameProgress,
 ): Promise<void> {

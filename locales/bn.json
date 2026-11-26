@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "আর একবার!",
+  "drawing_retry_subtitle": "আবার শুরু করবো?",
+  "drawing_retry_button": "আবার শুরু",
+
+  "drawing_progress_complete": "খুব ভালো করেছ!",
+  "drawing_progress_tutorial": "এভাবে আঁকো!",
+  "drawing_progress_follow_path": "চলো পথ ধরে যাই!",
+
   "drawing_section_headline": "আজ কী আঁকবে?",
   "drawing_section_guide": "পছন্দের রঙের ফোঁটায় টোকা দাও!",
 

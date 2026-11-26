@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Encore une fois !",
+  "drawing_retry_subtitle": "On recommence ?",
+  "drawing_retry_button": "Recommencer",
+
+  "drawing_progress_complete": "Bravo !",
+  "drawing_progress_tutorial": "Dessine comme ça !",
+  "drawing_progress_follow_path": "Suivons le chemin !",
+
   "drawing_section_headline": "Que va-t-on dessiner aujourd’hui ?",
   "drawing_section_guide": "Touche une goutte de peinture que tu aimes !",
 

@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Μία φορά ακόμη!",
+  "drawing_retry_subtitle": "Να ξεκινήσουμε ξανά;",
+  "drawing_retry_button": "Ξεκίνα ξανά",
+
+  "drawing_progress_complete": "Τα κατάφερες τέλεια!",
+  "drawing_progress_tutorial": "Ζωγράφισε έτσι!",
+  "drawing_progress_follow_path": "Ας ακολουθήσουμε το μονοπάτι!",
+
   "drawing_section_headline": "Τι θα ζωγραφίσουμε σήμερα;",
   "drawing_section_guide": "Πάτησε μια σταγόνα χρώματος που σου αρέσει!",
 

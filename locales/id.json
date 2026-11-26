@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Sekali Lagi!",
+  "drawing_retry_subtitle": "Yuk mulai lagi!",
+  "drawing_retry_button": "Mulai Lagi",
+
+  "drawing_progress_complete": "Hebat sekali!",
+  "drawing_progress_tutorial": "Gambar seperti ini!",
+  "drawing_progress_follow_path": "Ayo ikuti jalannya!",
+
   "drawing_section_headline": "Hari ini mau menggambar apa?",
   "drawing_section_guide": "Ketuk tetes cat yang kamu suka!",
 

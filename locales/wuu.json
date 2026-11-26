@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "再来一趟！",
+  "drawing_retry_subtitle": "重新出发好伐？",
+  "drawing_retry_button": "重新开始",
+
+  "drawing_progress_complete": "侬真棒！🎉",
+  "drawing_progress_tutorial": "照样子画画看！",
+  "drawing_progress_follow_path": "跟牢路一道走吧！",
+
   "drawing_section_headline": "今朝画啥个呀？",
   "drawing_section_guide": "点点侬欢喜个颜色水滴！",
 

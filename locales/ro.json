@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "Încă o dată!",
+  "drawing_retry_subtitle": "Să pornim din nou?",
+  "drawing_retry_button": "Începe din nou",
+
+  "drawing_progress_complete": "Foarte bine!",
+  "drawing_progress_tutorial": "Desenează așa!",
+  "drawing_progress_follow_path": "Hai să urmăm drumul!",
+
   "drawing_section_headline": "Ce desenăm azi?",
   "drawing_section_guide": "Atinge picătura de culoare preferată!",
 

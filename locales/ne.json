@@ -1,4 +1,12 @@
 {
+  "drawing_retry_title": "फेरि एक पटक!",
+  "drawing_retry_subtitle": "फेरि सुरु गरौँ?",
+  "drawing_retry_button": "फेरि सुरु गर्नुहोस्",
+
+  "drawing_progress_complete": "धेरै राम्रो!",
+  "drawing_progress_tutorial": "यसरी कोरेर हेर!",
+  "drawing_progress_follow_path": "बाटोलाई पछ्याऔँ!",
+
   "drawing_section_headline": "आज के चित्र बनाऔँ?",
   "drawing_section_guide": "मन परेको रङको थोपा छुनुहोस्!",
 
