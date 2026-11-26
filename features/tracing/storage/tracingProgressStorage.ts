@@ -22,6 +22,38 @@ export interface TracingGameProgress {
   levels: TracingLevelProgress[];
 }
 
+type ProgressCache = {
+  totalStages: number;
+  progress: TracingGameProgress;
+};
+
+type ProgressLoadRequest = {
+  totalStages: number;
+  promise: Promise<TracingGameProgress>;
+};
+
+// ==================================================
+// Memory Cache
+// ==================================================
+
+let cachedProgress: ProgressCache | null = null;
+let pendingLoad: ProgressLoadRequest | null = null;
+let cacheVersion = 0;
+
+/**
+ * 메모리에 저장된 진행 상황을 즉시 반환해.
+ * 아직 불러오지 않았다면 null을 반환해.
+ */
+export function getCachedTracingGameProgress(
+  totalStages: number,
+): TracingGameProgress | null {
+  if (cachedProgress?.totalStages !== totalStages) {
+    return null;
+  }
+
+  return cachedProgress.progress;
+}
+
 // ==================================================
 // Initial Progress
 // ==================================================
@@ -93,12 +125,102 @@ export function normalizeTracingGameProgress(
 }
 
 // ==================================================
+// Progress Preload
+// ==================================================
+
+/**
+ * 진행 상황을 미리 불러와 메모리에 보관해.
+ * 같은 진행 상황을 동시에 요청하면 하나의 로딩 작업을 공유해.
+ */
+export function preloadTracingGameProgress(
+  totalStages: number,
+): Promise<TracingGameProgress> {
+  const cached = getCachedTracingGameProgress(totalStages);
+
+  if (cached) {
+    return Promise.resolve(cached);
+  }
+
+  if (pendingLoad?.totalStages === totalStages) {
+    return pendingLoad.promise;
+  }
+
+  const requestVersion = cacheVersion;
+
+  const promise = (async () => {
+    let progress: TracingGameProgress;
+
+    try {
+      const savedProgress = await AsyncStorage.getItem(
+        TRACING_PROGRESS_STORAGE_KEY,
+      );
+
+      progress = savedProgress
+        ? normalizeTracingGameProgress(JSON.parse(savedProgress), totalStages)
+        : createInitialTracingGameProgress(totalStages);
+    } catch (error) {
+      console.error("선 그리기 진행 상황 불러오기 실패", error);
+      progress = createInitialTracingGameProgress(totalStages);
+    }
+
+    // 불러오는 동안 저장 또는 삭제가 발생했다면
+    // 이전 데이터가 최신 캐시를 덮어쓰지 않도록 해.
+    if (requestVersion === cacheVersion) {
+      cachedProgress = {
+        totalStages,
+        progress,
+      };
+    }
+
+    return getCachedTracingGameProgress(totalStages) ?? progress;
+  })().finally(() => {
+    if (pendingLoad?.promise === promise) {
+      pendingLoad = null;
+    }
+  });
+
+  pendingLoad = {
+    totalStages,
+    promise,
+  };
+
+  return promise;
+}
+
+// ==================================================
 // Progress 저장
 // ==================================================
 
+// export async function saveTracingGameProgress(
+//   progress: TracingGameProgress,
+// ): Promise<void> {
+//   try {
+//     await AsyncStorage.setItem(
+//       TRACING_PROGRESS_STORAGE_KEY,
+//       JSON.stringify(progress),
+//     );
+
+//     cacheVersion += 1;
+
+//     cachedProgress = {
+//       totalStages: progress.levels.length,
+//       progress,
+//     };
+//   } catch (error) {
+//     console.error("선 그리기 진행 상황 저장 실패", error);
+//   }
+// }
 export async function saveTracingGameProgress(
   progress: TracingGameProgress,
 ): Promise<void> {
+  // 저장이 끝나기 전에 StageMap이 돌아와도 최신 값을 읽도록 캐시를 먼저 갱신
+  cacheVersion += 1;
+
+  cachedProgress = {
+    totalStages: progress.levels.length,
+    progress,
+  };
+
   try {
     await AsyncStorage.setItem(
       TRACING_PROGRESS_STORAGE_KEY,
@@ -116,21 +238,7 @@ export async function saveTracingGameProgress(
 export async function loadTracingGameProgress(
   totalStages: number,
 ): Promise<TracingGameProgress> {
-  try {
-    const savedProgress = await AsyncStorage.getItem(
-      TRACING_PROGRESS_STORAGE_KEY,
-    );
-
-    if (!savedProgress) {
-      return createInitialTracingGameProgress(totalStages);
-    }
-
-    return normalizeTracingGameProgress(JSON.parse(savedProgress), totalStages);
-  } catch (error) {
-    console.error("선 그리기 진행 상황 불러오기 실패", error);
-
-    return createInitialTracingGameProgress(totalStages);
-  }
+  return preloadTracingGameProgress(totalStages);
 }
 
 // ==================================================
@@ -151,9 +259,10 @@ export async function recordTracingStageResult(
       return;
     }
 
-    const previous = progress.levels[targetIndex];
+    const updatedLevels = [...progress.levels];
+    const previous = updatedLevels[targetIndex];
 
-    progress.levels[targetIndex] = {
+    updatedLevels[targetIndex] = {
       ...previous,
       unlocked: true,
       completed: true,
@@ -162,14 +271,16 @@ export async function recordTracingStageResult(
     };
 
     // 다음 스테이지 잠금 해제
-    if (targetIndex < progress.levels.length - 1) {
-      progress.levels[targetIndex + 1] = {
-        ...progress.levels[targetIndex + 1],
+    if (targetIndex < updatedLevels.length - 1) {
+      updatedLevels[targetIndex + 1] = {
+        ...updatedLevels[targetIndex + 1],
         unlocked: true,
       };
     }
 
-    await saveTracingGameProgress(progress);
+    await saveTracingGameProgress({
+      levels: updatedLevels,
+    });
   } catch (error) {
     console.error("선 그리기 스테이지 기록 실패", error);
   }
@@ -182,6 +293,9 @@ export async function recordTracingStageResult(
 export async function clearTracingGameProgress(): Promise<void> {
   try {
     await AsyncStorage.removeItem(TRACING_PROGRESS_STORAGE_KEY);
+
+    cacheVersion += 1;
+    cachedProgress = null;
   } catch (error) {
     console.error("선 그리기 진행 상황 삭제 실패", error);
   }

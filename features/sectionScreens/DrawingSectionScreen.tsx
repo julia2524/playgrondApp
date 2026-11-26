@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Animated, Alert, Pressable, StatusBar, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,6 +19,12 @@ import BannerAd from "../../services/BannerAd";
 
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 import DecorativeBackground from "../../design-system/backgrounds/DecorativeBackground";
+import type { LayoutChangeEvent } from "react-native";
+import PopEffect from "../../components/common/PopEffect";
+
+import { TRACING_LINES } from "../tracing/paths/lineCatalog";
+
+import { preloadTracingGameProgress } from "../tracing/storage/tracingProgressStorage";
 
 // ==========================================
 // Types
@@ -53,6 +59,8 @@ type DrawingItem = {
 };
 
 const BANNER_AD_HEIGHT = 60;
+// PopEffect(360ms)가 거의 끝난 뒤 이동
+const NAVIGATE_DELAY = 300;
 
 // ==========================================
 // Drawing Items
@@ -119,7 +127,26 @@ export default function DrawingSectionScreen() {
 
   useLanguage();
 
+  const navTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (navTimerRef.current) clearTimeout(navTimerRef.current);
+    };
+  }, []);
+
   const [selected, setSelected] = useState<DrawingType | null>(null);
+
+  const [centers, setCenters] = useState<
+    Partial<Record<DrawingType, { x: number; y: number }>>
+  >({});
+
+  const [burst, setBurst] = useState<{
+    type: DrawingType;
+    x: number;
+    y: number;
+    color: string;
+  } | null>(null);
 
   const animations = useRef<Record<DrawingType, Animated.Value>>({
     line: new Animated.Value(1),
@@ -140,8 +167,8 @@ export default function DrawingSectionScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      // 화면에 다시 돌아왔을 때 선택 애니메이션 초기화
       setSelected(null);
+      setBurst(null);
 
       Object.values(animations).forEach((animation) => {
         animation.setValue(1);
@@ -154,147 +181,82 @@ export default function DrawingSectionScreen() {
       headerOpacity.setValue(1);
       titleOpacity.setValue(1);
 
+      // 그리기 놀이터에 들어온 순간 진행 상황 미리 불러오기
+      void preloadTracingGameProgress(TRACING_LINES.length);
+
       return undefined;
     }, [animations, opacities, headerOpacity, titleOpacity]),
   );
-
-  // ========================================
-  // Select Animation
-  // ========================================
-
-  // const handleSelect = (type: DrawingType) => {
-  //   if (selected) return;
-
-  //   setSelected(type);
-  //   triggerHaptic("light");
-
-  //   const otherTypes = (["line", "shape", "object"] as DrawingType[]).filter(
-  //     (item) => item !== type,
-  //   );
-
-  //   const selectedAnimation = Animated.timing(animations[type], {
-  //     toValue: 4.5,
-  //     duration: 350,
-  //     useNativeDriver: true,
-  //   });
-
-  //   const otherAnimations = otherTypes.map((item) =>
-  //     Animated.timing(opacities[item], {
-  //       toValue: 0,
-  //       duration: 180,
-  //       useNativeDriver: true,
-  //     }),
-  //   );
-
-  //   Animated.parallel([
-  //     selectedAnimation,
-  //     ...otherAnimations,
-  //     Animated.timing(headerOpacity, {
-  //       toValue: 0,
-  //       duration: 180,
-  //       useNativeDriver: true,
-  //     }),
-  //     Animated.timing(titleOpacity, {
-  //       toValue: 0,
-  //       duration: 180,
-  //       useNativeDriver: true,
-  //     }),
-  //   ]).start(({ finished }) => {
-  //     if (!finished) return;
-
-  //     if (type === "line") {
-  //       navigation.navigate("TracingStageMapScreen");
-  //       return;
-  //     }
-
-  //     const activity = DRAWING_ITEMS.find((item) => item.type === type);
-
-  //     Alert.alert(
-  //       activity
-  //         ? i18n.t(activity.titleKey, {
-  //             defaultValue: activity.defaultTitle,
-  //           })
-  //         : "그리기 놀이터",
-  //       "준비 중이에요!",
-  //     );
-  //   });
-  // };
-
   const handleSelect = (type: DrawingType) => {
-    if (selected) return;
+    if (selected || burst) return;
+
+    const center = centers[type];
+    if (!center) return;
+
+    const item = DRAWING_ITEMS.find((entry) => entry.type === type);
+    if (!item) return;
 
     setSelected(type);
     triggerHaptic("light");
+
+    setBurst({
+      type,
+      x: center.x,
+      y: center.y,
+      color: item.color,
+    });
 
     const otherTypes = (["line", "shape", "object"] as DrawingType[]).filter(
       (item) => item !== type,
     );
 
-    // 선택한 물감 방울: 말랑하게 눌렸다가 팡!
-    const popAnimation = Animated.sequence([
+    // 선택한 물감 방울: 눌림 → 팽창하며 동시에 투명해짐
+    Animated.sequence([
       Animated.timing(animations[type], {
         toValue: 0.88,
-        duration: 55,
+        duration: 45,
         useNativeDriver: true,
       }),
-      Animated.timing(animations[type], {
-        toValue: 1.18,
-        duration: 85,
-        useNativeDriver: true,
-      }),
-      Animated.timing(animations[type], {
-        toValue: 0.01,
-        duration: 140,
-        useNativeDriver: true,
-      }),
-    ]);
+      Animated.parallel([
+        Animated.timing(animations[type], {
+          toValue: 1.15,
+          duration: 65,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacities[type], {
+          toValue: 0,
+          duration: 65,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start();
 
-    // 나머지 물감 방울은 빠르게 사라짐
-    const otherAnimations = otherTypes.map((item) =>
-      Animated.timing(opacities[item], {
-        toValue: 0,
-        duration: 170,
-        useNativeDriver: true,
-      }),
-    );
-
+    // 선택하지 않은 물감 방울
     Animated.parallel([
-      popAnimation,
-      Animated.timing(opacities[type], {
-        toValue: 0,
-        duration: 230,
-        useNativeDriver: true,
-      }),
-      ...otherAnimations,
+      ...otherTypes.map((otherType) =>
+        Animated.timing(opacities[otherType], {
+          toValue: 0,
+          duration: 170,
+          useNativeDriver: true,
+        }),
+      ),
       Animated.timing(headerOpacity, {
         toValue: 0,
-        duration: 170,
+        duration: 150,
         useNativeDriver: true,
       }),
       Animated.timing(titleOpacity, {
         toValue: 0,
-        duration: 170,
+        duration: 150,
         useNativeDriver: true,
       }),
-    ]).start(({ finished }) => {
-      if (!finished) return;
-
-      if (type === "line") {
+    ]).start();
+    // 선 그리기만 이동 (나머지는 아직 준비 중 안내)
+    if (type === "line") {
+      navTimerRef.current = setTimeout(() => {
         navigation.navigate("TracingStageMapScreen");
-        return;
-      }
-
-      const activity = DRAWING_ITEMS.find((item) => item.type === type);
-
-      Alert.alert(
-        activity
-          ? i18n.t(activity.titleKey, {
-              defaultValue: activity.defaultTitle,
-            })
-          : "그리기 놀이터",
-        "준비 중이에요!",
-      );
-    });
+      }, NAVIGATE_DELAY);
+    }
   };
 
   const handleBack = () => {
@@ -369,6 +331,17 @@ export default function DrawingSectionScreen() {
             opacity={opacities[item.type]}
             selected={selected === item.type}
             onPress={() => handleSelect(item.type)}
+            onLayout={(event) => {
+              const { x, y, width } = event.nativeEvent.layout;
+
+              setCenters((prev) => ({
+                ...prev,
+                [item.type]: {
+                  x: x + width / 2,
+                  y: y + item.size / 2,
+                },
+              }));
+            }}
           />
         ))}
 
@@ -414,6 +387,32 @@ export default function DrawingSectionScreen() {
             />
           </Svg>
         </CenterSparkle>
+        {burst && (
+          <PopEffect
+            x={burst.x}
+            y={burst.y}
+            color={burst.color}
+            variant="paint"
+            onComplete={() => {
+              const type = burst.type;
+              setBurst(null);
+
+              // 선 그리기는 타이머에서 이미 이동 처리됨
+              if (type === "line") return;
+
+              const activity = DRAWING_ITEMS.find((item) => item.type === type);
+
+              Alert.alert(
+                activity
+                  ? i18n.t(activity.titleKey, {
+                      defaultValue: activity.defaultTitle,
+                    })
+                  : "그리기 놀이터",
+                "준비 중이에요!",
+              );
+            }}
+          />
+        )}
       </PaintPlayground>
 
       {/* Bottom Banner */}
@@ -439,6 +438,7 @@ interface PaintBlobProps {
   opacity: Animated.Value;
   selected: boolean;
   onPress: () => void;
+  onLayout: (event: LayoutChangeEvent) => void;
 }
 
 function PaintBlob({
@@ -447,6 +447,7 @@ function PaintBlob({
   opacity,
   selected,
   onPress,
+  onLayout,
 }: PaintBlobProps) {
   const title = i18n.t(item.titleKey, {
     defaultValue: item.defaultTitle,
@@ -458,6 +459,7 @@ function PaintBlob({
 
   return (
     <BlobPosition
+      onLayout={onLayout}
       style={[
         item.position as object,
         {
@@ -466,7 +468,11 @@ function PaintBlob({
         },
       ]}
     >
-      <BlobGroup style={{ opacity }}>
+      <BlobGroup
+        style={{
+          opacity: selected ? 1 : opacity,
+        }}
+      >
         <BlobPressable
           onPress={onPress}
           disabled={selected}
@@ -477,6 +483,7 @@ function PaintBlob({
             style={{
               width: item.size,
               height: item.size,
+              opacity: selected ? opacity : 1,
               shadowColor: item.shadowColor,
               elevation: selected ? 25 : 8,
               transform: [{ scale }],

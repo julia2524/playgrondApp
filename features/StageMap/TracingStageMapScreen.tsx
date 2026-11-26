@@ -8,8 +8,6 @@
 
 // import { ScrollView, View } from "react-native";
 
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
 // import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 // import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -43,23 +41,19 @@
 // import { TRACING_LINES } from "../tracing/paths/lineCatalog";
 // import i18n from "../../i18n";
 
+// import {
+//   createInitialTracingGameProgress,
+//   getCachedTracingGameProgress,
+//   loadTracingGameProgress,
+// } from "../tracing/storage/tracingProgressStorage";
+
+// import type { TracingGameProgress } from "../tracing/storage/tracingProgressStorage";
+
 // // ==================================================
 // // Types
 // // ==================================================
 
 // type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-// interface TracingLevelProgress {
-//   level: number;
-//   unlocked: boolean;
-//   completed: boolean;
-//   stars: number;
-//   maxStars: number;
-// }
-
-// interface TracingProgress {
-//   levels: TracingLevelProgress[];
-// }
 
 // interface TracingLineItem {
 //   shortLabel: string;
@@ -70,8 +64,6 @@
 // // ==================================================
 
 // const TOTAL_STAGES = TRACING_LINES.length;
-
-// const STORAGE_KEY = "@tracing_progress_line";
 
 // const NODE_STEP_Y = 190;
 // const TOP_PADDING = 110;
@@ -85,69 +77,6 @@
 // const BANNER_AD_HEIGHT = 60;
 
 // const FALLBACK_VIEWPORT_HEIGHT = 560;
-
-// // ==================================================
-// // Initial Progress
-// // ==================================================
-
-// const createInitialProgress = (): TracingProgress => ({
-//   levels: Array.from({ length: TOTAL_STAGES }, (_, index) => ({
-//     level: index + 1,
-//     unlocked: index === 0,
-//     completed: false,
-//     stars: 0,
-//     maxStars: 5,
-//   })),
-// });
-
-// // ==================================================
-// // Progress Normalizer
-// // ==================================================
-
-// const normalizeProgress = (saved: unknown): TracingProgress => {
-//   const initial = createInitialProgress();
-
-//   if (
-//     !saved ||
-//     typeof saved !== "object" ||
-//     !("levels" in saved) ||
-//     !Array.isArray(saved.levels)
-//   ) {
-//     return initial;
-//   }
-
-//   const savedLevels = saved.levels as Partial<TracingLevelProgress>[];
-
-//   const levels = initial.levels.map((defaultLevel) => {
-//     const savedLevel = savedLevels.find(
-//       (item) => item.level === defaultLevel.level,
-//     );
-
-//     if (!savedLevel) {
-//       return defaultLevel;
-//     }
-
-//     return {
-//       level: defaultLevel.level,
-//       unlocked: Boolean(savedLevel.unlocked),
-//       completed: Boolean(savedLevel.completed),
-//       stars: Math.max(0, Math.min(5, Number(savedLevel.stars) || 0)),
-//       maxStars: 5,
-//     };
-//   });
-
-//   // 첫 번째 스테이지는 항상 열려 있어야 함
-//   levels[0].unlocked = true;
-
-//   // 완료한 스테이지의 다음 스테이지도 열려 있어야 함
-//   levels.forEach((level, index) => {
-//     if (level.completed && index < levels.length - 1) {
-//       levels[index + 1].unlocked = true;
-//     }
-//   });
-
-//   return { levels };
-// };
 
 // // ==================================================
 // // Screen
@@ -164,11 +93,20 @@
 
 //   const [viewportHeight, setViewportHeight] = useState(0);
 
-//   const [progress, setProgress] = useState<TracingProgress>(
-//     createInitialProgress,
+//   const [progress, setProgress] = useState<TracingGameProgress>(
+//     () =>
+//       getCachedTracingGameProgress(TOTAL_STAGES) ??
+//       createInitialTracingGameProgress(TOTAL_STAGES),
 //   );
 
-//   const [isLoading, setIsLoading] = useState(true);
+//   const [isLoading, setIsLoading] = useState(
+//     () => getCachedTracingGameProgress(TOTAL_STAGES) === null,
+//   );
+
+//   // 최초 로드맵 위치 설정 여부
+//   const hasInitialScrollRef = useRef(false);
+
+//   const [isMapPositioned, setIsMapPositioned] = useState(false);
 
 //   // ==================================================
 //   // Load Progress
@@ -176,17 +114,11 @@
 
 //   const reloadProgress = useCallback(async () => {
 //     try {
-//       const saved = await AsyncStorage.getItem(STORAGE_KEY);
-
-//       if (saved) {
-//         const parsed = JSON.parse(saved);
-//         setProgress(normalizeProgress(parsed));
-//       } else {
-//         setProgress(createInitialProgress());
-//       }
+//       const savedProgress = await loadTracingGameProgress(TOTAL_STAGES);
+//       setProgress(savedProgress);
 //     } catch (error) {
 //       console.warn("Tracing progress load failed:", error);
-//       setProgress(createInitialProgress());
+//       setProgress(createInitialTracingGameProgress(TOTAL_STAGES));
 //     } finally {
 //       setIsLoading(false);
 //     }
@@ -194,7 +126,7 @@
 
 //   useFocusEffect(
 //     useCallback(() => {
-//       reloadProgress();
+//       void reloadProgress();
 //     }, [reloadProgress]),
 //   );
 
@@ -272,14 +204,18 @@
 //   // ==================================================
 
 //   useEffect(() => {
-//     if (trackWidth === 0 || isLoading) {
+//     if (
+//       trackWidth === 0 ||
+//       viewportHeight === 0 ||
+//       isLoading ||
+//       hasInitialScrollRef.current
+//     ) {
 //       return;
 //     }
 
-//     const timer = setTimeout(() => {
-//       const effectiveViewportHeight =
-//         viewportHeight > 0 ? viewportHeight : FALLBACK_VIEWPORT_HEIGHT;
+//     let frame: number | null = null;
 
+//     const timer = setTimeout(() => {
 //       const targetIndex = availableStages.findIndex(
 //         (stage) => stage.level === currentLevel,
 //       );
@@ -288,29 +224,38 @@
 //         scrollRef.current?.scrollToEnd({
 //           animated: false,
 //         });
-//         return;
+//       } else {
+//         const targetY = positions[targetIndex]?.y ?? 0;
+
+//         const scrollToY = Math.max(targetY - viewportHeight / 2, 0);
+
+//         scrollRef.current?.scrollTo({
+//           y: scrollToY,
+//           animated: false,
+//         });
 //       }
 
-//       const targetY = positions[targetIndex]?.y ?? 0;
-
-//       const scrollToY = Math.max(targetY - effectiveViewportHeight / 2, 0);
-
-//       scrollRef.current?.scrollTo({
-//         y: scrollToY,
-//         animated: false,
+//       frame = requestAnimationFrame(() => {
+//         hasInitialScrollRef.current = true;
+//         setIsMapPositioned(true);
 //       });
 //     }, 50);
 
-//     return () => clearTimeout(timer);
+//     return () => {
+//       clearTimeout(timer);
+
+//       if (frame !== null) {
+//         cancelAnimationFrame(frame);
+//       }
+//     };
 //   }, [
 //     trackWidth,
+//     viewportHeight,
 //     isLoading,
 //     currentLevel,
-//     viewportHeight,
 //     availableStages,
 //     positions,
 //   ]);
-
 //   // ==================================================
 //   // Stage Press
 //   // ==================================================
@@ -322,9 +267,9 @@
 
 //     triggerHaptic("light");
 
-//     // stage는 1부터 시작하는 스테이지 번호
-//     // navigation/types.ts에 stage 파라미터를 추가할 예정
-//     navigation.navigate("TracingGameScreen", { stage: level });
+//     navigation.navigate("TracingGameScreen", {
+//       stage: level,
+//     });
 //   };
 
 //   // ==================================================
@@ -378,6 +323,10 @@
 //           <ScrollView
 //             ref={scrollRef}
 //             showsVerticalScrollIndicator={false}
+//             style={{
+//               opacity: isMapPositioned ? 1 : 0,
+//             }}
+//             pointerEvents={isMapPositioned ? "auto" : "none"}
 //             onLayout={(event) => {
 //               setTrackWidth(event.nativeEvent.layout.width);
 //             }}
@@ -392,9 +341,7 @@
 //                 direction: "ltr",
 //               }}
 //             >
-//               {/* ======================================
-//                   Map Trail
-//               ====================================== */}
+//               {/* Map Trail */}
 
 //               {trackWidth > 0 && (
 //                 <MapTrail
@@ -407,9 +354,7 @@
 //                 />
 //               )}
 
-//               {/* ======================================
-//                   Stage Nodes
-//               ====================================== */}
+//               {/* Stage Nodes */}
 
 //               {availableStages.map((stage, index) => {
 //                 const position = positions[index];
@@ -423,7 +368,6 @@
 //                 return (
 //                   <StageNode
 //                     key={stage.level}
-//                     // color는 기존 별 모양 진행도를 재사용하기 위한 값
 //                     gameType="color"
 //                     level={stage.level}
 //                     name={stage.name}
@@ -443,9 +387,7 @@
 //             </View>
 //           </ScrollView>
 
-//           {/* ======================================
-//               Bottom Banner Ad
-//           ====================================== */}
+//           {/* Bottom Banner Ad */}
 
 //           <BannerAdContainer
 //             style={{
@@ -469,7 +411,7 @@ import React, {
   useState,
 } from "react";
 
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, useWindowDimensions } from "react-native";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
@@ -506,10 +448,14 @@ import i18n from "../../i18n";
 
 import {
   createInitialTracingGameProgress,
+  getCachedTracingGameProgress,
   loadTracingGameProgress,
 } from "../tracing/storage/tracingProgressStorage";
 
-import type { TracingGameProgress } from "../tracing/storage/tracingProgressStorage";
+import type {
+  TracingGameProgress,
+  TracingLevelProgress,
+} from "../tracing/storage/tracingProgressStorage";
 
 // ==================================================
 // Types
@@ -538,7 +484,12 @@ const HORIZONTAL_SAFE_PADDING = 60;
 
 const BANNER_AD_HEIGHT = 60;
 
-const FALLBACK_VIEWPORT_HEIGHT = 560;
+// 첫 프레임에 현재 스테이지 주변 ±N개 노드만 먼저 그린다
+const INITIAL_RENDER_RADIUS = 3;
+// 나머지 노드를 그리기까지의 지연(ms)
+const RENDER_REST_DELAY = 350;
+// 스크롤 준비가 늦어져도 화면이 비어 있지 않도록 하는 안전장치(ms)
+const SCROLL_READY_FALLBACK = 500;
 
 // ==================================================
 // Screen
@@ -548,18 +499,31 @@ export default function TracingStageMapScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   const insets = useSafeAreaInsets();
+  const { width: windowWidth } = useWindowDimensions();
 
   const scrollRef = useRef<ScrollView>(null);
 
-  const [trackWidth, setTrackWidth] = useState(0);
+  // 0이 아니라 화면 너비로 시작 → 첫 렌더부터 정확한 위치로 그린다
+  const [trackWidth, setTrackWidth] = useState(windowWidth);
 
   const [viewportHeight, setViewportHeight] = useState(0);
 
-  const [progress, setProgress] = useState<TracingGameProgress>(() =>
-    createInitialTracingGameProgress(TOTAL_STAGES),
+  const [progress, setProgress] = useState<TracingGameProgress>(
+    () =>
+      getCachedTracingGameProgress(TOTAL_STAGES) ??
+      createInitialTracingGameProgress(TOTAL_STAGES),
   );
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(
+    () => getCachedTracingGameProgress(TOTAL_STAGES) === null,
+  );
+
+  // 첫 스크롤이 끝날 때까지 투명 (맨 위가 보였다가 점프하는 현상 방지)
+  const [isMapPositioned, setIsMapPositioned] = useState(false);
+  // 나머지 노드까지 전부 렌더링할지 여부
+  const [renderAll, setRenderAll] = useState(false);
+
+  const hasInitialScrollRef = useRef(false);
 
   // ==================================================
   // Load Progress
@@ -568,6 +532,8 @@ export default function TracingStageMapScreen() {
   const reloadProgress = useCallback(async () => {
     try {
       const savedProgress = await loadTracingGameProgress(TOTAL_STAGES);
+
+      // 캐시와 같은 객체면 React가 알아서 재렌더를 건너뜀
       setProgress(savedProgress);
     } catch (error) {
       console.warn("Tracing progress load failed:", error);
@@ -597,16 +563,8 @@ export default function TracingStageMapScreen() {
     [],
   );
 
-  // ==================================================
-  // Content Height
-  // ==================================================
-
   const contentHeight =
     TOP_PADDING + BOTTOM_PADDING + (availableStages.length - 1) * NODE_STEP_Y;
-
-  // ==================================================
-  // Stage Positions
-  // ==================================================
 
   const positions = useMemo(() => {
     return availableStages.map((stage, index) => {
@@ -627,81 +585,87 @@ export default function TracingStageMapScreen() {
   // Progress Helpers
   // ==================================================
 
-  const getLevelProgress = useCallback(
-    (level: number) => {
-      return progress.levels.find((item) => item.level === level);
-    },
+  // level → progress 조회를 O(1)로
+  const levelMap = useMemo(() => {
+    const map = new Map<number, TracingLevelProgress>();
+    progress.levels.forEach((item) => map.set(item.level, item));
+    return map;
+  }, [progress]);
+
+  const currentLevel = useMemo(
+    () =>
+      progress.levels.find((item) => item.unlocked && !item.completed)?.level ??
+      TOTAL_STAGES,
     [progress],
   );
 
-  const isLevelUnlocked = useCallback(
-    (level: number) => {
-      return getLevelProgress(level)?.unlocked ?? false;
-    },
-    [getLevelProgress],
+  const currentIndex = useMemo(
+    () => availableStages.findIndex((stage) => stage.level === currentLevel),
+    [availableStages, currentLevel],
   );
 
-  const isLevelCompleted = useCallback(
-    (level: number) => {
-      return getLevelProgress(level)?.completed ?? false;
-    },
-    [getLevelProgress],
-  );
+  const focusIndex = currentIndex === -1 ? 0 : currentIndex;
 
-  const currentLevel =
-    progress.levels.find((item) => item.unlocked && !item.completed)?.level ??
-    TOTAL_STAGES;
+  const trailPoints = useMemo(
+    () =>
+      availableStages.map((stage, index) => ({
+        ...positions[index],
+        completed: levelMap.get(stage.level)?.completed ?? false,
+      })),
+    [availableStages, positions, levelMap],
+  );
 
   // ==================================================
-  // Auto Scroll
+  // 나머지 노드는 첫 화면이 뜬 뒤에 렌더링
   // ==================================================
 
   useEffect(() => {
-    if (trackWidth === 0 || isLoading) {
-      return;
-    }
+    const timer = setTimeout(() => setRenderAll(true), RENDER_REST_DELAY);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const timer = setTimeout(() => {
-      const effectiveViewportHeight =
-        viewportHeight > 0 ? viewportHeight : FALLBACK_VIEWPORT_HEIGHT;
+  // ==================================================
+  // Auto Scroll (최초 1회)
+  // ==================================================
 
-      const targetIndex = availableStages.findIndex(
-        (stage) => stage.level === currentLevel,
-      );
+  useEffect(() => {
+    if (hasInitialScrollRef.current) return;
+    if (viewportHeight === 0 || isLoading) return;
 
-      if (targetIndex === -1) {
-        scrollRef.current?.scrollToEnd({
-          animated: false,
-        });
-        return;
+    const frame = requestAnimationFrame(() => {
+      if (hasInitialScrollRef.current) return;
+
+      if (currentIndex === -1) {
+        scrollRef.current?.scrollToEnd({ animated: false });
+      } else {
+        const targetY = positions[currentIndex]?.y ?? 0;
+        const scrollToY = Math.max(targetY - viewportHeight / 2, 0);
+
+        scrollRef.current?.scrollTo({ y: scrollToY, animated: false });
       }
 
-      const targetY = positions[targetIndex]?.y ?? 0;
+      hasInitialScrollRef.current = true;
+      setIsMapPositioned(true);
+    });
 
-      const scrollToY = Math.max(targetY - effectiveViewportHeight / 2, 0);
+    return () => cancelAnimationFrame(frame);
+  }, [viewportHeight, isLoading, currentIndex, positions]);
 
-      scrollRef.current?.scrollTo({
-        y: scrollToY,
-        animated: false,
-      });
-    }, 50);
-
+  // 안전장치: 어떤 이유로든 스크롤 준비가 안 돼도 화면은 보이게
+  useEffect(() => {
+    const timer = setTimeout(
+      () => setIsMapPositioned(true),
+      SCROLL_READY_FALLBACK,
+    );
     return () => clearTimeout(timer);
-  }, [
-    trackWidth,
-    isLoading,
-    currentLevel,
-    viewportHeight,
-    availableStages,
-    positions,
-  ]);
+  }, []);
 
   // ==================================================
   // Stage Press
   // ==================================================
 
   const handleStagePress = (level: number) => {
-    if (!isLevelUnlocked(level)) {
+    if (!(levelMap.get(level)?.unlocked ?? false)) {
       return;
     }
 
@@ -712,18 +676,10 @@ export default function TracingStageMapScreen() {
     });
   };
 
-  // ==================================================
-  // Back
-  // ==================================================
-
   const handleBack = () => {
     triggerHaptic("light");
     navigation.goBack();
   };
-
-  // ==================================================
-  // Layout
-  // ==================================================
 
   const bottomSafeOffset = Math.max(insets.bottom, 4);
 
@@ -754,87 +710,85 @@ export default function TracingStageMapScreen() {
         }
       />
 
-      {!isLoading && (
-        <Content
+      <Content
+        onLayout={(event) => {
+          const h = event.nativeEvent.layout.height;
+          setViewportHeight((prev) => (Math.abs(prev - h) < 0.5 ? prev : h));
+        }}
+      >
+        <ScrollView
+          ref={scrollRef}
+          showsVerticalScrollIndicator={false}
+          style={{
+            opacity: isMapPositioned ? 1 : 0,
+          }}
+          pointerEvents={isMapPositioned ? "auto" : "none"}
           onLayout={(event) => {
-            setViewportHeight(event.nativeEvent.layout.height);
+            const w = event.nativeEvent.layout.width;
+            setTrackWidth((prev) => (Math.abs(prev - w) < 0.5 ? prev : w));
+          }}
+          contentContainerStyle={{
+            minHeight: contentHeight,
+            paddingBottom: BANNER_AD_HEIGHT + bottomSafeOffset + 16,
           }}
         >
-          <ScrollView
-            ref={scrollRef}
-            showsVerticalScrollIndicator={false}
-            onLayout={(event) => {
-              setTrackWidth(event.nativeEvent.layout.width);
-            }}
-            contentContainerStyle={{
-              minHeight: contentHeight,
-              paddingBottom: BANNER_AD_HEIGHT + bottomSafeOffset + 16,
-            }}
-          >
-            <View
-              style={{
-                height: contentHeight,
-                direction: "ltr",
-              }}
-            >
-              {/* Map Trail */}
-
-              {trackWidth > 0 && (
-                <MapTrail
-                  width={trackWidth}
-                  height={contentHeight}
-                  points={availableStages.map((stage, index) => ({
-                    ...positions[index],
-                    completed: isLevelCompleted(stage.level),
-                  }))}
-                />
-              )}
-
-              {/* Stage Nodes */}
-
-              {availableStages.map((stage, index) => {
-                const position = positions[index];
-
-                const unlocked = isLevelUnlocked(stage.level);
-
-                const completed = isLevelCompleted(stage.level);
-
-                const levelProgress = getLevelProgress(stage.level);
-
-                return (
-                  <StageNode
-                    key={stage.level}
-                    gameType="color"
-                    level={stage.level}
-                    name={stage.name}
-                    unlocked={unlocked}
-                    completed={completed}
-                    stars={levelProgress?.stars ?? 0}
-                    maxStars={levelProgress?.maxStars ?? 5}
-                    isCurrent={stage.level === currentLevel}
-                    onPress={() => handleStagePress(stage.level)}
-                    style={{
-                      left: position.x - NODE_CONTAINER_WIDTH / 2,
-                      top: position.y - NODE_RADIUS,
-                    }}
-                  />
-                );
-              })}
-            </View>
-          </ScrollView>
-
-          {/* Bottom Banner Ad */}
-
-          <BannerAdContainer
+          <View
             style={{
-              height: BANNER_AD_HEIGHT + bottomSafeOffset,
-              paddingBottom: bottomSafeOffset,
+              height: contentHeight,
+              direction: "ltr",
             }}
           >
-            <BannerAd />
-          </BannerAdContainer>
-        </Content>
-      )}
+            {trackWidth > 0 && (
+              <MapTrail
+                width={trackWidth}
+                height={contentHeight}
+                points={trailPoints}
+              />
+            )}
+
+            {availableStages.map((stage, index) => {
+              // 첫 프레임에는 현재 스테이지 주변 노드만 렌더링
+              if (
+                !renderAll &&
+                Math.abs(index - focusIndex) > INITIAL_RENDER_RADIUS
+              ) {
+                return null;
+              }
+
+              const position = positions[index];
+              const levelProgress = levelMap.get(stage.level);
+
+              return (
+                <StageNode
+                  key={stage.level}
+                  gameType="color"
+                  level={stage.level}
+                  name={stage.name}
+                  unlocked={levelProgress?.unlocked ?? false}
+                  completed={levelProgress?.completed ?? false}
+                  stars={levelProgress?.stars ?? 0}
+                  maxStars={levelProgress?.maxStars ?? 5}
+                  isCurrent={stage.level === currentLevel}
+                  onPress={() => handleStagePress(stage.level)}
+                  style={{
+                    left: position.x - NODE_CONTAINER_WIDTH / 2,
+                    top: position.y - NODE_RADIUS,
+                  }}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+
+        <BannerAdContainer
+          style={{
+            height: BANNER_AD_HEIGHT + bottomSafeOffset,
+            paddingBottom: bottomSafeOffset,
+          }}
+        >
+          <BannerAd />
+        </BannerAdContainer>
+      </Content>
     </Container>
   );
 }

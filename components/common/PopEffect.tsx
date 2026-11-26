@@ -29,6 +29,9 @@ export default function PopEffect({
 }: PopEffectProps) {
   const progress = useRef(new Animated.Value(0)).current;
 
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   useEffect(() => {
     const animation = Animated.timing(progress, {
       toValue: 1,
@@ -37,13 +40,13 @@ export default function PopEffect({
     });
 
     animation.start(({ finished }) => {
-      if (finished) onComplete();
+      if (finished) onCompleteRef.current();
     });
 
     return () => {
       animation.stop();
     };
-  }, [progress, onComplete]);
+  }, [progress]);
 
   const isBubble = variant === "bubble";
 
