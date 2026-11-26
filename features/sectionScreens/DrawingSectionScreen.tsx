@@ -252,15 +252,19 @@ export default function DrawingSectionScreen() {
       }),
     ]).start();
     // 선 그리기만 이동 (나머지는 아직 준비 중 안내)
+
     // if (type === "line") {
     //   navTimerRef.current = setTimeout(() => {
-    //     navigation.navigate("TracingStageMapScreen");
+    //     navigation.navigate("TracingStageMapScreen", {
+    //       gameType: "line",
+    //     });
     //   }, NAVIGATE_DELAY);
     // }
-    if (type === "line") {
+
+    if (type === "line" || type === "shape") {
       navTimerRef.current = setTimeout(() => {
         navigation.navigate("TracingStageMapScreen", {
-          gameType: "line",
+          gameType: type,
         });
       }, NAVIGATE_DELAY);
     }
@@ -396,20 +400,32 @@ export default function DrawingSectionScreen() {
               const type = burst.type;
               setBurst(null);
 
-              // 선 그리기는 타이머에서 이미 이동 처리됨
-              if (type === "line") return;
+              // 선 그리기와 모양 그리기는 스테이지 맵으로 이동
+              if (type === "line" || type === "shape") {
+                return;
+              }
 
-              const activity = DRAWING_ITEMS.find((item) => item.type === type);
-
-              Alert.alert(
-                activity
-                  ? i18n.t(activity.titleKey, {
-                      defaultValue: activity.defaultTitle,
-                    })
-                  : "그리기 놀이터",
-                "준비 중이에요!",
-              );
+              // 사물 그리기는 아직 준비 중
+              Alert.alert("재미있는 사물그리기", "준비 중이에요!");
             }}
+            // onComplete={() => {
+            //   const type = burst.type;
+            //   setBurst(null);
+
+            //   // 선 그리기는 타이머에서 이미 이동 처리됨
+            //   if (type === "line") return;
+
+            //   const activity = DRAWING_ITEMS.find((item) => item.type === type);
+
+            //   Alert.alert(
+            //     activity
+            //       ? i18n.t(activity.titleKey, {
+            //           defaultValue: activity.defaultTitle,
+            //         })
+            //       : "그리기 놀이터",
+            //     "준비 중이에요!",
+            //   );
+            // }}
           />
         )}
       </PaintPlayground>
