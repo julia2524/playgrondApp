@@ -90,6 +90,50 @@ export default function ClassificationSectionScreen() {
     }, [animations, opacities, headerOpacity, footerOpacity]),
   );
 
+  // const goToGame = (gameType: GameType) => {
+  //   if (selected) return;
+
+  //   setSelected(gameType);
+  //   triggerHaptic("light");
+
+  //   const otherTypes = (["color", "shape", "category"] as GameType[]).filter(
+  //     (type) => type !== gameType,
+  //   );
+
+  //   const selectedAnimation = Animated.timing(animations[gameType], {
+  //     toValue: 4.5,
+  //     duration: 350,
+  //     useNativeDriver: true,
+  //   });
+
+  //   const otherAnimations = otherTypes.map((type) =>
+  //     Animated.timing(opacities[type], {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //   );
+
+  //   Animated.parallel([
+  //     selectedAnimation,
+  //     ...otherAnimations,
+  //     Animated.timing(headerOpacity, {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //     Animated.timing(footerOpacity, {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //   ]).start(({ finished }) => {
+  //     if (!finished) return;
+
+  //     navigation.navigate("StageMapScreen", { gameType });
+  //   });
+  // };
+
   const goToGame = (gameType: GameType) => {
     if (selected) return;
 
@@ -100,31 +144,50 @@ export default function ClassificationSectionScreen() {
       (type) => type !== gameType,
     );
 
-    const selectedAnimation = Animated.timing(animations[gameType], {
-      toValue: 4.5,
-      duration: 350,
-      useNativeDriver: true,
-    });
+    // 선택한 비눗방울: 눌렸다가 팡!
+    const popAnimation = Animated.sequence([
+      Animated.timing(animations[gameType], {
+        toValue: 0.88,
+        duration: 55,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animations[gameType], {
+        toValue: 1.18,
+        duration: 85,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animations[gameType], {
+        toValue: 0.01,
+        duration: 140,
+        useNativeDriver: true,
+      }),
+    ]);
 
+    // 선택하지 않은 비눗방울은 사라짐
     const otherAnimations = otherTypes.map((type) =>
       Animated.timing(opacities[type], {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
     );
 
     Animated.parallel([
-      selectedAnimation,
+      popAnimation,
+      Animated.timing(opacities[gameType], {
+        toValue: 0,
+        duration: 230,
+        useNativeDriver: true,
+      }),
       ...otherAnimations,
       Animated.timing(headerOpacity, {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
       Animated.timing(footerOpacity, {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {

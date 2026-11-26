@@ -162,6 +162,64 @@ export default function DrawingSectionScreen() {
   // Select Animation
   // ========================================
 
+  // const handleSelect = (type: DrawingType) => {
+  //   if (selected) return;
+
+  //   setSelected(type);
+  //   triggerHaptic("light");
+
+  //   const otherTypes = (["line", "shape", "object"] as DrawingType[]).filter(
+  //     (item) => item !== type,
+  //   );
+
+  //   const selectedAnimation = Animated.timing(animations[type], {
+  //     toValue: 4.5,
+  //     duration: 350,
+  //     useNativeDriver: true,
+  //   });
+
+  //   const otherAnimations = otherTypes.map((item) =>
+  //     Animated.timing(opacities[item], {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //   );
+
+  //   Animated.parallel([
+  //     selectedAnimation,
+  //     ...otherAnimations,
+  //     Animated.timing(headerOpacity, {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //     Animated.timing(titleOpacity, {
+  //       toValue: 0,
+  //       duration: 180,
+  //       useNativeDriver: true,
+  //     }),
+  //   ]).start(({ finished }) => {
+  //     if (!finished) return;
+
+  //     if (type === "line") {
+  //       navigation.navigate("TracingStageMapScreen");
+  //       return;
+  //     }
+
+  //     const activity = DRAWING_ITEMS.find((item) => item.type === type);
+
+  //     Alert.alert(
+  //       activity
+  //         ? i18n.t(activity.titleKey, {
+  //             defaultValue: activity.defaultTitle,
+  //           })
+  //         : "그리기 놀이터",
+  //       "준비 중이에요!",
+  //     );
+  //   });
+  // };
+
   const handleSelect = (type: DrawingType) => {
     if (selected) return;
 
@@ -172,31 +230,50 @@ export default function DrawingSectionScreen() {
       (item) => item !== type,
     );
 
-    const selectedAnimation = Animated.timing(animations[type], {
-      toValue: 4.5,
-      duration: 350,
-      useNativeDriver: true,
-    });
+    // 선택한 물감 방울: 말랑하게 눌렸다가 팡!
+    const popAnimation = Animated.sequence([
+      Animated.timing(animations[type], {
+        toValue: 0.88,
+        duration: 55,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animations[type], {
+        toValue: 1.18,
+        duration: 85,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animations[type], {
+        toValue: 0.01,
+        duration: 140,
+        useNativeDriver: true,
+      }),
+    ]);
 
+    // 나머지 물감 방울은 빠르게 사라짐
     const otherAnimations = otherTypes.map((item) =>
       Animated.timing(opacities[item], {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
     );
 
     Animated.parallel([
-      selectedAnimation,
+      popAnimation,
+      Animated.timing(opacities[type], {
+        toValue: 0,
+        duration: 230,
+        useNativeDriver: true,
+      }),
       ...otherAnimations,
       Animated.timing(headerOpacity, {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
       Animated.timing(titleOpacity, {
         toValue: 0,
-        duration: 180,
+        duration: 170,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => {
