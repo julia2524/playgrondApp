@@ -1,11 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { Modal, Pressable, Text } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Modal, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
@@ -24,9 +18,7 @@ import StarBadge from "../../design-system/ui/StarBadge";
 import SettingButton from "../../components/common/SettingButton";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-
 import type { RouteProp } from "@react-navigation/native";
-
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../navigation/types";
@@ -40,27 +32,10 @@ import {
 import Mascot from "../../design-system/ui/Mascot";
 import { ASSETS } from "../../assets/assets";
 import { Ionicons } from "@expo/vector-icons";
-import { playEarnedNotes, playSound } from "../../utils/sound";
+import { playSound } from "../../utils/sound";
 import i18n from "../../i18n";
 import { recordTracingStageResult } from "./storage/tracingProgressStorage";
 import { useLanguage } from "../../context/LanguageContext";
-
-/**
- * 음계 재생 연결 지점
- *
- * 남은 별 5 → 도레미파솔
- * 남은 별 4 → 도레미파
- * 남은 별 3 → 도레미
- * 남은 별 2 → 도레
- * 남은 별 1 → 도
- */
-// async function playNotesForRemainingStars(
-//   remainingStars: number,
-// ): Promise<void> {
-//   const count = Math.min(Math.max(remainingStars, 0), 5);
-
-//   await playEarnedNotes(count);
-// }
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -92,9 +67,8 @@ function StarRow({
 }
 
 export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
-  useLanguage(); // 👈 이 줄 추가
+  useLanguage();
   const navigation = useNavigation<NavigationProp>();
-
   const route = useRoute<TracingGameRouteProp>();
 
   // 맵에서 전달받은 스테이지 번호 (1부터 시작)
@@ -118,23 +92,19 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     remainingStars,
     gameStatus,
     isProcessing,
-
     lastResult,
     handleFailedAttempt,
     handleStageComplete,
     handleRetry,
     handleNextStage,
     handleResetGame,
-
     handleDevSkipStage,
     handleDevPrevStage,
-
     canvasResetKey,
     stageKey,
   } = useTracingGame({
     totalStages: TRACING_LINES.length,
     initialStage,
-
     getStageMeta: (index) => {
       const line = TRACING_LINES[index] ?? TRACING_LINES[0];
 
@@ -159,7 +129,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 
     const level = lastResult.stageIndex + 1;
     const earnedStars = lastResult.remainingStars;
-
     const resultKey = `${level}-${earnedStars}`;
 
     if (savedResultKeys.current.has(resultKey)) {
@@ -176,7 +145,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   // ==================================================
 
   const lineInfo = TRACING_LINES[currentStageIndex] ?? TRACING_LINES[0];
-
   const lineType = lineInfo.type;
 
   const createGuide = useCallback(
@@ -240,11 +208,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
         </GameHeaderShell>
 
         {/* 미션 안내 */}
-        {/* <MissionArea>
-          <StageLabel>{stageLabel}</StageLabel>
-          <MissionText>{lineInfo.mission}</MissionText>
-          <MissionSubText>{lineInfo.hint}</MissionSubText>
-        </MissionArea> */}
         <MissionArea>
           <MissionBubble>
             <MissionText>{progressLabel}</MissionText>
@@ -318,16 +281,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           <ModalOverlay>
             <RetryModalCard>
               <RetryMascotArea>
-                {/* <RetrySparkle style={{ top: 8, left: 28 }}>✦</RetrySparkle>
-                <RetrySparkle style={{ top: 28, right: 24 }}>✦</RetrySparkle> */}
-
                 <RetryMascot source={ASSETS.mascotBear} resizeMode="contain" />
-
-                {/* <RetryTrail>
-                  <RetryTrailDot />
-                  <RetryTrailDot />
-                  <RetryTrailDot />
-                </RetryTrail> */}
               </RetryMascotArea>
 
               <RetryTitle>{i18n.t("drawing_retry_title")}</RetryTitle>
@@ -360,35 +314,11 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
         >
           <ModalOverlay>
             <ModalCard>
-              {/* <ModalEmoji>🎉</ModalEmoji>
-              <ModalTitle>우와! 모두 해냈어요!</ModalTitle>
-              <ModalSubtitle>
-                팬더 친구와 함께 멋진 길을 완성했어요!
-              </ModalSubtitle> */}
-
-              {lastResult ? (
-                <>
-                  <FinalMeta>
-                    마지막 스테이지 {lastResult.stageNo} · 점수{" "}
-                    {lastResult.score}
-                  </FinalMeta>
-                  <StarRow remaining={lastResult.remainingStars} />
-                </>
-              ) : (
-                <StarRow remaining={remainingStars} />
-              )}
-
-              <ModalButtonRow>
-                <ModalPrimaryButton onPress={handleResetGame}>
-                  <ModalPrimaryText>다시 해보기</ModalPrimaryText>
-                </ModalPrimaryButton>
-
-                {onBack ? (
-                  <ModalSecondaryButton onPress={handleBack}>
-                    <ModalSecondaryText>게임 나가기</ModalSecondaryText>
-                  </ModalSecondaryButton>
-                ) : null}
-              </ModalButtonRow>
+              <StarRow
+                remaining={
+                  lastResult ? lastResult.remainingStars : remainingStars
+                }
+              />
             </ModalCard>
           </ModalOverlay>
         </Modal>
@@ -404,7 +334,6 @@ const MissionArea = styled.View`
   align-items: center;
   justify-content: center;
   padding-horizontal: 20px;
-  /* margin-top: -30px; */
 `;
 
 const StyledSafeArea = styled(SafeAreaView)`
@@ -439,26 +368,6 @@ const StarRowContainer = styled.View`
   justify-content: center;
   gap: 2px;
   margin-top: -10px;
-`;
-
-const StageLabel = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
-  color: ${BASIC_COLORS.PRIMARY};
-  text-align: center;
-  margin-bottom: 8px;
-`;
-
-/* ==================================================
-   Mission
-================================================== */
-
-const MissionSubText = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
-  margin-top: 9px;
-  color: ${BASIC_COLORS.TEXT_SUB};
-  text-align: center;
 `;
 
 /* ==================================================
@@ -501,40 +410,6 @@ const ModalCard = styled.View`
   elevation: 12;
 `;
 
-const ModalEmoji = styled(AppText)`
-  font-size: 42px;
-  margin-bottom: 4px;
-`;
-
-const ModalTitle = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.heading}px;
-  color: ${BASIC_COLORS.TEXT_MAIN};
-  text-align: center;
-`;
-
-const ModalSubtitle = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
-  color: ${BASIC_COLORS.TEXT_SUB};
-  text-align: center;
-  margin-bottom: 8px;
-`;
-
-const FinalMeta = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.tiny}px;
-  font-weight: 700;
-  color: ${BASIC_COLORS.TEXT_SUB};
-  margin-top: 4px;
-`;
-
-const ModalButtonRow = styled.View`
-  width: 100%;
-  gap: 10px;
-  margin-top: 8px;
-`;
-
 const ModalPrimaryButton = styled(Pressable)`
   width: 100%;
   background-color: ${BASIC_COLORS.SUCCESS};
@@ -552,21 +427,6 @@ const ModalPrimaryText = styled(AppText)`
   font-size: ${(props) => props.theme.typography.body}px;
   font-weight: 800;
   color: #ffffff;
-`;
-
-const ModalSecondaryButton = styled(Pressable)`
-  width: 100%;
-  background-color: ${BASIC_COLORS.BACKGROUND};
-  border-radius: 22px;
-  padding-vertical: 14px;
-  align-items: center;
-`;
-
-const ModalSecondaryText = styled(AppText)`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-size: ${(props) => props.theme.typography.small}px;
-  font-weight: 700;
-  color: ${BASIC_COLORS.TEXT_MAIN};
 `;
 
 const RetryModalCard = styled(ModalCard)`
@@ -589,36 +449,12 @@ const RetryMascot = styled.Image`
   height: 150px;
 `;
 
-const RetrySparkle = styled(AppText)`
-  position: absolute;
-  font-size: 25px;
-  color: #ffc94a;
-  font-weight: 900;
-`;
-
-const RetryTrail = styled.View`
-  position: absolute;
-  bottom: 7px;
-  right: 12px;
-  flex-direction: row;
-  align-items: center;
-  gap: 7px;
-`;
-
-const RetryTrailDot = styled.View`
-  width: 7px;
-  height: 7px;
-  border-radius: 4px;
-  background-color: #9bd9f5;
-`;
-
 const RetryTitle = styled(AppText)`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.heading}px;
   font-weight: 900;
   color: ${BASIC_COLORS.TEXT_MAIN};
   text-align: center;
-  /* margin-top: 2px; */
 `;
 
 const RetrySubtitle = styled(AppText)`
@@ -626,7 +462,6 @@ const RetrySubtitle = styled(AppText)`
   font-size: ${(props) => props.theme.typography.small}px;
   color: ${BASIC_COLORS.TEXT_SUB};
   text-align: center;
-  /* margin-bottom: 10px; */
 `;
 
 const RetryButtonContent = styled.View`
@@ -661,6 +496,7 @@ const DevSkipButton = styled.Pressable`
   background-color: #7b61c9;
   elevation: 5;
 `;
+
 const StageProgress = styled.View`
   position: absolute;
   top: 12px;
