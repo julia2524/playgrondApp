@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { ScrollView, TouchableOpacity, Dimensions, View } from "react-native";
 import styled from "styled-components/native";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import AppHeader from "../../components/common/AppHeader";
 
@@ -23,22 +24,10 @@ import { AppText } from "../../utils/AppText";
 import i18n from "../../i18n";
 
 const { width } = Dimensions.get("window");
+const BANNER_AD_HEIGHT = 60;
 
 // BASIC_SHAPE_IDS는 prefix 없는 순수 이름으로 정의
 const BASIC_SHAPE_IDS = ["circle", "square", "triangle", "heart", "star"];
-// 기본도형 설명
-const BASIC_SHAPE_DESCRIPTIONS: Record<string, string> = {
-  circle: "동글동글 동그라미예요! 어디에도 모서리가 없는 부드러운 모양이에요.",
-
-  square: "반듯반듯 네모예요! 네 개의 변이 똑같은 모양으로 나란히 있어요.",
-
-  triangle: "뾰족뾰족 세모예요! 꼭짓점이 세 군데나 있답니다.",
-
-  heart:
-    "콩닥콩닥 하트예요! 사랑하는 마음을 담고 싶은 곳에 딱 어울리는 모양이에요.",
-
-  star: "반짝반짝 별 모양이에요! 하늘에 반짝이는 별처럼 뾰족뾰족한 모양이에요.",
-};
 
 // shape/color SVG들의 대략적인 원본 캔버스 크기 (대부분 viewBox 0 0 100 100, Svg width/height 90~100)
 const NATIVE_ICON_SIZE = 100;
@@ -75,9 +64,11 @@ const ScaledIcon = ({
     </View>
   );
 };
+
 export default function StickerDetailScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
+  const insets = useSafeAreaInsets();
 
   const { gameType, stickerId, stickerName } = route.params;
 
@@ -169,7 +160,6 @@ export default function StickerDetailScreen() {
 
   // category일 경우 variants 기반 색상 팔레트 만들기
   const availableColors = useMemo(() => {
-    // gameType이 category이고, variants가 실제로 있을 때만 처리
     if (
       gameType === "category" &&
       stickerData &&
@@ -187,9 +177,9 @@ export default function StickerDetailScreen() {
       ];
     }
 
-    // color / shape는 공통 팔레트
     return COLOR_PALETTE;
   }, [gameType, stickerData]);
+
   // SVG 렌더
   const renderBigSvg = () => {
     const size = Math.min(width * 0.55, 220);
@@ -225,7 +215,6 @@ export default function StickerDetailScreen() {
       );
     }
 
-    // category
     return (
       <RenderCategoryItemSvg
         itemId={stickerId}
@@ -235,44 +224,16 @@ export default function StickerDetailScreen() {
     );
   };
 
-  // 설명 텍스트 (나중에 데이터에 description 필드 추가하면 더 좋아짐)
-  // const description = useMemo(() => {
-  //   // 기본도형
-  //   if (gameType === "shape") {
-  //     const normalizedShapeId = stickerId?.replace(/^basic/i, "");
-
-  //     if (BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
-  //       return BASIC_SHAPE_DESCRIPTIONS[normalizedShapeId];
-  //     }
-
-  //     // 일반 도형 스티커
-  //     if (stickerData) {
-  //       return stickerData.description;
-  //     }
-  //   }
-  //   if (gameType === "category" && stickerData) {
-  //     return stickerData.description;
-  //   }
-
-  //   if (gameType === "color" && stickerData) {
-  //     return stickerData.description;
-  //   }
-
-  //   return "";
-  // }, [gameType, stickerData, stickerName]);
-
-  // 스티커 이름 다국어화 (JSON에 작성된 대문자 이름 가져오기)
+  // 스티커 이름 다국어화
   const localizedStickerName = useMemo(() => {
     const normalizedShapeId = stickerId?.replace(/^basic/i, "");
 
-    // 1. 기본 도형 이름
     if (gameType === "shape" && BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
       const basicKey = `basic_shape_${normalizedShapeId}_name`;
       const translated = i18n.t(basicKey, { defaultValue: "" });
       if (translated && !translated.includes("missing")) return translated;
     }
 
-    // 2. 카테고리 정보 추출
     const topCat =
       stickerData && "topCategory" in stickerData
         ? stickerData.topCategory
@@ -282,7 +243,6 @@ export default function StickerDetailScreen() {
         ? stickerData.subCategory
         : undefined;
 
-    // 이름 키 후보 목록
     const keyCandidates = [
       topCat && subCat
         ? `sticker_${gameType}_${topCat}_${subCat}_${stickerId}_name`
@@ -294,7 +254,6 @@ export default function StickerDetailScreen() {
       `sticker_${stickerId}_name`,
     ].filter(Boolean) as string[];
 
-    // JSON 탐색
     for (const key of keyCandidates) {
       const translated = i18n.t(key, { defaultValue: "" });
       if (translated && !translated.includes("missing")) {
@@ -302,21 +261,19 @@ export default function StickerDetailScreen() {
       }
     }
 
-    // fallback: JSON에 없으면 route.params에서 넘어온 stickerName 사용
     return stickerName;
   }, [gameType, stickerId, stickerData, stickerName, i18n.locale]);
+
   // 설명 텍스트 다국어화
   const description = useMemo(() => {
     const normalizedShapeId = stickerId?.replace(/^basic/i, "");
 
-    // 1. 기본 도형 설명
     if (gameType === "shape" && BASIC_SHAPE_IDS.includes(normalizedShapeId)) {
       const basicKey = `basic_shape_${normalizedShapeId}_desc`;
       const translated = i18n.t(basicKey, { defaultValue: "" });
       return translated || (stickerData?.description ?? "");
     }
 
-    // 2. 카테고리 정보 추출
     const topCat =
       stickerData && "topCategory" in stickerData
         ? stickerData.topCategory
@@ -326,24 +283,17 @@ export default function StickerDetailScreen() {
         ? stickerData.subCategory
         : undefined;
 
-    // 💡 탐색할 키 후보 목록 (상세한 키 -> 넓은 범주의 키 순서대로 탐색)
     const keyCandidates = [
-      // 1) topCategory + subCategory 포함 (예: sticker_category_vehicle_rail_special_train_desc)
       topCat && subCat
         ? `sticker_${gameType}_${topCat}_${subCat}_${stickerId}_desc`
         : null,
       topCat && subCat ? `sticker_${topCat}_${subCat}_${stickerId}_desc` : null,
-
-      // 2) topCategory만 포함 (💡 train처럼 subCategory가 JSON 키에서 빠진 경우를 캐치!)
       topCat ? `sticker_${gameType}_${topCat}_${stickerId}_desc` : null,
       topCat ? `sticker_${topCat}_${stickerId}_desc` : null,
-
-      // 3) ID 기본 형태 (예: sticker_category_train_desc / sticker_train_desc)
       `sticker_${gameType}_${stickerId}_desc`,
       `sticker_${stickerId}_desc`,
     ].filter(Boolean) as string[];
 
-    // 순차적으로 존재하는 번역 키 조회
     for (const key of keyCandidates) {
       const translated = i18n.t(key, { defaultValue: "" });
 
@@ -352,9 +302,11 @@ export default function StickerDetailScreen() {
       }
     }
 
-    // 모든 키 탐색 실패 시 기본 설명 사용
     return stickerData?.description ?? "";
   }, [gameType, stickerId, stickerData, i18n.locale]);
+
+  const bottomSafeOffset = Math.max(insets.bottom, 4);
+
   return (
     <Container>
       <AppHeader
@@ -362,7 +314,11 @@ export default function StickerDetailScreen() {
         center={<HeaderTitle>{localizedStickerName}</HeaderTitle>}
       />
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: BANNER_AD_HEIGHT + bottomSafeOffset + 24,
+        }}
+      >
         {/* 큰 스티커 미리보기 */}
         <PreviewCard>
           <SvgWrapper>{renderBigSvg()}</SvgWrapper>
@@ -413,8 +369,14 @@ export default function StickerDetailScreen() {
           </ColorGrid>
         </ColorSection>
       </ScrollView>
+
       {/* ⭐ 화면 하단 고정 광고 */}
-      <BannerAdContainer>
+      <BannerAdContainer
+        style={{
+          height: BANNER_AD_HEIGHT + bottomSafeOffset,
+          paddingBottom: bottomSafeOffset,
+        }}
+      >
         <BannerAd />
       </BannerAdContainer>
     </Container>
@@ -432,8 +394,8 @@ const HeaderTitle = styled(AppText)`
   font-weight: bold;
   color: #1e293b;
 `;
+
 const BannerAdContainer = styled.View`
-  height: 60px;
   align-items: center;
   justify-content: center;
   background-color: ${BASIC_COLORS.CARD_BG};
