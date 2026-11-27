@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+
 import { Modal, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
 import { AppText } from "../../utils/AppText";
 import { TracingBoardSize } from "./types/tracing.types";
-
 import { TRACING_LINES } from "./paths/lineCatalog";
 import { TracingCanvas } from "./components/TracingCanvas";
 import { TracingResultModal } from "./components/TracingResultModal";
 import { useTracingGame } from "./hooks/useTracingGame";
-
 import { BASIC_COLORS } from "../../design-system/tokens/colors";
+
 import AppHeader from "../../components/common/AppHeader";
 import GradientBackground from "../../design-system/backgrounds/GradientBackground";
 import StarBadge from "../../design-system/ui/StarBadge";
@@ -33,6 +33,7 @@ import {
   MissionBubble,
   MissionText,
 } from "../classification/styles/classificationStyles";
+
 import Mascot from "../../design-system/ui/Mascot";
 import { ASSETS } from "../../assets/assets";
 import { Ionicons } from "@expo/vector-icons";
@@ -43,12 +44,15 @@ import { useLanguage } from "../../context/LanguageContext";
 
 import { createShapeTracingGuide } from "./guides/createShapeTracingGuide";
 import { createObjectTracingGuide } from "./guides/createObjectTracingGuide";
-
 import { SHAPE_STAGES } from "./data/shapeStages";
 import { createTracingGuide } from "./guides/createTracingGuide";
 import { OBJECT_STAGES } from "./data/objectStages";
+
 import AppleTracingArtwork from "./components/artworks/AppleTracingArtwork";
 import CarrotTracingArtwork from "./components/artworks/CarrotTracingArtwork";
+import FishTracingArtwork from "./components/artworks/FishTracingArtwork";
+import FlowerTracingArtwork from "./components/artworks/FlowerTracingArtwork";
+import MushroomTracingArtwork from "./components/artworks/MushroomTracingArtwork";
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -78,9 +82,17 @@ function StarRow({
     </StarRowContainer>
   );
 }
+const OBJECT_ARTWORKS = {
+  apple: AppleTracingArtwork,
+  carrot: CarrotTracingArtwork,
+  fish: FishTracingArtwork,
+  flower: FlowerTracingArtwork,
+  mushroom: MushroomTracingArtwork,
+} as const;
 
 export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   useLanguage();
+
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<TracingGameRouteProp>();
 
@@ -88,11 +100,9 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   const initialStage = route.params?.stage ?? 1;
 
   // 그리기 게임 유형
-  // gameType이 전달되지 않은 기존 호출은 line으로 처리
   const gameType: TracingGameType = route.params?.gameType ?? "line";
 
   // 게임 유형에 따라 전체 스테이지 수 결정
-
   const totalStages =
     gameType === "shape"
       ? SHAPE_STAGES.length
@@ -104,11 +114,13 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     i18n.t("drawing_progress_follow_path"),
   );
 
-  // 사과 컬러 완성 애니메이션
-  const [isAppleCompleted, setIsAppleCompleted] = useState(false);
-  const [appleCompleting, setAppleCompleting] = useState(false);
+  // 사물 컬러 완성 애니메이션
+  const [isArtworkCompleted, setIsArtworkCompleted] = useState(false);
+  const [artworkCompleting, setArtworkCompleting] = useState(false);
 
-  const appleCompleteTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const artworkCompleteTimer = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const handleBack = useCallback(() => {
     if (onBack) {
@@ -203,12 +215,11 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   // ==================================================
 
   const lineInfo = TRACING_LINES[currentStageIndex] ?? TRACING_LINES[0];
-
   const shapeInfo = SHAPE_STAGES[currentStageIndex] ?? SHAPE_STAGES[0];
-
   const objectInfo = OBJECT_STAGES[currentStageIndex] ?? OBJECT_STAGES[0];
 
   const lineType = lineInfo.type;
+
   const createGuide = useCallback(
     (size: TracingBoardSize) => {
       if (gameType === "shape") {
@@ -224,22 +235,31 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     [gameType, shapeInfo, objectInfo, lineType],
   );
 
+  // ==================================================
+  // Artwork Reset
+  // ==================================================
+
   useEffect(() => {
-    if (appleCompleteTimer.current) {
-      clearTimeout(appleCompleteTimer.current);
-      appleCompleteTimer.current = null;
+    if (artworkCompleteTimer.current) {
+      clearTimeout(artworkCompleteTimer.current);
+      artworkCompleteTimer.current = null;
     }
 
-    setIsAppleCompleted(false);
-    setAppleCompleting(false);
+    setIsArtworkCompleted(false);
+    setArtworkCompleting(false);
 
     return () => {
-      if (appleCompleteTimer.current) {
-        clearTimeout(appleCompleteTimer.current);
-        appleCompleteTimer.current = null;
+      if (artworkCompleteTimer.current) {
+        clearTimeout(artworkCompleteTimer.current);
+        artworkCompleteTimer.current = null;
       }
     };
   }, [gameType, currentStageIndex]);
+
+  // ==================================================
+  // Drawing Events
+  // ==================================================
+
   // 그리기 시작
   const handleDrawingStart = useCallback(() => {
     void playSound("grab");
@@ -250,63 +270,48 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   const handleTracingFailed = useCallback(() => {
     void playSound("wrong_sound");
     triggerHaptic("error");
-
     handleFailedAttempt();
   }, [handleFailedAttempt]);
 
-  // 다시 그리기: 사과 색상과 애니메이션 초기화
-  const handleAppleRetry = useCallback(() => {
-    if (appleCompleteTimer.current) {
-      clearTimeout(appleCompleteTimer.current);
-      appleCompleteTimer.current = null;
-    }
-
-    setIsAppleCompleted(false);
-    setAppleCompleting(false);
-
-    handleRetry();
-  }, [handleRetry]);
-
   // 그리기 재도전
   const handleTracingRetry = useCallback(() => {
-    if (appleCompleteTimer.current) {
-      clearTimeout(appleCompleteTimer.current);
-      appleCompleteTimer.current = null;
+    if (artworkCompleteTimer.current) {
+      clearTimeout(artworkCompleteTimer.current);
+      artworkCompleteTimer.current = null;
     }
 
-    // 사과 컬러 상태 초기화
-    setIsAppleCompleted(false);
-    setAppleCompleting(false);
+    setIsArtworkCompleted(false);
+    setArtworkCompleting(false);
 
-    // 기존 공통 재도전 처리
     handleRetry();
   }, [handleRetry]);
-  // 그리기 성공
 
+  // 그리기 성공
   const handleTracingComplete = useCallback(() => {
     // 이미 완료 애니메이션이 진행 중이면 중복 실행 방지
-    if (appleCompleting) return;
+    if (artworkCompleting) return;
 
     void playSound("correct_sound");
     triggerHaptic("success");
 
     // 모든 게임에서 입력 잠금
-    setAppleCompleting(true);
+    setArtworkCompleting(true);
 
-    // 사과라면 컬러 애니메이션 시작
-    if (gameType === "object" && objectInfo.id === "apple") {
-      setIsAppleCompleted(true);
+    // 사물 게임이면 컬러 애니메이션 시작
+    if (gameType === "object") {
+      setIsArtworkCompleted(true);
     }
 
-    // 모든 게임에서 애니메이션 시간만큼 기다린 뒤 결과 처리
-    appleCompleteTimer.current = setTimeout(() => {
+    // 애니메이션 시간만큼 기다린 뒤 결과 처리
+    artworkCompleteTimer.current = setTimeout(() => {
       handleStageComplete();
-      setAppleCompleting(false);
-      appleCompleteTimer.current = null;
+      setArtworkCompleting(false);
+      artworkCompleteTimer.current = null;
     }, 750);
-  }, [appleCompleting, gameType, objectInfo.id, handleStageComplete]);
+  }, [artworkCompleting, gameType, handleStageComplete]);
+
   const inputLocked =
-    appleCompleting ||
+    artworkCompleting ||
     isProcessing ||
     gameStatus === "success" ||
     gameStatus === "result" ||
@@ -342,6 +347,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           />
 
           <StarRow remaining={remainingStars} />
+
           <MascotWrapper>
             <Mascot size={90} />
           </MascotWrapper>
@@ -363,11 +369,14 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
                   STAGE {currentStageIndex + 1} / {totalStages}
                 </StageProgressText>
               </StageProgress>
+
               <DevNavigation>
                 <DevSkipButton
                   onPress={handleDevPrevStage}
                   disabled={currentStageIndex === 0}
-                  style={{ opacity: currentStageIndex === 0 ? 0.35 : 1 }}
+                  style={{
+                    opacity: currentStageIndex === 0 ? 0.35 : 1,
+                  }}
                 >
                   <Ionicons name="play-back" size={16} color="#FFFFFF" />
                   <DevSkipText>PREV</DevSkipText>
@@ -386,6 +395,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
               </DevNavigation>
             </>
           )}
+
           <TracingCanvas
             key={`stage-${gameType}-${stageKey}-${
               gameType === "shape"
@@ -404,13 +414,18 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
             tutorialEnabled={gameStatus === "playing" && !inputLocked}
             showPanda={gameType === "line"}
             artwork={
-              gameType === "object" ? (
-                objectInfo.id === "apple" ? (
-                  <AppleTracingArtwork isCompleted={isAppleCompleted} />
-                ) : objectInfo.id === "carrot" ? (
-                  <CarrotTracingArtwork isCompleted={isAppleCompleted} />
-                ) : undefined
-              ) : undefined
+              gameType === "object"
+                ? (() => {
+                    const Artwork =
+                      OBJECT_ARTWORKS[
+                        objectInfo.id as keyof typeof OBJECT_ARTWORKS
+                      ];
+
+                    return Artwork ? (
+                      <Artwork isCompleted={isArtworkCompleted} />
+                    ) : undefined;
+                  })()
+                : undefined
             }
           />
         </BoardArea>
@@ -420,7 +435,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           visible={gameStatus === "result"}
           result={lastResult}
           onNext={handleNextStage}
-          // onRestart={handleRetry}
           onRestart={handleTracingRetry}
           onClose={handleBack}
         />
@@ -446,7 +460,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
                 onPress={() => {
                   triggerHaptic("light");
                   handleTracingRetry();
-                  // handleRetry();
                 }}
               >
                 <RetryButtonContent>
@@ -485,6 +498,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 /* ==================================================
    Screen Layout
 ================================================== */
+
 const MissionArea = styled.View`
   align-items: center;
   justify-content: center;

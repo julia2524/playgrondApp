@@ -25,8 +25,8 @@ export const createObjectTracingGuide = (
     (size.height - padding * 2) / VIEWBOX_HEIGHT,
   );
 
-  //   const scale = fitScale * (stage.scale ?? 1);
-  const scale = fitScale * 1.5 * (stage.scale ?? 1);
+  const scale = fitScale * (stage.scale ?? 1);
+  //   const scale = fitScale * 1.5 * (stage.scale ?? 1);
 
   const centerX = size.width / 2;
   const centerY = size.height / 2;
