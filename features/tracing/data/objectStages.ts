@@ -60,6 +60,7 @@ export const OBJECT_STAGES: ObjectTracingStage[] = [
     mission: "동그란 사과를 그려 봐요!",
     hint: "사과의 바깥쪽을 따라 그려 봐요",
     paths: [OBJECT_PATHS.apple],
+    scale: 1.5,
   },
   {
     id: "carrot",
