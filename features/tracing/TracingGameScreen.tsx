@@ -48,6 +48,7 @@ import { SHAPE_STAGES } from "./data/shapeStages";
 import { createTracingGuide } from "./guides/createTracingGuide";
 import { OBJECT_STAGES } from "./data/objectStages";
 import AppleTracingArtwork from "./components/artworks/AppleTracingArtwork";
+import CarrotTracingArtwork from "./components/artworks/CarrotTracingArtwork";
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -253,14 +254,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
     handleFailedAttempt();
   }, [handleFailedAttempt]);
 
-  // 그리기 성공
-  // const handleTracingComplete = useCallback(() => {
-  //   void playSound("correct_sound");
-  //   triggerHaptic("success");
-
-  //   handleStageComplete();
-  // }, [handleStageComplete]);
-
   // 다시 그리기: 사과 색상과 애니메이션 초기화
   const handleAppleRetry = useCallback(() => {
     if (appleCompleteTimer.current) {
@@ -411,8 +404,12 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
             tutorialEnabled={gameStatus === "playing" && !inputLocked}
             showPanda={gameType === "line"}
             artwork={
-              gameType === "object" && objectInfo.id === "apple" ? (
-                <AppleTracingArtwork isCompleted={isAppleCompleted} />
+              gameType === "object" ? (
+                objectInfo.id === "apple" ? (
+                  <AppleTracingArtwork isCompleted={isAppleCompleted} />
+                ) : objectInfo.id === "carrot" ? (
+                  <CarrotTracingArtwork isCompleted={isAppleCompleted} />
+                ) : undefined
               ) : undefined
             }
           />
