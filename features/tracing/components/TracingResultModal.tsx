@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, TouchableOpacity } from "react-native";
+import { ImageSourcePropType, Modal, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import StarBadge from "../../../design-system/ui/StarBadge";
 import CloudLevelBadge from "../../../components/common/CloudLevelBadge";
 import { RootStackParamList } from "../../../navigation/types";
 import { triggerHaptic } from "../../../utils/haptic";
+import { ASSETS } from "../../../assets/assets";
 
 interface TracingResultModalProps {
   visible: boolean;
@@ -102,7 +103,10 @@ export function TracingResultModal({
 
             {/* 마스코트 */}
             <MascotWrapper>
-              <Mascot size={120} />
+              <Mascot
+                size={120}
+                source={ASSETS.successMascot as ImageSourcePropType}
+              />
             </MascotWrapper>
 
             {/* 다시 하기 / 다음 스테이지 */}

@@ -3,7 +3,11 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 
-import { I18nManager, TouchableOpacity } from "react-native";
+import {
+  I18nManager,
+  ImageSourcePropType,
+  TouchableOpacity,
+} from "react-native";
 import { BASIC_COLORS, PASTEL_BG } from "../../../design-system/tokens/colors";
 import { RootStackParamList } from "../../../navigation/types";
 import Mascot from "../../../design-system/ui/Mascot";
@@ -19,6 +23,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { AppText } from "../../../utils/AppText";
 import i18n from "../../../i18n";
 import { triggerHaptic } from "../../../utils/haptic";
+import { ASSETS } from "../../../assets/assets";
 
 interface SuccessModalProps {
   gameType: "color" | "shape" | "category";
@@ -145,14 +150,19 @@ export default function SuccessModal({
               🎉 성공 메시지
           ========================================== */}
 
-          <SuccessTitle>{i18n.t("success_title")}</SuccessTitle>
+          {/* <SuccessTitle>{i18n.t("success_title")}</SuccessTitle> */}
 
           {/* ==========================================
               🐻 마스코트
           ========================================== */}
 
           <SuccessMascotWrapper>
-            <Mascot size={120} />
+            <SuccessMascotWrapper>
+              <Mascot
+                size={120}
+                source={ASSETS.successMascot as ImageSourcePropType}
+              />
+            </SuccessMascotWrapper>
           </SuccessMascotWrapper>
 
           {/* ==========================================

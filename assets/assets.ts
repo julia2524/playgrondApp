@@ -14,4 +14,5 @@ export const ASSETS = {
   parentPause: require("../assets/images/parentPause.png"),
 
   updateMascot: require("../assets/images/update-mascot.png"),
+  successMascot: require("../assets/images/success-mascot.png"),
 } as const;
