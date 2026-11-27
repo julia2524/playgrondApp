@@ -1,13 +1,12 @@
+import { getLineInfo } from "../paths/lineCatalog";
+import { PATH_GENERATORS } from "../paths/pathGenerators";
+import { getBaseTolerance } from "../paths/tolerance";
 import type {
   TracingBoardSize,
   TracingGuide,
   TracingLineType,
   TracingPathConfig,
 } from "../types/tracing.types";
-
-import { PATH_GENERATORS } from "./pathGenerators";
-import { getLineInfo } from "./lineCatalog";
-import { getBaseTolerance } from "./tolerance";
 
 /**
  * 스테이지(선 유형)와 보드 크기로 경로를 만든다.

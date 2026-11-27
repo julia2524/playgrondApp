@@ -25,6 +25,8 @@ import PopEffect from "../../components/common/PopEffect";
 import { TRACING_LINES } from "../tracing/paths/lineCatalog";
 
 import { preloadTracingGameProgress } from "../tracing/storage/tracingProgressStorage";
+import { SHAPE_STAGES } from "../tracing/data/shapeStages";
+import { OBJECT_STAGES } from "../tracing/data/objectStages";
 
 // ==========================================
 // Types
@@ -181,8 +183,12 @@ export default function DrawingSectionScreen() {
       headerOpacity.setValue(1);
       titleOpacity.setValue(1);
 
-      // 그리기 놀이터에 들어온 순간 진행 상황 미리 불러오기
-      void preloadTracingGameProgress(TRACING_LINES.length);
+      // 세 가지 그리기 게임의 진행 상황 미리 불러오기
+      void Promise.all([
+        preloadTracingGameProgress(TRACING_LINES.length, "line"),
+        preloadTracingGameProgress(SHAPE_STAGES.length, "shape"),
+        preloadTracingGameProgress(OBJECT_STAGES.length, "object"),
+      ]);
 
       return undefined;
     }, [animations, opacities, headerOpacity, titleOpacity]),
@@ -251,17 +257,16 @@ export default function DrawingSectionScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-    // 선 그리기만 이동 (나머지는 아직 준비 중 안내)
 
-    // if (type === "line") {
+    // if (type === "line" || type === "shape") {
     //   navTimerRef.current = setTimeout(() => {
     //     navigation.navigate("TracingStageMapScreen", {
-    //       gameType: "line",
+    //       gameType: type,
     //     });
     //   }, NAVIGATE_DELAY);
     // }
 
-    if (type === "line" || type === "shape") {
+    if (type === "line" || type === "shape" || type === "object") {
       navTimerRef.current = setTimeout(() => {
         navigation.navigate("TracingStageMapScreen", {
           gameType: type,
@@ -397,34 +402,19 @@ export default function DrawingSectionScreen() {
             color={burst.color}
             variant="paint"
             onComplete={() => {
-              const type = burst.type;
               setBurst(null);
-
-              // 선 그리기와 모양 그리기는 스테이지 맵으로 이동
-              if (type === "line" || type === "shape") {
-                return;
-              }
-
-              // 사물 그리기는 아직 준비 중
-              Alert.alert("재미있는 사물그리기", "준비 중이에요!");
             }}
             // onComplete={() => {
             //   const type = burst.type;
             //   setBurst(null);
 
-            //   // 선 그리기는 타이머에서 이미 이동 처리됨
-            //   if (type === "line") return;
+            //   // 선 그리기와 모양 그리기는 스테이지 맵으로 이동
+            //   if (type === "line" || type === "shape") {
+            //     return;
+            //   }
 
-            //   const activity = DRAWING_ITEMS.find((item) => item.type === type);
-
-            //   Alert.alert(
-            //     activity
-            //       ? i18n.t(activity.titleKey, {
-            //           defaultValue: activity.defaultTitle,
-            //         })
-            //       : "그리기 놀이터",
-            //     "준비 중이에요!",
-            //   );
+            //   // 사물 그리기는 아직 준비 중
+            //   Alert.alert("재미있는 사물그리기", "준비 중이에요!");
             // }}
           />
         )}

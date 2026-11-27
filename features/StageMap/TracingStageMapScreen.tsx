@@ -451,6 +451,7 @@ import type {
 } from "../tracing/storage/tracingProgressStorage";
 import i18n from "../../i18n";
 import { useLanguage } from "../../context/LanguageContext";
+import { OBJECT_STAGES } from "../tracing/data/objectStages";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -493,13 +494,22 @@ export default function TracingStageMapScreen() {
 
   const isLineMode = gameType === "line";
   const isShapeMode = gameType === "shape";
+  const isObjectMode = gameType === "object";
 
   // object는 콘텐츠 준비 전이므로 빈 목록으로 처리
+  // const sourceStages = isLineMode
+  //   ? TRACING_LINES
+  //   : isShapeMode
+  //     ? SHAPE_STAGES
+  //     : [];
+
   const sourceStages = isLineMode
     ? TRACING_LINES
     : isShapeMode
       ? SHAPE_STAGES
-      : [];
+      : isObjectMode
+        ? OBJECT_STAGES
+        : [];
 
   const totalStages = sourceStages.length;
 
@@ -801,7 +811,9 @@ export default function TracingStageMapScreen() {
                 <StageNode
                   key={`${gameType}-${stage.level}`}
                   // StageNode은 기존 분류 테마 타입을 사용
-                  gameType={isShapeMode ? "shape" : "color"}
+                  gameType={
+                    isLineMode ? "color" : isShapeMode ? "shape" : "category"
+                  }
                   level={stage.level}
                   name={stage.name}
                   unlocked={item?.unlocked ?? false}
