@@ -42,9 +42,12 @@ import { recordTracingStageResult } from "./storage/tracingProgressStorage";
 import { useLanguage } from "../../context/LanguageContext";
 
 import { createShapeTracingGuide } from "./guides/createShapeTracingGuide";
+import { createObjectTracingGuide } from "./guides/createObjectTracingGuide";
+
 import { SHAPE_STAGES } from "./data/shapeStages";
 import { createTracingGuide } from "./guides/createTracingGuide";
 import { OBJECT_STAGES } from "./data/objectStages";
+import AppleTracingArtwork from "./components/artworks/AppleTracingArtwork";
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -88,8 +91,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   const gameType: TracingGameType = route.params?.gameType ?? "line";
 
   // 게임 유형에 따라 전체 스테이지 수 결정
-  // const totalStages =
-  //   gameType === "shape" ? SHAPE_STAGES.length : TRACING_LINES.length;
+
   const totalStages =
     gameType === "shape"
       ? SHAPE_STAGES.length
@@ -100,6 +102,12 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   const [progressLabel, setProgressLabel] = useState(() =>
     i18n.t("drawing_progress_follow_path"),
   );
+
+  // 사과 컬러 완성 애니메이션
+  const [isAppleCompleted, setIsAppleCompleted] = useState(false);
+  const [appleCompleting, setAppleCompleting] = useState(false);
+
+  const appleCompleteTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleBack = useCallback(() => {
     if (onBack) {
@@ -157,25 +165,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
         mission: line.mission,
       };
     },
-    // getStageMeta: (index) => {
-    //   if (gameType === "shape") {
-    //     const shape = SHAPE_STAGES[index] ?? SHAPE_STAGES[0];
-
-    //     return {
-    //       stageNo: shape.no,
-    //       title: shape.title,
-    //       mission: shape.mission,
-    //     };
-    //   }
-
-    //   const line = TRACING_LINES[index] ?? TRACING_LINES[0];
-
-    //   return {
-    //     stageNo: line.no,
-    //     title: line.title,
-    //     mission: line.mission,
-    //   };
-    // },
   });
 
   // ==================================================
@@ -212,26 +201,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   // Current Stage
   // ==================================================
 
-  // const lineInfo = TRACING_LINES[currentStageIndex] ?? TRACING_LINES[0];
-  // const shapeInfo = SHAPE_STAGES[currentStageIndex] ?? SHAPE_STAGES[0];
-
-  // const lineType = lineInfo.type;
-
-  // const createGuide = useCallback(
-  //   (size: TracingBoardSize) => {
-  //     if (gameType === "shape") {
-  //       return createShapeTracingGuide(shapeInfo, size);
-  //     }
-
-  //     return createTracingGuide(lineType, size);
-  //   },
-  //   [gameType, shapeInfo, lineType],
-  // );
-
-  // ==================================================
-  // Current Stage
-  // ==================================================
-
   const lineInfo = TRACING_LINES[currentStageIndex] ?? TRACING_LINES[0];
 
   const shapeInfo = SHAPE_STAGES[currentStageIndex] ?? SHAPE_STAGES[0];
@@ -239,7 +208,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   const objectInfo = OBJECT_STAGES[currentStageIndex] ?? OBJECT_STAGES[0];
 
   const lineType = lineInfo.type;
-
   const createGuide = useCallback(
     (size: TracingBoardSize) => {
       if (gameType === "shape") {
@@ -247,14 +215,30 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
       }
 
       if (gameType === "object") {
-        // 사물도 모양과 동일한 SVG 경로 변환 방식 사용
-        return createShapeTracingGuide(objectInfo, size);
+        return createObjectTracingGuide(objectInfo, size);
       }
 
       return createTracingGuide(lineType, size);
     },
     [gameType, shapeInfo, objectInfo, lineType],
   );
+
+  useEffect(() => {
+    if (appleCompleteTimer.current) {
+      clearTimeout(appleCompleteTimer.current);
+      appleCompleteTimer.current = null;
+    }
+
+    setIsAppleCompleted(false);
+    setAppleCompleting(false);
+
+    return () => {
+      if (appleCompleteTimer.current) {
+        clearTimeout(appleCompleteTimer.current);
+        appleCompleteTimer.current = null;
+      }
+    };
+  }, [gameType, currentStageIndex]);
   // 그리기 시작
   const handleDrawingStart = useCallback(() => {
     void playSound("grab");
@@ -270,14 +254,66 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
   }, [handleFailedAttempt]);
 
   // 그리기 성공
+  // const handleTracingComplete = useCallback(() => {
+  //   void playSound("correct_sound");
+  //   triggerHaptic("success");
+
+  //   handleStageComplete();
+  // }, [handleStageComplete]);
+
+  // 다시 그리기: 사과 색상과 애니메이션 초기화
+  const handleAppleRetry = useCallback(() => {
+    if (appleCompleteTimer.current) {
+      clearTimeout(appleCompleteTimer.current);
+      appleCompleteTimer.current = null;
+    }
+
+    setIsAppleCompleted(false);
+    setAppleCompleting(false);
+
+    handleRetry();
+  }, [handleRetry]);
+
+  // 그리기 재도전
+  const handleTracingRetry = useCallback(() => {
+    if (appleCompleteTimer.current) {
+      clearTimeout(appleCompleteTimer.current);
+      appleCompleteTimer.current = null;
+    }
+
+    // 사과 컬러 상태 초기화
+    setIsAppleCompleted(false);
+    setAppleCompleting(false);
+
+    // 기존 공통 재도전 처리
+    handleRetry();
+  }, [handleRetry]);
+  // 그리기 성공
+
   const handleTracingComplete = useCallback(() => {
+    // 이미 완료 애니메이션이 진행 중이면 중복 실행 방지
+    if (appleCompleting) return;
+
     void playSound("correct_sound");
     triggerHaptic("success");
 
-    handleStageComplete();
-  }, [handleStageComplete]);
+    // 모든 게임에서 입력 잠금
+    setAppleCompleting(true);
 
+    // 사과라면 컬러 애니메이션 시작
+    if (gameType === "object" && objectInfo.id === "apple") {
+      setIsAppleCompleted(true);
+    }
+
+    // 모든 게임에서 애니메이션 시간만큼 기다린 뒤 결과 처리
+    appleCompleteTimer.current = setTimeout(() => {
+      handleStageComplete();
+      setAppleCompleting(false);
+      appleCompleteTimer.current = null;
+    }, 750);
+  }, [appleCompleting, gameType, objectInfo.id, handleStageComplete]);
   const inputLocked =
+    appleCompleting ||
     isProcessing ||
     gameStatus === "success" ||
     gameStatus === "result" ||
@@ -300,9 +336,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
                   : gameType === "object"
                     ? i18n.t("drawing_object_title")
                     : i18n.t("drawing_line_title")}
-                {/* {gameType === "shape"
-                  ? i18n.t("drawing_shape_title")
-                  : i18n.t("drawing_line_title")} */}
               </HeaderTitle>
             }
             right={
@@ -368,7 +401,6 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
                   ? objectInfo.id
                   : lineType
             }`}
-            // key={`stage-${gameType}-${stageKey}-${gameType === "shape" ? shapeInfo.id : lineType}`}
             createGuide={createGuide}
             resetKey={canvasResetKey}
             onComplete={handleTracingComplete}
@@ -378,6 +410,11 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
             inputLocked={inputLocked}
             tutorialEnabled={gameStatus === "playing" && !inputLocked}
             showPanda={gameType === "line"}
+            artwork={
+              gameType === "object" && objectInfo.id === "apple" ? (
+                <AppleTracingArtwork isCompleted={isAppleCompleted} />
+              ) : undefined
+            }
           />
         </BoardArea>
 
@@ -386,7 +423,8 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           visible={gameStatus === "result"}
           result={lastResult}
           onNext={handleNextStage}
-          onRestart={handleRetry}
+          // onRestart={handleRetry}
+          onRestart={handleTracingRetry}
           onClose={handleBack}
         />
 
@@ -410,7 +448,8 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
               <RetryPrimaryButton
                 onPress={() => {
                   triggerHaptic("light");
-                  handleRetry();
+                  handleTracingRetry();
+                  // handleRetry();
                 }}
               >
                 <RetryButtonContent>

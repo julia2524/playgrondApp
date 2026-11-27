@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 
@@ -34,25 +34,21 @@ const EMPTY_GUIDE: TracingGuide = {
 };
 
 interface TracingCanvasProps {
-  /** 실제 그림 영역의 크기를 받아 가이드를 만든다. */
   createGuide: (size: TracingBoardSize) => TracingGuide;
-
   style?: StyleProp<ViewStyle>;
+
+  // 사물 그리기용 컬러 일러스트
+  artwork?: React.ReactNode;
+
   guideColor?: string;
   strokeColor?: string;
   strokeWidth?: number;
   onComplete?: () => void;
-
-  /** 유효한 그리기 시도 후 경로를 완성하지 못하고 손가락을 뗐을 때 */
   onFailedAttempt?: () => void;
-
   resetKey: number;
-
   showPanda?: boolean;
   inputLocked?: boolean;
-
   onProgressLabelChange?: (label: string) => void;
-
   tutorialEnabled?: boolean;
   onDrawingStart?: () => void;
 }
@@ -60,8 +56,9 @@ interface TracingCanvasProps {
 export const TracingCanvas: React.FC<TracingCanvasProps> = ({
   createGuide,
   style,
-  guideColor = "#CDEFE8",
-  strokeColor = "#55BFA9",
+  artwork,
+  guideColor = "#A0DED2",
+  strokeColor = "#278F7B",
   strokeWidth = 10,
   onComplete,
   onFailedAttempt,
@@ -367,6 +364,14 @@ export const TracingCanvas: React.FC<TracingCanvasProps> = ({
       >
         {canvasSize && renderedPaths.length > 0 && (
           <>
+            {/* 기존 컬러 사물 일러스트: 가장 아래 레이어 */}
+            {artwork && (
+              <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+                {artwork}
+              </View>
+            )}
+
+            {/* 점선 가이드와 실제 그리기 선 */}
             <Svg width="100%" height="100%" style={StyleSheet.absoluteFill}>
               {/*
                 안내 경로 + 완료 구간 + 시작점 + 도착점
