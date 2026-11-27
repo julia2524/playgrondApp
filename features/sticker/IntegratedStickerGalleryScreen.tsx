@@ -1,11 +1,531 @@
+// import React, { useState, useCallback } from "react";
+// import { ScrollView, TouchableOpacity, Dimensions, View } from "react-native";
+// import styled from "styled-components/native";
+// import {
+//   useNavigation,
+//   useFocusEffect,
+//   useRoute,
+// } from "@react-navigation/native";
+
+// import AppHeader from "../../components/common/AppHeader";
+// import { GameType, getAllUnlockedStickers } from "./utils/stickerStorage";
+
+// // ===== 데이터 풀 =====
+// import { CategoryGameObjects } from "../classification/category/constants/categoryPool";
+// import { RenderCategoryItemSvg } from "../classification/category/assets/categoryItemSvgs";
+
+// import { COLOR_ITEM_POOL } from "../classification/color/constants/colorPool";
+// import {
+//   BASIC_SHAPE_LIST,
+//   SHAPE_ITEM_POOL,
+// } from "../classification/shape/constants/shapePool";
+// import {
+//   RenderBasicShapeSvg,
+//   RenderShapeItemSvg,
+// } from "../classification/shape/assets/shapeItemSvgs";
+
+// import BannerAd from "../../services/BannerAd";
+// import { RenderColorItemSvg } from "../classification/color/assets/ColorItemSvgs";
+
+// import { AppText } from "../../utils/AppText";
+// import i18n from "../../i18n";
+// import SettingButton from "../../components/common/SettingButton";
+// import { triggerHaptic } from "../../utils/haptic";
+// import {
+//   ClayCategoryIcon,
+//   ClayColorIcon,
+//   ClayShapeIcon,
+// } from "../../components/icons/ClayGameIcons";
+
+// const { width } = Dimensions.get("window");
+
+// // ---------- 탭 정의 ----------
+// const getTabs = () => [
+//   {
+//     id: "color" as GameType,
+//     label: i18n.t("tab_find_color"),
+//     // iconName: "color-palette",
+//     iconName: <ClayColorIcon size={30} />,
+//   },
+//   {
+//     id: "shape" as GameType,
+//     label: i18n.t("tab_find_shape"),
+//     // iconName: "diamond",
+//     iconName: <ClayShapeIcon size={30} />,
+//   },
+//   {
+//     id: "category" as GameType,
+//     label: i18n.t("tab_find_friend"),
+//     // iconName: "fast-food",
+//     iconName: <ClayCategoryIcon size={30} />,
+//   },
+// ];
+
+// const STICKER_POOLS: Record<GameType, any[]> = {
+//   category: CategoryGameObjects,
+//   color: COLOR_ITEM_POOL,
+//   shape: [...BASIC_SHAPE_LIST, ...SHAPE_ITEM_POOL],
+// };
+
+// // shape/color SVG들의 대략적인 원본 캔버스 크기 (대부분 viewBox 0 0 100 100, Svg width/height 90~100)
+// const NATIVE_ICON_SIZE = 100;
+
+// const ScaledIcon = ({
+//   size,
+//   children,
+// }: {
+//   size: number;
+//   children: React.ReactNode;
+// }) => {
+//   const scale = size / NATIVE_ICON_SIZE;
+//   return (
+//     <View
+//       style={{
+//         width: size,
+//         height: size,
+//         alignItems: "center",
+//         justifyContent: "center",
+//         overflow: "hidden",
+//       }}
+//     >
+//       <View
+//         style={{
+//           width: NATIVE_ICON_SIZE,
+//           height: NATIVE_ICON_SIZE,
+//           transform: [{ scale }],
+//           alignItems: "center",
+//           justifyContent: "center",
+//         }}
+//       >
+//         {children}
+//       </View>
+//     </View>
+//   );
+// };
+
+// export default function IntegratedStickerGalleryScreen() {
+//   const navigation = useNavigation<any>();
+//   const route = useRoute<any>();
+
+//   const initialTab = route.params?.initialTab ?? "category";
+//   const [activeTab, setActiveTab] = useState<GameType>(initialTab);
+
+//   const TABS = getTabs(); // 💡 다국어가 적용된 탭 생성
+
+//   const [unlockedMap, setUnlockedMap] = useState<Record<GameType, string[]>>({
+//     color: [],
+//     shape: [],
+//     category: [],
+//   });
+
+//   // 화면 포커스 시 최신 해금 데이터 불러오기
+//   useFocusEffect(
+//     useCallback(() => {
+//       let isMounted = true;
+//       getAllUnlockedStickers().then((map) => {
+//         if (isMounted) setUnlockedMap(map);
+//       });
+//       return () => {
+//         isMounted = false;
+//       };
+//     }, []),
+//   );
+
+//   const currentList = STICKER_POOLS[activeTab] ?? [];
+//   const currentUnlockedList = unlockedMap[activeTab] ?? [];
+
+//   const unlockedCount = currentUnlockedList.length;
+//   const totalCount = currentList.length;
+//   const progressPercent =
+//     totalCount > 0 ? Math.round((unlockedCount / totalCount) * 100) : 0;
+
+//   // 스티커 클릭 → 디테일 화면으로
+//   const handleStickerPress = (obj: { id: string; name: string }) => {
+//     const isUnlocked = currentUnlockedList.includes(obj.id);
+//     if (!isUnlocked) return;
+
+//     triggerHaptic("light");
+//     navigation.navigate("StickerDetailScreen", {
+//       gameType: activeTab,
+//       stickerId: obj.id,
+//       stickerName: obj.name,
+//     });
+//   };
+
+//   // ===== SVG 렌더 함수 (해금되었을 때만 원래 색상대로 렌더링) =====
+//   const renderStickerSvg = (
+//     itemId: string,
+//     size: number = 65,
+//     colorHex?: string,
+//   ) => {
+//     switch (activeTab) {
+//       case "color":
+//         return (
+//           <ScaledIcon size={size}>
+//             <RenderColorItemSvg
+//               shapeId={itemId}
+//               colorHex={colorHex ?? "#94A3B8"}
+//             />
+//           </ScaledIcon>
+//         );
+
+//       case "shape": {
+//         const isBasicShape = [
+//           "circle",
+//           "square",
+//           "triangle",
+//           "heart",
+//           "star",
+//         ].includes(itemId);
+
+//         return (
+//           <ScaledIcon size={size}>
+//             {isBasicShape ? (
+//               <RenderBasicShapeSvg shapeId={itemId} />
+//             ) : (
+//               <RenderShapeItemSvg itemId={itemId} />
+//             )}
+//           </ScaledIcon>
+//         );
+//       }
+//       case "category":
+//       default:
+//         return <RenderCategoryItemSvg itemId={itemId} size={size} />;
+//     }
+//   };
+
+//   const BOTTOM_SPACER = 40;
+
+//   return (
+//     <Container>
+//       <AppHeader
+//         onBack={() => navigation.goBack()}
+//         center={<HeaderTitle>{i18n.t("my_sticker_book")}</HeaderTitle>}
+//         right={
+//           <SettingButton
+//             onPress={() => {
+//               triggerHaptic("light");
+//               navigation.navigate("SettingScreen" as never);
+//             }}
+//           />
+//         }
+//       />
+
+//       {/* 1. 탭 */}
+//       <TabContainer>
+//         {TABS.map((tab) => (
+//           <TabButton
+//             key={tab.id}
+//             isActive={activeTab === tab.id}
+//             onPress={() => {
+//               triggerHaptic("light");
+//               setActiveTab(tab.id);
+//             }}
+//           >
+//             <TabIcon>
+//               {/* <Ionicons
+//                 name={tab.iconName as any}
+//                 size={20}
+//                 color={BASIC_COLORS.TEXT_SUB}
+//               /> */}
+//               {tab.iconName as any}
+//             </TabIcon>
+//             <TabText isActive={activeTab === tab.id}>{tab.label}</TabText>
+//           </TabButton>
+//         ))}
+//       </TabContainer>
+
+//       {/* 2. 진행률 */}
+//       <ProgressCard>
+//         <ProgressInfoRow>
+//           <ProgressTitle>{i18n.t("sticker_collection_rate")}</ProgressTitle>
+//           <ProgressCount>
+//             {unlockedCount} / {totalCount} ({progressPercent}%)
+//           </ProgressCount>
+//         </ProgressInfoRow>
+//         <ProgressBarBackground>
+//           <ProgressBarFill percent={progressPercent} />
+//         </ProgressBarBackground>
+//       </ProgressCard>
+
+//       {/* 3. 그리드 */}
+//       <ScrollView
+//         key={activeTab}
+//         style={{ flex: 1 }}
+//         contentContainerStyle={{
+//           paddingHorizontal: 16,
+//           paddingTop: 8,
+//           paddingBottom: 20,
+//         }}
+//         showsVerticalScrollIndicator={false}
+//       >
+//         <GridContainer>
+//           {currentList.map((item) => {
+//             const id = item.id;
+
+//             // 💡 1. 각 아이템에 맞는 모든 다국어 키 후보군 구성
+//             const keyCandidates = [
+//               // Category 전용 full key (예: sticker_category_vehicle_rail_train_name)
+//               item.topCategory && item.subCategory
+//                 ? `sticker_category_${item.topCategory}_${item.subCategory}_${id}_name`
+//                 : null,
+//               item.topCategory
+//                 ? `sticker_category_${item.topCategory}_${id}_name`
+//                 : null,
+
+//               // activeTab 반영 키 (예: sticker_color_apple_name, sticker_shape_star_name, sticker_category_train_name)
+//               `sticker_${activeTab}_${id}_name`,
+
+//               // 개별 스티커 전용 키
+//               `sticker_${id}_name`,
+//               `category_item_${id}`,
+//               `shape_name_${id}`,
+//               `color_name_${id}`,
+//             ].filter(Boolean) as string[];
+
+//             // 💡 2. 다국어 번역 키 순차 검색
+//             let localizedName = "";
+//             for (const key of keyCandidates) {
+//               const translated = i18n.t(key, { defaultValue: "" });
+//               // missing이 아니고 반환값의 존재 여부 체크
+//               if (translated && !translated.includes("missing")) {
+//                 localizedName = translated;
+//                 break;
+//               }
+//             }
+
+//             // 💡 3. 번역 키를 못 찾았을 때는 스티커 객체 자체의 한글 이름(item.name/item.label) 활용!
+//             if (!localizedName) {
+//               localizedName = item.name || item.label || id;
+//             }
+
+//             const isUnlocked = currentUnlockedList.includes(id);
+
+//             return (
+//               <StickerCard
+//                 key={id}
+//                 isUnlocked={isUnlocked}
+//                 activeOpacity={isUnlocked ? 0.7 : 1}
+//                 onPress={() => handleStickerPress({ id, name: localizedName })}
+//                 disabled={!isUnlocked}
+//               >
+//                 {isUnlocked ? (
+//                   <>
+//                     {/* 🔓 해금 상태: 원래 색상 이미지 + 이름 */}
+//                     <StickerImageArea>
+//                       {renderStickerSvg(id, 60)}
+//                     </StickerImageArea>
+//                     <StickerName numberOfLines={1}>{localizedName}</StickerName>
+//                   </>
+//                 ) : (
+//                   <>
+//                     {/* 🔒 미해금 이스터에그 상태: 궁금증 유발 물음표만! */}
+//                     <StickerImageArea>
+//                       <QuestionMark>❓</QuestionMark>
+//                     </StickerImageArea>
+//                     <LockedName>???</LockedName>
+//                   </>
+//                 )}
+//               </StickerCard>
+//             );
+//           })}
+//         </GridContainer>
+
+//         <Spacer height={BOTTOM_SPACER} />
+//       </ScrollView>
+
+//       {/* 하단 광고 */}
+//       <BottomAdContainer>
+//         <BannerAd />
+//       </BottomAdContainer>
+//     </Container>
+//   );
+// }
+
+// // ---------- Styled Components ----------
+
+// const Container = styled.View`
+//   flex: 1;
+//   background-color: #f8fafc;
+// `;
+
+// const HeaderTitle = styled(AppText)`
+//   /* font-size: 18px; */
+
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.body}px;
+//   font-weight: bold;
+//   color: #1e293b;
+// `;
+
+// const TabContainer = styled.View`
+//   flex-direction: row;
+//   padding: 12px 16px 4px 16px;
+//   justify-content: space-between;
+// `;
+
+// const TabButton = styled(TouchableOpacity)<{ isActive: boolean }>`
+//   flex: 1;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 10px 0px;
+//   margin: 0 4px;
+//   border-radius: 16px;
+//   background-color: ${(props) => (props.isActive ? "#FFFFFF" : "#E2E8F0")};
+//   elevation: ${(props) => (props.isActive ? 4 : 0)};
+//   shadow-color: #000;
+//   shadow-offset: 0px 2px;
+//   shadow-opacity: ${(props) => (props.isActive ? 0.08 : 0)};
+//   shadow-radius: 4px;
+// `;
+
+// const TabIcon = styled(AppText)`
+//   font-size: 16px;
+//   margin-right: 6px;
+// `;
+
+// const TabText = styled(AppText)<{ isActive: boolean }>`
+//   /* font-size: 14px; */
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.small}px;
+//   font-weight: bold;
+//   color: ${(props) => (props.isActive ? "#0F172A" : "#64748B")};
+// `;
+
+// const ProgressCard = styled.View`
+//   margin: 12px 20px 8px 20px;
+//   padding: 14px 16px;
+//   background-color: #ffffff;
+//   border-radius: 18px;
+//   shadow-color: #000;
+//   shadow-offset: 0px 2px;
+//   shadow-opacity: 0.05;
+//   shadow-radius: 6px;
+//   elevation: 2;
+// `;
+
+// const ProgressInfoRow = styled.View`
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 8px;
+// `;
+
+// const ProgressTitle = styled(AppText)`
+//   /* font-size: 13px; */
+
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.tiny}px;
+//   font-weight: bold;
+//   color: #475569;
+// `;
+
+// const ProgressCount = styled(AppText)`
+//   /* font-size: 13px; */
+
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.tiny}px;
+//   font-weight: bold;
+//   color: #2563eb;
+//   direction: ltr;
+// `;
+
+// const ProgressBarBackground = styled.View`
+//   height: 10px;
+//   background-color: #f1f5f9;
+//   border-radius: 5px;
+//   overflow: hidden;
+// `;
+
+// const ProgressBarFill = styled.View<{ percent: number }>`
+//   height: 100%;
+//   width: ${(props) => props.percent}%;
+//   background-color: #3b82f6;
+//   border-radius: 5px;
+// `;
+
+// const GridContainer = styled.View`
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   justify-content: space-between;
+// `;
+
+// const StickerCard = styled(TouchableOpacity)<{ isUnlocked: boolean }>`
+//   width: 30%;
+//   height: 110px;
+//   background-color: ${(props) => (props.isUnlocked ? "#FFFFFF" : "#F1F5F9")};
+//   border-radius: 18px;
+//   align-items: center;
+//   justify-content: center;
+//   margin-bottom: 12px;
+//   padding: 6px;
+//   elevation: ${(props) => (props.isUnlocked ? 3 : 0)};
+//   shadow-color: #000;
+//   shadow-offset: 0px 2px;
+//   shadow-opacity: ${(props) => (props.isUnlocked ? 0.06 : 0)};
+//   shadow-radius: 4px;
+//   border-width: ${(props) => (props.isUnlocked ? 1.5 : 1)}px;
+//   border-color: ${(props) => (props.isUnlocked ? "#CBD5E1" : "#E2E8F0")};
+//   border-style: ${(props) => (props.isUnlocked ? "solid" : "dashed")};
+// `;
+
+// const StickerImageArea = styled.View`
+//   height: 68px;
+//   width: 100%;
+//   align-items: center;
+//   justify-content: center;
+// `;
+
+// const QuestionMark = styled(AppText)`
+//   font-size: 32px;
+//   opacity: 0.6;
+// `;
+
+// const StickerName = styled(AppText)`
+//   /* font-size: 11px; */
+
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.tiny}px;
+//   color: #334155;
+//   margin-top: 6px;
+//   font-weight: bold;
+//   text-align: center;
+// `;
+
+// const LockedName = styled(AppText)`
+//   /* font-size: 11px; */
+
+//   font-family: ${(props) => props.theme.fontFamily};
+//   font-size: ${(props) => props.theme.typography.tiny}px;
+//   color: #94a3b8;
+//   margin-top: 6px;
+//   font-weight: bold;
+// `;
+
+// const Spacer = styled.View<{ height: number }>`
+//   height: ${(props) => props.height}px;
+// `;
+
+// const BottomAdContainer = styled.View`
+//   height: 60px;
+//   width: 100%;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: #f8fafc;
+//   border-top-width: 1px;
+//   border-top-color: #e2e8f0;
+// `;
+
 import React, { useState, useCallback } from "react";
-import { ScrollView, TouchableOpacity, Dimensions, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import {
   useNavigation,
   useFocusEffect,
   useRoute,
 } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import AppHeader from "../../components/common/AppHeader";
 import { GameType, getAllUnlockedStickers } from "./utils/stickerStorage";
@@ -37,26 +557,23 @@ import {
   ClayShapeIcon,
 } from "../../components/icons/ClayGameIcons";
 
-const { width } = Dimensions.get("window");
+const BANNER_AD_HEIGHT = 60;
 
 // ---------- 탭 정의 ----------
 const getTabs = () => [
   {
     id: "color" as GameType,
     label: i18n.t("tab_find_color"),
-    // iconName: "color-palette",
     iconName: <ClayColorIcon size={30} />,
   },
   {
     id: "shape" as GameType,
     label: i18n.t("tab_find_shape"),
-    // iconName: "diamond",
     iconName: <ClayShapeIcon size={30} />,
   },
   {
     id: "category" as GameType,
     label: i18n.t("tab_find_friend"),
-    // iconName: "fast-food",
     iconName: <ClayCategoryIcon size={30} />,
   },
 ];
@@ -106,6 +623,7 @@ const ScaledIcon = ({
 export default function IntegratedStickerGalleryScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
+  const insets = useSafeAreaInsets();
 
   const initialTab = route.params?.initialTab ?? "category";
   const [activeTab, setActiveTab] = useState<GameType>(initialTab);
@@ -194,7 +712,7 @@ export default function IntegratedStickerGalleryScreen() {
     }
   };
 
-  const BOTTOM_SPACER = 40;
+  const bottomSafeOffset = Math.max(insets.bottom, 4);
 
   return (
     <Container>
@@ -222,14 +740,7 @@ export default function IntegratedStickerGalleryScreen() {
               setActiveTab(tab.id);
             }}
           >
-            <TabIcon>
-              {/* <Ionicons
-                name={tab.iconName as any}
-                size={20}
-                color={BASIC_COLORS.TEXT_SUB}
-              /> */}
-              {tab.iconName as any}
-            </TabIcon>
+            <TabIcon>{tab.iconName as any}</TabIcon>
             <TabText isActive={activeTab === tab.id}>{tab.label}</TabText>
           </TabButton>
         ))}
@@ -255,7 +766,7 @@ export default function IntegratedStickerGalleryScreen() {
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingTop: 8,
-          paddingBottom: 20,
+          paddingBottom: BANNER_AD_HEIGHT + bottomSafeOffset,
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -330,12 +841,15 @@ export default function IntegratedStickerGalleryScreen() {
             );
           })}
         </GridContainer>
-
-        <Spacer height={BOTTOM_SPACER} />
       </ScrollView>
 
       {/* 하단 광고 */}
-      <BottomAdContainer>
+      <BottomAdContainer
+        style={{
+          height: BANNER_AD_HEIGHT + bottomSafeOffset,
+          paddingBottom: bottomSafeOffset,
+        }}
+      >
         <BannerAd />
       </BottomAdContainer>
     </Container>
@@ -350,8 +864,6 @@ const Container = styled.View`
 `;
 
 const HeaderTitle = styled(AppText)`
-  /* font-size: 18px; */
-
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.body}px;
   font-weight: bold;
@@ -386,7 +898,6 @@ const TabIcon = styled(AppText)`
 `;
 
 const TabText = styled(AppText)<{ isActive: boolean }>`
-  /* font-size: 14px; */
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.small}px;
   font-weight: bold;
@@ -413,8 +924,6 @@ const ProgressInfoRow = styled.View`
 `;
 
 const ProgressTitle = styled(AppText)`
-  /* font-size: 13px; */
-
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.tiny}px;
   font-weight: bold;
@@ -422,8 +931,6 @@ const ProgressTitle = styled(AppText)`
 `;
 
 const ProgressCount = styled(AppText)`
-  /* font-size: 13px; */
-
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.tiny}px;
   font-weight: bold;
@@ -483,8 +990,6 @@ const QuestionMark = styled(AppText)`
 `;
 
 const StickerName = styled(AppText)`
-  /* font-size: 11px; */
-
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.tiny}px;
   color: #334155;
@@ -494,8 +999,6 @@ const StickerName = styled(AppText)`
 `;
 
 const LockedName = styled(AppText)`
-  /* font-size: 11px; */
-
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.typography.tiny}px;
   color: #94a3b8;
@@ -503,12 +1006,7 @@ const LockedName = styled(AppText)`
   font-weight: bold;
 `;
 
-const Spacer = styled.View<{ height: number }>`
-  height: ${(props) => props.height}px;
-`;
-
 const BottomAdContainer = styled.View`
-  height: 60px;
   width: 100%;
   align-items: center;
   justify-content: center;

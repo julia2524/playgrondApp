@@ -315,7 +315,7 @@ import { RootStackParamList } from "../../navigation/types";
 
 import { ASSETS } from "../../assets/assets";
 import { AppText } from "../../utils/AppText";
-import { BASIC_COLORS, PASTEL_BG } from "../../design-system/tokens/colors";
+import { BASIC_COLORS } from "../../design-system/tokens/colors";
 import i18n from "../../i18n";
 
 import { useLanguage } from "../../context/LanguageContext";
@@ -328,7 +328,6 @@ import { triggerHaptic } from "../../utils/haptic";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LineDrawingIcon } from "../sectionScreens/DrawingSectionScreen";
 import { ClayDrawingIcon } from "../../components/icons/ClayDrawingIcon";
 
 // ==========================================
@@ -419,20 +418,14 @@ export default function HomeScreen() {
       resizeMode="cover"
       style={{ flex: 1, width: "100%", height: "100%" }}
     >
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
-      >
+      <OuterWrapper>
         <ScreenContainer
           style={{
             paddingTop: Math.max(insets.top + 16, 32),
             paddingBottom: Math.max(insets.bottom, 4),
           }}
         >
-          {/* 상단 인사말 */}
+          {/* 상단 인사말 (고정) */}
           <HeaderArea>
             <TitleRow>
               <Ionicons
@@ -447,8 +440,15 @@ export default function HomeScreen() {
             <GuideText>{i18n.t("guide")}</GuideText>
           </HeaderArea>
 
-          {/* 놀이 공간 선택 카드 (3개) */}
-          <SectionList>
+          {/* 놀이 공간 선택 카드 (ScrollView 영역) */}
+          <SectionScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              gap: 18,
+              paddingVertical: 8,
+              paddingHorizontal: 4,
+            }}
+          >
             {/* 그리기 놀이터 */}
             <CardWrapper $shadowColor="#D6865E">
               <SectionCard
@@ -527,14 +527,14 @@ export default function HomeScreen() {
                 )}
               </SectionCard>
             </CardWrapper>
-          </SectionList>
+          </SectionScrollView>
 
-          {/* 하단 배경(아기 판다·흙길) 공간 + Skinny Mommy Bear 푸터 */}
+          {/* 하단 배경(아기 판다·흙길) 공간 + 푸터 (고정) */}
           <BottomArea>
             <Footer>{i18n.t("footer_made_with")}</Footer>
           </BottomArea>
         </ScreenContainer>
-      </ScrollView>
+      </OuterWrapper>
 
       {/* 보호자 안내 팝업 */}
       {guardianNoticeLoaded && (
@@ -551,16 +551,22 @@ export default function HomeScreen() {
 // Styles
 // ==========================================
 
+const OuterWrapper = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+`;
+
 const ScreenContainer = styled.View`
   flex: 1;
   width: 100%;
   max-width: 600px;
-  padding-horizontal: 24px;
+  padding-horizontal: 20px;
 `;
 
 const HeaderArea = styled.View`
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `;
 
 const TitleRow = styled.View`
@@ -591,9 +597,9 @@ const GuideText = styled(AppText)`
   margin-top: 6px;
 `;
 
-const SectionList = styled.View`
+const SectionScrollView = styled.ScrollView`
+  flex-shrink: 1;
   width: 100%;
-  gap: 18px;
 `;
 
 const CardWrapper = styled.View<{ $shadowColor: string }>`
@@ -649,9 +655,9 @@ const CardDesc = styled(AppText)`
 `;
 
 const BottomArea = styled.View`
-  flex: 1;
-  min-height: 150px;
+  min-height: 110px;
   justify-content: flex-end;
+  padding-top: 12px;
 `;
 
 const Footer = styled(AppText)`
