@@ -53,6 +53,9 @@ import CarrotTracingArtwork from "./components/artworks/CarrotTracingArtwork";
 import FishTracingArtwork from "./components/artworks/FishTracingArtwork";
 import FlowerTracingArtwork from "./components/artworks/FlowerTracingArtwork";
 import MushroomTracingArtwork from "./components/artworks/MushroomTracingArtwork";
+import HouseTracingArtwork from "./components/artworks/HouseTracingArtwork";
+import SailboatTracingArtwork from "./components/artworks/SailboatTracingArtwork";
+import UmbrellaTracingArtwork from "./components/artworks/UmbrellaTracingArtwork";
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -88,6 +91,9 @@ const OBJECT_ARTWORKS = {
   fish: FishTracingArtwork,
   flower: FlowerTracingArtwork,
   mushroom: MushroomTracingArtwork,
+  house: HouseTracingArtwork,
+  sailboat: SailboatTracingArtwork,
+  umbrella: UmbrellaTracingArtwork,
 } as const;
 
 export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {

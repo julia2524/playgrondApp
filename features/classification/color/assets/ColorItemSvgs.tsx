@@ -923,6 +923,7 @@ const Dog = ({ colorHex }: ItemSvgProps) => {
     </Svg>
   );
 };
+
 const Ship = ({ colorHex }: ItemSvgProps) => {
   const colors = getCategoryVariants(colorHex);
   return (
