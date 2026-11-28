@@ -57,6 +57,7 @@ import HouseTracingArtwork from "./components/artworks/HouseTracingArtwork";
 import SailboatTracingArtwork from "./components/artworks/SailboatTracingArtwork";
 import UmbrellaTracingArtwork from "./components/artworks/UmbrellaTracingArtwork";
 import CarTracingArtwork from "./components/artworks/CarTracingArtwork";
+import HotAirBalloonTracingArtwork from "./components/artworks/HotAirBalloonTracingArtwork";
 
 interface TracingGameScreenProps {
   onBack?: () => void;
@@ -96,6 +97,7 @@ const OBJECT_ARTWORKS = {
   sailboat: SailboatTracingArtwork,
   umbrella: UmbrellaTracingArtwork,
   car: CarTracingArtwork,
+  hotAirBalloon: HotAirBalloonTracingArtwork,
 } as const;
 
 export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {

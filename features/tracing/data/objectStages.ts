@@ -68,8 +68,15 @@ const OBJECT_PATHS = {
 `,
 
   // 10. 열기구 - 둥근 풍선과 아래 바구니가 이어진 외곽
-  hotAirBalloon:
-    "M 160 18 C 91 18 45 72 45 132 C 45 169 67 195 98 207 L 120 220 L 120 230 L 200 230 L 200 220 L 222 207 C 253 195 275 169 275 132 C 275 72 229 18 160 18 Z",
+  hotAirBalloon: `
+  M 160 18
+  C 104 18 72 56 72 100
+  C 72 134 106 154 126 176
+  L 194 176
+  C 214 154 248 134 248 100
+  C 248 56 216 18 160 18
+  Z
+`,
 };
 
 export const OBJECT_STAGES: ObjectTracingStage[] = [
@@ -168,7 +175,7 @@ export const OBJECT_STAGES: ObjectTracingStage[] = [
     // scale: 1.4,
   },
   {
-    id: "hot-air-balloon",
+    id: "hotAirBalloon",
     level: 10,
     no: "10",
     shortLabel: "열기구",
