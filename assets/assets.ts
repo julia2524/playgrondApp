@@ -15,4 +15,5 @@ export const ASSETS = {
 
   updateMascot: require("../assets/images/update-mascot.png"),
   successMascot: require("../assets/images/success-mascot.png"),
+  retryMascot: require("../assets/images/retry-mascot.png"),
 } as const;

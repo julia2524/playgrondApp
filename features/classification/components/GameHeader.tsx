@@ -75,9 +75,7 @@ export default function GameHeader({
         })}
       </StarRow>
 
-      <MascotWrapper>
-        <Mascot size={90} />
-      </MascotWrapper>
+      <MascotWrapper>{/* <Mascot size={90} /> */}</MascotWrapper>
     </GameHeaders>
   );
 }

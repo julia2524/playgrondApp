@@ -358,9 +358,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
 
           <StarRow remaining={remainingStars} />
 
-          <MascotWrapper>
-            <Mascot size={90} />
-          </MascotWrapper>
+          <MascotWrapper>{/* <Mascot size={90} /> */}</MascotWrapper>
         </GameHeaderShell>
 
         {/* 미션 안내 */}
@@ -459,7 +457,7 @@ export default function TracingGameScreen({ onBack }: TracingGameScreenProps) {
           <ModalOverlay>
             <RetryModalCard>
               <RetryMascotArea>
-                <RetryMascot source={ASSETS.mascotBear} resizeMode="contain" />
+                <RetryMascot source={ASSETS.retryMascot} resizeMode="contain" />
               </RetryMascotArea>
 
               <RetryTitle>{i18n.t("drawing_retry_title")}</RetryTitle>
