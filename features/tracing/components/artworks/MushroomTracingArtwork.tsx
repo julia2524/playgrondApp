@@ -22,7 +22,7 @@ function MushroomSvg({ colored }: MushroomSvgProps) {
       preserveAspectRatio="xMidYMid meet"
     >
       {/* 2.5배 확대 + 중앙 배치 */}
-      <G transform="translate(35 -4) scale(2.5)">
+      <G transform="translate(-27.5 -78.75) scale(3.75)">
         {/* 버섯 갓 */}
         <Path
           d="
